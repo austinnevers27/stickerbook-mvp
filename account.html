@@ -235,17 +235,16 @@
       background: #ffffff;
     }
 
- .dob-row {
-  display: flex;
-  gap: 8px;
-}
+    .dob-row {
+      display: flex;
+      gap: 8px;
+    }
 
-.dob-row .field-input {
-  text-align: center;
-  flex: 1;
-  min-width: 0; /* keeps all three pills on one line and aligned */
-}
-
+    .dob-row .field-input {
+      text-align: center;
+      flex: 1;
+      min-width: 0; /* keeps all three pills on one line and aligned */
+    }
 
     .field-helper {
       font-size: 10px;
@@ -381,8 +380,7 @@
       <div class="phone-inner">
         <div class="shell-inner">
           <div class="top-row">
-           onclick="window.location.href='intro.html'"
-
+            <button class="back-link" onclick="window.location.href='intro.html'">
               <span class="icon">←</span>
               <span>Back</span>
             </button>
@@ -721,8 +719,8 @@
         localStorage.setItem("stickerbook_email", email);
         localStorage.setItem("stickerbook_password", password);
 
-        // Go to the intro page
-        window.location.href = "intro.html";
+        // Go to the intro page (or next step)
+        window.location.href = "sticker-selection.html";
       });
     })();
   </script>
