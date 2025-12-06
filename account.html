@@ -57,17 +57,25 @@
       padding: 16px;
     }
 
-    .phone-shell {
-      width: min(420px, 100vw - 24px);
-      background: var(--shell-bg);
+    /* === Shared outer layout copied from index.html === */
+    .app-shell {
+      width: 100%;
+      max-width: 420px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .phone-frame {
+      width: 100%;
+      max-width: 380px;
+      background: #ffffff;
       border-radius: 32px;
+      padding: 24px 18px 24px;
       box-shadow:
-        var(--shell-shadow-main),
-        0 0 0 1px var(--shell-border);
-      padding: 20px 18px 22px;
+        0 18px 40px rgba(15, 23, 42, 0.20),
+        0 0 0 1px rgba(148, 163, 184, 0.10);
       display: flex;
       flex-direction: column;
-      position: relative;
       align-items: center;
     }
 
@@ -76,9 +84,10 @@
       height: 6px;
       border-radius: 999px;
       background: #e5e7eb;
-      margin: 0 auto 14px;
+      margin-bottom: 12px;
     }
 
+    /* === Inner bordered panel + form layout (your existing styles) === */
     .phone-inner {
       width: 100%;
       border-radius: 26px;
@@ -209,15 +218,14 @@
     }
 
     .field-row-2 {
-  display: flex;
-  gap: 6px;          /* slightly smaller gap for tight layouts */
-}
+      display: flex;
+      gap: 6px;          /* slightly smaller gap for tight layouts */
+    }
 
-.field-row-2 .field-input {
-  flex: 1;
-  min-width: 0;      /* prevents Safari overflow */
-}
-
+    .field-row-2 .field-input {
+      flex: 1;
+      min-width: 0;      /* prevents Safari overflow */
+    }
 
     .dob-row {
       display: flex;
@@ -345,6 +353,9 @@
     }
 
     @media (max-width: 480px) {
+      .phone-frame {
+        padding: 20px 14px 20px;
+      }
       .phone-inner {
         padding: 18px 14px 16px;
       }
@@ -367,160 +378,163 @@
   </style>
 </head>
 <body>
-  <div class="phone-shell">
-    <div class="phone-notch"></div>
-    <div class="phone-inner">
-      <div class="shell-inner">
-        <div class="top-row">
-          <button class="back-link" onclick="window.location.href='index.html'">
-            <span class="icon">←</span>
-            <span>Back</span>
-          </button>
+  <div class="app-shell">
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
 
-          <div class="logo-group">
-            <div class="logo-mark">STICKERBOOK</div>
-            <div class="logo-accent"></div>
-          </div>
-        </div>
-
-        <h1 class="screen-title">Before we build your stickerbook…</h1>
-        <p class="screen-subtitle">
-          Let’s start with a few basics.
-        </p>
-
-        <form class="form" id="account-form" novalidate>
-          <!-- Name row: first + last -->
-          <div class="field">
-            <label class="field-label" for="first-name-input">Name</label>
-            <div class="field-row-2">
-              <input
-                id="first-name-input"
-                class="field-input"
-                type="text"
-                placeholder="First name"
-                autocomplete="given-name"
-              />
-              <input
-                id="last-name-input"
-                class="field-input"
-                type="text"
-                placeholder="Last name"
-                autocomplete="family-name"
-              />
-            </div>
-          </div>
-
-          <!-- Date of birth -->
-          <div class="field">
-            <label class="field-label" for="dob-mm">Date of birth</label>
-            <div class="dob-row">
-              <input
-                id="dob-mm"
-                class="field-input dob-mm"
-                type="text"
-                inputmode="numeric"
-                pattern="[0-9]*"
-                placeholder="MM"
-              />
-              <input
-                id="dob-dd"
-                class="field-input dob-dd"
-                type="text"
-                inputmode="numeric"
-                pattern="[0-9]*"
-                placeholder="DD"
-              />
-              <input
-                id="dob-yy"
-                class="field-input dob-yy"
-                type="text"
-                inputmode="numeric"
-                pattern="[0-9]*"
-                placeholder="YYYY"
-              />
-            </div>
-            <div id="age-error" class="field-error hidden">
-              Stickerbook is for ages 13 and up.
-            </div>
-          </div>
-
-          <!-- Location -->
-          <div class="field">
-            <label class="field-label" for="location-input">Location</label>
-            <input
-              id="location-input"
-              class="field-input"
-              type="text"
-              placeholder="City, State / Region, Country"
-              autocomplete="off"
-            />
-            <div class="field-helper">
-              Examples: "Sacramento, CA, United States" or "Toronto, Ontario, Canada".
-            </div>
-          </div>
-
-          <!-- Email -->
-          <div class="field">
-            <label class="field-label" for="email-input">Email</label>
-            <input
-              id="email-input"
-              class="field-input"
-              type="email"
-              placeholder="you@example.com"
-              autocomplete="email"
-            />
-          </div>
-
-          <!-- Password -->
-          <div class="field">
-            <label class="field-label" for="password-input">Password</label>
-            <input
-              id="password-input"
-              class="field-input"
-              type="password"
-              placeholder="Create a password"
-              autocomplete="new-password"
-            />
-            <div class="password-rules" id="password-rules">
-              <div class="password-rule" data-rule="length">• At least 8 characters</div>
-              <div class="password-rule" data-rule="upper">• One uppercase letter</div>
-              <div class="password-rule" data-rule="lower">• One lowercase letter</div>
-              <div class="password-rule" data-rule="number">• One number</div>
-            </div>
-          </div>
-
-          <!-- Confirm Password -->
-          <div class="field">
-            <label class="field-label" for="password-confirm-input">Confirm password</label>
-            <input
-              id="password-confirm-input"
-              class="field-input"
-              type="password"
-              placeholder="Re-enter your password"
-              autocomplete="new-password"
-            />
-            <div id="password-error" class="field-error hidden">
-              Passwords must match.
-            </div>
-          </div>
-
-          <!-- Terms -->
-          <div class="terms-row">
-            <input type="checkbox" id="terms-checkbox" />
-            <label for="terms-checkbox">
-              I agree to the
-              <a href="#" tabindex="-1">Terms &amp; Conditions</a>
-              and
-              <a href="#" tabindex="-1">Privacy Policy</a>.
-            </label>
-          </div>
-
-          <div class="cta-row">
-            <button id="continue-btn" type="button" class="btn-primary" disabled>
-              Continue
+      <div class="phone-inner">
+        <div class="shell-inner">
+          <div class="top-row">
+            <button class="back-link" onclick="window.location.href='index.html'">
+              <span class="icon">←</span>
+              <span>Back</span>
             </button>
+
+            <div class="logo-group">
+              <div class="logo-mark">STICKERBOOK</div>
+              <div class="logo-accent"></div>
+            </div>
           </div>
-        </form>
+
+          <h1 class="screen-title">Before we build your stickerbook…</h1>
+          <p class="screen-subtitle">
+            Let’s start with a few basics.
+          </p>
+
+          <form class="form" id="account-form" novalidate>
+            <!-- Name row: first + last -->
+            <div class="field">
+              <label class="field-label" for="first-name-input">Name</label>
+              <div class="field-row-2">
+                <input
+                  id="first-name-input"
+                  class="field-input"
+                  type="text"
+                  placeholder="First name"
+                  autocomplete="given-name"
+                />
+                <input
+                  id="last-name-input"
+                  class="field-input"
+                  type="text"
+                  placeholder="Last name"
+                  autocomplete="family-name"
+                />
+              </div>
+            </div>
+
+            <!-- Date of birth -->
+            <div class="field">
+              <label class="field-label" for="dob-mm">Date of birth</label>
+              <div class="dob-row">
+                <input
+                  id="dob-mm"
+                  class="field-input dob-mm"
+                  type="text"
+                  inputmode="numeric"
+                  pattern="[0-9]*"
+                  placeholder="MM"
+                />
+                <input
+                  id="dob-dd"
+                  class="field-input dob-dd"
+                  type="text"
+                  inputmode="numeric"
+                  pattern="[0-9]*"
+                  placeholder="DD"
+                />
+                <input
+                  id="dob-yy"
+                  class="field-input dob-yy"
+                  type="text"
+                  inputmode="numeric"
+                  pattern="[0-9]*"
+                  placeholder="YYYY"
+                />
+              </div>
+              <div id="age-error" class="field-error hidden">
+                Stickerbook is for ages 13 and up.
+              </div>
+            </div>
+
+            <!-- Location -->
+            <div class="field">
+              <label class="field-label" for="location-input">Location</label>
+              <input
+                id="location-input"
+                class="field-input"
+                type="text"
+                placeholder="City, State / Region, Country"
+                autocomplete="off"
+              />
+              <div class="field-helper">
+                Examples: "Sacramento, CA, United States" or "Toronto, Ontario, Canada".
+              </div>
+            </div>
+
+            <!-- Email -->
+            <div class="field">
+              <label class="field-label" for="email-input">Email</label>
+              <input
+                id="email-input"
+                class="field-input"
+                type="email"
+                placeholder="you@example.com"
+                autocomplete="email"
+              />
+            </div>
+
+            <!-- Password -->
+            <div class="field">
+              <label class="field-label" for="password-input">Password</label>
+              <input
+                id="password-input"
+                class="field-input"
+                type="password"
+                placeholder="Create a password"
+                autocomplete="new-password"
+              />
+              <div class="password-rules" id="password-rules">
+                <div class="password-rule" data-rule="length">• At least 8 characters</div>
+                <div class="password-rule" data-rule="upper">• One uppercase letter</div>
+                <div class="password-rule" data-rule="lower">• One lowercase letter</div>
+                <div class="password-rule" data-rule="number">• One number</div>
+              </div>
+            </div>
+
+            <!-- Confirm Password -->
+            <div class="field">
+              <label class="field-label" for="password-confirm-input">Confirm password</label>
+              <input
+                id="password-confirm-input"
+                class="field-input"
+                type="password"
+                placeholder="Re-enter your password"
+                autocomplete="new-password"
+              />
+              <div id="password-error" class="field-error hidden">
+                Passwords must match.
+              </div>
+            </div>
+
+            <!-- Terms -->
+            <div class="terms-row">
+              <input type="checkbox" id="terms-checkbox" />
+              <label for="terms-checkbox">
+                I agree to the
+                <a href="#" tabindex="-1">Terms &amp; Conditions</a>
+                and
+                <a href="#" tabindex="-1">Privacy Policy</a>.
+              </label>
+            </div>
+
+            <div class="cta-row">
+              <button id="continue-btn" type="button" class="btn-primary" disabled>
+                Continue
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   </div>
