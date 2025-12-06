@@ -112,7 +112,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-bottom: 14px;
+      margin-bottom: 10px;
       flex-shrink: 0;
     }
 
@@ -145,7 +145,7 @@
       font-weight: 600;
       letter-spacing: 0.04em;
       text-transform: uppercase;
-      margin: 2px 0 6px;
+      margin: 0 0 4px;
       color: var(--text-main);
       text-align: center;
       flex-shrink: 0;
@@ -153,9 +153,9 @@
 
     .screen-subtitle {
       font-size: 12px;
-      line-height: 1.5;
+      line-height: 1.4;
       color: var(--text-muted);
-      margin: 0 0 14px;
+      margin: 0 0 8px;
       text-align: center;
       flex-shrink: 0;
     }
@@ -165,7 +165,7 @@
     }
 
     .sticker-section {
-      margin-top: 4px;
+      margin-top: 0;
       display: flex;
       flex-direction: column;
       flex: 1;
@@ -181,14 +181,16 @@
       flex-shrink: 0;
     }
 
-    /* Search */
+    /* Search (now near bottom) */
     .search-row {
-      margin-bottom: 10px;
+      margin: 8px 0 6px;
       flex-shrink: 0;
     }
 
     .search-wrapper {
       position: relative;
+      max-width: 220px;
+      margin: 0 auto;
     }
 
     .search-input {
@@ -551,27 +553,12 @@
           <!-- Title -->
           <h1 class="screen-title">Choose your stickers</h1>
           <p class="screen-subtitle">
-            Tap to select, tap again to remove. Pick up to 20 stickers for this page.
+            Pick up to 20 stickers. Tap to select.
           </p>
 
           <!-- Sticker section -->
           <div class="sticker-section">
             <div class="sticker-label">Stickers</div>
-
-            <!-- Search -->
-            <div class="search-row">
-              <div class="search-wrapper">
-                <span class="search-icon">🔍</span>
-                <input
-                  id="search-input"
-                  class="search-input"
-                  type="text"
-                  autocomplete="off"
-                  placeholder="Search stickers (e.g. ‘Sacramento’, ‘coffee’, ‘pride’)"
-                />
-                <span id="search-clear" class="search-clear">✕</span>
-              </div>
-            </div>
 
             <!-- Overview (Netflix-style rows) -->
             <div class="overview-rows" id="overview-rows">
@@ -596,6 +583,21 @@
                 <div class="sticker-grid" id="category-detail-grid">
                   <!-- JS injects full grid here -->
                 </div>
+              </div>
+            </div>
+
+            <!-- Search (between gallery and footer) -->
+            <div class="search-row">
+              <div class="search-wrapper">
+                <span class="search-icon">🔍</span>
+                <input
+                  id="search-input"
+                  class="search-input"
+                  type="text"
+                  autocomplete="off"
+                  placeholder="Search stickers"
+                />
+                <span id="search-clear" class="search-clear">✕</span>
               </div>
             </div>
 
@@ -645,7 +647,6 @@
       { key: "places", label: "Places" },
     ];
 
-    // Sticker data (same as before)
     const allStickers = [
       // SACRAMENTO
       {
