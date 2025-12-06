@@ -279,6 +279,15 @@
         0 6px 12px rgba(236, 72, 153, 0.30);
     }
 
+    .btn-primary:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      box-shadow:
+        0 0 0 1px rgba(209, 213, 219, 0.8);
+      background: linear-gradient(135deg, #f9fafb, #e5e7eb);
+      color: #9ca3af;
+    }
+
     @media (max-width: 480px) {
       .phone-frame {
         height: 640px;
@@ -329,55 +338,16 @@
             <div class="background-label">Backgrounds</div>
             <div class="background-grid-wrapper">
               <div class="background-grid" id="background-grid">
-                <!-- 12 preset backgrounds, 3x4 grid -->
+                <!-- 12 preset backgrounds, ordered for best UX -->
+                <!-- Row 1 – Neutrals -->
                 <div class="bg-tile" data-color="#ffffff">
                   <div class="bg-tile-inner" style="background-color: #ffffff;"></div>
                   <div class="bg-label">White</div>
                 </div>
 
-                <div class="bg-tile" data-color="#020617">
-                  <div class="bg-tile-inner" style="background-color: #020617;"></div>
-                  <div class="bg-label">Black</div>
-                </div>
-
                 <div class="bg-tile" data-color="#e5e7eb">
                   <div class="bg-tile-inner" style="background-color: #e5e7eb;"></div>
-                  <div class="bg-label">Gray</div>
-                </div>
-
-                <div class="bg-tile" data-color="#92400e">
-                  <div class="bg-tile-inner" style="background-color: #92400e;"></div>
-                  <div class="bg-label">Brown</div>
-                </div>
-
-                <div class="bg-tile" data-color="#ef4444">
-                  <div class="bg-tile-inner" style="background-color: #ef4444;"></div>
-                  <div class="bg-label">Red</div>
-                </div>
-
-                <div class="bg-tile" data-color="#facc15">
-                  <div class="bg-tile-inner" style="background-color: #facc15;"></div>
-                  <div class="bg-label">Yellow</div>
-                </div>
-
-                <div class="bg-tile" data-color="#0ea5e9">
-                  <div class="bg-tile-inner" style="background-color: #0ea5e9;"></div>
-                  <div class="bg-label">Blue</div>
-                </div>
-
-                <div class="bg-tile" data-color="#22c55e">
-                  <div class="bg-tile-inner" style="background-color: #22c55e;"></div>
-                  <div class="bg-label">Green</div>
-                </div>
-
-                <div class="bg-tile" data-color="#fb923c">
-                  <div class="bg-tile-inner" style="background-color: #fb923c;"></div>
-                  <div class="bg-label">Orange</div>
-                </div>
-
-                <div class="bg-tile" data-color="#a855f7">
-                  <div class="bg-tile-inner" style="background-color: #a855f7;"></div>
-                  <div class="bg-label">Purple</div>
+                  <div class="bg-label">Light Gray</div>
                 </div>
 
                 <div class="bg-tile" data-color="#fef3c7">
@@ -385,9 +355,52 @@
                   <div class="bg-label">Cream</div>
                 </div>
 
-                <div class="bg-tile" data-color="#f9a8d4">
-                  <div class="bg-tile-inner" style="background-color: #f9a8d4;"></div>
-                  <div class="bg-label">Pink</div>
+                <!-- Row 2 – Dark / dramatic -->
+                <div class="bg-tile" data-color="#020617">
+                  <div class="bg-tile-inner" style="background-color: #020617;"></div>
+                  <div class="bg-label">Black</div>
+                </div>
+
+                <div class="bg-tile" data-color="#1d4ed8">
+                  <div class="bg-tile-inner" style="background-color: #1d4ed8;"></div>
+                  <div class="bg-label">Dark Blue</div>
+                </div>
+
+                <div class="bg-tile" data-color="#92400e">
+                  <div class="bg-tile-inner" style="background-color: #92400e;"></div>
+                  <div class="bg-label">Brown</div>
+                </div>
+
+                <!-- Row 3 – Warm -->
+                <div class="bg-tile" data-color="#ef4444">
+                  <div class="bg-tile-inner" style="background-color: #ef4444;"></div>
+                  <div class="bg-label">Red</div>
+                </div>
+
+                <div class="bg-tile" data-color="#fb923c">
+                  <div class="bg-tile-inner" style="background-color: #fb923c;"></div>
+                  <div class="bg-label">Orange</div>
+                </div>
+
+                <div class="bg-tile" data-color="#facc15">
+                  <div class="bg-tile-inner" style="background-color: #facc15;"></div>
+                  <div class="bg-label">Yellow</div>
+                </div>
+
+                <!-- Row 4 – Cool -->
+                <div class="bg-tile" data-color="#22c55e">
+                  <div class="bg-tile-inner" style="background-color: #22c55e;"></div>
+                  <div class="bg-label">Green</div>
+                </div>
+
+                <div class="bg-tile" data-color="#0ea5e9">
+                  <div class="bg-tile-inner" style="background-color: #0ea5e9;"></div>
+                  <div class="bg-label">Blue</div>
+                </div>
+
+                <div class="bg-tile" data-color="#a855f7">
+                  <div class="bg-tile-inner" style="background-color: #a855f7;"></div>
+                  <div class="bg-label">Purple</div>
                 </div>
               </div>
             </div>
@@ -395,7 +408,7 @@
 
           <!-- CTA -->
           <div class="cta-row">
-            <button id="choose-stickers-btn" class="btn-primary" type="button">
+            <button id="choose-stickers-btn" class="btn-primary" type="button" disabled>
               Choose stickers
             </button>
           </div>
@@ -406,8 +419,6 @@
 
   <script>
     (function () {
-      const defaultColor = '#f9fafb'; // soft neutral fallback
-
       const tiles = document.querySelectorAll('.bg-tile');
       const chooseBtn = document.getElementById('choose-stickers-btn');
 
@@ -415,9 +426,9 @@
       const savedColor =
         localStorage.getItem('stickerbook_page_1_background') ||
         localStorage.getItem('current_page_background') ||
-        defaultColor;
+        '';
 
-      let selectedColor = savedColor;
+      let selectedColor = null;
 
       function applyColor(color) {
         selectedColor = color;
@@ -436,14 +447,27 @@
         tile.addEventListener('click', function () {
           const color = this.getAttribute('data-color');
           applyColor(color);
+          chooseBtn.disabled = false; // enable once user picks something
         });
       });
 
-      // Initialize selection state
-      applyColor(selectedColor);
+      // Initialize selection state from saved color, if it matches a tile
+      if (savedColor) {
+        const hasMatchingTile = Array.from(tiles).some(
+          tile => tile.getAttribute('data-color') === savedColor
+        );
+        if (hasMatchingTile) {
+          applyColor(savedColor);
+          chooseBtn.disabled = false;
+        }
+      }
 
       chooseBtn.addEventListener('click', function () {
-        const colorToSave = selectedColor || defaultColor;
+        if (!selectedColor) {
+          return; // should be impossible because button is disabled until selection
+        }
+
+        const colorToSave = selectedColor;
 
         // Save for this specific page and as "current" for downstream pages
         localStorage.setItem('current_page_index', '1');
