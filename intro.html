@@ -171,16 +171,6 @@
 
     /* Intro typography */
 
-    .screen-title {
-      font-family: "Poppins", system-ui, sans-serif;
-      font-size: 18px;
-      font-weight: 600;
-      letter-spacing: 0.02em;
-      margin: 4px 0 10px;
-      color: var(--text-main);
-      text-transform: none;
-    }
-
     .intro-block {
       margin-bottom: 16px;
     }
@@ -252,7 +242,7 @@
         <div class="shell-inner">
           <!-- HEADER -->
           <div class="top-row">
-            <button class="back-link" onclick="window.location.href='account.html'">
+            <button class="back-link" onclick="window.location.href='index.html'">
               <span class="icon">←</span>
               <span>Back</span>
             </button>
@@ -263,10 +253,7 @@
             </div>
           </div>
 
-          <!-- TITLE -->
-          <h1 id="welcomeTitle" class="screen-title">Hi!</h1>
-
-          <!-- NEW COPY WITH TAGLINE -->
+          <!-- INTRO COPY -->
           <div class="intro-block">
             <p class="screen-body">
               We all leave little signals — the symbols, references, and pieces of ourselves we put into the world.
@@ -297,8 +284,8 @@
 
           <!-- CTA -->
           <div class="cta-row">
-            <button id="buildBtn" type="button" class="btn-primary">
-              Build My Stickerbook
+            <button id="nextBtn" type="button" class="btn-primary">
+              Create Account
             </button>
           </div>
         </div>
@@ -307,17 +294,9 @@
   </div>
 
   <script>
-    // Load name from previous page
-    const name = localStorage.getItem("stickerbook_name");
-    const welcomeTitle = document.getElementById("welcomeTitle");
-
-    if (name) {
-      welcomeTitle.textContent = `Hi ${name}!`;
-    }
-
-    // Continue to next step
-    document.getElementById("buildBtn").addEventListener("click", () => {
-      window.location.href = "sticker-selection.html";
+    // Go to account creation next
+    document.getElementById("nextBtn").addEventListener("click", () => {
+      window.location.href = "account.html";
     });
   </script>
 </body>
