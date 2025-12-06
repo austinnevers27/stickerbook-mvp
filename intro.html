@@ -190,6 +190,21 @@
       font-weight: 600;
     }
 
+    /* NEW: inline tagline highlight */
+    .tagline-block {
+      margin: 0 0 14px;
+    }
+
+    .tagline-highlight {
+      font-weight: 700;
+      text-transform: uppercase; /* change to 'capitalize' if you want Title Case */
+      background: linear-gradient(90deg, #ff4f96, #ff7a4e, #22d3ee);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      letter-spacing: 0.03em;
+    }
+
     /* CTA */
 
     .cta-row {
@@ -274,11 +289,9 @@
               you’ve already skipped the small talk.
             </p>
 
-            <p class="screen-body">
+            <p class="screen-body tagline-block">
               This is where those signals become
-            </p>
-            <p class="tagline-line">
-              connections that stick.
+              <span class="tagline-highlight">connections that stick.</span>
             </p>
           </div>
 
