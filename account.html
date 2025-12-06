@@ -26,13 +26,12 @@
       --field-border: rgba(148, 163, 184, 0.7);
       --field-border-focus: #0ea5e9;
       --field-placeholder: rgba(148, 163, 184, 0.9);
-      --field-disabled-bg: #f3f4f6;
-      --field-disabled-border: rgba(156, 163, 175, 0.7);
 
       --button-gradient: linear-gradient(135deg, #ff4f96, #ff7a4e, #22d3ee);
       --button-text: #ffffff;
 
       --error-text: #f97373;
+      --success-text: #16a34a;
     }
 
     * {
@@ -214,6 +213,10 @@
       gap: 8px;
     }
 
+    .field-row-2 .field-input {
+      flex: 1;
+    }
+
     .dob-row {
       display: flex;
       gap: 8px;
@@ -246,6 +249,19 @@
 
     .field-error.hidden {
       visibility: hidden;
+    }
+
+    .password-rules {
+      margin-top: 4px;
+      font-size: 10px;
+      color: var(--text-subtle);
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .password-rule.met {
+      color: var(--success-text);
     }
 
     .cta-row {
@@ -342,6 +358,9 @@
       .btn-primary {
         font-size: 10px;
       }
+      .field-row-2 {
+        flex-direction: column;
+      }
     }
   </style>
 </head>
@@ -423,16 +442,19 @@
             </div>
           </div>
 
-          <!-- City & country (global-friendly) -->
+          <!-- Location -->
           <div class="field">
-            <label class="field-label" for="location-input">City &amp; country</label>
+            <label class="field-label" for="location-input">Location</label>
             <input
               id="location-input"
               class="field-input"
               type="text"
-              placeholder="e.g., Sacramento, United States"
+              placeholder="City, State / Region, Country"
               autocomplete="off"
             />
+            <div class="field-helper">
+              Examples: "Sacramento, CA, United States" or "Toronto, Ontario, Canada".
+            </div>
           </div>
 
           <!-- Email -->
@@ -457,6 +479,27 @@
               placeholder="Create a password"
               autocomplete="new-password"
             />
+            <div class="password-rules" id="password-rules">
+              <div class="password-rule" data-rule="length">• At least 8 characters</div>
+              <div class="password-rule" data-rule="upper">• One uppercase letter</div>
+              <div class="password-rule" data-rule="lower">• One lowercase letter</div>
+              <div class="password-rule" data-rule="number">• One number</div>
+            </div>
+          </div>
+
+          <!-- Confirm Password -->
+          <div class="field">
+            <label class="field-label" for="password-confirm-input">Confirm password</label>
+            <input
+              id="password-confirm-input"
+              class="field-input"
+              type="password"
+              placeholder="Re-enter your password"
+              autocomplete="new-password"
+            />
+            <div id="password-error" class="field-error hidden">
+              Passwords must match.
+            </div>
           </div>
 
           <!-- Terms -->
@@ -493,9 +536,14 @@
       const locationInput = document.getElementById('location-input');
       const emailInput = document.getElementById('email-input');
       const passwordInput = document.getElementById('password-input');
+      const passwordConfirmInput = document.getElementById('password-confirm-input');
+      const passwordError = document.getElementById('password-error');
       const termsCheckbox = document.getElementById('terms-checkbox');
 
       const continueBtn = document.getElementById('continue-btn');
+
+      const passwordRulesEl = document.getElementById('password-rules');
+      const passwordRuleItems = passwordRulesEl.querySelectorAll('.password-rule');
 
       function calculateAge(day, month, year) {
         const d = parseInt(day, 10);
@@ -506,13 +554,11 @@
           return null;
         }
 
-        // quick sanity checks
         if (y < 1900 || m < 1 || m > 12 || d < 1 || d > 31) {
           return null;
         }
 
         const dob = new Date(y, m - 1, d);
-        // ensure the date object matches the inputs (catches 31 Feb, etc.)
         if (
           dob.getFullYear() !== y ||
           dob.getMonth() !== m - 1 ||
@@ -535,6 +581,30 @@
         return age;
       }
 
+      function getPasswordRuleStatus(password) {
+        return {
+          length: password.length >= 8,
+          upper: /[A-Z]/.test(password),
+          lower: /[a-z]/.test(password),
+          number: /[0-9]/.test(password)
+        };
+      }
+
+      function updatePasswordRules(password) {
+        const status = getPasswordRuleStatus(password);
+
+        passwordRuleItems.forEach((item) => {
+          const rule = item.getAttribute('data-rule');
+          if (status[rule]) {
+            item.classList.add('met');
+          } else {
+            item.classList.remove('met');
+          }
+        });
+
+        return status;
+      }
+
       function validateForm() {
         const firstName = firstNameInput.value.trim();
         const lastName = lastNameInput.value.trim();
@@ -546,6 +616,7 @@
         const location = locationInput.value.trim();
         const email = emailInput.value.trim();
         const password = passwordInput.value.trim();
+        const passwordConfirm = passwordConfirmInput.value.trim();
         const termsAccepted = termsCheckbox.checked;
 
         const age = calculateAge(dd, mm, yy);
@@ -561,6 +632,26 @@
           ageError.classList.add('hidden');
         }
 
+        // Password rules
+        const passwordStatus = updatePasswordRules(password);
+        const allPasswordRulesMet =
+          passwordStatus.length &&
+          passwordStatus.upper &&
+          passwordStatus.lower &&
+          passwordStatus.number;
+
+        // Password match
+        if (passwordConfirm.length > 0 && password !== passwordConfirm) {
+          passwordError.classList.remove('hidden');
+        } else {
+          passwordError.classList.add('hidden');
+        }
+
+        const passwordsMatch =
+          password.length > 0 &&
+          passwordConfirm.length > 0 &&
+          password === passwordConfirm;
+
         const isValid =
           firstName.length > 0 &&
           lastName.length > 0 &&
@@ -568,7 +659,8 @@
           age >= 13 &&
           location.length > 0 &&
           email.length > 0 &&
-          password.length > 0 &&
+          allPasswordRulesMet &&
+          passwordsMatch &&
           termsAccepted;
 
         continueBtn.disabled = !isValid;
@@ -583,6 +675,7 @@
         locationInput,
         emailInput,
         passwordInput,
+        passwordConfirmInput,
         termsCheckbox
       ].forEach((el) => {
         const eventName = el.type === 'checkbox' ? 'change' : 'input';
@@ -604,7 +697,6 @@
         // Save profile info for later pages
         localStorage.setItem("stickerbook_first_name", firstName);
         localStorage.setItem("stickerbook_last_name", lastName);
-        // keep this for existing pages that expect "name"
         localStorage.setItem("stickerbook_name", firstName);
 
         localStorage.setItem("stickerbook_dob_day", dd);
