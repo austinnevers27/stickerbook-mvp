@@ -235,23 +235,17 @@
       background: #ffffff;
     }
 
-    .dob-row {
-      display: flex;
-      gap: 8px;
-    }
+ .dob-row {
+  display: flex;
+  gap: 8px;
+}
 
-    .dob-row .field-input {
-      text-align: center;
-    }
+.dob-row .field-input {
+  text-align: center;
+  flex: 1;
+  min-width: 0; /* keeps all three pills on one line and aligned */
+}
 
-    .dob-mm,
-    .dob-dd {
-      width: 64px;
-    }
-
-    .dob-yy {
-      flex: 1;
-    }
 
     .field-helper {
       font-size: 10px;
