@@ -190,6 +190,17 @@
       font-weight: 600;
     }
 
+    /* New: gradient highlight for the inline tagline */
+    .tagline-highlight {
+      font-weight: 700;
+      text-transform: uppercase; /* renders as ALL CAPS without changing your actual text */
+      background: linear-gradient(90deg, #ff4f96, #ff7a4e, #22d3ee);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      letter-spacing: 0.03em;
+    }
+
     /* CTA */
 
     .cta-row {
@@ -230,74 +241,3 @@
       box-shadow:
         0 18px 32px rgba(236, 72, 153, 0.45),
         0 0 0 1px rgba(248, 250, 252, 0.9);
-    }
-  </style>
-</head>
-<body>
-  <div class="app-shell">
-    <div class="phone-frame">
-      <div class="phone-notch"></div>
-
-      <div class="phone-inner">
-        <div class="shell-inner">
-          <!-- HEADER -->
-          <div class="top-row">
-            <button class="back-link" onclick="window.location.href='index.html'">
-              <span class="icon">←</span>
-              <span>Back</span>
-            </button>
-
-            <div class="logo-group">
-              <div class="logo-mark">STICKERBOOK</div>
-              <div class="logo-accent"></div>
-            </div>
-          </div>
-
-          <!-- INTRO COPY -->
-          <div class="intro-block">
-            <p class="screen-body">
-              We all leave little signals — the symbols, references, and pieces of ourselves we put into the world.
-              On our shirts. Our bags. Our water bottles. Our laptops. Even the ones we carry on our skin.
-            </p>
-
-            <p class="screen-body">
-              They’re small, but they say a lot. They tell people what we love, what we notice, what matters to us.
-            </p>
-
-            <p class="screen-body">
-              Stickerbook gathers those signals into pages you can shape with intention. Each sticker is one truth;
-              together, they make a picture that feels unmistakably you.
-            </p>
-
-            <p class="screen-body">
-              And when someone else sees your pages and thinks, “Wait… that looks like my kind of person,”
-              you’ve already skipped the small talk.
-            </p>
-
-            <p class="screen-body">
-              This is where those signals become
-            </p>
-            <p class="tagline-line">
-              connections that stick.
-            </p>
-          </div>
-
-          <!-- CTA -->
-          <div class="cta-row">
-            <button id="nextBtn" type="button" class="btn-primary">
-              Create Account
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    // Go to account creation next
-    document.getElementById("nextBtn").addEventListener("click", () => {
-      window.location.href = "account.html";
-    });
-  </script>
-</body>
-</html>
