@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Stickerbook – Pick Your Background</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Fonts (logo + headings) -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-pink: #ffeef7;
+      --bg-blue: #e7f9ff;
+
+      --shell-bg: #ffffff;
+      --shell-border: rgba(148, 163, 184, 0.12);
+      --shell-shadow-main: 0 18px 40px rgba(15, 23, 42, 0.20);
+
+      --text-main: #111827;
+      --text-muted: #6b7280;
+      --text-subtle: #9ca3af;
+
+      --button-gradient: linear-gradient(135deg, #ff4f96, #ff7a4e, #22d3ee);
+      --button-text: #ffffff;
+
+      --preview-border: rgba(148, 163, 184, 0.45);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background:
+        radial-gradient(circle at top left, var(--bg-pink) 0, #ffffff 45%),
+        radial-gradient(circle at bottom right, var(--bg-blue) 0, #ffffff 45%);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif;
+      color: var(--text-main);
+      padding: 16px;
+    }
+
+    /* === outer “phone” shell – matches account.html === */
+    .app-shell {
+      width: 100%;
+      max-width: 420px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .phone-frame {
+      width: 100%;
+      max-width: 380px;
+      background: #ffffff;
+      border-radius: 32px;
+      padding: 24px 18px 24px;
+      box-shadow:
+        0 18px 40px rgba(15, 23, 42, 0.20),
+        0 0 0 1px rgba(148, 163, 184, 0.10);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      height: 700px;
+      max-height: calc(100vh - 80px);
+      overflow: hidden;
+    }
+
+    .phone-notch {
+      width: 80px;
+      height: 6px;
+      border-radius: 999px;
+      background: #e5e7eb;
+      margin-bottom: 12px;
+      flex-shrink: 0;
+    }
+
+    .phone-inner {
+      width: 100%;
+      border-radius: 26px;
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      background: #ffffff;
+      padding: 20px 18px 18px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex: 1;
+      overflow: hidden; /* we’ll handle scroll inside shell-inner */
+    }
+
+    .shell-inner {
+      width: 100%;
+      max-width: 320px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    /* Logo row (no back button on this screen) */
+    .top-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 14px;
+      flex-shrink: 0;
+    }
+
+    .logo-group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .logo-mark {
+      font-family: "Poppins", system-ui, sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.20em;
+      text-transform: uppercase;
+      color: var(--text-main);
+    }
+
+    .logo-accent {
+      width: 80px;
+      height: 3px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #ff4f96, #ff7a4e, #22d3ee);
+    }
+
+    .screen-title {
+      font-family: "Poppins", system-ui, sans-serif;
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin: 2px 0 6px;
+      color: var(--text-main);
+      text-align: center;
+      flex-shrink: 0;
+    }
+
+    .screen-subtitle {
+      font-size: 12px;
+      line-height: 1.5;
+      color: var(--text-muted);
+      margin: 0 0 14px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+
+    /* === Preview section === */
+    .preview-section {
+      flex-shrink: 0;
+      margin-bottom: 14px;
+    }
+
+    .preview-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--text-subtle);
+      margin-bottom: 6px;
+      text-align: center;
+    }
+
+    .preview-card {
+      border-radius: 22px;
+      border: 1px solid var(--preview-border);
+      background: #f9fafb;
+      padding: 10px;
+      box-shadow:
+        0 10px 18px rgba(15, 23, 42, 0.08);
+    }
+
+    .preview-page {
+      width: 100%;
+      border-radius: 18px;
+      background: #f9fafb;
+      min-height: 120px;
+      max-height: 160px;
+      transition: background-color 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    /* === Background picker section === */
+    .background-section {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      min-height: 0; /* important for flex + scroll */
+    }
+
+    .background-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--text-subtle);
+      margin: 4px 0 8px;
+    }
+
+    .background-grid-wrapper {
+      flex: 1;
+      min-height: 0;
+      overflow-y: auto;
+      padding-right: 2px; /* small breathing room for scrollbar */
+    }
+
+    .background-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      padding-bottom: 6px;
+    }
+
+    .bg-tile {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+    }
+
+    .bg-tile-inner {
+      width: 100%;
+      padding-top: 180%; /* tall “phone-like” aspect ratio */
+      border-radius: 18px;
+      background: #f3f4f6;
+      position: relative;
+      box-shadow:
+        0 6px 12px rgba(15, 23, 42, 0.10),
+        0 0 0 1px rgba(148, 163, 184, 0.35);
+      transition:
+        box-shadow 0.18s ease,
+        transform 0.12s ease,
+        border-color 0.18s ease;
+    }
+
+    .bg-tile-inner::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      border: 2px solid transparent;
+      pointer-events: none;
+      transition: border-color 0.18s ease;
+    }
+
+    .bg-tile.selected .bg-tile-inner {
+      transform: translateY(-1px);
+      box-shadow:
+        0 10px 18px rgba(59, 130, 246, 0.25),
+        0 0 0 1px rgba(248, 250, 252, 0.8);
+    }
+
+    .bg-tile.selected .bg-tile-inner::after {
+      border-color: #22d3ee;
+    }
+
+    .bg-tile:active .bg-tile-inner {
+      transform: translateY(1px) scale(0.99);
+      box-shadow:
+        0 4px 8px rgba(15, 23, 42, 0.12);
+    }
+
+    /* Label slot – hidden for now (Option C) */
+    .bg-label {
+      font-size: 10px;
+      color: var(--text-subtle);
+      text-align: center;
+      display: none; /* keep structure for future named backgrounds */
+    }
+
+    /* === CTA row === */
+    .cta-row {
+      margin-top: 16px;
+      flex-shrink: 0;
+    }
+
+    .btn-primary {
+      border-radius: 999px;
+      border: none;
+      padding: 11px 26px;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      background: var(--button-gradient);
+      color: var(--button-text);
+      box-shadow:
+        0 12px 22px rgba(236, 72, 153, 0.35),
+        0 0 0 1px rgba(248, 250, 252, 0.5);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      width: 100%;
+      transition:
+        background 0.18s ease,
+        transform 0.15s ease,
+        box-shadow 0.18s ease,
+        opacity 0.18s ease;
+    }
+
+    .btn-primary:active {
+      transform: translateY(1px) scale(0.99);
+      box-shadow:
+        0 6px 12px rgba(236, 72, 153, 0.30);
+    }
+
+    @media (max-width: 480px) {
+      .phone-frame {
+        height: 640px;
+        max-height: calc(100vh - 48px);
+        padding: 20px 14px 20px;
+      }
+
+      .phone-inner {
+        padding: 18px 14px 16px;
+      }
+
+      .screen-title {
+        font-size: 16px;
+      }
+
+      .screen-subtitle {
+        font-size: 11px;
+      }
+
+      .btn-primary {
+        font-size: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+
+      <div class="phone-inner">
+        <div class="shell-inner">
+          <!-- Logo only, no back button -->
+          <div class="top-row">
+            <div class="logo-group">
+              <div class="logo-mark">STICKERBOOK</div>
+              <div class="logo-accent"></div>
+            </div>
+          </div>
+
+          <h1 class="screen-title">Pick your background</h1>
+          <p class="screen-subtitle">
+            Set the vibe for this page. You can change it later.
+          </p>
+
+          <!-- Preview section -->
+          <div class="preview-section">
+            <div class="preview-label">Page 1 preview</div>
+            <div class="preview-card">
+              <div class="preview-page" id="preview-page"></div>
+            </div>
+          </div>
+
+          <!-- Background picker -->
+          <div class="background-section">
+            <div class="background-label">Backgrounds</div>
+            <div class="background-grid-wrapper">
+              <div class="background-grid" id="background-grid">
+                <!-- 12 preset backgrounds, 3x4 grid -->
+                <div class="bg-tile" data-color="#ffffff">
+                  <div class="bg-tile-inner" style="background-color: #ffffff;"></div>
+                  <div class="bg-label">White</div>
+                </div>
+
+                <div class="bg-tile" data-color="#020617">
+                  <div class="bg-tile-inner" style="background-color: #020617;"></div>
+                  <div class="bg-label">Black</div>
+                </div>
+
+                <div class="bg-tile" data-color="#e5e7eb">
+                  <div class="bg-tile-inner" style="background-color: #e5e7eb;"></div>
+                  <div class="bg-label">Gray</div>
+                </div>
+
+                <div class="bg-tile" data-color="#92400e">
+                  <div class="bg-tile-inner" style="background-color: #92400e;"></div>
+                  <div class="bg-label">Brown</div>
+                </div>
+
+                <div class="bg-tile" data-color="#ef4444">
+                  <div class="bg-tile-inner" style="background-color: #ef4444;"></div>
+                  <div class="bg-label">Red</div>
+                </div>
+
+                <div class="bg-tile" data-color="#facc15">
+                  <div class="bg-tile-inner" style="background-color: #facc15;"></div>
+                  <div class="bg-label">Yellow</div>
+                </div>
+
+                <div class="bg-tile" data-color="#0ea5e9">
+                  <div class="bg-tile-inner" style="background-color: #0ea5e9;"></div>
+                  <div class="bg-label">Blue</div>
+                </div>
+
+                <div class="bg-tile" data-color="#22c55e">
+                  <div class="bg-tile-inner" style="background-color: #22c55e;"></div>
+                  <div class="bg-label">Green</div>
+                </div>
+
+                <div class="bg-tile" data-color="#fb923c">
+                  <div class="bg-tile-inner" style="background-color: #fb923c;"></div>
+                  <div class="bg-label">Orange</div>
+                </div>
+
+                <div class="bg-tile" data-color="#a855f7">
+                  <div class="bg-tile-inner" style="background-color: #a855f7;"></div>
+                  <div class="bg-label">Purple</div>
+                </div>
+
+                <div class="bg-tile" data-color="#fef3c7">
+                  <div class="bg-tile-inner" style="background-color: #fef3c7;"></div>
+                  <div class="bg-label">Cream</div>
+                </div>
+
+                <div class="bg-tile" data-color="#f9a8d4">
+                  <div class="bg-tile-inner" style="background-color: #f9a8d4;"></div>
+                  <div class="bg-label">Pink</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CTA -->
+          <div class="cta-row">
+            <button id="choose-stickers-btn" class="btn-primary" type="button">
+              Choose stickers
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const defaultColor = '#f9fafb'; // soft neutral fallback
+
+      const previewEl = document.getElementById('preview-page');
+      const tiles = document.querySelectorAll('.bg-tile');
+      const chooseBtn = document.getElementById('choose-stickers-btn');
+
+      // Try to restore previously chosen background if user comes back
+      const savedColor =
+        localStorage.getItem('stickerbook_page_1_background') ||
+        localStorage.getItem('current_page_background') ||
+        defaultColor;
+
+      let selectedColor = savedColor;
+
+      function applyColor(color) {
+        selectedColor = color;
+        previewEl.style.backgroundColor = color;
+
+        tiles.forEach(tile => {
+          const tileColor = tile.getAttribute('data-color');
+          if (tileColor === color) {
+            tile.classList.add('selected');
+          } else {
+            tile.classList.remove('selected');
+          }
+        });
+      }
+
+      tiles.forEach(tile => {
+        tile.addEventListener('click', function () {
+          const color = this.getAttribute('data-color');
+          applyColor(color);
+        });
+      });
+
+      // Initialize preview + selection state
+      applyColor(selectedColor);
+
+      chooseBtn.addEventListener('click', function () {
+        const colorToSave = selectedColor || defaultColor;
+
+        // Save for this specific page and as "current" for downstream pages
+        localStorage.setItem('current_page_index', '1');
+        localStorage.setItem('current_page_background', colorToSave);
+        localStorage.setItem('stickerbook_page_1_background', colorToSave);
+
+        // Move on to sticker selection
+        window.location.href = 'sticker-selection.html';
+      });
+    })();
+  </script>
+</body>
+</html>
