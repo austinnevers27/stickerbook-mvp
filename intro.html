@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Stickerbook – WelcomE</title>
+  <title>Stickerbook – Welcome</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <!-- Fonts (logo + headings) -->
@@ -48,7 +48,6 @@
       padding: 16px;
     }
 
-    /* === outer “phone” shell – same pattern as account.html === */
     .app-shell {
       width: 100%;
       max-width: 420px;
@@ -68,10 +67,9 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-
       height: 700px;
       max-height: calc(100vh - 80px);
-      overflow: hidden;  /* inner content scrolls */
+      overflow: hidden;
     }
 
     .phone-notch {
@@ -93,7 +91,7 @@
       flex-direction: column;
       align-items: center;
       flex: 1;
-      overflow-y: auto;  /* scrolling happens inside here */
+      overflow-y: auto;
     }
 
     .shell-inner {
@@ -105,19 +103,7 @@
       align-items: stretch;
     }
 
-    .shell-inner::-webkit-scrollbar {
-      width: 4px;
-    }
-    .shell-inner::-webkit-scrollbar-track {
-      background: transparent;
-    }
-    .shell-inner::-webkit-scrollbar-thumb {
-      background: rgba(148, 163, 184, 0.6);
-      border-radius: 999px;
-    }
-
-    /* Header row (back + logo) – same as account.html */
-
+    /* Header Row */
     .top-row {
       display: flex;
       align-items: center;
@@ -140,10 +126,6 @@
     .back-link span.icon {
       font-size: 12px;
       transform: translateY(0.5px);
-    }
-
-    .back-link:hover {
-      color: var(--text-muted);
     }
 
     .logo-group {
@@ -169,10 +151,10 @@
       background: linear-gradient(90deg, #ff4f96, #ff7a4e, #22d3ee);
     }
 
-    /* Intro typography */
+    /* INTRO COPY */
 
     .intro-block {
-      margin-bottom: 16px;
+      margin-bottom: 8px; /* tightened */
     }
 
     .welcome-heading {
@@ -187,28 +169,19 @@
 
     .screen-body {
       font-size: 13px;
-      line-height: 1.6;         /* slightly tighter */
-      color: var(--text-main);  /* slightly darker */
-      margin: 0 0 14px;
-      font-weight: 500;         /* slightly heavier */
-    }
-
-    .tagline-line {
-      font-size: 13px;
-      line-height: 1.65;
+      line-height: 1.6;       /* tightened */
       color: var(--text-main);
-      margin: 2px 0 0;
-      font-weight: 600;
+      margin: 0 0 14px;
+      font-weight: 500;       /* slightly heavier */
     }
 
-    /* inline tagline highlight */
     .tagline-block {
-      margin: 0 0 8px !important;  /* tighter to save space */
+      margin: 0 0 8px !important; /* tightened */
     }
 
     .tagline-highlight {
       font-weight: 700;
-      text-transform: uppercase; /* change to 'capitalize' if you want Title Case */
+      text-transform: uppercase;
       background: linear-gradient(90deg, #ff4f96, #ff7a4e, #22d3ee);
       -webkit-background-clip: text;
       background-clip: text;
@@ -216,10 +189,10 @@
       letter-spacing: 0.03em;
     }
 
-    /* CTA */
+    /* CTA BUTTON */
 
     .cta-row {
-      margin-top: 12px;
+      margin-top: 4px;  /* pulled up */
       display: flex;
       flex-direction: column;
       gap: 10px;
@@ -244,8 +217,7 @@
       letter-spacing: 0.18em;
       text-transform: uppercase;
       width: 100%;
-      transition:
-        background 0.18s ease,
+      transition: background 0.18s ease,
         transform 0.15s ease,
         box-shadow 0.18s ease,
         opacity 0.18s ease;
@@ -259,13 +231,16 @@
     }
   </style>
 </head>
+
 <body>
   <div class="app-shell">
     <div class="phone-frame">
+
       <div class="phone-notch"></div>
 
       <div class="phone-inner">
         <div class="shell-inner">
+
           <!-- HEADER -->
           <div class="top-row">
             <button class="back-link" onclick="window.location.href='index.html'">
@@ -281,6 +256,7 @@
 
           <!-- INTRO COPY -->
           <div class="intro-block">
+
             <h2 class="welcome-heading">Welcome</h2>
 
             <p class="screen-body">
@@ -306,6 +282,7 @@
               This is where those signals become
               <span class="tagline-highlight">connections that stick.</span>
             </p>
+
           </div>
 
           <!-- CTA -->
@@ -314,16 +291,17 @@
               Create Account
             </button>
           </div>
+
         </div>
       </div>
     </div>
   </div>
 
   <script>
-    // Go to account creation next
     document.getElementById("nextBtn").addEventListener("click", () => {
       window.location.href = "account.html";
     });
   </script>
+
 </body>
 </html>
