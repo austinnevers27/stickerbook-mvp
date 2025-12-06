@@ -51,7 +51,6 @@
       padding: 16px;
     }
 
-    /* === outer “phone” shell – matches account/background === */
     .app-shell {
       width: 100%;
       max-width: 420px;
@@ -109,7 +108,6 @@
       height: 100%;
     }
 
-    /* Logo row – centered, no back/help */
     .top-row {
       display: flex;
       align-items: center;
@@ -166,7 +164,6 @@
       display: none !important;
     }
 
-    /* === Sticker section === */
     .sticker-section {
       margin-top: 4px;
       display: flex;
@@ -180,11 +177,69 @@
       text-transform: uppercase;
       letter-spacing: 0.14em;
       color: var(--text-subtle);
-      margin: 4px 0 8px;
+      margin: 4px 0 6px;
       flex-shrink: 0;
     }
 
-    /* Overview rows (Netflix style) */
+    /* Search */
+    .search-row {
+      margin-bottom: 10px;
+      flex-shrink: 0;
+    }
+
+    .search-wrapper {
+      position: relative;
+    }
+
+    .search-input {
+      width: 100%;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      padding: 7px 26px 7px 26px;
+      font-size: 11px;
+      background: #f9fafb;
+      color: var(--text-main);
+      outline: none;
+      transition:
+        border-color 0.18s ease,
+        box-shadow 0.18s ease,
+        background 0.18s ease;
+    }
+
+    .search-input::placeholder {
+      color: rgba(148, 163, 184, 0.9);
+    }
+
+    .search-input:focus {
+      border-color: #0ea5e9;
+      box-shadow: 0 0 0 1px rgba(14, 165, 233, 0.35);
+      background: #ffffff;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 12px;
+      opacity: 0.7;
+    }
+
+    .search-clear {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 11px;
+      opacity: 0.5;
+      cursor: pointer;
+    }
+
+    .search-clear:hover {
+      opacity: 0.8;
+    }
+
+    /* Overview rows */
     .overview-rows {
       flex: 1;
       min-height: 0;
@@ -252,7 +307,7 @@
       margin-bottom: 4px;
     }
 
-    /* Category detail (full-screen grid for one category) */
+    /* Category / Search detail */
     .category-detail {
       flex: 1;
       min-height: 0;
@@ -316,7 +371,6 @@
       padding-bottom: 6px;
     }
 
-    /* Sticker tiles – shared for rows and detail */
     .sticker-tile {
       position: relative;
       border-radius: 18px;
@@ -334,7 +388,7 @@
         border-color 0.15s ease;
       box-shadow: 0 2px 6px rgba(148, 163, 184, 0.35);
       flex-shrink: 0;
-      min-width: 86px; /* keeps a nice size in horizontal rows */
+      min-width: 86px;
     }
 
     .sticker-tile:hover {
@@ -344,7 +398,7 @@
 
     .sticker-tile.selected {
       background: #fff6fb;
-      border-color: #0ea5e9; /* single teal outline */
+      border-color: #0ea5e9;
       box-shadow:
         0 0 0 1px rgba(14, 165, 233, 0.35),
         0 8px 16px rgba(248, 113, 165, 0.25);
@@ -355,7 +409,7 @@
       align-items: center;
       justify-content: center;
       width: 100%;
-      min-height: 72px; /* taller visual area so sticker fills more */
+      min-height: 72px;
     }
 
     .sticker-image {
@@ -365,7 +419,12 @@
       object-fit: contain;
     }
 
-    /* Footer inside phone */
+    .empty-msg {
+      font-size: 11px;
+      color: var(--text-subtle);
+      margin-top: 6px;
+    }
+
     .selection-footer {
       margin-top: 10px;
       padding-top: 10px;
@@ -433,7 +492,6 @@
         0 6px 12px rgba(236, 72, 153, 0.30);
     }
 
-    /* Scrollbars */
     .overview-rows::-webkit-scrollbar,
     .category-detail-grid-wrapper::-webkit-scrollbar {
       width: 4px;
@@ -500,12 +558,27 @@
           <div class="sticker-section">
             <div class="sticker-label">Stickers</div>
 
+            <!-- Search -->
+            <div class="search-row">
+              <div class="search-wrapper">
+                <span class="search-icon">🔍</span>
+                <input
+                  id="search-input"
+                  class="search-input"
+                  type="text"
+                  autocomplete="off"
+                  placeholder="Search stickers (e.g. ‘Sacramento’, ‘coffee’, ‘pride’)"
+                />
+                <span id="search-clear" class="search-clear">✕</span>
+              </div>
+            </div>
+
             <!-- Overview (Netflix-style rows) -->
             <div class="overview-rows" id="overview-rows">
               <!-- JS injects rows here -->
             </div>
 
-            <!-- Category detail view -->
+            <!-- Category / search detail view -->
             <div class="category-detail hidden" id="category-detail">
               <div class="category-detail-header">
                 <button id="back-to-overview" class="back-link-small">
@@ -514,7 +587,9 @@
                 </button>
                 <div>
                   <div id="category-detail-title" class="category-detail-title"></div>
-                  <div class="category-detail-subtitle">Tap to add or remove stickers.</div>
+                  <div id="category-detail-subtitle" class="category-detail-subtitle">
+                    Tap to add or remove stickers.
+                  </div>
                 </div>
               </div>
               <div class="category-detail-grid-wrapper">
@@ -541,7 +616,6 @@
   </div>
 
   <script>
-    // --- CONFIG ---
     const MIN_SELECTIONS = 1;
     const MAX_SELECTIONS = 20;
 
@@ -571,7 +645,7 @@
       { key: "places", label: "Places" },
     ];
 
-    // --- STICKER DATA (same as before) ---
+    // Sticker data (same as before)
     const allStickers = [
       // SACRAMENTO
       {
@@ -1015,18 +1089,20 @@
       }
     ];
 
-    // --- STATE ---
+    // STATE
     let selectedIds = new Set();
     let userAgeGroup = AGE_GROUPS.OTHER;
     let userZip = null;
 
-    let currentMode = "overview"; // "overview" | "category"
+    let currentMode = "overview"; // "overview" | "category" | "search"
     let currentCategoryKey = null;
+    let searchTerm = "";
 
-    // --- DOM ELEMENTS ---
+    // DOM
     const overviewRowsEl = document.getElementById("overview-rows");
     const categoryDetailEl = document.getElementById("category-detail");
     const categoryDetailTitleEl = document.getElementById("category-detail-title");
+    const categoryDetailSubtitleEl = document.getElementById("category-detail-subtitle");
     const categoryDetailGridEl = document.getElementById("category-detail-grid");
     const backToOverviewEl = document.getElementById("back-to-overview");
 
@@ -1034,12 +1110,14 @@
     const continueButtonEl = document.getElementById("continue-button");
     const selectionErrorEl = document.getElementById("selection-error");
 
-    // --- UTILITIES ---
+    const searchInputEl = document.getElementById("search-input");
+    const searchClearEl = document.getElementById("search-clear");
+
+    // UTILITIES
     function loadUserContext() {
       try {
         const age = localStorage.getItem("stickerbook_age");
         const zip = localStorage.getItem("stickerbook_zip");
-
         userAgeGroup = getAgeGroup(age);
         userZip = zip || null;
       } catch (e) {
@@ -1069,6 +1147,10 @@
       } catch (e) {
         // ignore
       }
+    }
+
+    function normalize(str) {
+      return (str || "").toLowerCase();
     }
 
     function getForYouStickers() {
@@ -1130,7 +1212,7 @@
       selectionErrorEl.textContent = msg;
     }
 
-    // --- RENDER HELPERS ---
+    // STICKER TILE
     function createStickerTile(sticker) {
       const tile = document.createElement("div");
       tile.className = "sticker-tile";
@@ -1158,7 +1240,7 @@
       return tile;
     }
 
-    // --- OVERVIEW RENDER ---
+    // OVERVIEW RENDER
     function renderOverviewRows() {
       overviewRowsEl.innerHTML = "";
 
@@ -1202,12 +1284,14 @@
       });
     }
 
-    // --- CATEGORY DETAIL RENDER ---
+    // CATEGORY DETAIL RENDER
     function renderCategoryDetail() {
       const def = CATEGORY_DEFS.find((c) => c.key === currentCategoryKey);
       const label = def ? def.label : "Stickers";
 
       categoryDetailTitleEl.textContent = label;
+      categoryDetailSubtitleEl.textContent = "Tap to add or remove stickers.";
+
       categoryDetailGridEl.innerHTML = "";
 
       const stickers = getStickersForCategoryKey(currentCategoryKey);
@@ -1218,6 +1302,38 @@
       });
     }
 
+    // SEARCH RENDER
+    function getSearchResults() {
+      const term = normalize(searchTerm);
+      if (!term) return [];
+      return allStickers.filter((s) => {
+        if (normalize(s.label).includes(term)) return true;
+        if (s.tags && s.tags.some((t) => normalize(t).includes(term))) return true;
+        return false;
+      });
+    }
+
+    function renderSearchResults() {
+      categoryDetailTitleEl.textContent = "Search results";
+      categoryDetailSubtitleEl.textContent = "Tap to add or remove stickers.";
+
+      categoryDetailGridEl.innerHTML = "";
+
+      const results = getSearchResults();
+      if (results.length === 0) {
+        const msg = document.createElement("div");
+        msg.className = "empty-msg";
+        msg.textContent = "No stickers match that search yet. Try a different word or clear search.";
+        categoryDetailGridEl.appendChild(msg);
+        return;
+      }
+
+      results.forEach((sticker) => {
+        categoryDetailGridEl.appendChild(createStickerTile(sticker));
+      });
+    }
+
+    // VIEW SWITCHING
     function showCategoryDetail(categoryKey) {
       currentMode = "category";
       currentCategoryKey = categoryKey;
@@ -1226,6 +1342,16 @@
       categoryDetailEl.classList.remove("hidden");
 
       renderCategoryDetail();
+    }
+
+    function showSearchView() {
+      currentMode = "search";
+      currentCategoryKey = null;
+
+      overviewRowsEl.classList.add("hidden");
+      categoryDetailEl.classList.remove("hidden");
+
+      renderSearchResults();
     }
 
     function showOverview() {
@@ -1238,24 +1364,29 @@
       renderOverviewRows();
     }
 
-    function renderCurrentView() {
-      if (currentMode === "overview") {
-        renderOverviewRows();
-      } else if (currentMode === "category" && currentCategoryKey) {
-        renderCategoryDetail();
-      }
-    }
-
-    // --- SELECTION UI ---
+    // SELECTION UI
     function updateSelectionUI() {
       const count = selectedIds.size;
-      selectedCountEl.textContent = count.toString();
+      selectedCountEl.textContent = String(count);
       continueButtonEl.disabled = count < MIN_SELECTIONS;
       if (count < MIN_SELECTIONS) {
         showError("Pick at least one sticker to continue.");
       } else {
         clearError();
       }
+    }
+
+    function syncStickerTileClasses() {
+      const tiles = document.querySelectorAll(".sticker-tile");
+      tiles.forEach((tile) => {
+        const id = tile.dataset.stickerId;
+        if (!id) return;
+        if (selectedIds.has(id)) {
+          tile.classList.add("selected");
+        } else {
+          tile.classList.remove("selected");
+        }
+      });
     }
 
     function toggleStickerSelection(id) {
@@ -1273,12 +1404,15 @@
 
       saveSelections();
       updateSelectionUI();
-      renderCurrentView();
+      syncStickerTileClasses();
     }
 
-    // --- EVENTS ---
+    // EVENTS
     backToOverviewEl.addEventListener("click", () => {
+      searchTerm = "";
+      searchInputEl.value = "";
       showOverview();
+      syncStickerTileClasses();
     });
 
     continueButtonEl.addEventListener("click", () => {
@@ -1323,12 +1457,35 @@
       window.location.href = "sticker-preview.html";
     });
 
-    // --- INIT ---
+    searchInputEl.addEventListener("input", (e) => {
+      searchTerm = e.target.value.trim();
+      if (searchTerm.length === 0) {
+        if (currentMode === "search") {
+          showOverview();
+          syncStickerTileClasses();
+        }
+      } else {
+        showSearchView();
+        syncStickerTileClasses();
+      }
+    });
+
+    searchClearEl.addEventListener("click", () => {
+      searchTerm = "";
+      searchInputEl.value = "";
+      if (currentMode === "search") {
+        showOverview();
+        syncStickerTileClasses();
+      }
+    });
+
+    // INIT
     function init() {
       loadUserContext();
       loadSelections();
       showOverview();
       updateSelectionUI();
+      syncStickerTileClasses();
     }
 
     document.addEventListener("DOMContentLoaded", init);
