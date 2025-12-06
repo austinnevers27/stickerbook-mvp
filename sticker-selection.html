@@ -109,7 +109,7 @@
       height: 100%;
     }
 
-    /* Logo row – same as background.html, centered, no back/help */
+    /* Logo row – centered, no back/help */
     .top-row {
       display: flex;
       align-items: center;
@@ -162,6 +162,10 @@
       flex-shrink: 0;
     }
 
+    .hidden {
+      display: none !important;
+    }
+
     /* === Sticker section === */
     .sticker-section {
       margin-top: 4px;
@@ -180,50 +184,129 @@
       flex-shrink: 0;
     }
 
-    /* Category tabs */
-    .category-tabs {
-      display: flex;
-      flex-wrap: nowrap;
-      gap: 8px;
-      overflow-x: auto;
-      padding-bottom: 6px;
-      margin-bottom: 8px;
-      flex-shrink: 0;
-    }
-
-    .category-tab {
-      flex: 0 0 auto;
-      border: none;
-      border-radius: 999px;
-      padding: 6px 12px;
-      font-size: 11px;
-      cursor: pointer;
-      background: var(--chip-bg);
-      color: var(--text-main);
-      white-space: nowrap;
-      opacity: 0.9;
-      transition:
-        transform 0.12s ease,
-        opacity 0.12s ease,
-        box-shadow 0.12s ease,
-        background 0.12s ease;
-    }
-
-    .category-tab.active {
-      opacity: 1;
-      background: var(--chip-active-bg);
-      box-shadow:
-        0 0 0 1px rgba(148, 163, 184, 0.45);
-      transform: translateY(-1px);
-      font-weight: 600;
-    }
-
-    /* Sticker grid */
-    .sticker-grid-wrapper {
+    /* Overview rows (Netflix style) */
+    .overview-rows {
       flex: 1;
       min-height: 0;
       overflow-y: auto;
       padding-right: 2px;
+    }
+
+    .row-section {
+      margin-bottom: 12px;
+    }
+
+    .row-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+
+    .row-title {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .row-strip {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+
+    .row-strip::-webkit-scrollbar {
+      height: 4px;
+    }
+
+    .row-strip::-webkit-scrollbar-thumb {
+      background: #c3c9ec;
+      border-radius: 999px;
+    }
+
+    .row-strip::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .see-more-tile {
+      min-width: 80px;
+      padding: 10px 12px;
+      border-radius: 18px;
+      border: 1px dashed rgba(148, 163, 184, 0.8);
+      background: #f9fafb;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      color: var(--text-muted);
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .see-more-tile span {
+      font-size: 16px;
+      margin-bottom: 4px;
+    }
+
+    /* Category detail (full-screen grid for one category) */
+    .category-detail {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .category-detail-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .back-link-small {
+      border: none;
+      background: transparent;
+      color: var(--text-subtle);
+      font-size: 11px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+      padding: 4px 0;
+    }
+
+    .back-link-small span.icon {
+      font-size: 12px;
+      transform: translateY(0.5px);
+    }
+
+    .back-link-small:hover {
+      color: var(--text-muted);
+    }
+
+    .category-detail-title {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .category-detail-subtitle {
+      font-size: 11px;
+      color: var(--text-subtle);
+    }
+
+    .category-detail-grid-wrapper {
+      flex: 1;
+      min-height: 0;
+      overflow-y: auto;
+      padding-right: 2px;
+      margin-top: 4px;
     }
 
     .sticker-grid {
@@ -233,6 +316,7 @@
       padding-bottom: 6px;
     }
 
+    /* Sticker tiles – shared for rows and detail */
     .sticker-tile {
       position: relative;
       border-radius: 18px;
@@ -241,14 +325,16 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 8px;
+      padding: 6px;
       cursor: pointer;
       transition:
         transform 0.12s ease,
         box-shadow 0.15s ease,
         background 0.15s ease,
         border-color 0.15s ease;
-      box-shadow: 0 2px 6px rgba(148, 163, 184, 0.4);
+      box-shadow: 0 2px 6px rgba(148, 163, 184, 0.35);
+      flex-shrink: 0;
+      min-width: 86px; /* keeps a nice size in horizontal rows */
     }
 
     .sticker-tile:hover {
@@ -257,27 +343,11 @@
     }
 
     .sticker-tile.selected {
-      background: #fff1f9;
-      border-color: #f973c4;
+      background: #fff6fb;
+      border-color: #0ea5e9; /* single teal outline */
       box-shadow:
-        0 0 0 1px rgba(249, 115, 196, 0.5),
-        0 0 18px rgba(249, 115, 196, 0.35);
-    }
-
-    .sticker-tile::after {
-      content: "";
-      position: absolute;
-      inset: 6px;
-      border-radius: 14px;
-      border: 2px solid transparent;
-      pointer-events: none;
-      transition: border-color 0.15s ease, opacity 0.15s ease;
-      opacity: 0;
-    }
-
-    .sticker-tile.selected::after {
-      border-color: #f973c4;
-      opacity: 1;
+        0 0 0 1px rgba(14, 165, 233, 0.35),
+        0 8px 16px rgba(248, 113, 165, 0.25);
     }
 
     .sticker-visual {
@@ -285,12 +355,12 @@
       align-items: center;
       justify-content: center;
       width: 100%;
-      min-height: 56px;
+      min-height: 72px; /* taller visual area so sticker fills more */
     }
 
     .sticker-image {
-      max-width: 64px;
-      max-height: 64px;
+      max-width: 80px;
+      max-height: 80px;
       display: block;
       object-fit: contain;
     }
@@ -364,16 +434,19 @@
     }
 
     /* Scrollbars */
-    .sticker-grid-wrapper::-webkit-scrollbar {
+    .overview-rows::-webkit-scrollbar,
+    .category-detail-grid-wrapper::-webkit-scrollbar {
       width: 4px;
     }
 
-    .sticker-grid-wrapper::-webkit-scrollbar-thumb {
+    .overview-rows::-webkit-scrollbar-thumb,
+    .category-detail-grid-wrapper::-webkit-scrollbar-thumb {
       background: #c3c9ec;
       border-radius: 999px;
     }
 
-    .sticker-grid-wrapper::-webkit-scrollbar-track {
+    .overview-rows::-webkit-scrollbar-track,
+    .category-detail-grid-wrapper::-webkit-scrollbar-track {
       background: transparent;
     }
 
@@ -427,21 +500,27 @@
           <div class="sticker-section">
             <div class="sticker-label">Stickers</div>
 
-            <!-- Category tabs -->
-            <div class="category-tabs" id="category-tabs">
-              <button class="category-tab active" data-category="for-you">For You</button>
-              <button class="category-tab" data-category="sacramento">Sacramento</button>
-              <button class="category-tab" data-category="tv-movies">TV &amp; Movies</button>
-              <button class="category-tab" data-category="animals">Animals</button>
-              <button class="category-tab" data-category="humor">Humor</button>
-              <button class="category-tab" data-category="aesthetics">Aesthetics</button>
-              <button class="category-tab" data-category="places">Places</button>
+            <!-- Overview (Netflix-style rows) -->
+            <div class="overview-rows" id="overview-rows">
+              <!-- JS injects rows here -->
             </div>
 
-            <!-- Grid -->
-            <div class="sticker-grid-wrapper">
-              <div class="sticker-grid" id="sticker-grid">
-                <!-- JS injects stickers here -->
+            <!-- Category detail view -->
+            <div class="category-detail hidden" id="category-detail">
+              <div class="category-detail-header">
+                <button id="back-to-overview" class="back-link-small">
+                  <span class="icon">←</span>
+                  <span>Back</span>
+                </button>
+                <div>
+                  <div id="category-detail-title" class="category-detail-title"></div>
+                  <div class="category-detail-subtitle">Tap to add or remove stickers.</div>
+                </div>
+              </div>
+              <div class="category-detail-grid-wrapper">
+                <div class="sticker-grid" id="category-detail-grid">
+                  <!-- JS injects full grid here -->
+                </div>
               </div>
             </div>
 
@@ -482,8 +561,17 @@
       return AGE_GROUPS.OTHER;
     }
 
-    // --- STICKER DATA (copied from your existing page) ---
-    // mainCategory: "sacramento" | "tv" | "animals" | "humor" | "aesthetics" | "places"
+    const CATEGORY_DEFS = [
+      { key: "for-you", label: "For You" },
+      { key: "sacramento", label: "Sacramento" },
+      { key: "tv-movies", label: "TV & Movies" },
+      { key: "animals", label: "Animals" },
+      { key: "humor", label: "Humor" },
+      { key: "aesthetics", label: "Aesthetics" },
+      { key: "places", label: "Places" },
+    ];
+
+    // --- STICKER DATA (same as before) ---
     const allStickers = [
       // SACRAMENTO
       {
@@ -928,14 +1016,20 @@
     ];
 
     // --- STATE ---
-    let activeCategory = "for-you";
     let selectedIds = new Set();
     let userAgeGroup = AGE_GROUPS.OTHER;
     let userZip = null;
 
+    let currentMode = "overview"; // "overview" | "category"
+    let currentCategoryKey = null;
+
     // --- DOM ELEMENTS ---
-    const categoryTabsEl = document.getElementById("category-tabs");
-    const stickerGridEl = document.getElementById("sticker-grid");
+    const overviewRowsEl = document.getElementById("overview-rows");
+    const categoryDetailEl = document.getElementById("category-detail");
+    const categoryDetailTitleEl = document.getElementById("category-detail-title");
+    const categoryDetailGridEl = document.getElementById("category-detail-grid");
+    const backToOverviewEl = document.getElementById("back-to-overview");
+
     const selectedCountEl = document.getElementById("selected-count");
     const continueButtonEl = document.getElementById("continue-button");
     const selectionErrorEl = document.getElementById("selection-error");
@@ -960,7 +1054,7 @@
         if (raw) {
           const arr = JSON.parse(raw);
           if (Array.isArray(arr)) {
-            selectedIds = new Set(arr.slice(0, MAX_SELECTIONS)); // trim if old data > 20
+            selectedIds = new Set(arr.slice(0, MAX_SELECTIONS));
           }
         }
       } catch (e) {
@@ -986,7 +1080,6 @@
         );
       });
 
-      // Optional: Sacramento local boost if zip is 956/958
       const isSac =
         userZip &&
         (userZip.startsWith("958") ||
@@ -1001,32 +1094,32 @@
         });
       }
 
-      return relevant.slice(0, 20);
+      return relevant;
     }
 
-    function getStickersForCategory(category) {
-      if (category === "for-you") {
+    function getStickersForCategoryKey(categoryKey) {
+      if (categoryKey === "for-you") {
         return getForYouStickers();
       }
-      if (category === "sacramento") {
+      if (categoryKey === "sacramento") {
         return allStickers.filter((s) => s.mainCategory === "sacramento");
       }
-      if (category === "tv-movies") {
+      if (categoryKey === "tv-movies") {
         return allStickers.filter((s) => s.mainCategory === "tv");
       }
-      if (category === "animals") {
+      if (categoryKey === "animals") {
         return allStickers.filter((s) => s.mainCategory === "animals");
       }
-      if (category === "humor") {
+      if (categoryKey === "humor") {
         return allStickers.filter((s) => s.mainCategory === "humor");
       }
-      if (category === "aesthetics") {
+      if (categoryKey === "aesthetics") {
         return allStickers.filter((s) => s.mainCategory === "aesthetics");
       }
-      if (category === "places") {
+      if (categoryKey === "places") {
         return allStickers.filter((s) => s.mainCategory === "places");
       }
-      return allStickers;
+      return [];
     }
 
     function clearError() {
@@ -1037,49 +1130,123 @@
       selectionErrorEl.textContent = msg;
     }
 
-    // --- RENDERING ---
-    function renderGrid() {
-      stickerGridEl.innerHTML = "";
+    // --- RENDER HELPERS ---
+    function createStickerTile(sticker) {
+      const tile = document.createElement("div");
+      tile.className = "sticker-tile";
+      tile.dataset.stickerId = sticker.id;
 
-      const stickers = getStickersForCategory(activeCategory);
-
-      if (!stickers || stickers.length === 0) {
-        const emptyDiv = document.createElement("div");
-        emptyDiv.style.fontSize = "11px";
-        emptyDiv.style.color = "#6b7280";
-        emptyDiv.textContent = "No stickers in this category yet.";
-        stickerGridEl.appendChild(emptyDiv);
-        return;
+      if (selectedIds.has(sticker.id)) {
+        tile.classList.add("selected");
       }
 
-      stickers.forEach((sticker) => {
-        const tile = document.createElement("div");
-        tile.className = "sticker-tile";
-        tile.dataset.stickerId = sticker.id;
+      const visual = document.createElement("div");
+      visual.className = "sticker-visual";
 
-        if (selectedIds.has(sticker.id)) {
-          tile.classList.add("selected");
-        }
+      const img = document.createElement("img");
+      img.src = sticker.image;
+      img.alt = sticker.label || "Sticker";
+      img.className = "sticker-image";
 
-        const visual = document.createElement("div");
-        visual.className = "sticker-visual";
+      visual.appendChild(img);
+      tile.appendChild(visual);
 
-        const img = document.createElement("img");
-        img.src = sticker.image;
-        img.alt = sticker.label || "Sticker";
-        img.className = "sticker-image";
+      tile.addEventListener("click", () => {
+        toggleStickerSelection(sticker.id);
+      });
 
-        visual.appendChild(img);
-        tile.appendChild(visual);
+      return tile;
+    }
 
-        tile.addEventListener("click", () => {
-          toggleStickerSelection(sticker.id);
+    // --- OVERVIEW RENDER ---
+    function renderOverviewRows() {
+      overviewRowsEl.innerHTML = "";
+
+      CATEGORY_DEFS.forEach((cat) => {
+        const stickers = getStickersForCategoryKey(cat.key);
+        if (!stickers || stickers.length === 0) return;
+
+        const section = document.createElement("section");
+        section.className = "row-section";
+
+        const header = document.createElement("div");
+        header.className = "row-header";
+
+        const title = document.createElement("div");
+        title.className = "row-title";
+        title.textContent = cat.label;
+
+        header.appendChild(title);
+        section.appendChild(header);
+
+        const strip = document.createElement("div");
+        strip.className = "row-strip";
+
+        const initial = stickers.slice(0, 10);
+        initial.forEach((sticker) => {
+          strip.appendChild(createStickerTile(sticker));
         });
 
-        stickerGridEl.appendChild(tile);
+        if (stickers.length > 10) {
+          const seeMore = document.createElement("div");
+          seeMore.className = "see-more-tile";
+          seeMore.innerHTML = "<span>⋯</span>See more";
+          seeMore.addEventListener("click", () => {
+            showCategoryDetail(cat.key);
+          });
+          strip.appendChild(seeMore);
+        }
+
+        section.appendChild(strip);
+        overviewRowsEl.appendChild(section);
       });
     }
 
+    // --- CATEGORY DETAIL RENDER ---
+    function renderCategoryDetail() {
+      const def = CATEGORY_DEFS.find((c) => c.key === currentCategoryKey);
+      const label = def ? def.label : "Stickers";
+
+      categoryDetailTitleEl.textContent = label;
+      categoryDetailGridEl.innerHTML = "";
+
+      const stickers = getStickersForCategoryKey(currentCategoryKey);
+      if (!stickers || stickers.length === 0) return;
+
+      stickers.forEach((sticker) => {
+        categoryDetailGridEl.appendChild(createStickerTile(sticker));
+      });
+    }
+
+    function showCategoryDetail(categoryKey) {
+      currentMode = "category";
+      currentCategoryKey = categoryKey;
+
+      overviewRowsEl.classList.add("hidden");
+      categoryDetailEl.classList.remove("hidden");
+
+      renderCategoryDetail();
+    }
+
+    function showOverview() {
+      currentMode = "overview";
+      currentCategoryKey = null;
+
+      categoryDetailEl.classList.add("hidden");
+      overviewRowsEl.classList.remove("hidden");
+
+      renderOverviewRows();
+    }
+
+    function renderCurrentView() {
+      if (currentMode === "overview") {
+        renderOverviewRows();
+      } else if (currentMode === "category" && currentCategoryKey) {
+        renderCategoryDetail();
+      }
+    }
+
+    // --- SELECTION UI ---
     function updateSelectionUI() {
       const count = selectedIds.size;
       selectedCountEl.textContent = count.toString();
@@ -1091,7 +1258,6 @@
       }
     }
 
-    // --- SELECTION LOGIC ---
     function toggleStickerSelection(id) {
       clearError();
 
@@ -1106,27 +1272,13 @@
       }
 
       saveSelections();
-      renderGrid();
       updateSelectionUI();
+      renderCurrentView();
     }
 
     // --- EVENTS ---
-    categoryTabsEl.addEventListener("click", (e) => {
-      const btn = e.target.closest(".category-tab");
-      if (!btn) return;
-
-      const cat = btn.getAttribute("data-category");
-      if (!cat || cat === activeCategory) return;
-
-      activeCategory = cat;
-
-      document
-        .querySelectorAll(".category-tab")
-        .forEach((tab) => tab.classList.remove("active"));
-      btn.classList.add("active");
-
-      renderGrid();
-      updateSelectionUI();
+    backToOverviewEl.addEventListener("click", () => {
+      showOverview();
     });
 
     continueButtonEl.addEventListener("click", () => {
@@ -1136,7 +1288,6 @@
         return;
       }
 
-      // Build sticker objects for this page
       const selectedStickers = allStickers
         .filter((s) => selectedIds.has(s.id))
         .map((s) => ({
@@ -1144,10 +1295,8 @@
           src: s.image
         }));
 
-      // Re-save the simple ID list for backwards compatibility
       saveSelections();
 
-      // Pull the background chosen on background.html
       const backgroundColor =
         localStorage.getItem("stickerbook_page_1_background") ||
         localStorage.getItem("current_page_background") ||
@@ -1158,10 +1307,8 @@
         stickers: selectedStickers
       };
 
-      // Store as page_1 object
       localStorage.setItem("stickerbook_page_1", JSON.stringify(page1));
 
-      // Also maintain a pages aggregate object for future pages
       try {
         const existing = JSON.parse(localStorage.getItem("stickerbook_pages") || "{}");
         existing.page_1 = page1;
@@ -1173,7 +1320,6 @@
         );
       }
 
-      // Go to preview / placement
       window.location.href = "sticker-preview.html";
     });
 
@@ -1181,7 +1327,7 @@
     function init() {
       loadUserContext();
       loadSelections();
-      renderGrid();
+      showOverview();
       updateSelectionUI();
     }
 
