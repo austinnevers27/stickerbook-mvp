@@ -5,7 +5,7 @@
   <title>Stickerbook – Start Your Profile</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Fonts -->
+  <!-- Fonts (logo + headings) -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
   <style>
@@ -56,7 +56,7 @@
       padding: 16px;
     }
 
-    /* === same outer shell as index.html === */
+    /* === outer “phone” shell – matches index.html, now with fixed-ish height === */
     .app-shell {
       width: 100%;
       max-width: 420px;
@@ -77,9 +77,10 @@
       flex-direction: column;
       align-items: center;
 
-      /* === THE FIX === */
-      max-height: 720px;
-      overflow-y: auto;
+      /* keep the phone from touching window edges */
+      height: 700px;
+      max-height: calc(100vh - 80px); /* always leaves breathing room */
+      overflow: hidden;                /* inner content will scroll */
     }
 
     .phone-notch {
@@ -91,7 +92,7 @@
       flex-shrink: 0;
     }
 
-    /* === Inner bordered panel === */
+    /* === inner bordered panel that will scroll === */
     .phone-inner {
       width: 100%;
       border-radius: 26px;
@@ -101,20 +102,23 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      flex-shrink: 0;
+      flex: 1;
+      overflow-y: auto;   /* scrolling happens inside here */
     }
 
     .shell-inner {
       width: 100%;
       max-width: 320px;
+      margin: 0 auto;
       display: flex;
       flex-direction: column;
+      align-items: stretch;
     }
 
     .top-row {
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: space-between;
       margin-bottom: 18px;
     }
 
@@ -130,6 +134,15 @@
       padding: 4px 0;
     }
 
+    .back-link span.icon {
+      font-size: 12px;
+      transform: translateY(0.5px);
+    }
+
+    .back-link:hover {
+      color: var(--text-muted);
+    }
+
     .logo-group {
       display: flex;
       flex-direction: column;
@@ -138,30 +151,34 @@
     }
 
     .logo-mark {
-      font-family: "Poppins";
+      font-family: "Poppins", system-ui, sans-serif;
       font-size: 12px;
       font-weight: 700;
       letter-spacing: 0.20em;
+      text-transform: uppercase;
+      color: var(--text-main);
     }
 
     .logo-accent {
       width: 80px;
       height: 3px;
-      background: linear-gradient(90deg, #ff4f96, #ff7a4e, #22d3ee);
       border-radius: 999px;
+      background: linear-gradient(90deg, #ff4f96, #ff7a4e, #22d3ee);
     }
 
     .screen-title {
-      font-family: "Poppins";
+      font-family: "Poppins", system-ui, sans-serif;
       font-size: 18px;
       font-weight: 600;
       letter-spacing: 0.04em;
       text-transform: uppercase;
       margin: 4px 0 6px;
+      color: var(--text-main);
     }
 
     .screen-subtitle {
       font-size: 12px;
+      line-height: 1.5;
       color: var(--text-muted);
       margin: 0 0 14px;
     }
@@ -170,6 +187,7 @@
       display: flex;
       flex-direction: column;
       gap: 12px;
+      margin-top: 2px;
     }
 
     .field {
@@ -178,22 +196,52 @@
       gap: 4px;
     }
 
+    .field-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--text-subtle);
+    }
+
+    /* name row – THIS fixes last-name overflow */
     .field-row-2 {
       display: flex;
       gap: 6px;
     }
 
+    .field-row-2 .field-input {
+      flex: 1;
+      min-width: 0; /* keeps last name from pushing out of the phone */
+    }
+
     .field-input {
       border-radius: 999px;
       border: 1px solid var(--field-border);
-      background: var(--field-bg);
       padding: 8px 14px;
       font-size: 12px;
+      background: var(--field-bg);
+      color: var(--text-main);
+      outline: none;
+      transition: border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+    }
+
+    .field-input::placeholder {
+      color: var(--field-placeholder);
+    }
+
+    .field-input:focus {
+      border-color: var(--field-border-focus);
+      box-shadow: 0 0 0 1px rgba(14, 165, 233, 0.35);
+      background: #ffffff;
     }
 
     .dob-row {
       display: flex;
       gap: 8px;
+    }
+
+    .dob-row .field-input {
+      text-align: center;
     }
 
     .dob-mm,
@@ -205,8 +253,26 @@
       flex: 1;
     }
 
-    .password-rules {
+    .field-helper {
       font-size: 10px;
+      color: var(--text-subtle);
+    }
+
+    .field-error {
+      font-size: 10px;
+      color: var(--error-text);
+      margin-top: 2px;
+      min-height: 12px;
+    }
+
+    .field-error.hidden {
+      visibility: hidden;
+    }
+
+    .password-rules {
+      margin-top: 4px;
+      font-size: 10px;
+      color: var(--text-subtle);
       display: flex;
       flex-direction: column;
       gap: 2px;
@@ -216,12 +282,33 @@
       color: var(--success-text);
     }
 
+    .cta-row {
+      margin-top: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
     .terms-row {
       display: flex;
       align-items: flex-start;
       gap: 8px;
       font-size: 10px;
+      color: var(--text-subtle);
       line-height: 1.4;
+    }
+
+    .terms-row input[type="checkbox"] {
+      margin-top: 1px;
+    }
+
+    .terms-row a {
+      color: #0ea5e9;
+      text-decoration: none;
+    }
+
+    .terms-row a:hover {
+      text-decoration: underline;
     }
 
     .btn-primary {
@@ -230,15 +317,68 @@
       padding: 11px 26px;
       font-size: 11px;
       font-weight: 700;
+      cursor: pointer;
       background: var(--button-gradient);
       color: var(--button-text);
+      box-shadow:
+        0 12px 22px rgba(236, 72, 153, 0.35),
+        0 0 0 1px rgba(248, 250, 252, 0.5);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
       width: 100%;
-      margin-top: 10px;
+      transition:
+        background 0.18s ease,
+        transform 0.15s ease,
+        box-shadow 0.18s ease,
+        opacity 0.18s ease;
     }
 
+    .btn-primary:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+      box-shadow:
+        0 0 0 1px rgba(209, 213, 219, 0.8);
+      background: linear-gradient(135deg, #f9fafb, #e5e7eb);
+      color: #9ca3af;
+    }
+
+    @media (max-width: 480px) {
+      .phone-frame {
+        height: 640px;
+        max-height: calc(100vh - 48px);
+        padding: 20px 14px 20px;
+      }
+
+      .phone-inner {
+        padding: 18px 14px 16px;
+      }
+
+      .screen-title {
+        font-size: 16px;
+      }
+
+      .screen-subtitle {
+        font-size: 11px;
+      }
+
+      .field-input {
+        font-size: 11px;
+      }
+
+      .btn-primary {
+        font-size: 10px;
+      }
+
+      .field-row-2 {
+        flex-direction: column;
+      }
+    }
   </style>
 </head>
-
 <body>
   <div class="app-shell">
     <div class="phone-frame">
@@ -246,10 +386,10 @@
 
       <div class="phone-inner">
         <div class="shell-inner">
-
           <div class="top-row">
             <button class="back-link" onclick="window.location.href='index.html'">
-              ← Back
+              <span class="icon">←</span>
+              <span>Back</span>
             </button>
 
             <div class="logo-group">
@@ -259,47 +399,104 @@
           </div>
 
           <h1 class="screen-title">Before we build your stickerbook…</h1>
-          <p class="screen-subtitle">Let’s start with a few basics.</p>
+          <p class="screen-subtitle">
+            Let’s start with a few basics.
+          </p>
 
           <form class="form" id="account-form" novalidate>
-
-            <!-- NAME -->
+            <!-- Name row: first + last -->
             <div class="field">
-              <label class="field-label">Name</label>
+              <label class="field-label" for="first-name-input">Name</label>
               <div class="field-row-2">
-                <input id="first-name-input" class="field-input" type="text" placeholder="First name">
-                <input id="last-name-input" class="field-input" type="text" placeholder="Last name">
+                <input
+                  id="first-name-input"
+                  class="field-input"
+                  type="text"
+                  placeholder="First name"
+                  autocomplete="given-name"
+                />
+                <input
+                  id="last-name-input"
+                  class="field-input"
+                  type="text"
+                  placeholder="Last name"
+                  autocomplete="family-name"
+                />
               </div>
             </div>
 
-            <!-- DOB -->
+            <!-- Date of birth -->
             <div class="field">
-              <label class="field-label">Date of birth</label>
+              <label class="field-label" for="dob-mm">Date of birth</label>
               <div class="dob-row">
-                <input id="dob-mm" class="field-input dob-mm" placeholder="MM">
-                <input id="dob-dd" class="field-input dob-dd" placeholder="DD">
-                <input id="dob-yy" class="field-input dob-yy" placeholder="YYYY">
+                <input
+                  id="dob-mm"
+                  class="field-input dob-mm"
+                  type="text"
+                  inputmode="numeric"
+                  pattern="[0-9]*"
+                  placeholder="MM"
+                />
+                <input
+                  id="dob-dd"
+                  class="field-input dob-dd"
+                  type="text"
+                  inputmode="numeric"
+                  pattern="[0-9]*"
+                  placeholder="DD"
+                />
+                <input
+                  id="dob-yy"
+                  class="field-input dob-yy"
+                  type="text"
+                  inputmode="numeric"
+                  pattern="[0-9]*"
+                  placeholder="YYYY"
+                />
               </div>
-              <div id="age-error" class="field-error hidden"></div>
+              <div id="age-error" class="field-error hidden">
+                Stickerbook is for ages 13 and up.
+              </div>
             </div>
 
-            <!-- LOCATION -->
+            <!-- Location -->
             <div class="field">
-              <label class="field-label">Location</label>
-              <input id="location-input" class="field-input" placeholder="City, State / Region, Country">
+              <label class="field-label" for="location-input">Location</label>
+              <input
+                id="location-input"
+                class="field-input"
+                type="text"
+                placeholder="City, State / Region, Country"
+                autocomplete="off"
+              />
+              <div class="field-helper">
+                Examples: "Sacramento, CA, United States" or "Toronto, Ontario, Canada".
+              </div>
             </div>
 
-            <!-- EMAIL -->
+            <!-- Email -->
             <div class="field">
-              <label class="field-label">Email</label>
-              <input id="email-input" class="field-input" type="email" placeholder="you@example.com">
+              <label class="field-label" for="email-input">Email</label>
+              <input
+                id="email-input"
+                class="field-input"
+                type="email"
+                placeholder="you@example.com"
+                autocomplete="email"
+              />
             </div>
 
-            <!-- PASSWORD -->
+            <!-- Password -->
             <div class="field">
-              <label class="field-label">Password</label>
-              <input id="password-input" class="field-input" type="password" placeholder="Create a password">
-              <div id="password-rules" class="password-rules">
+              <label class="field-label" for="password-input">Password</label>
+              <input
+                id="password-input"
+                class="field-input"
+                type="password"
+                placeholder="Create a password"
+                autocomplete="new-password"
+              />
+              <div class="password-rules" id="password-rules">
                 <div class="password-rule" data-rule="length">• At least 8 characters</div>
                 <div class="password-rule" data-rule="upper">• One uppercase letter</div>
                 <div class="password-rule" data-rule="lower">• One lowercase letter</div>
@@ -307,30 +504,44 @@
               </div>
             </div>
 
-            <!-- CONFIRM PASSWORD -->
+            <!-- Confirm Password -->
             <div class="field">
-              <label class="field-label">Confirm password</label>
-              <input id="password-confirm-input" class="field-input" type="password" placeholder="Re-enter your password">
-              <div id="password-error" class="field-error hidden">Passwords must match.</div>
+              <label class="field-label" for="password-confirm-input">Confirm password</label>
+              <input
+                id="password-confirm-input"
+                class="field-input"
+                type="password"
+                placeholder="Re-enter your password"
+                autocomplete="new-password"
+              />
+              <div id="password-error" class="field-error hidden">
+                Passwords must match.
+              </div>
             </div>
 
-            <!-- TERMS -->
+            <!-- Terms -->
             <div class="terms-row">
-              <input id="terms-checkbox" type="checkbox">
-              <label for="terms-checkbox">I agree to the Terms & Conditions and Privacy Policy.</label>
+              <input type="checkbox" id="terms-checkbox" />
+              <label for="terms-checkbox">
+                I agree to the
+                <a href="#" tabindex="-1">Terms &amp; Conditions</a>
+                and
+                <a href="#" tabindex="-1">Privacy Policy</a>.
+              </label>
             </div>
 
-            <button id="continue-btn" type="button" class="btn-primary" disabled>Continue</button>
-
+            <div class="cta-row">
+              <button id="continue-btn" type="button" class="btn-primary" disabled>
+                Continue
+              </button>
+            </div>
           </form>
-
         </div>
       </div>
     </div>
   </div>
 
   <script>
-    /* === your original form logic preserved exactly === */
     (function () {
       const firstNameInput = document.getElementById('first-name-input');
       const lastNameInput = document.getElementById('last-name-input');
@@ -348,41 +559,65 @@
       const termsCheckbox = document.getElementById('terms-checkbox');
 
       const continueBtn = document.getElementById('continue-btn');
+
       const passwordRulesEl = document.getElementById('password-rules');
       const passwordRuleItems = passwordRulesEl.querySelectorAll('.password-rule');
 
       function calculateAge(day, month, year) {
-        day = parseInt(day, 10);
-        month = parseInt(month, 10);
-        year = parseInt(year, 10);
+        const d = parseInt(day, 10);
+        const m = parseInt(month, 10);
+        const y = parseInt(year, 10);
 
-        if (!day || !month || !year) return null;
-        if (year < 1900 || month < 1 || month > 12 || day < 1 || day > 31) return null;
+        if (Number.isNaN(d) || Number.isNaN(m) || Number.isNaN(y)) {
+          return null;
+        }
 
-        const dob = new Date(year, month - 1, day);
-        if (dob.getFullYear() !== year || dob.getMonth() !== month - 1 || dob.getDate() !== day) return null;
+        if (y < 1900 || m < 1 || m > 12 || d < 1 || d > 31) {
+          return null;
+        }
+
+        const dob = new Date(y, m - 1, d);
+        if (
+          dob.getFullYear() !== y ||
+          dob.getMonth() !== m - 1 ||
+          dob.getDate() !== d
+        ) {
+          return null;
+        }
 
         const today = new Date();
-        let age = today.getFullYear() - year;
-        const beforeBirthday =
-          today.getMonth() < dob.getMonth() ||
-          (today.getMonth() === dob.getMonth() && today.getDate() < dob.getDate());
+        let age = today.getFullYear() - y;
 
-        if (beforeBirthday) age--;
+        const hasHadBirthdayThisYear =
+          today.getMonth() > dob.getMonth() ||
+          (today.getMonth() === dob.getMonth() && today.getDate() >= dob.getDate());
+
+        if (!hasHadBirthdayThisYear) {
+          age--;
+        }
+
         return age;
       }
 
-      function updatePasswordRules(password) {
-        const status = {
+      function getPasswordRuleStatus(password) {
+        return {
           length: password.length >= 8,
           upper: /[A-Z]/.test(password),
           lower: /[a-z]/.test(password),
-          number: /[0-9]/.test(password),
+          number: /[0-9]/.test(password)
         };
+      }
 
-        passwordRuleItems.forEach(item => {
-          const rule = item.dataset.rule;
-          item.classList.toggle("met", status[rule]);
+      function updatePasswordRules(password) {
+        const status = getPasswordRuleStatus(password);
+
+        passwordRuleItems.forEach((item) => {
+          const rule = item.getAttribute('data-rule');
+          if (status[rule]) {
+            item.classList.add('met');
+          } else {
+            item.classList.remove('met');
+          }
         });
 
         return status;
@@ -391,9 +626,11 @@
       function validateForm() {
         const firstName = firstNameInput.value.trim();
         const lastName = lastNameInput.value.trim();
+
         const mm = dobMmInput.value.trim();
         const dd = dobDdInput.value.trim();
         const yy = dobYyInput.value.trim();
+
         const location = locationInput.value.trim();
         const email = emailInput.value.trim();
         const password = passwordInput.value.trim();
@@ -402,39 +639,49 @@
 
         const age = calculateAge(dd, mm, yy);
 
+        // Age error handling
         if (age === null && (mm || dd || yy)) {
-          ageError.textContent = "Please enter a valid date of birth.";
-          ageError.classList.remove("hidden");
+          ageError.textContent = 'Please enter a valid date of birth.';
+          ageError.classList.remove('hidden');
         } else if (age !== null && age < 13) {
-          ageError.textContent = "Stickerbook is for ages 13 and up.";
-          ageError.classList.remove("hidden");
+          ageError.textContent = 'Stickerbook is for ages 13 and up.';
+          ageError.classList.remove('hidden');
         } else {
-          ageError.classList.add("hidden");
+          ageError.classList.add('hidden');
         }
 
+        // Password rules
         const passwordStatus = updatePasswordRules(password);
-        const allRulesMet =
+        const allPasswordRulesMet =
           passwordStatus.length &&
           passwordStatus.upper &&
           passwordStatus.lower &&
           passwordStatus.number;
 
-        const passwordsMatch = password && passwordConfirm && password === passwordConfirm;
+        // Password match
+        if (passwordConfirm.length > 0 && password !== passwordConfirm) {
+          passwordError.classList.remove('hidden');
+        } else {
+          passwordError.classList.add('hidden');
+        }
 
-        passwordError.classList.toggle("hidden", passwordsMatch);
+        const passwordsMatch =
+          password.length > 0 &&
+          passwordConfirm.length > 0 &&
+          password === passwordConfirm;
 
-        const valid =
-          firstName &&
-          lastName &&
+        const isValid =
+          firstName.length > 0 &&
+          lastName.length > 0 &&
           age !== null &&
           age >= 13 &&
-          location &&
-          email &&
-          allRulesMet &&
+          location.length > 0 &&
+          email.length > 0 &&
+          allPasswordRulesMet &&
           passwordsMatch &&
           termsAccepted;
 
-        continueBtn.disabled = !valid;
+        continueBtn.disabled = !isValid;
       }
 
       [
@@ -448,33 +695,41 @@
         passwordInput,
         passwordConfirmInput,
         termsCheckbox
-      ].forEach(el => {
-        el.addEventListener(el.type === "checkbox" ? "change" : "input", validateForm);
+      ].forEach((el) => {
+        const eventName = el.type === 'checkbox' ? 'change' : 'input';
+        el.addEventListener(eventName, validateForm);
       });
 
-      continueBtn.addEventListener("click", () => {
-        localStorage.setItem("stickerbook_first_name", firstNameInput.value.trim());
-        localStorage.setItem("stickerbook_last_name", lastNameInput.value.trim());
-        localStorage.setItem("stickerbook_name", firstNameInput.value.trim());
-
+      continueBtn.addEventListener('click', function () {
+        const firstName = firstNameInput.value.trim();
+        const lastName = lastNameInput.value.trim();
         const mm = dobMmInput.value.trim();
         const dd = dobDdInput.value.trim();
         const yy = dobYyInput.value.trim();
+        const location = locationInput.value.trim();
+        const email = emailInput.value.trim();
+        const password = passwordInput.value.trim();
+
         const age = calculateAge(dd, mm, yy);
+
+        // Save profile info for later pages
+        localStorage.setItem("stickerbook_first_name", firstName);
+        localStorage.setItem("stickerbook_last_name", lastName);
+        localStorage.setItem("stickerbook_name", firstName);
 
         localStorage.setItem("stickerbook_dob_day", dd);
         localStorage.setItem("stickerbook_dob_month", mm);
         localStorage.setItem("stickerbook_dob_year", yy);
-        localStorage.setItem("stickerbook_age", age ?? "");
+        localStorage.setItem("stickerbook_age", age !== null ? String(age) : "");
 
-        localStorage.setItem("stickerbook_location", locationInput.value.trim());
-        localStorage.setItem("stickerbook_email", emailInput.value.trim());
-        localStorage.setItem("stickerbook_password", passwordInput.value.trim());
+        localStorage.setItem("stickerbook_location", location);
+        localStorage.setItem("stickerbook_email", email);
+        localStorage.setItem("stickerbook_password", password);
 
+        // Go to the intro page
         window.location.href = "intro.html";
       });
     })();
   </script>
-
 </body>
 </html>
