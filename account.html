@@ -209,13 +209,15 @@
     }
 
     .field-row-2 {
-      display: flex;
-      gap: 8px;
-    }
+  display: flex;
+  gap: 6px;          /* slightly smaller gap for tight layouts */
+}
 
-    .field-row-2 .field-input {
-      flex: 1;
-    }
+.field-row-2 .field-input {
+  flex: 1;
+  min-width: 0;      /* prevents Safari overflow */
+}
+
 
     .dob-row {
       display: flex;
