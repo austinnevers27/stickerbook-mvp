@@ -4,35 +4,28 @@
   <meta charset="UTF-8" />
   <title>Stickerbook – Choose Your Stickers</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Fonts (logo + headings) -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
   <style>
     :root {
-      /* Miami Vice Light Theme */
-      --bg-gradient-start: #ffe6f2;
-      --bg-gradient-end: #e0f7ff;
-      --phone-shell: #ffffff;
-      --screen-bg: #ffffff;
+      --bg-pink: #ffeef7;
+      --bg-blue: #e7f9ff;
 
-      --panel-bg: #f9fbff;
-      --panel-muted-bg: #f3f5ff;
+      --shell-bg: #ffffff;
+      --shell-border: rgba(148, 163, 184, 0.12);
+      --shell-shadow-main: 0 18px 40px rgba(15, 23, 42, 0.20);
 
-      --chip-bg: #f3f5ff;
-      --chip-active-bg: #ff9acb;
-      --chip-text: #555b73;
+      --text-main: #111827;
+      --text-muted: #6b7280;
+      --text-subtle: #9ca3af;
 
-      --text-primary: #1f2430;
-      --text-secondary: #6b7294;
+      --button-gradient: linear-gradient(135deg, #ff4f96, #ff7a4e, #22d3ee);
+      --button-text: #ffffff;
 
-      --accent: #ff6fa8;
-      --accent-soft: rgba(255, 159, 196, 0.35);
-
-      --divider: #e1e4f2;
-
-      --sticker-bg: #ffffff;
-      --sticker-bg-selected: #fff2fa;
-      --sticker-border: #e3e7f5;
-      --sticker-border-selected: #ff9acb;
-
-      --danger: #ff4f6e;
+      --chip-bg: #f3f4ff;
+      --chip-active-bg: #e0e7ff;
     }
 
     * {
@@ -43,357 +36,248 @@
       margin: 0;
       padding: 0;
       height: 100%;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: radial-gradient(circle at top, var(--bg-gradient-start), var(--bg-gradient-end) 55%, #f3fbff);
-      background-attachment: fixed;
-      color: var(--text-primary);
     }
 
     body {
+      min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
-    }
-
-    .outer-frame {
-      width: 100%;
-      max-width: 420px;
+      background:
+        radial-gradient(circle at top left, var(--bg-pink) 0, #ffffff 45%),
+        radial-gradient(circle at bottom right, var(--bg-blue) 0, #ffffff 45%);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif;
+      color: var(--text-main);
       padding: 16px;
     }
 
-    .phone-shell {
-      background: var(--phone-shell);
-      border-radius: 28px;
-      box-shadow:
-        0 20px 60px rgba(0, 0, 0, 0.20),
-        0 0 0 1px rgba(255, 255, 255, 0.8);
-      padding: 10px;
+    /* === outer “phone” shell – matches account/background === */
+    .app-shell {
+      width: 100%;
+      max-width: 420px;
+      display: flex;
+      justify-content: center;
     }
 
-    .screen {
-      background: linear-gradient(to bottom, #ffffff, #f7fbff);
-      border-radius: 22px;
+    .phone-frame {
+      width: 100%;
+      max-width: 380px;
+      background: #ffffff;
+      border-radius: 32px;
+      padding: 24px 18px 24px;
+      box-shadow:
+        0 18px 40px rgba(15, 23, 42, 0.20),
+        0 0 0 1px rgba(148, 163, 184, 0.10);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
       height: 700px;
       max-height: calc(100vh - 80px);
       overflow: hidden;
+    }
+
+    .phone-notch {
+      width: 80px;
+      height: 6px;
+      border-radius: 999px;
+      background: #e5e7eb;
+      margin-bottom: 12px;
+      flex-shrink: 0;
+    }
+
+    .phone-inner {
+      width: 100%;
+      border-radius: 26px;
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      background: #ffffff;
+      padding: 20px 18px 18px;
       display: flex;
       flex-direction: column;
-      position: relative;
-      box-shadow: 0 10px 30px rgba(164, 190, 255, 0.35);
+      align-items: center;
+      flex: 1;
+      overflow-y: auto;
     }
 
-    /* Top bar */
-    .top-bar {
+    .shell-inner {
+      width: 100%;
+      max-width: 320px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      height: 100%;
+    }
+
+    /* Logo row – same as background.html, centered, no back/help */
+    .top-row {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      padding: 12px 16px;
-      border-bottom: 1px solid var(--divider);
-      background: linear-gradient(90deg, #ffe0f0, #ffe7d1, #e0f9ff);
-      backdrop-filter: blur(10px);
-      z-index: 3;
+      justify-content: center;
+      margin-bottom: 14px;
+      flex-shrink: 0;
     }
 
-    .top-bar-left,
-    .top-bar-right {
+    .logo-group {
       display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .top-bar-title {
-      font-size: 14px;
-      font-weight: 600;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--text-primary);
-    }
-
-    .icon-button {
-      border: none;
-      background: rgba(255, 255, 255, 0.8);
-      color: var(--text-primary);
-      border-radius: 999px;
-      padding: 4px 10px;
-      font-size: 12px;
-      display: inline-flex;
+      flex-direction: column;
       align-items: center;
       gap: 4px;
-      cursor: pointer;
-      box-shadow: 0 1px 4px rgba(31, 36, 48, 0.15);
     }
 
-    .icon-button span.icon {
+    .logo-mark {
+      font-family: "Poppins", system-ui, sans-serif;
       font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.20em;
+      text-transform: uppercase;
+      color: var(--text-main);
     }
 
-    .icon-button:hover {
-      background: #ffffff;
-    }
-
-    /* Accent bar under top bar */
-    .accent-bar {
-      height: 4px;
-      margin: 0 16px;
+    .logo-accent {
+      width: 80px;
+      height: 3px;
       border-radius: 999px;
-      background: linear-gradient(90deg, #ff7eb3, #ff758c, #42e9f5);
+      background: linear-gradient(90deg, #ff4f96, #ff7a4e, #22d3ee);
     }
 
-    /* Instructions block */
-    .instructions {
-      padding: 10px 16px 6px 16px;
-      border-bottom: 1px solid var(--divider);
-      background: #ffffff;
-      z-index: 2;
-    }
-
-    .instructions-title {
-      font-size: 16px;
+    .screen-title {
+      font-family: "Poppins", system-ui, sans-serif;
+      font-size: 18px;
       font-weight: 600;
-      margin-bottom: 4px;
-      color: var(--text-primary);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin: 2px 0 6px;
+      color: var(--text-main);
+      text-align: center;
+      flex-shrink: 0;
     }
 
-    .instructions-body {
+    .screen-subtitle {
       font-size: 12px;
-      color: var(--text-secondary);
+      line-height: 1.5;
+      color: var(--text-muted);
+      margin: 0 0 14px;
+      text-align: center;
+      flex-shrink: 0;
     }
 
-    .instructions-body strong {
-      color: var(--accent);
-      font-weight: 600;
-    }
-
-    .status-line {
-      margin-top: 8px;
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      font-size: 11px;
-      color: var(--text-secondary);
-    }
-
-    .status-line strong {
-      color: var(--accent);
-      font-weight: 600;
-    }
-
-    /* Search + filters + backgrounds */
-    .search-filter-area {
-      padding: 8px 16px 8px 16px;
-      border-bottom: 1px solid var(--divider);
-      background: #ffffff;
-      z-index: 2;
-    }
-
-    .search-input-wrapper {
-      position: relative;
-      margin-bottom: 8px;
-    }
-
-    .search-input-wrapper input {
-      width: 100%;
-      padding: 8px 32px 8px 28px;
-      border-radius: 999px;
-      border: 1px solid #dde2f2;
-      background: #ffffff;
-      color: var(--text-primary);
-      font-size: 12px;
-      outline: none;
-      box-shadow: 0 1px 3px rgba(190, 202, 235, 0.35);
-    }
-
-    .search-input-wrapper input::placeholder {
-      color: #9ca3c4;
-      font-size: 11px;
-    }
-
-    .search-icon {
-      position: absolute;
-      left: 9px;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 12px;
-      opacity: 0.7;
-    }
-
-    .clear-search {
-      position: absolute;
-      right: 8px;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 10px;
-      cursor: pointer;
-      opacity: 0.5;
-    }
-
-    .chip-row {
-      display: flex;
-      gap: 6px;
-      overflow-x: auto;
-      padding-bottom: 4px;
+    /* === Sticker section === */
+    .sticker-section {
       margin-top: 4px;
-    }
-
-    .filter-chip {
-      flex: 0 0 auto;
-      border-radius: 999px;
-      padding: 4px 10px;
-      font-size: 11px;
-      border: none;
-      background: var(--chip-bg);
-      color: var(--chip-text);
-      cursor: pointer;
-      white-space: nowrap;
-      opacity: 0.95;
-    }
-
-    .filter-chip.active {
-      background: var(--chip-active-bg);
-      color: #ffffff;
-      box-shadow: 0 0 0 1px var(--accent-soft);
-      opacity: 1;
-    }
-
-    .background-row {
-      margin-top: 8px;
       display: flex;
-      align-items: center;
+      flex-direction: column;
+      flex: 1;
+      min-height: 0;
+    }
+
+    .sticker-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--text-subtle);
+      margin: 4px 0 8px;
+      flex-shrink: 0;
+    }
+
+    /* Category tabs */
+    .category-tabs {
+      display: flex;
+      flex-wrap: nowrap;
       gap: 8px;
-      flex-wrap: wrap;
+      overflow-x: auto;
+      padding-bottom: 6px;
+      margin-bottom: 8px;
+      flex-shrink: 0;
     }
 
-    .background-label {
-      font-size: 11px;
-      color: var(--text-secondary);
-      white-space: nowrap;
-    }
-
-    .background-options {
-      display: flex;
-      gap: 6px;
-      flex-wrap: wrap;
-    }
-
-    .background-chip {
-      border-radius: 999px;
+    .category-tab {
+      flex: 0 0 auto;
       border: none;
-      padding: 3px 10px;
+      border-radius: 999px;
+      padding: 6px 12px;
       font-size: 11px;
       cursor: pointer;
-      background: #f3f5ff;
-      color: var(--chip-text);
-      opacity: 0.95;
+      background: var(--chip-bg);
+      color: var(--text-main);
+      white-space: nowrap;
+      opacity: 0.9;
+      transition:
+        transform 0.12s ease,
+        opacity 0.12s ease,
+        box-shadow 0.12s ease,
+        background 0.12s ease;
     }
 
-    .background-chip.active {
-      background: #ffffff;
-      color: var(--text-primary);
-      box-shadow: 0 0 0 1px var(--accent-soft);
+    .category-tab.active {
       opacity: 1;
+      background: var(--chip-active-bg);
+      box-shadow:
+        0 0 0 1px rgba(148, 163, 184, 0.45);
+      transform: translateY(-1px);
+      font-weight: 600;
     }
 
-    /* Content area + backgrounds */
-    .content {
+    /* Sticker grid */
+    .sticker-grid-wrapper {
       flex: 1;
       min-height: 0;
       overflow-y: auto;
-      padding: 8px 16px 70px 16px;
-      background: radial-gradient(circle at top, #ffffff, #f5f7ff);
-    }
-
-    .content.bg-midnight {
-      background: radial-gradient(circle at top, #ffffff, #f5f7ff);
-    }
-
-    .content.bg-stripes {
-      background-image: repeating-linear-gradient(
-        135deg,
-        #ffffff 0,
-        #ffffff 6px,
-        #f7f1ff 6px,
-        #f7f1ff 12px
-      );
-    }
-
-    .content.bg-stars {
-      background-color: #ffffff;
-      background-image:
-        radial-gradient(#ffd6f233 1px, transparent 1px),
-        radial-gradient(#bdefff33 1px, transparent 1px);
-      background-position: 0 0, 12px 12px;
-      background-size: 24px 24px;
-    }
-
-    .content.bg-hearts {
-      background-color: #fff7fb;
-      background-image:
-        radial-gradient(circle at 6px 6px, #ff7aa630 2px, transparent 3px),
-        radial-gradient(circle at 18px 18px, #ff7aa630 2px, transparent 3px);
-      background-size: 24px 24px;
-    }
-
-    .section {
-      margin-bottom: 16px;
-    }
-
-    .section-header {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      margin-bottom: 6px;
-    }
-
-    .section-title {
-      font-size: 12px;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--text-secondary);
-    }
-
-    .section-subtitle {
-      font-size: 11px;
-      color: #9ca3c4;
+      padding-right: 2px;
     }
 
     .sticker-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
-      gap: 8px;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      padding-bottom: 6px;
     }
 
     .sticker-tile {
-      background: var(--sticker-bg);
-      border-radius: 14px;
-      padding: 8px 6px;
-      border: 1px solid var(--sticker-border);
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      cursor: pointer;
       position: relative;
-      transition:
-        background 0.15s ease,
-        border-color 0.15s ease,
-        transform 0.1s ease,
-        box-shadow 0.15s ease;
+      border-radius: 18px;
+      background: #f3f4f6;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      display: flex;
       align-items: center;
-      justify-content: space-between;
-      box-shadow: 0 2px 6px rgba(186, 198, 231, 0.4);
+      justify-content: center;
+      padding: 8px;
+      cursor: pointer;
+      transition:
+        transform 0.12s ease,
+        box-shadow 0.15s ease,
+        background 0.15s ease,
+        border-color 0.15s ease;
+      box-shadow: 0 2px 6px rgba(148, 163, 184, 0.4);
     }
 
     .sticker-tile:hover {
       transform: translateY(-1px);
-      box-shadow: 0 4px 10px rgba(164, 185, 232, 0.55);
+      box-shadow: 0 4px 12px rgba(148, 163, 184, 0.55);
     }
 
     .sticker-tile.selected {
-      background: var(--sticker-bg-selected);
-      border-color: var(--sticker-border-selected);
+      background: #fff1f9;
+      border-color: #f973c4;
       box-shadow:
-        0 0 0 1px var(--accent-soft),
-        0 0 18px rgba(255, 158, 201, 0.6);
+        0 0 0 1px rgba(249, 115, 196, 0.5),
+        0 0 18px rgba(249, 115, 196, 0.35);
+    }
+
+    .sticker-tile::after {
+      content: "";
+      position: absolute;
+      inset: 6px;
+      border-radius: 14px;
+      border: 2px solid transparent;
+      pointer-events: none;
+      transition: border-color 0.15s ease, opacity 0.15s ease;
+      opacity: 0;
+    }
+
+    .sticker-tile.selected::after {
+      border-color: #f973c4;
+      opacity: 1;
     }
 
     .sticker-visual {
@@ -401,295 +285,186 @@
       align-items: center;
       justify-content: center;
       width: 100%;
-      min-height: 44px;
+      min-height: 56px;
     }
 
     .sticker-image {
-      max-width: 46px;
-      max-height: 46px;
+      max-width: 64px;
+      max-height: 64px;
       display: block;
+      object-fit: contain;
     }
 
-    .sticker-meta-row {
+    /* Footer inside phone */
+    .selection-footer {
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(148, 163, 184, 0.35);
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      width: 100%;
-      font-size: 9px;
-      color: var(--text-secondary);
+      gap: 10px;
     }
 
-    .sticker-tag {
-      font-size: 9px;
-      padding: 2px 6px;
-      border-radius: 999px;
-      background: rgba(245, 247, 255, 0.9);
-      white-space: nowrap;
+    .selection-text {
+      font-size: 11px;
+      color: var(--text-muted);
+      flex: 1;
     }
 
-    .sticker-icons {
-      display: flex;
-      gap: 4px;
-      align-items: center;
+    .selection-text span {
+      font-weight: 600;
+      color: var(--text-main);
     }
 
-    .pill-icon {
+    .inline-error {
       font-size: 10px;
-      opacity: 0.7;
+      color: #f97373;
+      margin-top: 4px;
+      min-height: 12px;
     }
 
-    .pill-icon.disabled {
-      opacity: 0.3;
-    }
-
-    .sticker-badge-trending {
-      position: absolute;
-      top: 6px;
-      right: 6px;
-      font-size: 9px;
-      padding: 2px 6px;
+    .btn-primary {
       border-radius: 999px;
-      background: rgba(255, 184, 109, 0.2);
-      color: #ff9c4f;
-      text-transform: uppercase;
-      letter-spacing: 0.03em;
-    }
-
-    .sticker-badge-local {
-      position: absolute;
-      top: 6px;
-      left: 6px;
-      font-size: 9px;
-      padding: 2px 6px;
-      border-radius: 999px;
-      background: rgba(66, 233, 245, 0.2);
-      color: #00bcd4;
-      text-transform: uppercase;
-      letter-spacing: 0.03em;
-    }
-
-    .sticker-badge-seasonal {
-      position: absolute;
-      top: 6px;
-      left: 6px;
-      font-size: 9px;
-      padding: 2px 6px;
-      border-radius: 999px;
-      background: rgba(150, 255, 210, 0.2);
-      color: #00c58a;
-      text-transform: uppercase;
-      letter-spacing: 0.03em;
-    }
-
-    .sticker-checkmark {
-      position: absolute;
-      bottom: 6px;
-      right: 6px;
-      width: 18px;
-      height: 18px;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.9);
-      display: flex;
+      border: none;
+      padding: 9px 20px;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      background: var(--button-gradient);
+      color: var(--button-text);
+      box-shadow:
+        0 12px 22px rgba(236, 72, 153, 0.35),
+        0 0 0 1px rgba(248, 250, 252, 0.5);
+      display: inline-flex;
       align-items: center;
       justify-content: center;
-      font-size: 11px;
-      color: var(--accent);
-      box-shadow: 0 1px 4px rgba(164, 185, 232, 0.7);
-    }
-
-    .empty-msg {
-      font-size: 11px;
-      color: var(--text-secondary);
-      padding: 6px 0 0 0;
-    }
-
-    /* Bottom bar */
-    .bottom-bar {
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      padding: 8px 16px 10px 16px;
-      background: linear-gradient(
-        to top,
-        #ffffff,
-        rgba(255, 246, 251, 0.98)
-      );
-      border-top: 1px solid var(--divider);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-      z-index: 3;
-    }
-
-    .bottom-summary {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-      font-size: 11px;
-      color: var(--text-secondary);
-    }
-
-    .bottom-summary strong {
-      color: var(--accent);
-      font-weight: 600;
-    }
-
-    .primary-cta {
-      flex: 0 0 auto;
-      border-radius: 999px;
-      padding: 8px 16px;
-      font-size: 12px;
-      font-weight: 600;
+      letter-spacing: 0.16em;
       text-transform: uppercase;
-      letter-spacing: 0.06em;
-      border: none;
-      cursor: pointer;
-      background: linear-gradient(135deg, #ff7eb3, #ff758c, #42e9f5);
-      color: #121827;
+      white-space: nowrap;
+      transition:
+        background 0.18s ease,
+        transform 0.15s ease,
+        box-shadow 0.18s ease,
+        opacity 0.18s ease;
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
       box-shadow:
-        0 0 0 1px rgba(255, 255, 255, 0.6),
-        0 10px 25px rgba(164, 185, 232, 0.7);
+        0 0 0 1px rgba(209, 213, 219, 0.8);
+      background: linear-gradient(135deg, #f9fafb, #e5e7eb);
+      color: #9ca3af;
     }
 
-    .primary-cta:active {
-      transform: translateY(1px);
-      box-shadow: 0 4px 14px rgba(164, 185, 232, 0.9);
+    .btn-primary:not(:disabled):active {
+      transform: translateY(1px) scale(0.99);
+      box-shadow:
+        0 6px 12px rgba(236, 72, 153, 0.30);
     }
 
-    .primary-cta.disabled {
-      background: #e7ebfb;
-      color: #9ca3c4;
-      cursor: default;
-      box-shadow: none;
-      opacity: 0.9;
-    }
-
-    .content::-webkit-scrollbar,
-    .chip-row::-webkit-scrollbar {
+    /* Scrollbars */
+    .sticker-grid-wrapper::-webkit-scrollbar {
       width: 4px;
-      height: 4px;
     }
 
-    .content::-webkit-scrollbar-thumb,
-    .chip-row::-webkit-scrollbar-thumb {
+    .sticker-grid-wrapper::-webkit-scrollbar-thumb {
       background: #c3c9ec;
       border-radius: 999px;
     }
 
-    .content::-webkit-scrollbar-track,
-    .chip-row::-webkit-scrollbar-track {
+    .sticker-grid-wrapper::-webkit-scrollbar-track {
       background: transparent;
     }
 
-    @media (max-height: 720px) {
-      .screen {
-        height: calc(100vh - 80px);
+    @media (max-width: 480px) {
+      .phone-frame {
+        height: 640px;
+        max-height: calc(100vh - 48px);
+        padding: 20px 14px 20px;
+      }
+
+      .phone-inner {
+        padding: 18px 14px 16px;
+      }
+
+      .screen-title {
+        font-size: 16px;
+      }
+
+      .screen-subtitle {
+        font-size: 11px;
+      }
+
+      .btn-primary {
+        font-size: 10px;
       }
     }
   </style>
 </head>
 <body>
-  <div class="outer-frame">
-    <div class="phone-shell">
-      <div class="screen">
-        <!-- Top bar -->
-        <header class="top-bar">
-          <div class="top-bar-left">
-            <button class="icon-button" id="backButton">
-              <span class="icon">←</span>
-              <span>Back</span>
-            </button>
-          </div>
-          <div class="top-bar-title">Choose Your Stickers</div>
-          <div class="top-bar-right">
-            <button class="icon-button" id="helpButton">
-              <span class="icon">?</span>
-              <span>Help</span>
-            </button>
-          </div>
-        </header>
+  <div class="app-shell">
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
 
-        <!-- Accent bar -->
-        <div class="accent-bar"></div>
-
-        <!-- Instructions -->
-        <section class="instructions">
-          <div class="instructions-title">Build your first Stickerbook page</div>
-          <div class="instructions-body">
-            Tap a sticker to add it. Tap again to remove it. Pick at least
-            <strong>5</strong> and up to <strong>25</strong> that feel like you.
-          </div>
-          <div class="status-line">
-            <div>
-              <span>Selected:</span>
-              <strong><span id="selectedCount">0</span> / <span id="maxCount">25</span></strong>
-            </div>
-            <div>This becomes Page 1 of your Stickerbook.</div>
-          </div>
-        </section>
-
-        <!-- Search + filters + backgrounds -->
-        <section class="search-filter-area">
-          <div class="search-input-wrapper">
-            <span class="search-icon">🔍</span>
-            <input
-              type="text"
-              id="searchInput"
-              placeholder="Search stickers (e.g. ‘Sacramento’, ‘coffee’, ‘pride’)"
-              autocomplete="off"
-            />
-            <span class="clear-search" id="clearSearch" title="Clear search">✕</span>
-          </div>
-          <div class="chip-row" id="chipRow">
-            <button class="filter-chip active" data-filter="all">All</button>
-            <button class="filter-chip" data-filter="sacramento">Sacramento</button>
-            <button class="filter-chip" data-filter="tv">TV &amp; Movies</button>
-            <button class="filter-chip" data-filter="animals">Animals</button>
-            <button class="filter-chip" data-filter="humor">Humor</button>
-            <button class="filter-chip" data-filter="aesthetics">Aesthetics</button>
-            <button class="filter-chip" data-filter="places">Places</button>
-          </div>
-          <div class="background-row">
-            <span class="background-label">Page background:</span>
-            <div class="background-options" id="backgroundOptions">
-              <button class="background-chip active" data-bg="midnight">Clean</button>
-              <button class="background-chip" data-bg="stripes">Stripes</button>
-              <button class="background-chip" data-bg="stars">Sprinkles</button>
-              <button class="background-chip" data-bg="hearts">Hearts</button>
+      <div class="phone-inner">
+        <div class="shell-inner">
+          <!-- Logo -->
+          <div class="top-row">
+            <div class="logo-group">
+              <div class="logo-mark">STICKERBOOK</div>
+              <div class="logo-accent"></div>
             </div>
           </div>
-        </section>
 
-        <!-- Scrollable content -->
-        <main class="content bg-midnight" id="contentArea">
-          <!-- JS injects sections here -->
-        </main>
+          <!-- Title -->
+          <h1 class="screen-title">Choose your stickers</h1>
+          <p class="screen-subtitle">
+            Tap to select, tap again to remove. Pick up to 20 stickers for this page.
+          </p>
 
-        <!-- Bottom bar -->
-        <footer class="bottom-bar">
-          <div class="bottom-summary">
-            <div>
-              Selected:
-              <strong><span id="selectedCountBottom">0</span> / <span id="maxCountBottom">25</span></strong>
+          <!-- Sticker section -->
+          <div class="sticker-section">
+            <div class="sticker-label">Stickers</div>
+
+            <!-- Category tabs -->
+            <div class="category-tabs" id="category-tabs">
+              <button class="category-tab active" data-category="for-you">For You</button>
+              <button class="category-tab" data-category="sacramento">Sacramento</button>
+              <button class="category-tab" data-category="tv-movies">TV &amp; Movies</button>
+              <button class="category-tab" data-category="animals">Animals</button>
+              <button class="category-tab" data-category="humor">Humor</button>
+              <button class="category-tab" data-category="aesthetics">Aesthetics</button>
+              <button class="category-tab" data-category="places">Places</button>
             </div>
-            <div id="bottomHint">Pick at least 5 stickers to continue.</div>
+
+            <!-- Grid -->
+            <div class="sticker-grid-wrapper">
+              <div class="sticker-grid" id="sticker-grid">
+                <!-- JS injects stickers here -->
+              </div>
+            </div>
+
+            <!-- Footer / controls -->
+            <div class="selection-footer">
+              <div class="selection-text">
+                Selected: <span id="selected-count">0</span> / <span>20</span>
+              </div>
+              <button id="continue-button" class="btn-primary" disabled>
+                Continue
+              </button>
+            </div>
+            <div id="selection-error" class="inline-error"></div>
           </div>
-          <button class="primary-cta disabled" id="continueButton">
-            Pick more to continue
-          </button>
-        </footer>
+        </div>
       </div>
     </div>
   </div>
 
   <script>
-    const MIN_SELECTIONS = 5;
-    const MAX_SELECTIONS = 25;
-
-    const BACKGROUND_KEY = "stickerbookPageBackground";
-    const BACKGROUND_CLASSES = ["bg-midnight", "bg-stripes", "bg-stars", "bg-hearts"];
+    // --- CONFIG ---
+    const MIN_SELECTIONS = 1;
+    const MAX_SELECTIONS = 20;
 
     const AGE_GROUPS = {
       GEN_ALPHA: "genalpha",
@@ -707,7 +482,7 @@
       return AGE_GROUPS.OTHER;
     }
 
-    // --- STICKER DATA ---
+    // --- STICKER DATA (copied from your existing page) ---
     // mainCategory: "sacramento" | "tv" | "animals" | "humor" | "aesthetics" | "places"
     const allStickers = [
       // SACRAMENTO
@@ -1153,51 +928,29 @@
     ];
 
     // --- STATE ---
+    let activeCategory = "for-you";
     let selectedIds = new Set();
-    let searchTerm = "";
-    let activeFilter = "all";
-    let activeBackground = "midnight";
-    let userAge = null;
     let userAgeGroup = AGE_GROUPS.OTHER;
     let userZip = null;
 
     // --- DOM ELEMENTS ---
-    const contentArea = document.getElementById("contentArea");
-    const selectedCountSpan = document.getElementById("selectedCount");
-    const selectedCountBottomSpan = document.getElementById("selectedCountBottom");
-    const maxCountSpan = document.getElementById("maxCount");
-    const maxCountBottomSpan = document.getElementById("maxCountBottom");
-    const bottomHint = document.getElementById("bottomHint");
-    const continueButton = document.getElementById("continueButton");
-    const backButton = document.getElementById("backButton");
-    const helpButton = document.getElementById("helpButton");
-    const searchInput = document.getElementById("searchInput");
-    const clearSearch = document.getElementById("clearSearch");
-    const chipRow = document.getElementById("chipRow");
-    const backgroundOptions = document.getElementById("backgroundOptions");
-
-    maxCountSpan.textContent = MAX_SELECTIONS;
-    maxCountBottomSpan.textContent = MAX_SELECTIONS;
+    const categoryTabsEl = document.getElementById("category-tabs");
+    const stickerGridEl = document.getElementById("sticker-grid");
+    const selectedCountEl = document.getElementById("selected-count");
+    const continueButtonEl = document.getElementById("continue-button");
+    const selectionErrorEl = document.getElementById("selection-error");
 
     // --- UTILITIES ---
     function loadUserContext() {
       try {
         const age = localStorage.getItem("stickerbook_age");
         const zip = localStorage.getItem("stickerbook_zip");
-        const bg = localStorage.getItem(BACKGROUND_KEY);
 
-        userAge = age ? parseInt(age, 10) : null;
         userAgeGroup = getAgeGroup(age);
         userZip = zip || null;
-
-        if (bg && ["midnight", "stripes", "stars", "hearts"].includes(bg)) {
-          activeBackground = bg;
-        }
       } catch (e) {
-        userAge = null;
         userAgeGroup = AGE_GROUPS.OTHER;
         userZip = null;
-        activeBackground = "midnight";
       }
     }
 
@@ -1207,7 +960,7 @@
         if (raw) {
           const arr = JSON.parse(raw);
           if (Array.isArray(arr)) {
-            selectedIds = new Set(arr);
+            selectedIds = new Set(arr.slice(0, MAX_SELECTIONS)); // trim if old data > 20
           }
         }
       } catch (e) {
@@ -1224,26 +977,6 @@
       }
     }
 
-    function normalize(str) {
-      return (str || "").toLowerCase();
-    }
-
-    function matchesCategoryFilter(sticker) {
-      if (activeFilter === "all") return true;
-      return sticker.mainCategory === activeFilter;
-    }
-
-    function filterBySearch(stickers) {
-      const term = normalize(searchTerm);
-      if (!term) return stickers;
-
-      return stickers.filter((s) => {
-        if (normalize(s.label).includes(term)) return true;
-        if (s.tags && s.tags.some((t) => normalize(t).includes(term))) return true;
-        return false;
-      });
-    }
-
     function getForYouStickers() {
       const relevant = allStickers.filter((s) => {
         if (!s.forYouGroups || !Array.isArray(s.forYouGroups)) return false;
@@ -1253,6 +986,7 @@
         );
       });
 
+      // Optional: Sacramento local boost if zip is 956/958
       const isSac =
         userZip &&
         (userZip.startsWith("958") ||
@@ -1267,351 +1001,179 @@
         });
       }
 
-      return relevant.slice(0, 12);
+      return relevant.slice(0, 20);
+    }
+
+    function getStickersForCategory(category) {
+      if (category === "for-you") {
+        return getForYouStickers();
+      }
+      if (category === "sacramento") {
+        return allStickers.filter((s) => s.mainCategory === "sacramento");
+      }
+      if (category === "tv-movies") {
+        return allStickers.filter((s) => s.mainCategory === "tv");
+      }
+      if (category === "animals") {
+        return allStickers.filter((s) => s.mainCategory === "animals");
+      }
+      if (category === "humor") {
+        return allStickers.filter((s) => s.mainCategory === "humor");
+      }
+      if (category === "aesthetics") {
+        return allStickers.filter((s) => s.mainCategory === "aesthetics");
+      }
+      if (category === "places") {
+        return allStickers.filter((s) => s.mainCategory === "places");
+      }
+      return allStickers;
+    }
+
+    function clearError() {
+      selectionErrorEl.textContent = "";
+    }
+
+    function showError(msg) {
+      selectionErrorEl.textContent = msg;
     }
 
     // --- RENDERING ---
-    function renderStickerTile(sticker) {
-      const tile = document.createElement("div");
-      tile.className = "sticker-tile";
-      tile.dataset.stickerId = sticker.id;
+    function renderGrid() {
+      stickerGridEl.innerHTML = "";
 
-      if (selectedIds.has(sticker.id)) {
-        tile.classList.add("selected");
-      }
+      const stickers = getStickersForCategory(activeCategory);
 
-      if (sticker.localSac && sticker.seasonal) {
-        const badge = document.createElement("div");
-        badge.className = "sticker-badge-seasonal";
-        badge.textContent = "Seasonal";
-        tile.appendChild(badge);
-      } else if (sticker.localSac) {
-        const badge = document.createElement("div");
-        badge.className = "sticker-badge-local";
-        badge.textContent = "Local";
-        tile.appendChild(badge);
-      } else if (sticker.seasonal) {
-        const badge = document.createElement("div");
-        badge.className = "sticker-badge-seasonal";
-        badge.textContent = "Seasonal";
-        tile.appendChild(badge);
-      }
-
-      if (sticker.trending) {
-        const tBadge = document.createElement("div");
-        tBadge.className = "sticker-badge-trending";
-        tBadge.textContent = "Trending";
-        tile.appendChild(tBadge);
-      }
-
-      const visual = document.createElement("div");
-      visual.className = "sticker-visual";
-
-      const img = document.createElement("img");
-      img.src = sticker.image;
-      img.alt = sticker.label || "Sticker";
-      img.className = "sticker-image";
-      visual.appendChild(img);
-
-      const metaRow = document.createElement("div");
-      metaRow.className = "sticker-meta-row";
-
-      const tagSpan = document.createElement("span");
-      tagSpan.className = "sticker-tag";
-
-      let catLabel = "";
-      switch (sticker.mainCategory) {
-        case "sacramento": catLabel = "Sacramento"; break;
-        case "tv": catLabel = "TV & Movies"; break;
-        case "animals": catLabel = "Animals"; break;
-        case "humor": catLabel = "Humor"; break;
-        case "aesthetics": catLabel = "Aesthetic"; break;
-        case "places": catLabel = "Place"; break;
-        default: catLabel = "Sticker";
-      }
-      tagSpan.textContent = catLabel;
-
-      const iconRow = document.createElement("div");
-      iconRow.className = "sticker-icons";
-
-      const moreIcon = document.createElement("span");
-      moreIcon.className = "pill-icon disabled";
-      moreIcon.title = "“More like this” coming soon";
-      moreIcon.textContent = "✨";
-
-      iconRow.appendChild(moreIcon);
-
-      metaRow.appendChild(tagSpan);
-      metaRow.appendChild(iconRow);
-
-      tile.appendChild(visual);
-      tile.appendChild(metaRow);
-
-      if (selectedIds.has(sticker.id)) {
-        const check = document.createElement("div");
-        check.className = "sticker-checkmark";
-        check.textContent = "✓";
-        tile.appendChild(check);
-      }
-
-      tile.addEventListener("click", () => {
-        toggleStickerSelection(sticker.id);
-      });
-
-      return tile;
-    }
-
-    function renderSection(title, subtitle, stickers) {
-      if (!stickers || stickers.length === 0) return null;
-
-      let visible = stickers.filter(matchesCategoryFilter);
-      visible = filterBySearch(visible);
-
-      if (visible.length === 0) return null;
-
-      const section = document.createElement("section");
-      section.className = "section";
-
-      const header = document.createElement("div");
-      header.className = "section-header";
-
-      const titleDiv = document.createElement("div");
-      titleDiv.className = "section-title";
-      titleDiv.textContent = title;
-
-      header.appendChild(titleDiv);
-
-      if (subtitle) {
-        const subtitleDiv = document.createElement("div");
-        subtitleDiv.className = "section-subtitle";
-        subtitleDiv.textContent = subtitle;
-        header.appendChild(subtitleDiv);
-      }
-
-      const grid = document.createElement("div");
-      grid.className = "sticker-grid";
-
-      visible.forEach((s) => {
-        grid.appendChild(renderStickerTile(s));
-      });
-
-      section.appendChild(header);
-      section.appendChild(grid);
-
-      return section;
-    }
-
-    function renderSearchResults() {
-      const section = document.createElement("section");
-      section.className = "section";
-
-      const header = document.createElement("div");
-      header.className = "section-header";
-
-      const titleDiv = document.createElement("div");
-      titleDiv.className = "section-title";
-      titleDiv.textContent = "Search results";
-
-      const subtitleDiv = document.createElement("div");
-      subtitleDiv.className = "section-subtitle";
-      subtitleDiv.textContent = "Tap to add or remove stickers from your page.";
-
-      header.appendChild(titleDiv);
-      header.appendChild(subtitleDiv);
-      section.appendChild(header);
-
-      const grid = document.createElement("div");
-      grid.className = "sticker-grid";
-
-      let results = filterBySearch(allStickers).filter(matchesCategoryFilter);
-
-      if (results.length === 0) {
-        const msg = document.createElement("div");
-        msg.className = "empty-msg";
-        msg.textContent =
-          "No stickers match that search yet. Try a different word or remove a filter.";
-        section.appendChild(msg);
-      } else {
-        results.forEach((s) => grid.appendChild(renderStickerTile(s)));
-        section.appendChild(grid);
-      }
-
-      return section;
-    }
-
-    function renderContent() {
-      contentArea.innerHTML = "";
-
-      if (searchTerm.trim() !== "") {
-        const searchSection = renderSearchResults();
-        if (searchSection) contentArea.appendChild(searchSection);
+      if (!stickers || stickers.length === 0) {
+        const emptyDiv = document.createElement("div");
+        emptyDiv.style.fontSize = "11px";
+        emptyDiv.style.color = "#6b7280";
+        emptyDiv.textContent = "No stickers in this category yet.";
+        stickerGridEl.appendChild(emptyDiv);
         return;
       }
 
-      const forYouSection = renderSection(
-        "For You",
-        "A handful that might feel like you",
-        getForYouStickers()
-      );
-      if (forYouSection) contentArea.appendChild(forYouSection);
+      stickers.forEach((sticker) => {
+        const tile = document.createElement("div");
+        tile.className = "sticker-tile";
+        tile.dataset.stickerId = sticker.id;
 
-      const sacSection = renderSection(
-        "Sacramento",
-        "Landmarks, local flavor, and inside jokes",
-        allStickers.filter((s) => s.mainCategory === "sacramento")
-      );
-      if (sacSection) contentArea.appendChild(sacSection);
+        if (selectedIds.has(sticker.id)) {
+          tile.classList.add("selected");
+        }
 
-      const tvSection = renderSection(
-        "TV & Movies",
-        "Fandoms, comfort watches, and pop culture",
-        allStickers.filter((s) => s.mainCategory === "tv")
-      );
-      if (tvSection) contentArea.appendChild(tvSection);
+        const visual = document.createElement("div");
+        visual.className = "sticker-visual";
 
-      const animalsSection = renderSection(
-        "Animals",
-        "Pets, creatures, and little guys",
-        allStickers.filter((s) => s.mainCategory === "animals")
-      );
-      if (animalsSection) contentArea.appendChild(animalsSection);
+        const img = document.createElement("img");
+        img.src = sticker.image;
+        img.alt = sticker.label || "Sticker";
+        img.className = "sticker-image";
 
-      const humorSection = renderSection(
-        "Humor",
-        "Chaos, memes, and inside jokes",
-        allStickers.filter((s) => s.mainCategory === "humor")
-      );
-      if (humorSection) contentArea.appendChild(humorSection);
+        visual.appendChild(img);
+        tile.appendChild(visual);
 
-      const aestheticsSection = renderSection(
-        "Aesthetics & Objects",
-        "Icons, vibes, and visual shorthand",
-        allStickers.filter((s) => s.mainCategory === "aesthetics")
-      );
-      if (aestheticsSection) contentArea.appendChild(aestheticsSection);
+        tile.addEventListener("click", () => {
+          toggleStickerSelection(sticker.id);
+        });
 
-      const placesSection = renderSection(
-        "Places",
-        "Non-Sacramento spots and travel energy",
-        allStickers.filter((s) => s.mainCategory === "places")
-      );
-      if (placesSection) contentArea.appendChild(placesSection);
+        stickerGridEl.appendChild(tile);
+      });
     }
 
-    // --- SELECTION & UI STATE ---
     function updateSelectionUI() {
       const count = selectedIds.size;
-      selectedCountSpan.textContent = count;
-      selectedCountBottomSpan.textContent = count;
-
+      selectedCountEl.textContent = count.toString();
+      continueButtonEl.disabled = count < MIN_SELECTIONS;
       if (count < MIN_SELECTIONS) {
-        bottomHint.textContent = `Pick at least ${MIN_SELECTIONS} stickers to continue.`;
-        continueButton.textContent = "Pick more to continue";
-        continueButton.classList.add("disabled");
+        showError("Pick at least one sticker to continue.");
       } else {
-        bottomHint.textContent = "Looks good when you’re ready.";
-        continueButton.textContent = "See My Page";
-        continueButton.classList.remove("disabled");
+        clearError();
       }
-
-      renderContent();
     }
 
+    // --- SELECTION LOGIC ---
     function toggleStickerSelection(id) {
+      clearError();
+
       if (selectedIds.has(id)) {
         selectedIds.delete(id);
       } else {
         if (selectedIds.size >= MAX_SELECTIONS) {
-          alert(`You can pick up to ${MAX_SELECTIONS} stickers for now.`);
+          showError(`You can pick up to ${MAX_SELECTIONS} stickers for this page.`);
           return;
         }
         selectedIds.add(id);
       }
 
       saveSelections();
+      renderGrid();
       updateSelectionUI();
     }
 
-    function applyBackgroundClass() {
-      BACKGROUND_CLASSES.forEach(cls => contentArea.classList.remove(cls));
-      const cls = "bg-" + activeBackground;
-      contentArea.classList.add(cls);
-    }
-
-    function saveBackground() {
-      try {
-        localStorage.setItem(BACKGROUND_KEY, activeBackground);
-      } catch (e) {
-        // ignore
-      }
-    }
-
-    function updateBackgroundChips() {
-      document
-        .querySelectorAll(".background-chip")
-        .forEach(btn => {
-          const v = btn.getAttribute("data-bg");
-          if (v === activeBackground) btn.classList.add("active");
-          else btn.classList.remove("active");
-        });
-    }
-
-    // --- EVENT HOOKUP ---
-    backButton.addEventListener("click", () => {
-      window.location.href = "intro.html";
-    });
-
-    helpButton.addEventListener("click", () => {
-      alert(
-        "This is where Stickerbook learns who you are. Pick visuals that feel like little pieces of your real life—your moods, causes, habits, and obsessions. The titles are behind the scenes; what you and others will see later is the page of stickers itself."
-      );
-    });
-
-    searchInput.addEventListener("input", (e) => {
-      searchTerm = e.target.value || "";
-      renderContent();
-    });
-
-    clearSearch.addEventListener("click", () => {
-      searchTerm = "";
-      searchInput.value = "";
-      renderContent();
-    });
-
-    chipRow.addEventListener("click", (e) => {
-      const chip = e.target.closest(".filter-chip");
-      if (!chip) return;
-      const filter = chip.getAttribute("data-filter");
-      if (!filter) return;
-
-      activeFilter = filter;
-      document
-        .querySelectorAll(".filter-chip")
-        .forEach((c) => c.classList.remove("active"));
-      chip.classList.add("active");
-
-      renderContent();
-    });
-
-    backgroundOptions.addEventListener("click", (e) => {
-      const btn = e.target.closest(".background-chip");
+    // --- EVENTS ---
+    categoryTabsEl.addEventListener("click", (e) => {
+      const btn = e.target.closest(".category-tab");
       if (!btn) return;
-      const bg = btn.getAttribute("data-bg");
-      if (!bg) return;
-      activeBackground = bg;
-      applyBackgroundClass();
-      updateBackgroundChips();
-      saveBackground();
+
+      const cat = btn.getAttribute("data-category");
+      if (!cat || cat === activeCategory) return;
+
+      activeCategory = cat;
+
+      document
+        .querySelectorAll(".category-tab")
+        .forEach((tab) => tab.classList.remove("active"));
+      btn.classList.add("active");
+
+      renderGrid();
+      updateSelectionUI();
     });
 
-    continueButton.addEventListener("click", () => {
-      if (selectedIds.size < MIN_SELECTIONS) {
-        alert(`Pick at least ${MIN_SELECTIONS} stickers to continue.`);
+    continueButtonEl.addEventListener("click", () => {
+      const count = selectedIds.size;
+      if (count < MIN_SELECTIONS) {
+        showError("Pick at least one sticker to continue.");
         return;
       }
-      if (continueButton.classList.contains("disabled")) {
-        return;
+
+      // Build sticker objects for this page
+      const selectedStickers = allStickers
+        .filter((s) => selectedIds.has(s.id))
+        .map((s) => ({
+          id: s.id,
+          src: s.image
+        }));
+
+      // Re-save the simple ID list for backwards compatibility
+      saveSelections();
+
+      // Pull the background chosen on background.html
+      const backgroundColor =
+        localStorage.getItem("stickerbook_page_1_background") ||
+        localStorage.getItem("current_page_background") ||
+        "#ffffff";
+
+      const page1 = {
+        background: backgroundColor,
+        stickers: selectedStickers
+      };
+
+      // Store as page_1 object
+      localStorage.setItem("stickerbook_page_1", JSON.stringify(page1));
+
+      // Also maintain a pages aggregate object for future pages
+      try {
+        const existing = JSON.parse(localStorage.getItem("stickerbook_pages") || "{}");
+        existing.page_1 = page1;
+        localStorage.setItem("stickerbook_pages", JSON.stringify(existing));
+      } catch (e) {
+        localStorage.setItem(
+          "stickerbook_pages",
+          JSON.stringify({ page_1: page1 })
+        );
       }
+
+      // Go to preview / placement
       window.location.href = "sticker-preview.html";
     });
 
@@ -1619,9 +1181,7 @@
     function init() {
       loadUserContext();
       loadSelections();
-      applyBackgroundClass();
-      updateBackgroundChips();
-      renderContent();
+      renderGrid();
       updateSelectionUI();
     }
 
