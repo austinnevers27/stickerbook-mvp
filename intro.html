@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Stickerbook – Welcome</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-pink: #ffeef7;
+      --bg-blue: #e7f9ff;
+
+      --shell-bg: #ffffff;
+      --shell-border: rgba(148, 163, 184, 0.12);
+      --shell-shadow: 0 18px 40px rgba(15, 23, 42, 0.20);
+
+      --text-main: #111827;
+      --text-muted: #6b7280;
+      --text-subtle: #9ca3af;
+
+      --button-gradient: linear-gradient(135deg, #ff4f96, #ff7a4e, #22d3ee);
+      --button-text: #ffffff;
+
+      --accent-gradient: linear-gradient(90deg, #f973b3, #f97316, #22d3ee);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background:
+        radial-gradient(circle at top left, var(--bg-pink) 0, #ffffff 45%),
+        radial-gradient(circle at bottom right, var(--bg-blue) 0, #ffffff 45%);
+      font-family: "Inter", system-ui, sans-serif;
+      color: var(--text-main);
+      padding: 18px;
+    }
+
+    .phone-shell {
+      width: min(420px, 100vw - 24px);
+      background: var(--shell-bg);
+      border-radius: 32px;
+      box-shadow:
+        var(--shell-shadow),
+        0 0 0 1px var(--shell-border);
+      padding: 20px 18px 22px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .phone-notch {
+      width: 80px;
+      height: 6px;
+      border-radius: 999px;
+      background: #e5e7eb;
+      margin: 0 auto 14px;
+    }
+
+    .phone-inner {
+      width: 100%;
+      border-radius: 26px;
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      background: #ffffff;
+      padding: 22px 18px 22px;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+    }
+
+    .shell-inner {
+      width: 100%;
+      max-width: 320px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .top-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+
+    .back-link {
+      border: none;
+      background: transparent;
+      color: var(--text-subtle);
+      font-size: 11px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .back-link:hover {
+      color: var(--text-muted);
+    }
+
+    .logo-mark {
+      font-family: "Poppins", system-ui, sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.20em;
+      text-transform: uppercase;
+      color: var(--text-main);
+    }
+
+    .accent-bar {
+      width: 120px;
+      height: 4px;
+      border-radius: 999px;
+      background: var(--accent-gradient);
+      margin: 6px auto 18px;
+    }
+
+    .screen-title {
+      font-family: "Poppins", system-ui, sans-serif;
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      text-align: left;
+      color: var(--text-main);
+    }
+
+    .screen-body {
+      font-size: 13px;
+      line-height: 1.65;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+
+    .cta-row {
+      margin-top: 24px;
+      display: flex;
+      gap: 10px;
+    }
+
+    .cta-button {
+      width: 100%;
+      padding: 13px 26px;
+      border-radius: 999px;
+      border: none;
+      font-size: 12px;
+      font-weight: 700;
+      background: var(--button-gradient);
+      color: var(--button-text);
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      cursor: pointer;
+      box-shadow:
+        0 14px 26px rgba(236, 72, 153, 0.35),
+        0 0 0 1px rgba(248, 250, 252, 0.7);
+      transition: 0.15s ease;
+    }
+
+    .cta-button:hover {
+      transform: translateY(-1px);
+      box-shadow:
+        0 18px 32px rgba(236, 72, 153, 0.45),
+        0 0 0 1px rgba(248, 250, 252, 0.9);
+    }
+
+  </style>
+</head>
+
+<body>
+  <div class="phone-shell">
+    <div class="phone-notch"></div>
+
+    <div class="phone-inner">
+      <div class="shell-inner">
+
+        <!-- HEADER -->
+        <div class="top-row">
+          <button class="back-link" onclick="window.location.href='account.html'">← Back</button>
+          <div class="logo-mark">STICKERBOOK</div>
+        </div>
+
+        <div class="accent-bar"></div>
+
+        <!-- TITLE -->
+        <h1 id="welcomeTitle" class="screen-title">Hi!</h1>
+
+        <!-- BODY TEXT -->
+        <p class="screen-body">
+          A lot of apps try to fit people into short bios, quick prompts, and a few carefully chosen photos. But real identity doesn’t live in tiny boxes.
+        </p>
+
+        <p class="screen-body">
+          <strong>People are more than their profiles.</strong> We’re mosaics of everything we love and value — our humor, our passions, our oddities, our causes. All the little things that make us feel like <em>us</em>.
+        </p>
+
+        <p class="screen-body">
+          Your stickers already tell those stories. The ones on your laptop, your water bottle, your car bumper — they say more about you than anything you could type.
+        </p>
+
+        <p class="screen-body">
+          But one sticker alone only gives a hint. A <strong>collection</strong> is where the real picture forms. Each one turns a broad interest into a personality — and a personality into an identity.
+        </p>
+
+        <p class="screen-body">
+          Stickerbook brings that human reveal into one place. Your book has <strong>six pages</strong> — six spaces to build your mosaic without shrinking yourself into a bio.
+        </p>
+
+        <p class="screen-body">
+          No overthinking. No performing. No perfect photos. Just your stickers — revealing you, one choice at a time.
+        </p>
+
+        <!-- CTA -->
+        <div class="cta-row">
+          <button id="buildBtn" class="cta-button">Build My Stickerbook</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Load name from previous page
+    const name = localStorage.getItem("stickerbook_name");
+    const welcomeTitle = document.getElementById("welcomeTitle");
+
+    if (name) {
+      welcomeTitle.textContent = `Hi ${name}!`;
+    }
+
+    // Continue to next step
+    document.getElementById("buildBtn").addEventListener("click", () => {
+      window.location.href = "sticker-selection.html";
+    });
+  </script>
+
+</body>
+</html>

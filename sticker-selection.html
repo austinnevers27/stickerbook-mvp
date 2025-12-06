@@ -1,0 +1,1631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Stickerbook – Choose Your Stickers</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root {
+      /* Miami Vice Light Theme */
+      --bg-gradient-start: #ffe6f2;
+      --bg-gradient-end: #e0f7ff;
+      --phone-shell: #ffffff;
+      --screen-bg: #ffffff;
+
+      --panel-bg: #f9fbff;
+      --panel-muted-bg: #f3f5ff;
+
+      --chip-bg: #f3f5ff;
+      --chip-active-bg: #ff9acb;
+      --chip-text: #555b73;
+
+      --text-primary: #1f2430;
+      --text-secondary: #6b7294;
+
+      --accent: #ff6fa8;
+      --accent-soft: rgba(255, 159, 196, 0.35);
+
+      --divider: #e1e4f2;
+
+      --sticker-bg: #ffffff;
+      --sticker-bg-selected: #fff2fa;
+      --sticker-border: #e3e7f5;
+      --sticker-border-selected: #ff9acb;
+
+      --danger: #ff4f6e;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, var(--bg-gradient-start), var(--bg-gradient-end) 55%, #f3fbff);
+      background-attachment: fixed;
+      color: var(--text-primary);
+    }
+
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .outer-frame {
+      width: 100%;
+      max-width: 420px;
+      padding: 16px;
+    }
+
+    .phone-shell {
+      background: var(--phone-shell);
+      border-radius: 28px;
+      box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.20),
+        0 0 0 1px rgba(255, 255, 255, 0.8);
+      padding: 10px;
+    }
+
+    .screen {
+      background: linear-gradient(to bottom, #ffffff, #f7fbff);
+      border-radius: 22px;
+      height: 700px;
+      max-height: calc(100vh - 80px);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      box-shadow: 0 10px 30px rgba(164, 190, 255, 0.35);
+    }
+
+    /* Top bar */
+    .top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--divider);
+      background: linear-gradient(90deg, #ffe0f0, #ffe7d1, #e0f9ff);
+      backdrop-filter: blur(10px);
+      z-index: 3;
+    }
+
+    .top-bar-left,
+    .top-bar-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .top-bar-title {
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-primary);
+    }
+
+    .icon-button {
+      border: none;
+      background: rgba(255, 255, 255, 0.8);
+      color: var(--text-primary);
+      border-radius: 999px;
+      padding: 4px 10px;
+      font-size: 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+      box-shadow: 0 1px 4px rgba(31, 36, 48, 0.15);
+    }
+
+    .icon-button span.icon {
+      font-size: 12px;
+    }
+
+    .icon-button:hover {
+      background: #ffffff;
+    }
+
+    /* Accent bar under top bar */
+    .accent-bar {
+      height: 4px;
+      margin: 0 16px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #ff7eb3, #ff758c, #42e9f5);
+    }
+
+    /* Instructions block */
+    .instructions {
+      padding: 10px 16px 6px 16px;
+      border-bottom: 1px solid var(--divider);
+      background: #ffffff;
+      z-index: 2;
+    }
+
+    .instructions-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 4px;
+      color: var(--text-primary);
+    }
+
+    .instructions-body {
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+
+    .instructions-body strong {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .status-line {
+      margin-top: 8px;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      font-size: 11px;
+      color: var(--text-secondary);
+    }
+
+    .status-line strong {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    /* Search + filters + backgrounds */
+    .search-filter-area {
+      padding: 8px 16px 8px 16px;
+      border-bottom: 1px solid var(--divider);
+      background: #ffffff;
+      z-index: 2;
+    }
+
+    .search-input-wrapper {
+      position: relative;
+      margin-bottom: 8px;
+    }
+
+    .search-input-wrapper input {
+      width: 100%;
+      padding: 8px 32px 8px 28px;
+      border-radius: 999px;
+      border: 1px solid #dde2f2;
+      background: #ffffff;
+      color: var(--text-primary);
+      font-size: 12px;
+      outline: none;
+      box-shadow: 0 1px 3px rgba(190, 202, 235, 0.35);
+    }
+
+    .search-input-wrapper input::placeholder {
+      color: #9ca3c4;
+      font-size: 11px;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 9px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 12px;
+      opacity: 0.7;
+    }
+
+    .clear-search {
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 10px;
+      cursor: pointer;
+      opacity: 0.5;
+    }
+
+    .chip-row {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      margin-top: 4px;
+    }
+
+    .filter-chip {
+      flex: 0 0 auto;
+      border-radius: 999px;
+      padding: 4px 10px;
+      font-size: 11px;
+      border: none;
+      background: var(--chip-bg);
+      color: var(--chip-text);
+      cursor: pointer;
+      white-space: nowrap;
+      opacity: 0.95;
+    }
+
+    .filter-chip.active {
+      background: var(--chip-active-bg);
+      color: #ffffff;
+      box-shadow: 0 0 0 1px var(--accent-soft);
+      opacity: 1;
+    }
+
+    .background-row {
+      margin-top: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .background-label {
+      font-size: 11px;
+      color: var(--text-secondary);
+      white-space: nowrap;
+    }
+
+    .background-options {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .background-chip {
+      border-radius: 999px;
+      border: none;
+      padding: 3px 10px;
+      font-size: 11px;
+      cursor: pointer;
+      background: #f3f5ff;
+      color: var(--chip-text);
+      opacity: 0.95;
+    }
+
+    .background-chip.active {
+      background: #ffffff;
+      color: var(--text-primary);
+      box-shadow: 0 0 0 1px var(--accent-soft);
+      opacity: 1;
+    }
+
+    /* Content area + backgrounds */
+    .content {
+      flex: 1;
+      min-height: 0;
+      overflow-y: auto;
+      padding: 8px 16px 70px 16px;
+      background: radial-gradient(circle at top, #ffffff, #f5f7ff);
+    }
+
+    .content.bg-midnight {
+      background: radial-gradient(circle at top, #ffffff, #f5f7ff);
+    }
+
+    .content.bg-stripes {
+      background-image: repeating-linear-gradient(
+        135deg,
+        #ffffff 0,
+        #ffffff 6px,
+        #f7f1ff 6px,
+        #f7f1ff 12px
+      );
+    }
+
+    .content.bg-stars {
+      background-color: #ffffff;
+      background-image:
+        radial-gradient(#ffd6f233 1px, transparent 1px),
+        radial-gradient(#bdefff33 1px, transparent 1px);
+      background-position: 0 0, 12px 12px;
+      background-size: 24px 24px;
+    }
+
+    .content.bg-hearts {
+      background-color: #fff7fb;
+      background-image:
+        radial-gradient(circle at 6px 6px, #ff7aa630 2px, transparent 3px),
+        radial-gradient(circle at 18px 18px, #ff7aa630 2px, transparent 3px);
+      background-size: 24px 24px;
+    }
+
+    .section {
+      margin-bottom: 16px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+
+    .section-title {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+    }
+
+    .section-subtitle {
+      font-size: 11px;
+      color: #9ca3c4;
+    }
+
+    .sticker-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
+      gap: 8px;
+    }
+
+    .sticker-tile {
+      background: var(--sticker-bg);
+      border-radius: 14px;
+      padding: 8px 6px;
+      border: 1px solid var(--sticker-border);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      cursor: pointer;
+      position: relative;
+      transition:
+        background 0.15s ease,
+        border-color 0.15s ease,
+        transform 0.1s ease,
+        box-shadow 0.15s ease;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 2px 6px rgba(186, 198, 231, 0.4);
+    }
+
+    .sticker-tile:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 10px rgba(164, 185, 232, 0.55);
+    }
+
+    .sticker-tile.selected {
+      background: var(--sticker-bg-selected);
+      border-color: var(--sticker-border-selected);
+      box-shadow:
+        0 0 0 1px var(--accent-soft),
+        0 0 18px rgba(255, 158, 201, 0.6);
+    }
+
+    .sticker-visual {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      min-height: 44px;
+    }
+
+    .sticker-image {
+      max-width: 46px;
+      max-height: 46px;
+      display: block;
+    }
+
+    .sticker-meta-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      font-size: 9px;
+      color: var(--text-secondary);
+    }
+
+    .sticker-tag {
+      font-size: 9px;
+      padding: 2px 6px;
+      border-radius: 999px;
+      background: rgba(245, 247, 255, 0.9);
+      white-space: nowrap;
+    }
+
+    .sticker-icons {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+    }
+
+    .pill-icon {
+      font-size: 10px;
+      opacity: 0.7;
+    }
+
+    .pill-icon.disabled {
+      opacity: 0.3;
+    }
+
+    .sticker-badge-trending {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      font-size: 9px;
+      padding: 2px 6px;
+      border-radius: 999px;
+      background: rgba(255, 184, 109, 0.2);
+      color: #ff9c4f;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    .sticker-badge-local {
+      position: absolute;
+      top: 6px;
+      left: 6px;
+      font-size: 9px;
+      padding: 2px 6px;
+      border-radius: 999px;
+      background: rgba(66, 233, 245, 0.2);
+      color: #00bcd4;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    .sticker-badge-seasonal {
+      position: absolute;
+      top: 6px;
+      left: 6px;
+      font-size: 9px;
+      padding: 2px 6px;
+      border-radius: 999px;
+      background: rgba(150, 255, 210, 0.2);
+      color: #00c58a;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    .sticker-checkmark {
+      position: absolute;
+      bottom: 6px;
+      right: 6px;
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      color: var(--accent);
+      box-shadow: 0 1px 4px rgba(164, 185, 232, 0.7);
+    }
+
+    .empty-msg {
+      font-size: 11px;
+      color: var(--text-secondary);
+      padding: 6px 0 0 0;
+    }
+
+    /* Bottom bar */
+    .bottom-bar {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: 8px 16px 10px 16px;
+      background: linear-gradient(
+        to top,
+        #ffffff,
+        rgba(255, 246, 251, 0.98)
+      );
+      border-top: 1px solid var(--divider);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      z-index: 3;
+    }
+
+    .bottom-summary {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      font-size: 11px;
+      color: var(--text-secondary);
+    }
+
+    .bottom-summary strong {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .primary-cta {
+      flex: 0 0 auto;
+      border-radius: 999px;
+      padding: 8px 16px;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      border: none;
+      cursor: pointer;
+      background: linear-gradient(135deg, #ff7eb3, #ff758c, #42e9f5);
+      color: #121827;
+      box-shadow:
+        0 0 0 1px rgba(255, 255, 255, 0.6),
+        0 10px 25px rgba(164, 185, 232, 0.7);
+    }
+
+    .primary-cta:active {
+      transform: translateY(1px);
+      box-shadow: 0 4px 14px rgba(164, 185, 232, 0.9);
+    }
+
+    .primary-cta.disabled {
+      background: #e7ebfb;
+      color: #9ca3c4;
+      cursor: default;
+      box-shadow: none;
+      opacity: 0.9;
+    }
+
+    .content::-webkit-scrollbar,
+    .chip-row::-webkit-scrollbar {
+      width: 4px;
+      height: 4px;
+    }
+
+    .content::-webkit-scrollbar-thumb,
+    .chip-row::-webkit-scrollbar-thumb {
+      background: #c3c9ec;
+      border-radius: 999px;
+    }
+
+    .content::-webkit-scrollbar-track,
+    .chip-row::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    @media (max-height: 720px) {
+      .screen {
+        height: calc(100vh - 80px);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="outer-frame">
+    <div class="phone-shell">
+      <div class="screen">
+        <!-- Top bar -->
+        <header class="top-bar">
+          <div class="top-bar-left">
+            <button class="icon-button" id="backButton">
+              <span class="icon">←</span>
+              <span>Back</span>
+            </button>
+          </div>
+          <div class="top-bar-title">Choose Your Stickers</div>
+          <div class="top-bar-right">
+            <button class="icon-button" id="helpButton">
+              <span class="icon">?</span>
+              <span>Help</span>
+            </button>
+          </div>
+        </header>
+
+        <!-- Accent bar -->
+        <div class="accent-bar"></div>
+
+        <!-- Instructions -->
+        <section class="instructions">
+          <div class="instructions-title">Build your first Stickerbook page</div>
+          <div class="instructions-body">
+            Tap a sticker to add it. Tap again to remove it. Pick at least
+            <strong>5</strong> and up to <strong>25</strong> that feel like you.
+          </div>
+          <div class="status-line">
+            <div>
+              <span>Selected:</span>
+              <strong><span id="selectedCount">0</span> / <span id="maxCount">25</span></strong>
+            </div>
+            <div>This becomes Page 1 of your Stickerbook.</div>
+          </div>
+        </section>
+
+        <!-- Search + filters + backgrounds -->
+        <section class="search-filter-area">
+          <div class="search-input-wrapper">
+            <span class="search-icon">🔍</span>
+            <input
+              type="text"
+              id="searchInput"
+              placeholder="Search stickers (e.g. ‘Sacramento’, ‘coffee’, ‘pride’)"
+              autocomplete="off"
+            />
+            <span class="clear-search" id="clearSearch" title="Clear search">✕</span>
+          </div>
+          <div class="chip-row" id="chipRow">
+            <button class="filter-chip active" data-filter="all">All</button>
+            <button class="filter-chip" data-filter="sacramento">Sacramento</button>
+            <button class="filter-chip" data-filter="tv">TV &amp; Movies</button>
+            <button class="filter-chip" data-filter="animals">Animals</button>
+            <button class="filter-chip" data-filter="humor">Humor</button>
+            <button class="filter-chip" data-filter="aesthetics">Aesthetics</button>
+            <button class="filter-chip" data-filter="places">Places</button>
+          </div>
+          <div class="background-row">
+            <span class="background-label">Page background:</span>
+            <div class="background-options" id="backgroundOptions">
+              <button class="background-chip active" data-bg="midnight">Clean</button>
+              <button class="background-chip" data-bg="stripes">Stripes</button>
+              <button class="background-chip" data-bg="stars">Sprinkles</button>
+              <button class="background-chip" data-bg="hearts">Hearts</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- Scrollable content -->
+        <main class="content bg-midnight" id="contentArea">
+          <!-- JS injects sections here -->
+        </main>
+
+        <!-- Bottom bar -->
+        <footer class="bottom-bar">
+          <div class="bottom-summary">
+            <div>
+              Selected:
+              <strong><span id="selectedCountBottom">0</span> / <span id="maxCountBottom">25</span></strong>
+            </div>
+            <div id="bottomHint">Pick at least 5 stickers to continue.</div>
+          </div>
+          <button class="primary-cta disabled" id="continueButton">
+            Pick more to continue
+          </button>
+        </footer>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const MIN_SELECTIONS = 5;
+    const MAX_SELECTIONS = 25;
+
+    const BACKGROUND_KEY = "stickerbookPageBackground";
+    const BACKGROUND_CLASSES = ["bg-midnight", "bg-stripes", "bg-stars", "bg-hearts"];
+
+    const AGE_GROUPS = {
+      GEN_ALPHA: "genalpha",
+      GEN_Z: "genz",
+      MILLENNIAL: "millennial",
+      OTHER: "other",
+    };
+
+    function getAgeGroup(age) {
+      const n = parseInt(age, 10);
+      if (isNaN(n)) return AGE_GROUPS.OTHER;
+      if (n <= 17) return AGE_GROUPS.GEN_ALPHA;
+      if (n <= 27) return AGE_GROUPS.GEN_Z;
+      if (n <= 42) return AGE_GROUPS.MILLENNIAL;
+      return AGE_GROUPS.OTHER;
+    }
+
+    // --- STICKER DATA ---
+    // mainCategory: "sacramento" | "tv" | "animals" | "humor" | "aesthetics" | "places"
+    const allStickers = [
+      // SACRAMENTO
+      {
+        id: "crocker",
+        label: "Crocker Art Museum",
+        mainCategory: "sacramento",
+        image: "assets/Stickers/Sticker - Crocker Art Museum.PNG",
+        tags: ["sacramento", "crocker", "museum", "art"],
+        localSac: true,
+        trending: false,
+        seasonal: false,
+        forYouGroups: ["millennial", "genz", "other"],
+      },
+      {
+        id: "sac_alhambra",
+        label: "Sacramento Alhambra Theater",
+        mainCategory: "sacramento",
+        image: "assets/Stickers/Sticker - Sacramento Alhambra Theater.PNG",
+        tags: ["sacramento", "alhambra", "theater", "history"],
+        localSac: true,
+        trending: false,
+        seasonal: false,
+        forYouGroups: ["millennial", "genz"],
+      },
+      {
+        id: "sac_sneeze",
+        label: "Sacramento City of Sneeze",
+        mainCategory: "sacramento",
+        image: "assets/Stickers/Sticker - Sacramento City of Sneeze.PNG",
+        tags: ["sacramento", "allergies", "pollen", "joke"],
+        localSac: true,
+        trending: true,
+        seasonal: true,
+        forYouGroups: ["millennial", "genz"],
+      },
+      {
+        id: "sac_trees",
+        label: "Sac City of Trees Water Tower",
+        mainCategory: "sacramento",
+        image: "assets/Stickers/Sticker - Sacramento City of Trees Water Tower.PNG",
+        tags: ["sacramento", "trees", "water tower", "city of trees"],
+        localSac: true,
+        trending: false,
+        seasonal: false,
+        forYouGroups: ["millennial", "genz", "other"],
+      },
+      {
+        id: "sac_gunthers",
+        label: "Gunther’s Ice Cream",
+        mainCategory: "sacramento",
+        image: "assets/Stickers/Sticker - Sacramento Gunther's Ice Cream.PNG",
+        tags: ["sacramento", "gunthers", "ice cream", "food"],
+        localSac: true,
+        trending: true,
+        seasonal: true,
+        forYouGroups: ["millennial", "genz"],
+      },
+      {
+        id: "sac_beam",
+        label: "Light the Beam",
+        mainCategory: "sacramento",
+        image: "assets/Stickers/Sticker - Sacramento Skyline Light the Beam.PNG",
+        tags: ["sacramento", "kings", "beam", "nba"],
+        localSac: true,
+        trending: true,
+        seasonal: false,
+        forYouGroups: ["millennial", "genz"],
+      },
+      {
+        id: "sac_bridge",
+        label: "Sacramento Tower Bridge",
+        mainCategory: "sacramento",
+        image: "assets/Stickers/Sticker - Sacramento Tower Bridge.PNG",
+        tags: ["sacramento", "tower bridge", "landmark", "river"],
+        localSac: true,
+        trending: false,
+        seasonal: false,
+        forYouGroups: ["millennial", "genz", "other"],
+      },
+
+      // TV & MOVIES
+      {
+        id: "bernie_meme",
+        label: "Bernie Sanders Sitting",
+        mainCategory: "tv",
+        image: "assets/Stickers/Sticker - Bernie Sanders Sitting Meme.PNG",
+        tags: ["bernie", "meme", "politics"],
+        localSac: false,
+        trending: true,
+        seasonal: false,
+        forYouGroups: ["millennial", "genz"],
+      },
+      {
+        id: "donna_dynamos",
+        label: "Donna & the Dynamos",
+        mainCategory: "tv",
+        image: "assets/Stickers/Sticker - Donna & the Dynamos Mamma Mia 2.PNG",
+        tags: ["mamma mia", "musical", "movie"],
+        localSac: false,
+        trending: false,
+        seasonal: false,
+        forYouGroups: ["millennial", "genz"],
+      },
+      {
+        id: "fleabag",
+        label: "Fleabag, Belinda & Statue",
+        mainCategory: "tv",
+        image: "assets/Stickers/Sticker - Fleabag, Belinda, and Statue.PNG",
+        tags: ["fleabag", "tv", "comedy"],
+        localSac: false,
+        trending: true,
+        seasonal: false,
+        forYouGroups: ["millennial", "genz"],
+      },
+      {
+        id: "wicked_pair",
+        label: "Galinda & Elphaba",
+        mainCategory: "tv",
+        image: "assets/Stickers/Sticker - Galinda and Elphaba.PNG",
+        tags: ["wicked", "musical", "broadway"],
+        localSac: false,
+        trending: false,
+        seasonal: false,
+        forYouGroups: ["millennial", "genz"],
+      },
+      {
+        id: "heat_cold_misers",
+        label: "Heat & Cold Misers",
+        mainCategory: "tv",
+        image: "assets/Stickers/Sticker - Heat and Cold Misers.PNG",
+        tags: ["holiday", "movie", "classic"],
+        localSac: false,
+        trending: false,
+        seasonal: true,
+        forYouGroups: ["millennial", "genz", "genalpha"],
+      },
+      {
+        id: "homeward_bound",
+        label: "Homeward Bound Animals",
+        mainCategory: "tv",
+        image: "assets/Stickers/Sticker - Homeward Bound animals.PNG",
+        tags: ["homeward bound", "movie", "animals"],
+        localSac: false,
+        trending: false,
+        seasonal: false,
+        forYouGroups: ["millennial"],
+      },
+      {
+        id: "lukes_diner",
+        label: "Luke’s Diner Mug",
+        mainCategory: "tv",
+        image: "assets/Stickers/Sticker - Luke's Diner Coffee Mug Gilmore Girls.PNG",
+        tags: ["gilmore girls", "coffee", "tv show"],
+        localSac: false,
+        trending: false,
+        seasonal: false,
+        forYouGroups: ["millennial", "genz"],
+      },
+
+      // ANIMALS
+      {
+        id: "black_cat_energy",
+        label: "Black Cat Energy",
+        mainCategory: "animals",
+        image: "assets/Stickers/Sticker - Black Cat Energy.PNG",
+        tags: ["cat", "black cat"],
+        localSac: false,
+        trending: true,
+        seasonal: false,
+        forYouGroups: ["genz", "millennial"],
+      },
+      {
+        id: "german_shepherd",
+        label: "German Shepherd",
+        mainCategory: "animals",
+        image: "assets/Stickers/Sticker - German Shepherd.PNG",
+        tags: ["dog", "german shepherd"],
+        localSac: false,
+        trending: false,
+        seasonal: false,
+        forYouGroups: ["millennial", "other"],
+      },
+      {
+        id: "orca",
+        label: "Orca",
+        mainCategory: "animals",
+        image: "assets/Stickers/Sticker - Orca.PNG",
+        tags: ["orca", "whale"],
+        localSac: false,
+        trending: false,
+        seasonal: false,
+        forYouGroups: ["genz", "millennial"],
+      },
+      {
+        id: "raccoon_stump",
+        label: "Raccoon on Stump",
+        mainCategory: "animals",
+        image: "assets/Stickers/Sticker - Raccoon Sleeping on Stump.PNG",
+        tags: ["raccoon", "forest", "cozy"],
+        localSac: false,
+        trending: false,
+        seasonal: false,
+        forYouGroups: ["genz", "millennial"],
+      },
+      {
+        id: "no_evil_cats",
+        label: "No Evil Street Cats",
+        mainCategory: "animals",
+        image: "assets/Stickers/Sticker - No Evil Street Cats.PNG",
+        tags: ["cats", "see no evil"],
+        localSac: false,
+        trending: false,
+        seasonal: false,
+        forYouGroups: ["genz", "millennial"],
+      },
+      {
+        id: "orange_cat_smoking",
+        label: "Orange Cat Smoking",
+        mainCategory: "animals",
+        image: "assets/Stickers/Sticker - Orange Cat Smoking.PNG",
+        tags: ["cat", "orange cat", "smoking"],
+        localSac: false,
+        trending: true,
+        seasonal: false,
+        forYouGroups: ["genz", "millennial"],
+      },
+      {
+        id: "hungry_caterpillar",
+        label: "Hungry Caterpillar",
+        mainCategory: "animals",
+        image: "assets/Stickers/Sticker - Hungry Caterpillar.PNG",
+        tags: ["hungry caterpillar", "book"],
+        localSac: false,
+        trending: false,
+        seasonal: false,
+        forYouGroups: ["genalpha", "millennial"],
+      },
+
+      // HUMOR
+      {
+        id: "bidet_2028",
+        label: "Bidet 2028",
+        mainCategory: "humor",
+        image: "assets/Stickers/Sticker - Bidet 2028 Humorous Meme.PNG",
+        tags: ["bidet", "politics", "joke"],
+        localSac: false,
+        trending: true,
+        seasonal: false,
+        forYouGroups: ["genz", "millennial"],
+      },
+      {
+        id: "brick_by_brick",
+        label: "Brick by Brick",
+        mainCategory: "humor",
+        image: "assets/Stickers/Sticker - Brick by Brick.PNG",
+        tags: ["brick by brick", "grind"],
+        localSac: false,
+        trending: false,
+        seasonal: false,
+        forYouGroups: ["millennial", "other"],
+      },
+      {
+        id: "pride_alien",
+        label: "Pride Flag on Moon (Alien)",
+        mainCategory: "humor",
+        image: "assets/Stickers/Sticker - Pride Flag Moon Planting by Alien.PNG",
+        tags: ["pride", "alien", "space"],
+        localSac: false,
+        trending: true,
+        seasonal: true,
+        forYouGroups: ["genz", "millennial", "genalpha"],
+      },
+
+      // AESTHETICS / OBJECTS
+      {
+        id: "but_first_coffee",
+        label: "But First, Coffee",
+        mainCategory: "aesthetics",
+        image: "assets/Stickers/Sticker - But First, Coffee.PNG",
+        tags: ["coffee", "mug", "morning"],
+        localSac: false,
+        trending: true,
+        seasonal: false,
+        forYouGroups: ["millennial", "genz"],
+      },
+      {
+        id: "coke_clydesdales",
+        label: "Coca Cola Clydesdales",
+        mainCategory: "aesthetics",
+        image: "assets/Stickers/Sticker - Coca Cola Clydesdales.PNG",
+        tags: ["coca cola", "clydesdales", "holiday"],
+        localSac: false,
+        trending: false,
+        seasonal: true,
+        forYouGroups: ["millennial", "genz"],
+      },
+      {
+        id: "coexist",
+        label: "Coexist",
+        mainCategory: "aesthetics",
+        image: "assets/Stickers/Sticker - Coexist.PNG",
+        tags: ["coexist", "values", "peace"],
+        localSac: false,
+        trending: false,
+        seasonal: false,
+        forYouGroups: ["millennial", "genz", "other"],
+      },
+      {
+        id: "cubano",
+        label: "Cubano Sandwich",
+        mainCategory: "aesthetics",
+        image: "assets/Stickers/Sticker - Cubano Sandwich.PNG",
+        tags: ["food", "sandwich", "cubano"],
+        localSac: false,
+        trending: false,
+        seasonal: false,
+        forYouGroups: ["millennial", "genz"],
+      },
+      {
+        id: "gold_rolex",
+        label: "Gold Rolex Watch",
+        mainCategory: "aesthetics",
+        image: "assets/Stickers/Sticker - Gold Rolex Watch.PNG",
+        tags: ["watch", "luxury", "rolex"],
+        localSac: false,
+        trending: false,
+        seasonal: false,
+        forYouGroups: ["millennial", "other"],
+      },
+      {
+        id: "keep_tahoe_blue",
+        label: "Keep Tahoe Blue",
+        mainCategory: "aesthetics",
+        image: "assets/Stickers/Sticker - Keep Tahoe Blue.PNG",
+        tags: ["tahoe", "lake", "environment"],
+        localSac: false,
+        trending: false,
+        seasonal: false,
+        forYouGroups: ["millennial", "other"],
+      },
+      {
+        id: "leave_trees",
+        label: "Leave the Trees",
+        mainCategory: "aesthetics",
+        image: "assets/Stickers/Sticker - Leave the Trees.PNG",
+        tags: ["trees", "environment"],
+        localSac: false,
+        trending: false,
+        seasonal: false,
+        forYouGroups: ["millennial", "genz"],
+      },
+      {
+        id: "mushrooms",
+        label: "Mushrooms",
+        mainCategory: "aesthetics",
+        image: "assets/Stickers/Sticker - Mushrooms.PNG",
+        tags: ["mushrooms", "forest"],
+        localSac: false,
+        trending: false,
+        seasonal: false,
+        forYouGroups: ["genz", "millennial"],
+      },
+      {
+        id: "rubix_cube",
+        label: "Rubix Cube",
+        mainCategory: "aesthetics",
+        image: "assets/Stickers/Sticker - Rubix Cube.PNG",
+        tags: ["rubix", "puzzle", "retro"],
+        localSac: false,
+        trending: false,
+        seasonal: false,
+        forYouGroups: ["millennial", "genz"],
+      },
+      {
+        id: "jesus",
+        label: "Jesus",
+        mainCategory: "aesthetics",
+        image: "assets/Stickers/Sticker - Jesus.PNG",
+        tags: ["jesus", "faith", "icon"],
+        localSac: false,
+        trending: false,
+        seasonal: false,
+        forYouGroups: ["millennial", "other"],
+      },
+      {
+        id: "pride_flag_moon",
+        label: "Pride Flag on Moon",
+        mainCategory: "aesthetics",
+        image: "assets/Stickers/Sticker - Pride Flag Moon Planting.PNG",
+        tags: ["pride", "space"],
+        localSac: false,
+        trending: true,
+        seasonal: true,
+        forYouGroups: ["genz", "millennial", "genalpha"],
+      },
+      {
+        id: "firetruck",
+        label: "Firetruck",
+        mainCategory: "aesthetics",
+        image: "assets/Stickers/Sticker - Firetruck.PNG",
+        tags: ["firetruck", "emergency"],
+        localSac: false,
+        trending: false,
+        seasonal: false,
+        forYouGroups: ["genalpha", "millennial"],
+      },
+      {
+        id: "ambulance",
+        label: "Ambulance",
+        mainCategory: "aesthetics",
+        image: "assets/Stickers/Sticker - Ambulance.PNG",
+        tags: ["ambulance", "emergency"],
+        localSac: false,
+        trending: false,
+        seasonal: false,
+        forYouGroups: ["genalpha", "millennial"],
+      },
+
+      // PLACES
+      {
+        id: "arches_np",
+        label: "Arches National Park",
+        mainCategory: "places",
+        image: "assets/Stickers/Sticker - Arches National Park.PNG",
+        tags: ["arches", "national park", "utah"],
+        localSac: false,
+        trending: false,
+        seasonal: false,
+        forYouGroups: ["millennial", "other"],
+      },
+      {
+        id: "reno_sign",
+        label: "Reno Sign",
+        mainCategory: "places",
+        image: "assets/Stickers/Sticker - Reno Sign.PNG",
+        tags: ["reno", "nevada", "city"],
+        localSac: false,
+        trending: false,
+        seasonal: false,
+        forYouGroups: ["millennial", "genz"],
+      }
+    ];
+
+    // --- STATE ---
+    let selectedIds = new Set();
+    let searchTerm = "";
+    let activeFilter = "all";
+    let activeBackground = "midnight";
+    let userAge = null;
+    let userAgeGroup = AGE_GROUPS.OTHER;
+    let userZip = null;
+
+    // --- DOM ELEMENTS ---
+    const contentArea = document.getElementById("contentArea");
+    const selectedCountSpan = document.getElementById("selectedCount");
+    const selectedCountBottomSpan = document.getElementById("selectedCountBottom");
+    const maxCountSpan = document.getElementById("maxCount");
+    const maxCountBottomSpan = document.getElementById("maxCountBottom");
+    const bottomHint = document.getElementById("bottomHint");
+    const continueButton = document.getElementById("continueButton");
+    const backButton = document.getElementById("backButton");
+    const helpButton = document.getElementById("helpButton");
+    const searchInput = document.getElementById("searchInput");
+    const clearSearch = document.getElementById("clearSearch");
+    const chipRow = document.getElementById("chipRow");
+    const backgroundOptions = document.getElementById("backgroundOptions");
+
+    maxCountSpan.textContent = MAX_SELECTIONS;
+    maxCountBottomSpan.textContent = MAX_SELECTIONS;
+
+    // --- UTILITIES ---
+    function loadUserContext() {
+      try {
+        const age = localStorage.getItem("stickerbook_age");
+        const zip = localStorage.getItem("stickerbook_zip");
+        const bg = localStorage.getItem(BACKGROUND_KEY);
+
+        userAge = age ? parseInt(age, 10) : null;
+        userAgeGroup = getAgeGroup(age);
+        userZip = zip || null;
+
+        if (bg && ["midnight", "stripes", "stars", "hearts"].includes(bg)) {
+          activeBackground = bg;
+        }
+      } catch (e) {
+        userAge = null;
+        userAgeGroup = AGE_GROUPS.OTHER;
+        userZip = null;
+        activeBackground = "midnight";
+      }
+    }
+
+    function loadSelections() {
+      try {
+        const raw = localStorage.getItem("stickerbookSelectedStickers");
+        if (raw) {
+          const arr = JSON.parse(raw);
+          if (Array.isArray(arr)) {
+            selectedIds = new Set(arr);
+          }
+        }
+      } catch (e) {
+        selectedIds = new Set();
+      }
+    }
+
+    function saveSelections() {
+      try {
+        const arr = Array.from(selectedIds);
+        localStorage.setItem("stickerbookSelectedStickers", JSON.stringify(arr));
+      } catch (e) {
+        // ignore
+      }
+    }
+
+    function normalize(str) {
+      return (str || "").toLowerCase();
+    }
+
+    function matchesCategoryFilter(sticker) {
+      if (activeFilter === "all") return true;
+      return sticker.mainCategory === activeFilter;
+    }
+
+    function filterBySearch(stickers) {
+      const term = normalize(searchTerm);
+      if (!term) return stickers;
+
+      return stickers.filter((s) => {
+        if (normalize(s.label).includes(term)) return true;
+        if (s.tags && s.tags.some((t) => normalize(t).includes(term))) return true;
+        return false;
+      });
+    }
+
+    function getForYouStickers() {
+      const relevant = allStickers.filter((s) => {
+        if (!s.forYouGroups || !Array.isArray(s.forYouGroups)) return false;
+        return (
+          s.forYouGroups.includes(userAgeGroup) ||
+          s.forYouGroups.includes(AGE_GROUPS.OTHER)
+        );
+      });
+
+      const isSac =
+        userZip &&
+        (userZip.startsWith("958") ||
+         userZip.startsWith("956"));
+
+      if (isSac) {
+        const locals = allStickers.filter((s) => s.localSac);
+        locals.forEach((loc) => {
+          if (!relevant.some((s) => s.id === loc.id)) {
+            relevant.push(loc);
+          }
+        });
+      }
+
+      return relevant.slice(0, 12);
+    }
+
+    // --- RENDERING ---
+    function renderStickerTile(sticker) {
+      const tile = document.createElement("div");
+      tile.className = "sticker-tile";
+      tile.dataset.stickerId = sticker.id;
+
+      if (selectedIds.has(sticker.id)) {
+        tile.classList.add("selected");
+      }
+
+      if (sticker.localSac && sticker.seasonal) {
+        const badge = document.createElement("div");
+        badge.className = "sticker-badge-seasonal";
+        badge.textContent = "Seasonal";
+        tile.appendChild(badge);
+      } else if (sticker.localSac) {
+        const badge = document.createElement("div");
+        badge.className = "sticker-badge-local";
+        badge.textContent = "Local";
+        tile.appendChild(badge);
+      } else if (sticker.seasonal) {
+        const badge = document.createElement("div");
+        badge.className = "sticker-badge-seasonal";
+        badge.textContent = "Seasonal";
+        tile.appendChild(badge);
+      }
+
+      if (sticker.trending) {
+        const tBadge = document.createElement("div");
+        tBadge.className = "sticker-badge-trending";
+        tBadge.textContent = "Trending";
+        tile.appendChild(tBadge);
+      }
+
+      const visual = document.createElement("div");
+      visual.className = "sticker-visual";
+
+      const img = document.createElement("img");
+      img.src = sticker.image;
+      img.alt = sticker.label || "Sticker";
+      img.className = "sticker-image";
+      visual.appendChild(img);
+
+      const metaRow = document.createElement("div");
+      metaRow.className = "sticker-meta-row";
+
+      const tagSpan = document.createElement("span");
+      tagSpan.className = "sticker-tag";
+
+      let catLabel = "";
+      switch (sticker.mainCategory) {
+        case "sacramento": catLabel = "Sacramento"; break;
+        case "tv": catLabel = "TV & Movies"; break;
+        case "animals": catLabel = "Animals"; break;
+        case "humor": catLabel = "Humor"; break;
+        case "aesthetics": catLabel = "Aesthetic"; break;
+        case "places": catLabel = "Place"; break;
+        default: catLabel = "Sticker";
+      }
+      tagSpan.textContent = catLabel;
+
+      const iconRow = document.createElement("div");
+      iconRow.className = "sticker-icons";
+
+      const moreIcon = document.createElement("span");
+      moreIcon.className = "pill-icon disabled";
+      moreIcon.title = "“More like this” coming soon";
+      moreIcon.textContent = "✨";
+
+      iconRow.appendChild(moreIcon);
+
+      metaRow.appendChild(tagSpan);
+      metaRow.appendChild(iconRow);
+
+      tile.appendChild(visual);
+      tile.appendChild(metaRow);
+
+      if (selectedIds.has(sticker.id)) {
+        const check = document.createElement("div");
+        check.className = "sticker-checkmark";
+        check.textContent = "✓";
+        tile.appendChild(check);
+      }
+
+      tile.addEventListener("click", () => {
+        toggleStickerSelection(sticker.id);
+      });
+
+      return tile;
+    }
+
+    function renderSection(title, subtitle, stickers) {
+      if (!stickers || stickers.length === 0) return null;
+
+      let visible = stickers.filter(matchesCategoryFilter);
+      visible = filterBySearch(visible);
+
+      if (visible.length === 0) return null;
+
+      const section = document.createElement("section");
+      section.className = "section";
+
+      const header = document.createElement("div");
+      header.className = "section-header";
+
+      const titleDiv = document.createElement("div");
+      titleDiv.className = "section-title";
+      titleDiv.textContent = title;
+
+      header.appendChild(titleDiv);
+
+      if (subtitle) {
+        const subtitleDiv = document.createElement("div");
+        subtitleDiv.className = "section-subtitle";
+        subtitleDiv.textContent = subtitle;
+        header.appendChild(subtitleDiv);
+      }
+
+      const grid = document.createElement("div");
+      grid.className = "sticker-grid";
+
+      visible.forEach((s) => {
+        grid.appendChild(renderStickerTile(s));
+      });
+
+      section.appendChild(header);
+      section.appendChild(grid);
+
+      return section;
+    }
+
+    function renderSearchResults() {
+      const section = document.createElement("section");
+      section.className = "section";
+
+      const header = document.createElement("div");
+      header.className = "section-header";
+
+      const titleDiv = document.createElement("div");
+      titleDiv.className = "section-title";
+      titleDiv.textContent = "Search results";
+
+      const subtitleDiv = document.createElement("div");
+      subtitleDiv.className = "section-subtitle";
+      subtitleDiv.textContent = "Tap to add or remove stickers from your page.";
+
+      header.appendChild(titleDiv);
+      header.appendChild(subtitleDiv);
+      section.appendChild(header);
+
+      const grid = document.createElement("div");
+      grid.className = "sticker-grid";
+
+      let results = filterBySearch(allStickers).filter(matchesCategoryFilter);
+
+      if (results.length === 0) {
+        const msg = document.createElement("div");
+        msg.className = "empty-msg";
+        msg.textContent =
+          "No stickers match that search yet. Try a different word or remove a filter.";
+        section.appendChild(msg);
+      } else {
+        results.forEach((s) => grid.appendChild(renderStickerTile(s)));
+        section.appendChild(grid);
+      }
+
+      return section;
+    }
+
+    function renderContent() {
+      contentArea.innerHTML = "";
+
+      if (searchTerm.trim() !== "") {
+        const searchSection = renderSearchResults();
+        if (searchSection) contentArea.appendChild(searchSection);
+        return;
+      }
+
+      const forYouSection = renderSection(
+        "For You",
+        "A handful that might feel like you",
+        getForYouStickers()
+      );
+      if (forYouSection) contentArea.appendChild(forYouSection);
+
+      const sacSection = renderSection(
+        "Sacramento",
+        "Landmarks, local flavor, and inside jokes",
+        allStickers.filter((s) => s.mainCategory === "sacramento")
+      );
+      if (sacSection) contentArea.appendChild(sacSection);
+
+      const tvSection = renderSection(
+        "TV & Movies",
+        "Fandoms, comfort watches, and pop culture",
+        allStickers.filter((s) => s.mainCategory === "tv")
+      );
+      if (tvSection) contentArea.appendChild(tvSection);
+
+      const animalsSection = renderSection(
+        "Animals",
+        "Pets, creatures, and little guys",
+        allStickers.filter((s) => s.mainCategory === "animals")
+      );
+      if (animalsSection) contentArea.appendChild(animalsSection);
+
+      const humorSection = renderSection(
+        "Humor",
+        "Chaos, memes, and inside jokes",
+        allStickers.filter((s) => s.mainCategory === "humor")
+      );
+      if (humorSection) contentArea.appendChild(humorSection);
+
+      const aestheticsSection = renderSection(
+        "Aesthetics & Objects",
+        "Icons, vibes, and visual shorthand",
+        allStickers.filter((s) => s.mainCategory === "aesthetics")
+      );
+      if (aestheticsSection) contentArea.appendChild(aestheticsSection);
+
+      const placesSection = renderSection(
+        "Places",
+        "Non-Sacramento spots and travel energy",
+        allStickers.filter((s) => s.mainCategory === "places")
+      );
+      if (placesSection) contentArea.appendChild(placesSection);
+    }
+
+    // --- SELECTION & UI STATE ---
+    function updateSelectionUI() {
+      const count = selectedIds.size;
+      selectedCountSpan.textContent = count;
+      selectedCountBottomSpan.textContent = count;
+
+      if (count < MIN_SELECTIONS) {
+        bottomHint.textContent = `Pick at least ${MIN_SELECTIONS} stickers to continue.`;
+        continueButton.textContent = "Pick more to continue";
+        continueButton.classList.add("disabled");
+      } else {
+        bottomHint.textContent = "Looks good when you’re ready.";
+        continueButton.textContent = "See My Page";
+        continueButton.classList.remove("disabled");
+      }
+
+      renderContent();
+    }
+
+    function toggleStickerSelection(id) {
+      if (selectedIds.has(id)) {
+        selectedIds.delete(id);
+      } else {
+        if (selectedIds.size >= MAX_SELECTIONS) {
+          alert(`You can pick up to ${MAX_SELECTIONS} stickers for now.`);
+          return;
+        }
+        selectedIds.add(id);
+      }
+
+      saveSelections();
+      updateSelectionUI();
+    }
+
+    function applyBackgroundClass() {
+      BACKGROUND_CLASSES.forEach(cls => contentArea.classList.remove(cls));
+      const cls = "bg-" + activeBackground;
+      contentArea.classList.add(cls);
+    }
+
+    function saveBackground() {
+      try {
+        localStorage.setItem(BACKGROUND_KEY, activeBackground);
+      } catch (e) {
+        // ignore
+      }
+    }
+
+    function updateBackgroundChips() {
+      document
+        .querySelectorAll(".background-chip")
+        .forEach(btn => {
+          const v = btn.getAttribute("data-bg");
+          if (v === activeBackground) btn.classList.add("active");
+          else btn.classList.remove("active");
+        });
+    }
+
+    // --- EVENT HOOKUP ---
+    backButton.addEventListener("click", () => {
+      window.location.href = "intro.html";
+    });
+
+    helpButton.addEventListener("click", () => {
+      alert(
+        "This is where Stickerbook learns who you are. Pick visuals that feel like little pieces of your real life—your moods, causes, habits, and obsessions. The titles are behind the scenes; what you and others will see later is the page of stickers itself."
+      );
+    });
+
+    searchInput.addEventListener("input", (e) => {
+      searchTerm = e.target.value || "";
+      renderContent();
+    });
+
+    clearSearch.addEventListener("click", () => {
+      searchTerm = "";
+      searchInput.value = "";
+      renderContent();
+    });
+
+    chipRow.addEventListener("click", (e) => {
+      const chip = e.target.closest(".filter-chip");
+      if (!chip) return;
+      const filter = chip.getAttribute("data-filter");
+      if (!filter) return;
+
+      activeFilter = filter;
+      document
+        .querySelectorAll(".filter-chip")
+        .forEach((c) => c.classList.remove("active"));
+      chip.classList.add("active");
+
+      renderContent();
+    });
+
+    backgroundOptions.addEventListener("click", (e) => {
+      const btn = e.target.closest(".background-chip");
+      if (!btn) return;
+      const bg = btn.getAttribute("data-bg");
+      if (!bg) return;
+      activeBackground = bg;
+      applyBackgroundClass();
+      updateBackgroundChips();
+      saveBackground();
+    });
+
+    continueButton.addEventListener("click", () => {
+      if (selectedIds.size < MIN_SELECTIONS) {
+        alert(`Pick at least ${MIN_SELECTIONS} stickers to continue.`);
+        return;
+      }
+      if (continueButton.classList.contains("disabled")) {
+        return;
+      }
+      window.location.href = "sticker-preview.html";
+    });
+
+    // --- INIT ---
+    function init() {
+      loadUserContext();
+      loadSelections();
+      applyBackgroundClass();
+      updateBackgroundChips();
+      renderContent();
+      updateSelectionUI();
+    }
+
+    document.addEventListener("DOMContentLoaded", init);
+  </script>
+</body>
+</html>

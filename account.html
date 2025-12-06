@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Stickerbook – Start Your Profile</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Fonts (kept for logo + headings) -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      /* Light Miami Vice palette */
+      --bg-pink: #ffeef7;
+      --bg-blue: #e7f9ff;
+
+      --shell-bg: #ffffff;
+      --shell-border: rgba(148, 163, 184, 0.12);
+      --shell-shadow-main: 0 18px 40px rgba(15, 23, 42, 0.20);
+
+      --text-main: #111827;
+      --text-muted: #6b7280;
+      --text-subtle: #9ca3af;
+
+      --field-bg: #f9fafb;
+      --field-border: rgba(148, 163, 184, 0.7);
+      --field-border-focus: #0ea5e9;
+      --field-placeholder: rgba(148, 163, 184, 0.9);
+      --field-disabled-bg: #f3f4f6;
+      --field-disabled-border: rgba(156, 163, 175, 0.7);
+
+      --button-gradient: linear-gradient(135deg, #ff4f96, #ff7a4e, #22d3ee);
+      --button-text: #ffffff;
+
+      --error-text: #f97373;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background:
+        radial-gradient(circle at top left, var(--bg-pink) 0, #ffffff 45%),
+        radial-gradient(circle at bottom right, var(--bg-blue) 0, #ffffff 45%);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif;
+      color: var(--text-main);
+      padding: 16px;
+    }
+
+    .phone-shell {
+      width: min(420px, 100vw - 24px);
+      background: var(--shell-bg);
+      border-radius: 32px;
+      box-shadow:
+        var(--shell-shadow-main),
+        0 0 0 1px var(--shell-border);
+      padding: 20px 18px 22px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      align-items: center;
+    }
+
+    .phone-notch {
+      width: 80px;
+      height: 6px;
+      border-radius: 999px;
+      background: #e5e7eb;
+      margin: 0 auto 14px;
+    }
+
+    .phone-inner {
+      width: 100%;
+      border-radius: 26px;
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      background: #ffffff;
+      padding: 20px 18px 18px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .shell-inner {
+      width: 100%;
+      max-width: 320px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .top-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+    }
+
+    .back-link {
+      border: none;
+      background: transparent;
+      color: var(--text-subtle);
+      font-size: 11px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+      padding: 4px 0;
+    }
+
+    .back-link span.icon {
+      font-size: 12px;
+      transform: translateY(0.5px);
+    }
+
+    .back-link:hover {
+      color: var(--text-muted);
+    }
+
+    .logo-mark {
+      font-family: "Poppins", system-ui, sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.20em;
+      text-transform: uppercase;
+      color: var(--text-main);
+    }
+
+    .screen-title {
+      font-family: "Poppins", system-ui, sans-serif;
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin: 4px 0 6px;
+      color: var(--text-main);
+    }
+
+    .screen-subtitle {
+      font-size: 12px;
+      line-height: 1.5;
+      color: var(--text-muted);
+      margin: 0 0 14px;
+    }
+
+    .form {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 2px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .field-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--text-subtle);
+    }
+
+    .field-input {
+      border-radius: 999px;
+      border: 1px solid var(--field-border);
+      padding: 8px 14px;
+      font-size: 12px;
+      background: var(--field-bg);
+      color: var(--text-main);
+      outline: none;
+      transition: border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+    }
+
+    .field-input::placeholder {
+      color: var(--field-placeholder);
+    }
+
+    .field-input:focus {
+      border-color: var(--field-border-focus);
+      box-shadow: 0 0 0 1px rgba(14, 165, 233, 0.35);
+      background: #ffffff;
+    }
+
+    .field-input[disabled] {
+      background: var(--field-disabled-bg);
+      border-color: var(--field-disabled-border);
+      color: rgba(107, 114, 128, 0.9);
+      cursor: not-allowed;
+    }
+
+    .field-helper {
+      font-size: 10px;
+      color: var(--text-subtle);
+    }
+
+    .field-error {
+      font-size: 10px;
+      color: var(--error-text);
+      margin-top: 2px;
+      min-height: 12px;
+    }
+
+    .field-error.hidden {
+      visibility: hidden;
+    }
+
+    .cta-row {
+      margin-top: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .btn-primary {
+      border-radius: 999px;
+      border: none;
+      padding: 11px 26px;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      background: var(--button-gradient);
+      color: var(--button-text);
+      box-shadow:
+        0 12px 22px rgba(236, 72, 153, 0.35),
+        0 0 0 1px rgba(248, 250, 252, 0.5);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      width: 100%;
+      transition:
+        background 0.18s ease,
+        transform 0.15s ease,
+        box-shadow 0.18s ease,
+        opacity 0.18s ease;
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      transform: translateY(-1px);
+      box-shadow:
+        0 18px 26px rgba(236, 72, 153, 0.4),
+        0 0 0 1px rgba(248, 250, 252, 0.9);
+    }
+
+    .btn-primary:active:not(:disabled) {
+      transform: translateY(0);
+      box-shadow:
+        0 10px 16px rgba(236, 72, 153, 0.3),
+        0 0 0 1px rgba(248, 250, 252, 0.8);
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+      box-shadow:
+        0 0 0 1px rgba(209, 213, 219, 0.8);
+      background: linear-gradient(135deg, #f9fafb, #e5e7eb);
+      color: #9ca3af;
+    }
+
+    @media (max-width: 480px) {
+      .phone-inner {
+        padding: 18px 14px 16px;
+      }
+      .screen-title {
+        font-size: 16px;
+      }
+      .screen-subtitle {
+        font-size: 11px;
+      }
+      .field-input {
+        font-size: 11px;
+      }
+      .btn-primary {
+        font-size: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="phone-shell">
+    <div class="phone-notch"></div>
+    <div class="phone-inner">
+      <div class="shell-inner">
+        <div class="top-row">
+          <button class="back-link" onclick="window.location.href='index.html'">
+            <span class="icon">←</span>
+            <span>Back</span>
+          </button>
+          <div class="logo-mark">STICKERBOOK</div>
+        </div>
+
+        <h1 class="screen-title">Before we build your stickerbook…</h1>
+        <p class="screen-subtitle">
+          Let’s start with a few basics.
+        </p>
+
+        <form class="form" id="account-form" novalidate>
+          <!-- Name -->
+          <div class="field">
+            <label class="field-label" for="name-input">Name</label>
+            <input
+              id="name-input"
+              class="field-input"
+              type="text"
+              placeholder="Your first name"
+              autocomplete="off"
+            />
+          </div>
+
+          <!-- Age -->
+          <div class="field">
+            <label class="field-label" for="age-input">Age</label>
+            <input
+              id="age-input"
+              class="field-input no-spinner"
+              type="text"
+              inputmode="numeric"
+              pattern="[0-9]*"
+              placeholder="Your age"
+            />
+            <div id="age-error" class="field-error hidden">
+              Stickerbook is for ages 13 and up.
+            </div>
+          </div>
+
+          <!-- ZIP -->
+          <div class="field">
+            <label class="field-label" for="zip-input">ZIP code</label>
+            <input
+              id="zip-input"
+              class="field-input"
+              type="text"
+              inputmode="numeric"
+              placeholder="Your ZIP code"
+              autocomplete="postal-code"
+            />
+          </div>
+
+          <!-- Disabled Email -->
+          <div class="field">
+            <label class="field-label" for="email-input">Email</label>
+            <input
+              id="email-input"
+              class="field-input"
+              type="email"
+              placeholder="Coming in the full version"
+              disabled
+            />
+            <div class="field-helper">
+              Not needed for this demo.
+            </div>
+          </div>
+
+          <!-- Disabled Password -->
+          <div class="field">
+            <label class="field-label" for="password-input">Password</label>
+            <input
+              id="password-input"
+              class="field-input"
+              type="password"
+              placeholder="Coming in the full version"
+              disabled
+            />
+            <div class="field-helper">
+              Not needed for this demo.
+            </div>
+          </div>
+
+          <div class="cta-row">
+            <button id="continue-btn" type="button" class="btn-primary" disabled>
+              Continue
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const nameInput = document.getElementById('name-input');
+      const ageInput = document.getElementById('age-input');
+      const zipInput = document.getElementById('zip-input');
+      const ageError = document.getElementById('age-error');
+      const continueBtn = document.getElementById('continue-btn');
+
+      function validateForm() {
+        const name = nameInput.value.trim();
+        const ageValue = ageInput.value.trim();
+        const zip = zipInput.value.trim();
+
+        let age = parseInt(ageValue, 10);
+        if (Number.isNaN(age)) {
+          age = null;
+        }
+
+        // Age error handling
+        if (age !== null && age <= 12) {
+          ageError.classList.remove('hidden');
+        } else {
+          ageError.classList.add('hidden');
+        }
+
+        // Form validity
+        const isValid =
+          name.length > 0 &&
+          age !== null &&
+          age >= 13 &&
+          zip.length > 0;
+
+        continueBtn.disabled = !isValid;
+      }
+
+      nameInput.addEventListener('input', validateForm);
+      ageInput.addEventListener('input', validateForm);
+      zipInput.addEventListener('input', validateForm);
+
+      continueBtn.addEventListener('click', function () {
+        // Save profile info for later pages
+        localStorage.setItem("stickerbook_name", nameInput.value.trim());
+        localStorage.setItem("stickerbook_age", ageInput.value.trim());
+        localStorage.setItem("stickerbook_zip", zipInput.value.trim());
+
+        // Go to the intro page
+        window.location.href = "intro.html";
+      });
+
+    })();
+  </script>
+</body>
+</html>
