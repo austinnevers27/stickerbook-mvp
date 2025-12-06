@@ -5,43 +5,24 @@
   <title>Stickerbook – Welcome</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Fonts (logo + headings) -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      /* Miami Vice inspired palette */
-      --bg-deep: #050715;
-      --bg-soft-1: rgba(255, 111, 202, 0.25);
-      --bg-soft-2: rgba(0, 242, 254, 0.22);
+      --bg-pink: #ffeef7;
+      --bg-blue: #e7f9ff;
 
-      --shell-border: rgba(255, 255, 255, 0.16);
-      --shell-shadow-main: 0 26px 70px rgba(0, 0, 0, 0.9);
-      --shell-bg: radial-gradient(circle at top, #1a1f3a, #050715);
+      --shell-bg: #ffffff;
+      --shell-border: rgba(148, 163, 184, 0.12);
+      --shell-shadow-main: 0 18px 40px rgba(15, 23, 42, 0.20);
 
-      --inner-border: rgba(255, 255, 255, 0.06);
-      --inner-bg: linear-gradient(150deg, rgba(9, 13, 38, 0.98), rgba(7, 10, 28, 0.98));
+      --text-main: #111827;
+      --text-muted: #6b7280;
+      --text-subtle: #9ca3af;
 
-      --text-main: #fdfcff;
-      --text-muted: #b5bdd7;
-      --text-subtle: #8289a6;
-
-      --accent-pink: #ff6fca;
-      --accent-teal: #00f2fe;
-      --accent-orange: #ff9f7b;
-      --accent-yellow: #ffd369;
-      --accent-purple: #8b5bff;
-
-      --accent-bar: linear-gradient(90deg, #ff6fca, #ff9f7b, #00f2fe);
-
-      --btn-primary-bg: linear-gradient(135deg, #ff6fca, #ff9f7b);
-      --btn-primary-shadow: 0 16px 32px rgba(255, 111, 202, 0.6);
-
-      --btn-radius: 999px;
-      --shell-radius: 32px;
-      --inner-radius: 24px;
-
-      --transition-fast: 0.18s ease-out;
+      --button-gradient: linear-gradient(135deg, #ff4f96, #ff7a4e, #22d3ee);
+      --button-text: #ffffff;
     }
 
     * {
@@ -59,83 +40,69 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 16px;
-      font-family: "Poppins", system-ui, -apple-system, BlinkMacSystemFont,
-        "Segoe UI", sans-serif;
-      color: var(--text-main);
       background:
-        radial-gradient(circle at top left, rgba(255, 111, 202, 0.32), transparent 55%),
-        radial-gradient(circle at bottom right, rgba(0, 242, 254, 0.32), transparent 55%),
-        radial-gradient(circle at top right, rgba(139, 91, 255, 0.32), transparent 60%),
-        #050715;
-      background-attachment: fixed;
+        radial-gradient(circle at top left, var(--bg-pink) 0, #ffffff 45%),
+        radial-gradient(circle at bottom right, var(--bg-blue) 0, #ffffff 45%);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif;
+      color: var(--text-main);
+      padding: 16px;
     }
 
-    /* Phone shell */
+    /* === outer “phone” shell – same pattern as account.html === */
+    .app-shell {
+      width: 100%;
+      max-width: 420px;
+      display: flex;
+      justify-content: center;
+    }
 
-    .phone-shell {
-      position: relative;
-      width: 420px;
-      max-width: 100%;
-      height: 800px;
-      max-height: calc(100vh - 48px);
-      border-radius: var(--shell-radius);
-      padding: 18px;
+    .phone-frame {
+      width: 100%;
+      max-width: 380px;
       background: var(--shell-bg);
-      border: 1px solid var(--shell-border);
+      border-radius: 32px;
+      padding: 24px 18px 24px;
       box-shadow:
-        var(--shell-shadow-main),
-        0 0 0 1px rgba(255, 255, 255, 0.04);
+        0 18px 40px rgba(15, 23, 42, 0.20),
+        0 0 0 1px var(--shell-border);
       display: flex;
       flex-direction: column;
-      overflow: hidden;
-    }
+      align-items: center;
 
-    /* Fake notch */
+      height: 700px;
+      max-height: calc(100vh - 80px);
+      overflow: hidden;  /* inner content scrolls */
+    }
 
     .phone-notch {
-      position: absolute;
-      top: 10px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 120px;
-      height: 24px;
+      width: 80px;
+      height: 6px;
       border-radius: 999px;
-      background: rgba(0, 0, 0, 0.8);
-      box-shadow:
-        0 0 0 1px rgba(255, 255, 255, 0.06),
-        0 6px 14px rgba(0, 0, 0, 0.85);
-      z-index: 2;
+      background: #e5e7eb;
+      margin-bottom: 12px;
+      flex-shrink: 0;
     }
 
-    /* Inner screen */
-
     .phone-inner {
-      position: relative;
-      flex: 1;
-      margin-top: 16px;
-      border-radius: var(--inner-radius);
-      border: 1px solid var(--inner-border);
-      background:
-        var(--inner-bg),
-        url("data:image/svg+xml,%3Csvg width='340' height='600' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23ff6fca' stop-opacity='0.36'/%3E%3Cstop offset='50%25' stop-color='%238b5bff' stop-opacity='0.2'/%3E%3Cstop offset='100%25' stop-color='%2300f2fe' stop-opacity='0.26'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='40' cy='60' r='90' fill='url(%23g)'/%3E%3Ccircle cx='320' cy='520' r='140' fill='url(%23g)'/%3E%3C/svg%3E")
-          center/cover no-repeat;
-      box-shadow:
-        inset 0 0 0 1px rgba(255, 255, 255, 0.04),
-        0 16px 34px rgba(0, 0, 0, 0.9);
+      width: 100%;
+      border-radius: 26px;
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      background: #ffffff;
+      padding: 20px 18px 18px;
       display: flex;
       flex-direction: column;
-      overflow: hidden;
+      align-items: center;
+      flex: 1;
+      overflow-y: auto;  /* scrolling happens inside here */
     }
 
     .shell-inner {
       width: 100%;
       max-width: 320px;
       margin: 0 auto;
-      padding: 16px 16px 18px;
       display: flex;
       flex-direction: column;
-      overflow-y: auto;
+      align-items: stretch;
     }
 
     .shell-inner::-webkit-scrollbar {
@@ -145,241 +112,214 @@
       background: transparent;
     }
     .shell-inner::-webkit-scrollbar-thumb {
-      background: rgba(255, 255, 255, 0.22);
+      background: rgba(148, 163, 184, 0.6);
       border-radius: 999px;
     }
 
-    /* Top row: back + logo */
+    /* Header row (back + logo) – same as account.html */
 
     .top-row {
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      margin-bottom: 14px;
+      justify-content: space-between;
+      margin-bottom: 18px;
     }
 
     .back-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 6px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(255, 255, 255, 0.14);
-      background: rgba(7, 12, 32, 0.9);
+      border: none;
+      background: transparent;
       color: var(--text-subtle);
       font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.14em;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
       cursor: pointer;
-      outline: none;
-      transition: background var(--transition-fast),
-        border-color var(--transition-fast),
-        transform var(--transition-fast),
-        box-shadow var(--transition-fast),
-        color var(--transition-fast);
+      padding: 4px 0;
     }
 
     .back-link span.icon {
       font-size: 12px;
-      line-height: 1;
+      transform: translateY(0.5px);
     }
 
     .back-link:hover {
-      background: rgba(12, 19, 50, 0.98);
-      border-color: rgba(255, 255, 255, 0.26);
-      color: #e5e7ff;
-      transform: translateY(-0.5px);
-      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.6);
+      color: var(--text-muted);
     }
 
-    .back-link:active {
-      transform: translateY(0);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
+    .logo-group {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 4px;
     }
 
     .logo-mark {
+      font-family: "Poppins", system-ui, sans-serif;
       font-size: 12px;
-      font-weight: 600;
-      letter-spacing: 0.26em;
+      font-weight: 700;
+      letter-spacing: 0.20em;
       text-transform: uppercase;
-      color: rgba(239, 241, 255, 0.9);
-    }
-
-    /* Accent bar */
-
-    .accent-bar {
-      width: 120px;
-      height: 4px;
-      border-radius: 999px;
-      background: var(--accent-bar);
-      margin: 4px 0 16px;
-      box-shadow: 0 0 18px rgba(255, 111, 202, 0.6);
-    }
-
-    /* Title + body */
-
-    .screen-title {
-      font-size: 20px;
-      font-weight: 600;
-      margin: 0 0 10px;
       color: var(--text-main);
     }
 
-    .screen-title span.accent {
-      background: linear-gradient(135deg, var(--accent-pink), var(--accent-teal));
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
+    .logo-accent {
+      width: 80px;
+      height: 3px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #ff4f96, #ff7a4e, #22d3ee);
+    }
+
+    /* Intro typography */
+
+    .screen-title {
+      font-family: "Poppins", system-ui, sans-serif;
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      margin: 4px 0 10px;
+      color: var(--text-main);
+      text-transform: none;
     }
 
     .screen-body {
       font-size: 13px;
-      line-height: 1.7;
+      line-height: 1.65;
       color: var(--text-muted);
-      margin: 0 0 12px;
+      margin: 0 0 14px;
     }
 
     .screen-body strong {
-      color: #fef9c3;
-      font-weight: 500;
+      font-weight: 600;
+      color: #111827;
     }
 
-    .screen-body em {
-      font-style: italic;
-      color: var(--accent-teal);
-    }
-
-    /* CTA row / button */
+    /* CTA */
 
     .cta-row {
       margin-top: 20px;
       display: flex;
+      flex-direction: column;
       gap: 10px;
     }
 
-    .cta-button {
-      width: 100%;
-      padding: 11px 20px;
-      border-radius: var(--btn-radius);
+    .btn-primary {
+      border-radius: 999px;
       border: none;
-      font-size: 12px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.18em;
-      background-image: var(--btn-primary-bg);
-      color: #1b0517;
+      padding: 11px 26px;
+      font-size: 11px;
+      font-weight: 700;
       cursor: pointer;
-      box-shadow: var(--btn-primary-shadow);
+      background: var(--button-gradient);
+      color: var(--button-text);
+      box-shadow:
+        0 12px 22px rgba(236, 72, 153, 0.35),
+        0 0 0 1px rgba(248, 250, 252, 0.5);
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 6px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      width: 100%;
       transition:
-        transform var(--transition-fast),
-        box-shadow var(--transition-fast),
-        filter var(--transition-fast);
+        background 0.18s ease,
+        transform 0.15s ease,
+        box-shadow 0.18s ease,
+        opacity 0.18s ease;
     }
 
-    .cta-button:hover {
+    .btn-primary:hover {
       transform: translateY(-1px);
       box-shadow:
-        0 20px 40px rgba(255, 111, 202, 0.75),
-        0 0 0 1px rgba(255, 255, 255, 0.18);
-      filter: saturate(1.08);
-    }
-
-    .cta-button:active {
-      transform: translateY(0);
-      box-shadow:
-        0 10px 24px rgba(255, 111, 202, 0.6),
-        0 0 0 1px rgba(255, 255, 255, 0.22);
-    }
-
-    .cta-button span.icon {
-      font-size: 13px;
-      line-height: 1;
-    }
-
-    @media (max-height: 720px) {
-      .phone-shell {
-        height: 720px;
-      }
+        0 18px 32px rgba(236, 72, 153, 0.45),
+        0 0 0 1px rgba(248, 250, 252, 0.9);
     }
 
     @media (max-width: 480px) {
-      body {
-        padding: 10px;
+      .phone-frame {
+        height: 640px;
+        max-height: calc(100vh - 48px);
+        padding: 20px 14px 20px;
       }
 
-      .phone-shell {
-        height: calc(100vh - 32px);
+      .phone-inner {
+        padding: 18px 14px 16px;
+      }
+
+      .screen-title {
+        font-size: 16px;
+      }
+
+      .screen-body {
+        font-size: 12px;
+      }
+
+      .btn-primary {
+        font-size: 10px;
       }
     }
   </style>
 </head>
-
 <body>
-  <div class="phone-shell">
-    <div class="phone-notch"></div>
+  <div class="app-shell">
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
 
-    <div class="phone-inner">
-      <div class="shell-inner">
-        <!-- HEADER -->
-        <div class="top-row">
-          <button class="back-link" onclick="window.location.href='account.html'">
-            <span class="icon">⟵</span>
-            <span>Back</span>
-          </button>
-          <div class="logo-mark">STICKERBOOK</div>
-        </div>
+      <div class="phone-inner">
+        <div class="shell-inner">
+          <!-- HEADER -->
+          <div class="top-row">
+            <button class="back-link" onclick="window.location.href='account.html'">
+              <span class="icon">←</span>
+              <span>Back</span>
+            </button>
 
-        <div class="accent-bar"></div>
+            <div class="logo-group">
+              <div class="logo-mark">STICKERBOOK</div>
+              <div class="logo-accent"></div>
+            </div>
+          </div>
 
-        <!-- TITLE -->
-        <h1 id="welcomeTitle" class="screen-title">
-          Hi <span class="accent">there</span>!
-        </h1>
+          <!-- TITLE -->
+          <h1 id="welcomeTitle" class="screen-title">Hi!</h1>
 
-        <!-- BODY TEXT -->
-        <p class="screen-body">
-          A lot of apps try to fit people into short bios, quick prompts, and a few carefully
-          chosen photos. But real identity doesn’t live in tiny boxes.
-        </p>
+          <!-- BODY TEXT -->
+          <p class="screen-body">
+            A lot of apps try to fit people into short bios, quick prompts, and a few carefully chosen photos.
+            But real identity doesn’t live in tiny boxes.
+          </p>
 
-        <p class="screen-body">
-          <strong>People are more than their profiles.</strong>
-          We’re mosaics of everything we love and value — our humor, our passions, our oddities,
-          our causes. All the little things that make us feel like <em>us</em>.
-        </p>
+          <p class="screen-body">
+            <strong>People are more than their profiles.</strong>
+            We’re mosaics of everything we love and value — our humor, our passions, our oddities, our causes.
+            All the little things that make us feel like <em>us</em>.
+          </p>
 
-        <p class="screen-body">
-          Your stickers already tell those stories. The ones on your laptop, your water bottle,
-          your car bumper — they say more about you than anything you could type.
-        </p>
+          <p class="screen-body">
+            Your stickers already tell those stories. The ones on your laptop, your water bottle, your car bumper —
+            they say more about you than anything you could type.
+          </p>
 
-        <p class="screen-body">
-          But one sticker alone only gives a hint. A <strong>collection</strong> is where the real
-          picture forms. Each one turns a broad interest into a personality — and a personality
-          into an identity.
-        </p>
+          <p class="screen-body">
+            But one sticker alone only gives a hint. A <strong>collection</strong> is where the real picture forms.
+            Each one turns a broad interest into a personality — and a personality into an identity.
+          </p>
 
-        <p class="screen-body">
-          Stickerbook brings that human reveal into one place. Your book has
-          <strong>six pages</strong> — six spaces to build your mosaic without shrinking yourself
-          into a bio.
-        </p>
+          <p class="screen-body">
+            Stickerbook brings that human reveal into one place. Your book has <strong>six pages</strong> —
+            six spaces to build your mosaic without shrinking yourself into a bio.
+          </p>
 
-        <p class="screen-body">
-          No overthinking. No performing. No perfect photos. Just your stickers — revealing you,
-          one choice at a time.
-        </p>
+          <p class="screen-body">
+            No overthinking. No performing. No perfect photos. Just your stickers — revealing you, one choice at a time.
+          </p>
 
-        <!-- CTA -->
-        <div class="cta-row">
-          <button id="buildBtn" class="cta-button">
-            <span>Build My Stickerbook</span>
-            <span class="icon">⟶</span>
-          </button>
+          <!-- CTA -->
+          <div class="cta-row">
+            <button id="buildBtn" type="button" class="btn-primary">
+              Build My Stickerbook
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -399,6 +339,5 @@
       window.location.href = "sticker-selection.html";
     });
   </script>
-
 </body>
 </html>
