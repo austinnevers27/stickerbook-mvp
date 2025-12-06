@@ -128,7 +128,6 @@
       color: var(--text-muted);
     }
 
-    /* NEW: logo group that matches the splash page vibe */
     .logo-group {
       display: flex;
       flex-direction: column;
@@ -210,11 +209,27 @@
       background: #ffffff;
     }
 
-    .field-input[disabled] {
-      background: var(--field-disabled-bg);
-      border-color: var(--field-disabled-border);
-      color: rgba(107, 114, 128, 0.9);
-      cursor: not-allowed;
+    .field-row-2 {
+      display: flex;
+      gap: 8px;
+    }
+
+    .dob-row {
+      display: flex;
+      gap: 8px;
+    }
+
+    .dob-row .field-input {
+      text-align: center;
+    }
+
+    .dob-mm,
+    .dob-dd {
+      width: 64px;
+    }
+
+    .dob-yy {
+      flex: 1;
     }
 
     .field-helper {
@@ -238,6 +253,28 @@
       display: flex;
       flex-direction: column;
       gap: 10px;
+    }
+
+    .terms-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      font-size: 10px;
+      color: var(--text-subtle);
+      line-height: 1.4;
+    }
+
+    .terms-row input[type="checkbox"] {
+      margin-top: 1px;
+    }
+
+    .terms-row a {
+      color: #0ea5e9;
+      text-decoration: none;
+    }
+
+    .terms-row a:hover {
+      text-decoration: underline;
     }
 
     .btn-primary {
@@ -319,7 +356,6 @@
             <span>Back</span>
           </button>
 
-          <!-- UPDATED: logo now has gradient bar underneath -->
           <div class="logo-group">
             <div class="logo-mark">STICKERBOOK</div>
             <div class="logo-accent"></div>
@@ -332,75 +368,106 @@
         </p>
 
         <form class="form" id="account-form" novalidate>
-          <!-- Name -->
+          <!-- Name row: first + last -->
           <div class="field">
-            <label class="field-label" for="name-input">Name</label>
-            <input
-              id="name-input"
-              class="field-input"
-              type="text"
-              placeholder="Your first name"
-              autocomplete="off"
-            />
+            <label class="field-label" for="first-name-input">Name</label>
+            <div class="field-row-2">
+              <input
+                id="first-name-input"
+                class="field-input"
+                type="text"
+                placeholder="First name"
+                autocomplete="given-name"
+              />
+              <input
+                id="last-name-input"
+                class="field-input"
+                type="text"
+                placeholder="Last name"
+                autocomplete="family-name"
+              />
+            </div>
           </div>
 
-          <!-- Age -->
+          <!-- Date of birth -->
           <div class="field">
-            <label class="field-label" for="age-input">Age</label>
-            <input
-              id="age-input"
-              class="field-input no-spinner"
-              type="text"
-              inputmode="numeric"
-              pattern="[0-9]*"
-              placeholder="Your age"
-            />
+            <label class="field-label" for="dob-mm">Date of birth</label>
+            <div class="dob-row">
+              <input
+                id="dob-mm"
+                class="field-input dob-mm"
+                type="text"
+                inputmode="numeric"
+                pattern="[0-9]*"
+                placeholder="MM"
+              />
+              <input
+                id="dob-dd"
+                class="field-input dob-dd"
+                type="text"
+                inputmode="numeric"
+                pattern="[0-9]*"
+                placeholder="DD"
+              />
+              <input
+                id="dob-yy"
+                class="field-input dob-yy"
+                type="text"
+                inputmode="numeric"
+                pattern="[0-9]*"
+                placeholder="YYYY"
+              />
+            </div>
             <div id="age-error" class="field-error hidden">
               Stickerbook is for ages 13 and up.
             </div>
           </div>
 
-          <!-- ZIP -->
+          <!-- City & country (global-friendly) -->
           <div class="field">
-            <label class="field-label" for="zip-input">ZIP code</label>
+            <label class="field-label" for="location-input">City &amp; country</label>
             <input
-              id="zip-input"
+              id="location-input"
               class="field-input"
               type="text"
-              inputmode="numeric"
-              placeholder="Your ZIP code"
-              autocomplete="postal-code"
+              placeholder="e.g., Sacramento, United States"
+              autocomplete="off"
             />
           </div>
 
-          <!-- Disabled Email -->
+          <!-- Email -->
           <div class="field">
             <label class="field-label" for="email-input">Email</label>
             <input
               id="email-input"
               class="field-input"
               type="email"
-              placeholder="Coming in the full version"
-              disabled
+              placeholder="you@example.com"
+              autocomplete="email"
             />
-            <div class="field-helper">
-              Not needed for this demo.
-            </div>
           </div>
 
-          <!-- Disabled Password -->
+          <!-- Password -->
           <div class="field">
             <label class="field-label" for="password-input">Password</label>
             <input
               id="password-input"
               class="field-input"
               type="password"
-              placeholder="Coming in the full version"
-              disabled
+              placeholder="Create a password"
+              autocomplete="new-password"
             />
-            <div class="field-helper">
-              Not needed for this demo.
-            </div>
+          </div>
+
+          <!-- Terms -->
+          <div class="terms-row">
+            <input type="checkbox" id="terms-checkbox" />
+            <label for="terms-checkbox">
+              I agree to the
+              <a href="#" tabindex="-1">Terms &amp; Conditions</a>
+              and
+              <a href="#" tabindex="-1">Privacy Policy</a>.
+            </label>
           </div>
 
           <div class="cta-row">
@@ -415,53 +482,143 @@
 
   <script>
     (function () {
-      const nameInput = document.getElementById('name-input');
-      const ageInput = document.getElementById('age-input');
-      const zipInput = document.getElementById('zip-input');
+      const firstNameInput = document.getElementById('first-name-input');
+      const lastNameInput = document.getElementById('last-name-input');
+
+      const dobMmInput = document.getElementById('dob-mm');
+      const dobDdInput = document.getElementById('dob-dd');
+      const dobYyInput = document.getElementById('dob-yy');
       const ageError = document.getElementById('age-error');
+
+      const locationInput = document.getElementById('location-input');
+      const emailInput = document.getElementById('email-input');
+      const passwordInput = document.getElementById('password-input');
+      const termsCheckbox = document.getElementById('terms-checkbox');
+
       const continueBtn = document.getElementById('continue-btn');
 
-      function validateForm() {
-        const name = nameInput.value.trim();
-        const ageValue = ageInput.value.trim();
-        const zip = zipInput.value.trim();
+      function calculateAge(day, month, year) {
+        const d = parseInt(day, 10);
+        const m = parseInt(month, 10);
+        const y = parseInt(year, 10);
 
-        let age = parseInt(ageValue, 10);
-        if (Number.isNaN(age)) {
-          age = null;
+        if (Number.isNaN(d) || Number.isNaN(m) || Number.isNaN(y)) {
+          return null;
         }
 
+        // quick sanity checks
+        if (y < 1900 || m < 1 || m > 12 || d < 1 || d > 31) {
+          return null;
+        }
+
+        const dob = new Date(y, m - 1, d);
+        // ensure the date object matches the inputs (catches 31 Feb, etc.)
+        if (
+          dob.getFullYear() !== y ||
+          dob.getMonth() !== m - 1 ||
+          dob.getDate() !== d
+        ) {
+          return null;
+        }
+
+        const today = new Date();
+        let age = today.getFullYear() - y;
+
+        const hasHadBirthdayThisYear =
+          today.getMonth() > dob.getMonth() ||
+          (today.getMonth() === dob.getMonth() && today.getDate() >= dob.getDate());
+
+        if (!hasHadBirthdayThisYear) {
+          age--;
+        }
+
+        return age;
+      }
+
+      function validateForm() {
+        const firstName = firstNameInput.value.trim();
+        const lastName = lastNameInput.value.trim();
+
+        const mm = dobMmInput.value.trim();
+        const dd = dobDdInput.value.trim();
+        const yy = dobYyInput.value.trim();
+
+        const location = locationInput.value.trim();
+        const email = emailInput.value.trim();
+        const password = passwordInput.value.trim();
+        const termsAccepted = termsCheckbox.checked;
+
+        const age = calculateAge(dd, mm, yy);
+
         // Age error handling
-        if (age !== null && age <= 12) {
+        if (age === null && (mm || dd || yy)) {
+          ageError.textContent = 'Please enter a valid date of birth.';
+          ageError.classList.remove('hidden');
+        } else if (age !== null && age < 13) {
+          ageError.textContent = 'Stickerbook is for ages 13 and up.';
           ageError.classList.remove('hidden');
         } else {
           ageError.classList.add('hidden');
         }
 
-        // Form validity
         const isValid =
-          name.length > 0 &&
+          firstName.length > 0 &&
+          lastName.length > 0 &&
           age !== null &&
           age >= 13 &&
-          zip.length > 0;
+          location.length > 0 &&
+          email.length > 0 &&
+          password.length > 0 &&
+          termsAccepted;
 
         continueBtn.disabled = !isValid;
       }
 
-      nameInput.addEventListener('input', validateForm);
-      ageInput.addEventListener('input', validateForm);
-      zipInput.addEventListener('input', validateForm);
+      [
+        firstNameInput,
+        lastNameInput,
+        dobMmInput,
+        dobDdInput,
+        dobYyInput,
+        locationInput,
+        emailInput,
+        passwordInput,
+        termsCheckbox
+      ].forEach((el) => {
+        const eventName = el.type === 'checkbox' ? 'change' : 'input';
+        el.addEventListener(eventName, validateForm);
+      });
 
       continueBtn.addEventListener('click', function () {
+        const firstName = firstNameInput.value.trim();
+        const lastName = lastNameInput.value.trim();
+        const mm = dobMmInput.value.trim();
+        const dd = dobDdInput.value.trim();
+        const yy = dobYyInput.value.trim();
+        const location = locationInput.value.trim();
+        const email = emailInput.value.trim();
+        const password = passwordInput.value.trim();
+
+        const age = calculateAge(dd, mm, yy);
+
         // Save profile info for later pages
-        localStorage.setItem("stickerbook_name", nameInput.value.trim());
-        localStorage.setItem("stickerbook_age", ageInput.value.trim());
-        localStorage.setItem("stickerbook_zip", zipInput.value.trim());
+        localStorage.setItem("stickerbook_first_name", firstName);
+        localStorage.setItem("stickerbook_last_name", lastName);
+        // keep this for existing pages that expect "name"
+        localStorage.setItem("stickerbook_name", firstName);
+
+        localStorage.setItem("stickerbook_dob_day", dd);
+        localStorage.setItem("stickerbook_dob_month", mm);
+        localStorage.setItem("stickerbook_dob_year", yy);
+        localStorage.setItem("stickerbook_age", age !== null ? String(age) : "");
+
+        localStorage.setItem("stickerbook_location", location);
+        localStorage.setItem("stickerbook_email", email);
+        localStorage.setItem("stickerbook_password", password);
 
         // Go to the intro page
         window.location.href = "intro.html";
       });
-
     })();
   </script>
 </body>
