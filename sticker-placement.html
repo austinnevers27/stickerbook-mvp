@@ -37,7 +37,7 @@
       margin: 0;
       padding: 0;
       height: 100%;
-      touch-action: none; /* Let us fully control gestures */
+      touch-action: none; /* full control over gestures */
     }
 
     body {
@@ -378,6 +378,9 @@
     const GRID_ROWS = 5;
     const SAFE_MARGIN = 8;
 
+    const MIN_SCALE = 0.5; // 50% of start size
+    const MAX_SCALE = 5;   // ~75% page height in practice
+
     const phoneInner = document.getElementById("phone-inner");
     const playArea = document.getElementById("play-area");
     const canvas = document.getElementById("stickerCanvas");
@@ -490,7 +493,8 @@
         const cellCenterX = SAFE_MARGIN + col * cellWidth + cellWidth / 2;
         const cellCenterY = SAFE_MARGIN + row * cellHeight + cellHeight / 2;
 
-        const stickerSize = Math.min(cellWidth, cellHeight) * 0.8;
+        // BIGGER starting stickers (0.95 instead of 0.8)
+        const stickerSize = Math.min(cellWidth, cellHeight) * 0.95;
 
         sticker.scale = 1;
         sticker.rotation = 0;
@@ -504,7 +508,7 @@
       // extra stickers (if any) stack at bottom center
       for (let i = maxCells; i < pageData.stickers.length; i++) {
         const sticker = pageData.stickers[i];
-        const stickerSize = Math.min(cellWidth, cellHeight) * 0.8;
+        const stickerSize = Math.min(cellWidth, cellHeight) * 0.95;
         sticker.scale = 1;
         sticker.rotation = 0;
         sticker.size = stickerSize;
@@ -764,8 +768,10 @@
 
           const scaleFactor = distance / (initialDistance || distance);
           let newScale = startScale * scaleFactor;
-          if (newScale < 0.35) newScale = 0.35;
-          if (newScale > 3.0) newScale = 3.0;
+
+          // Apply your requested bounds
+          if (newScale < MIN_SCALE) newScale = MIN_SCALE;
+          if (newScale > MAX_SCALE) newScale = MAX_SCALE;
 
           const rotationDelta = angle - initialAngle;
           const newRotation = startRotation + (rotationDelta * 180 / Math.PI);
@@ -791,7 +797,7 @@
           touchMode = null;
           saveLayoutToStorage();
         } else if (touchMode === "transform" && e.touches.length === 1) {
-          // user lifted one finger, drop back to pan mode from the remaining finger
+          // dropped back to one finger: switch to pan
           const t = e.touches[0];
           startX = st.x;
           startY = st.y;
