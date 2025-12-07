@@ -26,6 +26,10 @@
 
       --button-gradient: linear-gradient(135deg, #ff4f96, #ff7a4e, #22d3ee);
       --button-text: #ffffff;
+
+      --frosted-bg: rgba(255, 255, 255, 0.78);
+      --frosted-border: rgba(255, 255, 255, 0.7);
+      --frosted-shadow: 0 8px 20px rgba(15, 23, 42, 0.35);
     }
 
     * {
@@ -61,12 +65,12 @@
     .phone-frame {
       width: 100%;
       max-width: 380px;
-      background: var(--shell-bg);
+      background: #ffffff;
       border-radius: 32px;
       padding: 24px 18px 24px;
       box-shadow:
-        var(--shell-shadow-main),
-        0 0 0 1px var(--shell-border);
+        0 18px 40px rgba(15, 23, 42, 0.20),
+        0 0 0 1px rgba(148, 163, 184, 0.10);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -89,9 +93,8 @@
       width: 100%;
       border-radius: 26px;
       border: 1px solid rgba(148, 163, 184, 0.35);
-      /* background color will be set from JS to chosen page background */
       background: #ffffff;
-      padding: 16px 16px 14px;
+      padding: 20px 18px 18px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -109,11 +112,12 @@
       height: 100%;
     }
 
+    /* Logo */
     .top-row {
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-bottom: 6px;
+      margin-bottom: 8px;
       flex-shrink: 0;
     }
 
@@ -140,43 +144,55 @@
       background: linear-gradient(90deg, #ff4f96, #ff7a4e, #22d3ee);
     }
 
-    .screen-title {
-      font-family: "Poppins", system-ui, sans-serif;
-      font-size: 18px;
-      font-weight: 600;
-      letter-spacing: 0.04em;
+    /* Frosted header card */
+    .header-card {
+      margin-bottom: 8px;
+      padding: 10px 12px;
+      border-radius: 18px;
+      background: var(--frosted-bg);
+      border: 1px solid var(--frosted-border);
+      backdrop-filter: blur(12px);
+      box-shadow: var(--frosted-shadow);
+      text-align: center;
+      flex-shrink: 0;
+    }
+
+    .header-eyebrow {
+      font-size: 10px;
+      letter-spacing: 0.18em;
       text-transform: uppercase;
-      margin: 6px 0 4px;
+      color: var(--text-subtle);
+      margin-bottom: 3px;
+    }
+
+    .header-title {
+      font-family: "Poppins", system-ui, sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
       color: var(--text-main);
-      text-align: center;
-      flex-shrink: 0;
+      margin: 0 0 3px;
     }
 
-    .screen-subtitle {
-      font-size: 12px;
-      line-height: 1.4;
+    .header-subtitle {
+      font-size: 11px;
       color: var(--text-muted);
-      margin: 0 0 8px;
-      text-align: center;
-      flex-shrink: 0;
+      margin: 0;
     }
 
-    .placement-section {
-      display: flex;
-      flex-direction: column;
-      flex: 1;
-      min-height: 0;
-      margin-top: 6px;
-    }
-
-    /* This region is where stickers are allowed; background bleeds behind it */
-    .sticker-region {
+    /* Canvas area */
+    .canvas-wrapper {
+      margin-top: 8px;
+      margin-bottom: 10px;
       flex: 1;
       min-height: 0;
       border-radius: 22px;
       overflow: hidden;
+      box-shadow:
+        0 10px 24px rgba(15, 23, 42, 0.25),
+        0 0 0 1px rgba(15, 23, 42, 0.12);
       position: relative;
-      margin: 4px 0 10px;
     }
 
     #stickerCanvas {
@@ -186,13 +202,13 @@
       touch-action: none;
     }
 
-    /* Sticker elements */
     .sticker {
       position: absolute;
       touch-action: none;
       user-select: none;
       transform-origin: center center;
       cursor: grab;
+      border-radius: 18px; /* subtle rounding for selection glow */
     }
 
     .sticker img {
@@ -204,49 +220,65 @@
       display: block;
     }
 
-    .sticker.selected {
-      outline: 2px solid rgba(14, 165, 233, 0.8);
-      border-radius: 16px;
+    .sticker.active {
+      box-shadow:
+        0 0 0 2px rgba(14, 165, 233, 0.7),
+        0 8px 18px rgba(15, 23, 42, 0.45);
     }
 
-    .sticker-delete {
-      position: absolute;
-      top: -10px;
-      right: -10px;
-      width: 22px;
-      height: 22px;
+    /* Frosted tip bar */
+    .tip-bar {
+      margin-bottom: 8px;
+      padding: 7px 10px;
       border-radius: 999px;
-      background: rgba(255, 255, 255, 0.9);
-      border: 1px solid rgba(148, 163, 184, 0.8);
-      font-size: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.35);
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.15s ease;
-    }
-
-    .sticker.selected .sticker-delete {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    .placement-tip {
-      font-size: 11px;
-      color: var(--text-subtle);
+      background: var(--frosted-bg);
+      border: 1px solid var(--frosted-border);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 6px 14px rgba(15, 23, 42, 0.35);
+      font-size: 10px;
+      color: var(--text-muted);
       text-align: center;
-      margin-bottom: 6px;
-      min-height: 14px;
+      flex-shrink: 0;
     }
 
+    /* Footer buttons */
     .footer-row {
       display: flex;
       align-items: center;
-      justify-content: flex-end;
-      gap: 8px;
+      gap: 10px;
       flex-shrink: 0;
+    }
+
+    .btn-outline {
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.9);
+      padding: 8px 14px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      background: rgba(249, 250, 251, 0.9);
+      color: var(--text-muted);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      white-space: nowrap;
+      transition:
+        transform 0.12s ease,
+        box-shadow 0.18s ease,
+        opacity 0.18s ease,
+        background 0.18s ease;
+      flex: 0 0 auto;
+    }
+
+    .btn-outline:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    .btn-outline:not(:disabled):active {
+      transform: translateY(1px) scale(0.99);
+      box-shadow: 0 4px 10px rgba(148, 163, 184, 0.55);
     }
 
     .btn-primary {
@@ -272,6 +304,13 @@
         transform 0.15s ease,
         box-shadow 0.18s ease,
         opacity 0.18s ease;
+      flex: 1;
+    }
+
+    .btn-primary:not(:disabled):active {
+      transform: translateY(1px) scale(0.99);
+      box-shadow:
+        0 6px 12px rgba(236, 72, 153, 0.30);
     }
 
     .btn-primary:disabled {
@@ -283,10 +322,24 @@
       color: #9ca3af;
     }
 
-    .btn-primary:not(:disabled):active {
-      transform: translateY(1px) scale(0.99);
-      box-shadow:
-        0 6px 12px rgba(236, 72, 153, 0.30);
+    /* Save toast */
+    .save-toast {
+      position: absolute;
+      bottom: 18px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      color: #f9fafb;
+      font-size: 10px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.18s ease;
+    }
+
+    .save-toast.visible {
+      opacity: 1;
     }
 
     @media (max-width: 480px) {
@@ -297,15 +350,19 @@
       }
 
       .phone-inner {
-        padding: 14px 12px 12px;
+        padding: 18px 14px 16px;
       }
 
-      .screen-title {
-        font-size: 16px;
+      .header-title {
+        font-size: 15px;
       }
 
-      .screen-subtitle {
-        font-size: 11px;
+      .header-subtitle {
+        font-size: 10px;
+      }
+
+      .tip-bar {
+        font-size: 9px;
       }
 
       .btn-primary {
@@ -319,7 +376,7 @@
     <div class="phone-frame">
       <div class="phone-notch"></div>
 
-      <div class="phone-inner" id="phone-inner">
+      <div class="phone-inner">
         <div class="shell-inner">
           <!-- Logo -->
           <div class="top-row">
@@ -329,28 +386,34 @@
             </div>
           </div>
 
-          <!-- Title -->
-          <h1 class="screen-title">Arrange your stickers</h1>
-          <p class="screen-subtitle">
-            Drag, resize, and rotate to design this page.
-          </p>
+          <!-- Header copy on frosted card -->
+          <div class="header-card">
+            <div class="header-eyebrow">Page 1</div>
+            <h1 class="header-title">Arrange your stickers</h1>
+            <p class="header-subtitle">
+              Drag, resize, and rotate to design this page.
+            </p>
+          </div>
 
-          <div class="placement-section">
-            <!-- Main sticker area -->
-            <div class="sticker-region">
-              <div id="stickerCanvas"></div>
-            </div>
+          <!-- Canvas area (full-bleed background inside) -->
+          <div class="canvas-wrapper">
+            <div id="stickerCanvas"></div>
+            <div id="save-toast" class="save-toast">Page saved</div>
+          </div>
 
-            <div class="placement-tip" id="placement-tip">
-              Tip: pinch with two fingers to resize and twist to rotate.
-            </div>
+          <!-- Tip bar -->
+          <div class="tip-bar">
+            Tip: pinch with two fingers to resize and twist to rotate.
+          </div>
 
-            <!-- Footer -->
-            <div class="footer-row">
-              <button id="continue-button" class="btn-primary">
-                Continue
-              </button>
-            </div>
+          <!-- Footer actions -->
+          <div class="footer-row">
+            <button id="remove-button" class="btn-outline" type="button" disabled>
+              Remove sticker
+            </button>
+            <button id="continue-button" class="btn-primary" type="button">
+              Continue
+            </button>
           </div>
         </div>
       </div>
@@ -358,136 +421,206 @@
   </div>
 
   <script>
-    // ----- STATE -----
-    const phoneInnerEl = document.getElementById("phone-inner");
-    const stickerCanvas = document.getElementById("stickerCanvas");
-    const continueButtonEl = document.getElementById("continue-button");
-    const placementTipEl = document.getElementById("placement-tip");
+    const BASE_STICKER_SIZE = 100; // px
+    const GRID_COLS = 4;
+    const GRID_ROWS = 5; // up to 20 stickers
+    const SAFE_MARGIN = 16; // padding inside canvas bounds
+
+    const canvas = document.getElementById("stickerCanvas");
+    const removeButton = document.getElementById("remove-button");
+    const continueButton = document.getElementById("continue-button");
+    const saveToast = document.getElementById("save-toast");
 
     let pageData = null;
+    let stickersData = [];
     let currentZ = 10;
-    let selectedStickerEl = null;
+    let activeSticker = null;
+    let canvasBounds = { width: 0, height: 0 };
 
-    // ----- LOAD PAGE DATA -----
-    function loadPageData() {
-      // Primary: stickerbook_page_1
-      const directRaw = localStorage.getItem("stickerbook_page_1");
-      if (directRaw) {
+    function showToast() {
+      saveToast.classList.add("visible");
+      setTimeout(() => {
+        saveToast.classList.remove("visible");
+      }, 1500);
+    }
+
+    function loadPageFromStorage() {
+      // Primary source: stickerbook_page_1 (set by sticker-selection)
+      const rawPage = localStorage.getItem("stickerbook_page_1");
+      if (rawPage) {
         try {
-          pageData = JSON.parse(directRaw);
+          pageData = JSON.parse(rawPage);
         } catch {
           pageData = null;
         }
       }
 
-      // Fallback: stickerbook_pages.page_1
-      if (!pageData) {
-        try {
-          const pagesRaw = localStorage.getItem("stickerbook_pages");
-          if (pagesRaw) {
-            const pages = JSON.parse(pagesRaw);
-            if (pages && pages.page_1) {
-              pageData = pages.page_1;
-            }
-          }
-        } catch {
-          pageData = null;
-        }
-      }
-
-      // Fallback: background + no stickers
-      if (!pageData) {
+      // Fallback if needed
+      if (!pageData || !pageData.stickers || !Array.isArray(pageData.stickers)) {
         const bg =
           localStorage.getItem("stickerbook_page_1_background") ||
           localStorage.getItem("current_page_background") ||
           "#ffffff";
+
+        let stickerIds = [];
+        try {
+          const rawSel = localStorage.getItem("stickerbookSelectedStickers");
+          if (rawSel) {
+            const arr = JSON.parse(rawSel);
+            if (Array.isArray(arr)) stickerIds = arr;
+          }
+        } catch {
+          stickerIds = [];
+        }
+
         pageData = {
           background: bg,
-          stickers: []
+          stickers: stickerIds.map((id) => ({
+            id,
+            src: null // we won't need src here if original page was saved correctly
+          }))
         };
       }
 
-      // Normalize stickers structure
-      if (!Array.isArray(pageData.stickers)) {
-        pageData.stickers = [];
+      // If any sticker is missing src (shouldn't happen if coming from selection),
+      // try to recover from stickerbook_pages map.
+      try {
+        const allPagesRaw = localStorage.getItem("stickerbook_pages");
+        if (allPagesRaw) {
+          const allPages = JSON.parse(allPagesRaw);
+          if (allPages && allPages.page_1 && Array.isArray(allPages.page_1.stickers)) {
+            const map = {};
+            allPages.page_1.stickers.forEach((s) => {
+              map[s.id] = s.src || s.image;
+            });
+            pageData.stickers.forEach((s) => {
+              if (!s.src && map[s.id]) {
+                s.src = map[s.id];
+              }
+            });
+          }
+        }
+      } catch {
+        // ignore
       }
 
-      // If we only have id + src from selection, make sure fields exist
-      pageData.stickers = pageData.stickers.map((s, index) => ({
-        id: s.id,
-        src: s.src || s.image || "",
-        x: typeof s.x === "number" ? s.x : null,
-        y: typeof s.y === "number" ? s.y : null,
-        scale: typeof s.scale === "number" ? s.scale : 1,
-        rotation: typeof s.rotation === "number" ? s.rotation : 0,
-        zIndex: typeof s.zIndex === "number" ? s.zIndex : (10 + index)
-      }));
+      // Filter out any stickers that still have no src
+      pageData.stickers = pageData.stickers.filter((s) => !!s.src);
     }
 
-    function applyBackground() {
-      const bg = pageData.background || "#ffffff";
-      phoneInnerEl.style.backgroundColor = bg;
-      // Also apply to canvas so it shows inside rounded sticker-region
-      stickerCanvas.style.backgroundColor = bg;
+    function updateCanvasBackground() {
+      const bg = pageData && pageData.background ? pageData.background : "#ffffff";
+      canvas.style.background = bg;
     }
 
-    // ----- STICKER CREATION -----
-    function createStickerElement(stObj, index) {
+    function recalcCanvasBounds() {
+      const rect = canvas.getBoundingClientRect();
+      canvasBounds.width = rect.width;
+      canvasBounds.height = rect.height;
+    }
+
+    function layoutStickersOnGridIfNeeded() {
+      if (!pageData || !pageData.stickers) return;
+
+      recalcCanvasBounds();
+
+      const innerWidth = canvasBounds.width - SAFE_MARGIN * 2;
+      const innerHeight = canvasBounds.height - SAFE_MARGIN * 2;
+      const cellWidth = innerWidth / GRID_COLS;
+      const cellHeight = innerHeight / GRID_ROWS;
+
+      pageData.stickers.forEach((sticker, index) => {
+        const needsLayout =
+          typeof sticker.x !== "number" ||
+          typeof sticker.y !== "number" ||
+          typeof sticker.scale !== "number" ||
+          typeof sticker.rotation !== "number";
+
+        if (!needsLayout) return;
+
+        const row = Math.floor(index / GRID_COLS);
+        const col = index % GRID_COLS;
+
+        const cellCenterX = SAFE_MARGIN + col * cellWidth + cellWidth / 2;
+        const cellCenterY = SAFE_MARGIN + row * cellHeight + cellHeight / 2;
+
+        sticker.scale = 1;
+        sticker.rotation = 0;
+        sticker.size = BASE_STICKER_SIZE;
+
+        const halfSize = BASE_STICKER_SIZE / 2;
+        sticker.x = cellCenterX - halfSize;
+        sticker.y = cellCenterY - halfSize;
+      });
+
+      stickersData = pageData.stickers;
+    }
+
+    function clampStickerPosition(stickerObj) {
+      const size = stickerObj.size || BASE_STICKER_SIZE;
+      const minX = SAFE_MARGIN;
+      const minY = SAFE_MARGIN;
+      const maxX = canvasBounds.width - size - SAFE_MARGIN;
+      const maxY = canvasBounds.height - size - SAFE_MARGIN;
+
+      if (stickerObj.x < minX) stickerObj.x = minX;
+      if (stickerObj.y < minY) stickerObj.y = minY;
+      if (stickerObj.x > maxX) stickerObj.x = maxX;
+      if (stickerObj.y > maxY) stickerObj.y = maxY;
+    }
+
+    function setActiveSticker(el) {
+      if (activeSticker === el) return;
+      if (activeSticker) {
+        activeSticker.classList.remove("active");
+      }
+      activeSticker = el;
+      if (activeSticker) {
+        activeSticker.classList.add("active");
+        removeButton.disabled = false;
+      } else {
+        removeButton.disabled = true;
+      }
+    }
+
+    function createStickerElement(stickerObj) {
       const el = document.createElement("div");
       el.className = "sticker";
 
-      // Basic size (can tweak)
-      const baseSize = 110;
-      el.style.width = baseSize + "px";
+      const size = stickerObj.size || BASE_STICKER_SIZE;
 
-      // Default positions if not yet placed
-      let x = (typeof stObj.x === "number") ? stObj.x : null;
-      let y = (typeof stObj.y === "number") ? stObj.y : null;
+      // Ensure we have sane position within bounds
+      clampStickerPosition(stickerObj);
 
-      if (x === null || y === null) {
-        // Simple grid-ish layout
-        const col = index % 3;
-        const row = Math.floor(index / 3);
-        x = 40 + col * 80;
-        y = 40 + row * 90;
-      }
+      el.style.width = size + "px";
+      el.style.height = size + "px";
+      el.style.left = stickerObj.x + "px";
+      el.style.top = stickerObj.y + "px";
 
-      const scale = (typeof stObj.scale === "number") ? stObj.scale : 1;
-      const rotation = (typeof stObj.rotation === "number") ? stObj.rotation : 0;
+      const scale = stickerObj.scale || 1;
+      const rotation = stickerObj.rotation || 0;
 
-      el.dataset.id = stObj.id;
-      el.dataset.x = x;
-      el.dataset.y = y;
+      el.style.transform = `scale(${scale}) rotate(${rotation}deg)`;
+      el.style.zIndex = (stickerObj.zIndex && Number.isFinite(stickerObj.zIndex))
+        ? stickerObj.zIndex
+        : ++currentZ;
+
+      el.dataset.id = stickerObj.id;
+      el.dataset.src = stickerObj.src;
+      el.dataset.x = stickerObj.x;
+      el.dataset.y = stickerObj.y;
       el.dataset.scale = scale;
       el.dataset.rotation = rotation;
 
-      el.style.left = x + "px";
-      el.style.top = y + "px";
-      el.style.transform = `scale(${scale}) rotate(${rotation}deg)`;
-      el.style.zIndex = stObj.zIndex || ++currentZ;
-
       const img = document.createElement("img");
-      img.src = stObj.src || "";
+      img.src = stickerObj.src;
       img.alt = "";
       el.appendChild(img);
 
-      const deleteBtn = document.createElement("button");
-      deleteBtn.type = "button";
-      deleteBtn.className = "sticker-delete";
-      deleteBtn.textContent = "🗑";
-      el.appendChild(deleteBtn);
-
-      // Select on tap/click
-      el.addEventListener("click", (e) => {
-        // ignore if clicking the delete button (its handler will run)
-        if (e.target === deleteBtn) return;
-        setSelectedSticker(el);
-      });
-
-      // Delete handler
-      deleteBtn.addEventListener("click", (e) => {
-        e.stopPropagation();
-        deleteSticker(el);
+      // Clicking selects the sticker
+      el.addEventListener("click", () => {
+        setActiveSticker(el);
+        el.style.zIndex = ++currentZ;
       });
 
       attachGestureHandlers(el);
@@ -495,168 +628,146 @@
       return el;
     }
 
-    function setSelectedSticker(el) {
-      if (selectedStickerEl === el) return;
-      if (selectedStickerEl) {
-        selectedStickerEl.classList.remove("selected");
-      }
-      selectedStickerEl = el;
-      if (selectedStickerEl) {
-        selectedStickerEl.classList.add("selected");
-      }
-    }
-
-    function deleteSticker(el) {
-      const id = el.dataset.id;
-      el.remove();
-      if (selectedStickerEl === el) {
-        selectedStickerEl = null;
-      }
-
-      // Also remove from pageData
-      pageData.stickers = pageData.stickers.filter((s) => s.id !== id);
-      savePageData();
-
-      if (pageData.stickers.length === 0) {
-        placementTipEl.textContent = "You removed all stickers. Go back to add more if needed.";
-      }
-    }
-
-    // ----- GESTURES -----
     function attachGestureHandlers(el) {
-      const hammer = new Hammer.Manager(el);
+      const manager = new Hammer.Manager(el);
       const pan = new Hammer.Pan({ threshold: 0 });
       const pinch = new Hammer.Pinch({ threshold: 0 });
       const rotate = new Hammer.Rotate({ threshold: 0 });
 
       pinch.recognizeWith(rotate);
-      hammer.add([pan, pinch, rotate]);
+      manager.add([pan, pinch, rotate]);
 
-      let startX = 0, startY = 0;
-      let startScale = 1, startRotation = 0;
-      let canvasWidth = 0, canvasHeight = 0;
-      let elWidth = 0, elHeight = 0;
+      let startX = 0;
+      let startY = 0;
+      let startScale = 1;
+      let startRotation = 0;
 
-      hammer.on("panstart", () => {
+      manager.on("panstart", (ev) => {
+        setActiveSticker(el);
         el.style.zIndex = ++currentZ;
-        setSelectedSticker(el);
-
         startX = parseFloat(el.dataset.x) || 0;
         startY = parseFloat(el.dataset.y) || 0;
-
-        canvasWidth = stickerCanvas.clientWidth;
-        canvasHeight = stickerCanvas.clientHeight;
-        elWidth = el.offsetWidth;
-        elHeight = el.offsetHeight;
       });
 
-      hammer.on("panmove", (ev) => {
-        let newX = startX + ev.deltaX;
-        let newY = startY + ev.deltaY;
+      manager.on("panmove", (ev) => {
+        const id = el.dataset.id;
+        const st = stickersData.find((s) => s.id === id);
+        if (!st) return;
 
-        // Clamp within canvas bounds (keeps stickers out of header/footer)
-        const maxX = Math.max(canvasWidth - elWidth, 0);
-        const maxY = Math.max(canvasHeight - elHeight, 0);
+        st.x = startX + ev.deltaX;
+        st.y = startY + ev.deltaY;
 
-        newX = Math.min(Math.max(newX, 0), maxX);
-        newY = Math.min(Math.max(newY, 0), maxY);
+        clampStickerPosition(st);
 
-        el.dataset.x = newX;
-        el.dataset.y = newY;
-        el.style.left = newX + "px";
-        el.style.top = newY + "px";
+        el.dataset.x = st.x;
+        el.dataset.y = st.y;
+        el.style.left = st.x + "px";
+        el.style.top = st.y + "px";
       });
 
-      hammer.on("pinchstart rotatestart", () => {
-        startScale = parseFloat(el.dataset.scale) || 1;
-        startRotation = parseFloat(el.dataset.rotation) || 0;
+      manager.on("pinchstart rotatestart", () => {
+        const currentScale = parseFloat(el.dataset.scale) || 1;
+        const currentRotation = parseFloat(el.dataset.rotation) || 0;
+        startScale = currentScale;
+        startRotation = currentRotation;
       });
 
-      hammer.on("pinchmove rotatemove", (ev) => {
-        let scale = startScale * ev.scale;
-        let rotation = startRotation + ev.rotation;
+      manager.on("pinchmove rotatemove", (ev) => {
+        const id = el.dataset.id;
+        const st = stickersData.find((s) => s.id === id);
+        if (!st) return;
 
-        // Clamp scale
-        if (scale < 0.35) scale = 0.35;
-        if (scale > 3.2) scale = 3.2;
+        let newScale = startScale * (ev.scale || 1);
+        let newRotation = startRotation + (ev.rotation || 0);
 
-        el.dataset.scale = scale;
-        el.dataset.rotation = rotation;
-        el.style.transform = `scale(${scale}) rotate(${rotation}deg)`;
+        if (newScale < 0.35) newScale = 0.35;
+        if (newScale > 3.0) newScale = 3.0;
+
+        st.scale = newScale;
+        st.rotation = newRotation;
+
+        el.dataset.scale = newScale;
+        el.dataset.rotation = newRotation;
+        el.style.transform = `scale(${newScale}) rotate(${newRotation}deg)`;
       });
     }
 
-    // ----- RENDER / SAVE -----
     function renderStickers() {
-      stickerCanvas.innerHTML = "";
-      if (!pageData.stickers || pageData.stickers.length === 0) {
-        placementTipEl.textContent =
-          "No stickers yet. Go back and choose stickers to design this page.";
-        return;
-      }
+      canvas.innerHTML = "";
+      // re-append toast after clearing
+      canvas.appendChild(saveToast);
 
-      placementTipEl.textContent =
-        "Tip: pinch with two fingers to resize and twist to rotate.";
-
-      pageData.stickers.forEach((s, index) => {
-        const el = createStickerElement(s, index);
-        stickerCanvas.appendChild(el);
+      stickersData.forEach((sticker) => {
+        const el = createStickerElement(sticker);
+        canvas.appendChild(el);
       });
+
+      setActiveSticker(null);
     }
 
-    function savePageData() {
-      // Pull latest positions from DOM
-      const stickerEls = Array.from(stickerCanvas.querySelectorAll(".sticker"));
-      pageData.stickers = stickerEls.map((el, index) => ({
+    function saveLayoutToStorage() {
+      const els = Array.from(canvas.querySelectorAll(".sticker"));
+      const stickers = els.map((el) => ({
         id: el.dataset.id,
-        src: (pageData.stickers.find((s) => s.id === el.dataset.id) || {}).src || "",
+        src: el.dataset.src,
         x: parseFloat(el.dataset.x) || 0,
         y: parseFloat(el.dataset.y) || 0,
         scale: parseFloat(el.dataset.scale) || 1,
         rotation: parseFloat(el.dataset.rotation) || 0,
-        zIndex: parseInt(el.style.zIndex || (10 + index), 10)
+        zIndex: parseInt(el.style.zIndex || "1", 10)
       }));
 
-      // Save background as well
-      const bg =
-        phoneInnerEl.style.backgroundColor ||
-        pageData.background ||
-        "#ffffff";
-      pageData.background = bg;
+      const bg = canvas.style.background || (pageData && pageData.background) || "#ffffff";
 
-      // Save both canonical keys
-      localStorage.setItem("stickerbook_page_1", JSON.stringify(pageData));
+      const page1 = {
+        background: bg,
+        stickers
+      };
+
+      localStorage.setItem("stickerbook_page_1", JSON.stringify(page1));
 
       try {
-        const pagesRaw = localStorage.getItem("stickerbook_pages") || "{}";
-        const pages = JSON.parse(pagesRaw);
-        pages.page_1 = pageData;
-        localStorage.setItem("stickerbook_pages", JSON.stringify(pages));
+        const existingRaw = localStorage.getItem("stickerbook_pages");
+        const existing = existingRaw ? JSON.parse(existingRaw) : {};
+        existing.page_1 = page1;
+        localStorage.setItem("stickerbook_pages", JSON.stringify(existing));
       } catch {
-        localStorage.setItem(
-          "stickerbook_pages",
-          JSON.stringify({ page_1: pageData })
-        );
+        localStorage.setItem("stickerbook_pages", JSON.stringify({ page_1: page1 }));
       }
     }
 
-    // ----- EVENTS -----
-    continueButtonEl.addEventListener("click", () => {
-      savePageData();
-      // TODO: point this to whatever the next real page is
-      // For now we'll just send back to intro.
-      window.location.href = "intro.html";
-    });
+    function handleRemoveActiveSticker() {
+      if (!activeSticker) return;
 
-    window.addEventListener("beforeunload", () => {
-      savePageData();
-    });
+      const id = activeSticker.dataset.id;
+      stickersData = stickersData.filter((s) => s.id !== id);
 
-    // ----- INIT -----
+      activeSticker.remove();
+      setActiveSticker(null);
+    }
+
     function init() {
-      loadPageData();
-      applyBackground();
+      loadPageFromStorage();
+      updateCanvasBackground();
+      layoutStickersOnGridIfNeeded();
       renderStickers();
+
+      removeButton.addEventListener("click", () => {
+        handleRemoveActiveSticker();
+      });
+
+      continueButton.addEventListener("click", () => {
+        saveLayoutToStorage();
+        showToast();
+        // For now we stay on this page; real "Next step" flow can hook here later.
+      });
+
+      window.addEventListener("resize", () => {
+        // Recalculate bounds but don't force re-layout; users may have already arranged things.
+        recalcCanvasBounds();
+      });
+
+      recalcCanvasBounds();
     }
 
     document.addEventListener("DOMContentLoaded", init);
