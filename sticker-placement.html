@@ -27,7 +27,7 @@
       --button-gradient: linear-gradient(135deg, #ff4f96, #ff7a4e, #22d3ee);
       --button-text: #ffffff;
 
-      --frosted-bg: rgba(255, 255, 255, 0.82);
+      --frosted-bg: rgba(255, 255, 255, 0.86);
       --frosted-border: rgba(255, 255, 255, 0.7);
       --frosted-shadow: 0 8px 20px rgba(15, 23, 42, 0.35);
     }
@@ -93,8 +93,8 @@
       width: 100%;
       border-radius: 26px;
       border: 1px solid rgba(148, 163, 184, 0.35);
-      background: #0ea5e9; /* will be overridden by JS with chosen background */
-      padding: 16px 14px 14px;
+      background: #0ea5e9; /* overridden via JS with chosen background */
+      padding: 14px 12px 12px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -120,7 +120,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
       flex-shrink: 0;
     }
 
@@ -147,11 +147,11 @@
       background: linear-gradient(90deg, #ff4f96, #ff7a4e, #22d3ee);
     }
 
-    /* Frosted header card */
+    /* Slimmer header card */
     .header-card {
-      margin-bottom: 8px;
-      padding: 10px 12px;
-      border-radius: 18px;
+      margin-bottom: 6px;
+      padding: 8px 10px;
+      border-radius: 16px;
       background: var(--frosted-bg);
       border: 1px solid var(--frosted-border);
       backdrop-filter: blur(12px);
@@ -161,34 +161,34 @@
     }
 
     .header-eyebrow {
-      font-size: 10px;
+      font-size: 9px;
       letter-spacing: 0.18em;
       text-transform: uppercase;
       color: var(--text-subtle);
-      margin-bottom: 3px;
+      margin-bottom: 2px;
     }
 
     .header-title {
       font-family: "Poppins", system-ui, sans-serif;
-      font-size: 16px;
+      font-size: 14px;
       font-weight: 600;
-      letter-spacing: 0.06em;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
       color: var(--text-main);
-      margin: 0 0 3px;
-    }
-
-    .header-subtitle {
-      font-size: 11px;
-      color: var(--text-muted);
       margin: 0;
     }
 
-    /* Play area (sticks within this vertically) */
+    .header-subtitle {
+      font-size: 10px;
+      color: var(--text-muted);
+      margin: 2px 0 0;
+    }
+
+    /* Play area */
     .play-area {
       flex: 1;
       min-height: 0;
-      margin: 6px 0 8px;
+      margin: 6px 0 10px;
       position: relative;
     }
 
@@ -223,21 +223,6 @@
         0 8px 18px rgba(15, 23, 42, 0.45);
     }
 
-    /* Tip bar */
-    .tip-bar {
-      margin-bottom: 8px;
-      padding: 7px 10px;
-      border-radius: 999px;
-      background: var(--frosted-bg);
-      border: 1px solid var(--frosted-border);
-      backdrop-filter: blur(10px);
-      box-shadow: 0 6px 14px rgba(15, 23, 42, 0.35);
-      font-size: 10px;
-      color: var(--text-muted);
-      text-align: center;
-      flex-shrink: 0;
-    }
-
     /* Footer buttons */
     .footer-row {
       display: flex;
@@ -253,7 +238,7 @@
       font-size: 11px;
       font-weight: 600;
       cursor: pointer;
-      background: rgba(15, 23, 42, 0.08);
+      background: rgba(15, 23, 42, 0.14);
       color: #f9fafb;
       display: inline-flex;
       align-items: center;
@@ -267,13 +252,14 @@
       flex: 0 0 auto;
     }
 
-    .btn-outline:disabled {
-      opacity: 0.4;
-      cursor: not-allowed;
+    .btn-outline.hidden-remove {
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(4px);
       box-shadow: none;
     }
 
-    .btn-outline:not(:disabled):active {
+    .btn-outline:not(.hidden-remove):active {
       transform: translateY(1px) scale(0.99);
       box-shadow: 0 4px 10px rgba(15, 23, 42, 0.55);
     }
@@ -348,18 +334,14 @@
       }
 
       .phone-inner {
-        padding: 14px 10px 12px;
+        padding: 12px 8px 10px;
       }
 
       .header-title {
-        font-size: 15px;
+        font-size: 13px;
       }
 
       .header-subtitle {
-        font-size: 10px;
-      }
-
-      .tip-bar {
         font-size: 9px;
       }
 
@@ -384,28 +366,23 @@
             </div>
           </div>
 
-          <!-- Header copy on frosted card -->
+          <!-- Slim header card -->
           <div class="header-card">
             <div class="header-eyebrow">Page 1</div>
             <h1 class="header-title">Arrange your stickers</h1>
             <p class="header-subtitle">
-              Drag, resize, and rotate to design this page.
+              Drag, pinch, and rotate to design this page.
             </p>
           </div>
 
-          <!-- Central play area (background is full-bleed behind this) -->
+          <!-- Central play area -->
           <div class="play-area" id="play-area">
             <div id="stickerCanvas"></div>
           </div>
 
-          <!-- Tip bar -->
-          <div class="tip-bar">
-            Tip: pinch with two fingers to resize and twist to rotate.
-          </div>
-
           <!-- Footer actions -->
           <div class="footer-row">
-            <button id="remove-button" class="btn-outline" type="button" disabled>
+            <button id="remove-button" class="btn-outline hidden-remove" type="button" disabled>
               Remove sticker
             </button>
             <button id="continue-button" class="btn-primary" type="button">
@@ -420,7 +397,6 @@
   </div>
 
   <script>
-    const BASE_STICKER_SIZE = 100; // px
     const GRID_COLS = 4;
     const GRID_ROWS = 5; // up to 20 stickers
     const SAFE_MARGIN = 8; // padding inside play area bounds
@@ -474,13 +450,11 @@
 
         pageData = {
           background: bg,
-          stickers: stickerIds.map((id) => ({
-            id,
-            src: null
-          }))
+          stickers: stickerIds.map((id) => ({ id, src: null }))
         };
       }
 
+      // Try to hydrate src from stickerbook_pages
       try {
         const allPagesRaw = localStorage.getItem("stickerbook_pages");
         if (allPagesRaw) {
@@ -515,7 +489,7 @@
       canvasBounds.height = rect.height;
     }
 
-    // For MVP: ALWAYS lay out fresh grid on load so nothing stacks
+    // ALWAYS lay out fresh on load in a grid so nothing overlaps
     function layoutStickersOnGrid() {
       if (!pageData || !pageData.stickers) return;
 
@@ -526,27 +500,46 @@
       const cellWidth = innerWidth / GRID_COLS;
       const cellHeight = innerHeight / GRID_ROWS;
 
-      pageData.stickers.forEach((sticker, index) => {
+      const maxCells = GRID_COLS * GRID_ROWS;
+      const count = Math.min(pageData.stickers.length, maxCells);
+
+      for (let index = 0; index < count; index++) {
+        const sticker = pageData.stickers[index];
         const row = Math.floor(index / GRID_COLS);
         const col = index % GRID_COLS;
 
         const cellCenterX = SAFE_MARGIN + col * cellWidth + cellWidth / 2;
         const cellCenterY = SAFE_MARGIN + row * cellHeight + cellHeight / 2;
 
+        // Size based on cell so grid actually looks spaced
+        const stickerSize = Math.min(cellWidth, cellHeight) * 0.8;
+
         sticker.scale = 1;
         sticker.rotation = 0;
-        sticker.size = BASE_STICKER_SIZE;
+        sticker.size = stickerSize;
 
-        const halfSize = BASE_STICKER_SIZE / 2;
+        const halfSize = stickerSize / 2;
         sticker.x = cellCenterX - halfSize;
         sticker.y = cellCenterY - halfSize;
-      });
+      }
+
+      // If there are extra stickers beyond grid capacity, just stack them at bottom center
+      for (let i = maxCells; i < pageData.stickers.length; i++) {
+        const sticker = pageData.stickers[i];
+        const stickerSize = Math.min(cellWidth, cellHeight) * 0.8;
+        sticker.scale = 1;
+        sticker.rotation = 0;
+        sticker.size = stickerSize;
+        const halfSize = stickerSize / 2;
+        sticker.x = canvasBounds.width / 2 - halfSize;
+        sticker.y = canvasBounds.height - SAFE_MARGIN - stickerSize;
+      }
 
       stickersData = pageData.stickers;
     }
 
     function clampStickerPosition(stickerObj) {
-      const size = stickerObj.size || BASE_STICKER_SIZE;
+      const size = stickerObj.size || 80;
       const minX = SAFE_MARGIN;
       const minY = SAFE_MARGIN;
       const maxX = canvasBounds.width - size - SAFE_MARGIN;
@@ -560,15 +553,19 @@
 
     function setActiveSticker(el) {
       if (activeSticker === el) return;
+
       if (activeSticker) {
         activeSticker.classList.remove("active");
       }
       activeSticker = el;
+
       if (activeSticker) {
         activeSticker.classList.add("active");
         removeButton.disabled = false;
+        removeButton.classList.remove("hidden-remove");
       } else {
         removeButton.disabled = true;
+        removeButton.classList.add("hidden-remove");
       }
     }
 
@@ -576,7 +573,7 @@
       const el = document.createElement("div");
       el.className = "sticker";
 
-      const size = stickerObj.size || BASE_STICKER_SIZE;
+      const size = stickerObj.size || 80;
 
       clampStickerPosition(stickerObj);
 
@@ -605,7 +602,9 @@
       img.alt = "";
       el.appendChild(img);
 
-      el.addEventListener("click", () => {
+      el.addEventListener("click", (event) => {
+        // prevent click on sticker from bubbling to play area clear
+        event.stopPropagation();
         setActiveSticker(el);
         el.style.zIndex = ++currentZ;
       });
@@ -685,7 +684,7 @@
         const el = createStickerElement(sticker);
         canvas.appendChild(el);
       });
-      setActiveSticker(null);
+      setActiveSticker(null); // start with nothing selected
     }
 
     function saveLayoutToStorage() {
@@ -739,18 +738,30 @@
       layoutStickersOnGrid();
       renderStickers();
 
-      removeButton.addEventListener("click", () => {
+      // Remove button behavior
+      removeButton.addEventListener("click", (event) => {
+        event.stopPropagation();
         handleRemoveActiveSticker();
       });
 
+      // Continue button
       continueButton.addEventListener("click", () => {
         saveLayoutToStorage();
         showToast();
-        // keep user on page for MVP
+        // stay on page for now in MVP
+      });
+
+      // Tap empty space to clear selection
+      playArea.addEventListener("click", (event) => {
+        // Only clear if click is directly on the play area / background
+        if (event.target === playArea || event.target === canvas) {
+          setActiveSticker(null);
+        }
       });
 
       window.addEventListener("resize", () => {
         recalcCanvasBounds();
+        // we do NOT re-grid on resize to avoid moving a user's layout
       });
     }
 
