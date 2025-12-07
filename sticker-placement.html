@@ -183,12 +183,12 @@
       position: relative;
       width: 100%;
       height: 100%;
-      touch-action: none;
+      touch-action: none; /* important for Hammer gestures */
     }
 
     .sticker {
       position: absolute;
-      touch-action: none;
+      touch-action: none; /* prevent browser from hijacking gestures */
       user-select: none;
       transform-origin: center center;
       cursor: grab;
@@ -454,6 +454,7 @@
         // ignore
       }
 
+      // Filter out any stickers with no src
       pageData.stickers = pageData.stickers.filter((s) => !!s.src);
     }
 
@@ -468,7 +469,7 @@
       canvasBounds.height = rect.height;
     }
 
-    // ALWAYS lay out fresh on load in a grid so nothing overlaps
+    // Lay out stickers in a 4x5 grid on this page
     function layoutStickersOnGrid() {
       if (!pageData || !pageData.stickers) return;
 
@@ -547,6 +548,110 @@
       }
     }
 
+    function attachGestureHandlers(el) {
+      // Explicit Hammer manager + recognizers
+      const hammer = new Hammer.Manager(el);
+
+      const pan = new Hammer.Pan({
+        threshold: 0,
+        pointers: 0
+      });
+
+      const pinch = new Hammer.Pinch({
+        threshold: 0
+      });
+
+      const rotate = new Hammer.Rotate({
+        threshold: 0
+      });
+
+      // Allow gestures to recognize together
+      pinch.recognizeWith(rotate);
+      pinch.recognizeWith(pan);
+      rotate.recognizeWith(pan);
+
+      hammer.add([pan, pinch, rotate]);
+
+      let startX = 0;
+      let startY = 0;
+      let startScale = 1;
+      let startRotation = 0;
+
+      hammer.on("panstart", (ev) => {
+        setActiveSticker(el);
+        el.style.zIndex = ++currentZ;
+
+        startX = parseFloat(el.dataset.x) || 0;
+        startY = parseFloat(el.dataset.y) || 0;
+      });
+
+      hammer.on("panmove", (ev) => {
+        const id = el.dataset.id;
+        const st = stickersData.find((s) => s.id === id);
+        if (!st) return;
+
+        st.x = startX + ev.deltaX;
+        st.y = startY + ev.deltaY;
+
+        clampStickerPosition(st);
+
+        el.dataset.x = st.x;
+        el.dataset.y = st.y;
+        el.style.left = st.x + "px";
+        el.style.top = st.y + "px";
+      });
+
+      hammer.on("pinchstart", () => {
+        setActiveSticker(el);
+        el.style.zIndex = ++currentZ;
+
+        startScale = parseFloat(el.dataset.scale) || 1;
+      });
+
+      hammer.on("pinchmove", (ev) => {
+        const id = el.dataset.id;
+        const st = stickersData.find((s) => s.id === id);
+        if (!st) return;
+
+        let newScale = startScale * (ev.scale || 1);
+        if (newScale < 0.35) newScale = 0.35;
+        if (newScale > 3.0) newScale = 3.0;
+
+        st.scale = newScale;
+
+        const rotation = st.rotation || 0;
+
+        el.dataset.scale = newScale;
+        el.style.transform = `scale(${newScale}) rotate(${rotation}deg)`;
+      });
+
+      hammer.on("rotatestart", () => {
+        setActiveSticker(el);
+        el.style.zIndex = ++currentZ;
+
+        startRotation = parseFloat(el.dataset.rotation) || 0;
+      });
+
+      hammer.on("rotatemove", (ev) => {
+        const id = el.dataset.id;
+        const st = stickersData.find((s) => s.id === id);
+        if (!st) return;
+
+        const newRotation = startRotation + (ev.rotation || 0);
+        st.rotation = newRotation;
+
+        const scale = st.scale || parseFloat(el.dataset.scale) || 1;
+
+        el.dataset.rotation = newRotation;
+        el.style.transform = `scale(${scale}) rotate(${newRotation}deg)`;
+      });
+
+      // Persist layout after each finished gesture
+      hammer.on("panend pinchend rotateend", () => {
+        saveLayoutToStorage();
+      });
+    }
+
     function createStickerElement(stickerObj) {
       const el = document.createElement("div");
       el.className = "sticker";
@@ -590,68 +695,6 @@
       attachGestureHandlers(el);
 
       return el;
-    }
-
-    // SIMPLIFIED Hammer setup – this is the key change
-    function attachGestureHandlers(el) {
-      const hammer = new Hammer(el);
-
-      hammer.get("pan").set({ threshold: 0 });
-      hammer.get("pinch").set({ enable: true });
-      hammer.get("rotate").set({ enable: true });
-
-      let startX = 0;
-      let startY = 0;
-      let startScale = 1;
-      let startRotation = 0;
-
-      hammer.on("panstart", (ev) => {
-        setActiveSticker(el);
-        el.style.zIndex = ++currentZ;
-
-        startX = parseFloat(el.dataset.x) || 0;
-        startY = parseFloat(el.dataset.y) || 0;
-      });
-
-      hammer.on("panmove", (ev) => {
-        const id = el.dataset.id;
-        const st = stickersData.find((s) => s.id === id);
-        if (!st) return;
-
-        st.x = startX + ev.deltaX;
-        st.y = startY + ev.deltaY;
-
-        clampStickerPosition(st);
-
-        el.dataset.x = st.x;
-        el.dataset.y = st.y;
-        el.style.left = st.x + "px";
-        el.style.top = st.y + "px";
-      });
-
-      hammer.on("pinchstart rotatestart", () => {
-        startScale = parseFloat(el.dataset.scale) || 1;
-        startRotation = parseFloat(el.dataset.rotation) || 0;
-      });
-
-      hammer.on("pinchmove rotatemove", (ev) => {
-        const id = el.dataset.id;
-        const st = stickersData.find((s) => s.id === id);
-        if (!st) return;
-
-        let newScale = startScale * (ev.scale || 1);
-        let newRotation = startRotation + (ev.rotation || 0);
-
-        if (newScale < 0.35) newScale = 0.35;
-        if (newScale > 3.0) newScale = 3.0;
-
-        st.scale = newScale;
-        st.rotation = newRotation;
-
-        el.dataset.scale = newScale;
-        el.dataset.rotation = newRotation;
-        el.style.transform = `scale(${newScale}) rotate(${newRotation}deg)`;
-      });
     }
 
     function renderStickers() {
@@ -705,6 +748,7 @@
 
       activeSticker.remove();
       setActiveSticker(null);
+      saveLayoutToStorage();
     }
 
     function init() {
@@ -739,6 +783,29 @@
         // do NOT re-grid on resize; user layout stays
       });
     }
+
+    // Stop iOS Safari from hijacking pinch for page zoom
+    document.addEventListener(
+      "gesturestart",
+      function (e) {
+        e.preventDefault();
+      },
+      { passive: false }
+    );
+    document.addEventListener(
+      "gesturechange",
+      function (e) {
+        e.preventDefault();
+      },
+      { passive: false }
+    );
+    document.addEventListener(
+      "gestureend",
+      function (e) {
+        e.preventDefault();
+      },
+      { passive: false }
+    );
 
     document.addEventListener("DOMContentLoaded", init);
   </script>
