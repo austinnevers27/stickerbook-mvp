@@ -157,6 +157,13 @@
       text-align: center;
       align-self: center;
       flex-shrink: 0;
+      transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+
+    .header-card.header-hidden {
+      opacity: 0;
+      transform: translateY(-6px);
+      pointer-events: none;
     }
 
     .header-title {
@@ -348,7 +355,7 @@
           </div>
 
           <!-- Tiny header chip -->
-          <div class="header-card">
+          <div class="header-card" id="header-card">
             <h1 class="header-title">Arrange your stickers</h1>
           </div>
 
@@ -379,7 +386,7 @@
     const SAFE_MARGIN = 8;
 
     const MIN_SCALE = 0.5; // 50% of start size
-    const MAX_SCALE = 5;   // ~75% page height in practice
+    const MAX_SCALE = 5;   // big collage mode
 
     const phoneInner = document.getElementById("phone-inner");
     const playArea = document.getElementById("play-area");
@@ -387,6 +394,7 @@
     const removeButton = document.getElementById("remove-button");
     const continueButton = document.getElementById("continue-button");
     const saveToast = document.getElementById("save-toast");
+    const headerCard = document.getElementById("header-card");
 
     const isTouchDevice =
       "ontouchstart" in window || navigator.maxTouchPoints > 0;
@@ -396,6 +404,13 @@
     let currentZ = 10;
     let activeSticker = null;
     let canvasBounds = { width: 0, height: 0 };
+    let headerHidden = false;
+
+    function hideHeaderCard() {
+      if (headerHidden || !headerCard) return;
+      headerHidden = true;
+      headerCard.classList.add("header-hidden");
+    }
 
     function showToast() {
       saveToast.classList.add("visible");
@@ -493,7 +508,7 @@
         const cellCenterX = SAFE_MARGIN + col * cellWidth + cellWidth / 2;
         const cellCenterY = SAFE_MARGIN + row * cellHeight + cellHeight / 2;
 
-        // BIGGER starting stickers (0.95 instead of 0.8)
+        // BIGGER starting stickers
         const stickerSize = Math.min(cellWidth, cellHeight) * 0.95;
 
         sticker.scale = 1;
@@ -520,21 +535,40 @@
       stickersData = pageData.stickers;
     }
 
+    // Constrain sticker so it stays in the vertical "safe" area under the logo/pill.
+    // We still allow some side "fall off", but top can't creep up over the header.
     function clampStickerPosition(stickerObj) {
       const size = stickerObj.size || 80;
+      const scale = stickerObj.scale || 1;
+      const scaledSize = size * scale;
+      const extra = (scaledSize - size) / 2; // how much the transform extends past the box on each side
+
+      // Horizontal: keep like before (you still get some side bleed visually)
       const minX = SAFE_MARGIN;
-      const minY = SAFE_MARGIN;
       const maxX = canvasBounds.width - size - SAFE_MARGIN;
-      const maxY = canvasBounds.height - size - SAFE_MARGIN;
+
+      // Vertical: account for the scaled visual height so it can't cover the header area
+      const minY = SAFE_MARGIN + extra; // push down as it grows
+      const maxY = canvasBounds.height - SAFE_MARGIN - size - extra;
 
       if (stickerObj.x < minX) stickerObj.x = minX;
-      if (stickerObj.y < minY) stickerObj.y = minY;
       if (stickerObj.x > maxX) stickerObj.x = maxX;
-      if (stickerObj.y > maxY) stickerObj.y = maxY;
+
+      // If scaled so huge that minY > maxY, clamp to center-ish
+      if (minY > maxY) {
+        const mid = (canvasBounds.height - size) / 2;
+        stickerObj.y = mid;
+      } else {
+        if (stickerObj.y < minY) stickerObj.y = minY;
+        if (stickerObj.y > maxY) stickerObj.y = maxY;
+      }
     }
 
     function setActiveSticker(el) {
       if (activeSticker === el) return;
+
+      // Hide header as soon as user interacts with a sticker
+      hideHeaderCard();
 
       if (activeSticker) {
         activeSticker.classList.remove("active");
@@ -769,7 +803,6 @@
           const scaleFactor = distance / (initialDistance || distance);
           let newScale = startScale * scaleFactor;
 
-          // Apply your requested bounds
           if (newScale < MIN_SCALE) newScale = MIN_SCALE;
           if (newScale > MAX_SCALE) newScale = MAX_SCALE;
 
@@ -779,8 +812,15 @@
           st.scale = newScale;
           st.rotation = newRotation;
 
+          // Re-clamp vertically based on new scale so it doesn't cover header
+          clampStickerPosition(st);
+
+          el.dataset.x = st.x;
+          el.dataset.y = st.y;
           el.dataset.scale = newScale;
           el.dataset.rotation = newRotation;
+          el.style.left = st.x + "px";
+          el.style.top = st.y + "px";
           el.style.transform = `scale(${newScale}) rotate(${newRotation}deg)`;
         }
       }, { passive: false });
@@ -826,6 +866,9 @@
       recalcCanvasBounds();
       layoutStickersOnGrid();
       renderStickers();
+
+      // Auto fade the pill after 5 seconds as a backup
+      setTimeout(hideHeaderCard, 5000);
 
       removeButton.addEventListener("click", (event) => {
         event.stopPropagation();
