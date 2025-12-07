@@ -145,7 +145,7 @@
       background: linear-gradient(90deg, #ff4f96, #ff7a4e, #22d3ee);
     }
 
-    /* Very small header chip */
+    /* Tiny header chip */
     .header-card {
       margin-bottom: 4px;
       padding: 5px 12px;
@@ -385,8 +385,8 @@
     const GRID_ROWS = 5;
     const SAFE_MARGIN = 8;
 
-    const MIN_SCALE = 0.5; // 50% of start size
-    const MAX_SCALE = 5;   // big collage mode
+    const MIN_SCALE = 0.5;
+    const MAX_SCALE = 5;
 
     const phoneInner = document.getElementById("phone-inner");
     const playArea = document.getElementById("play-area");
@@ -419,13 +419,7 @@
       }, 1500);
     }
 
-    /**
-     * Reads from:
-     * - stickerbook_page_1 (preferred, { background, stickers: [{id, src}] })
-     * - fallback: stickerbookSelectedStickers + background keys
-     * - fallback: stickerbook_pages.page_1 if present
-     * Also normalizes any { image: "..." } => { src: "..." } so we don't lose stickers.
-     */
+    // Load page data and normalize src/image
     function loadPageFromStorage() {
       const rawPage = localStorage.getItem("stickerbook_page_1");
       if (rawPage) {
@@ -436,7 +430,6 @@
         }
       }
 
-      // If pageData is missing / malformed, build from older keys
       if (!pageData || !pageData.stickers || !Array.isArray(pageData.stickers)) {
         const bg =
           localStorage.getItem("stickerbook_page_1_background") ||
@@ -459,7 +452,6 @@
           stickers: stickerIds.map((id) => ({ id, src: null }))
         };
 
-        // If stickerbook_pages has richer data, hydrate from there
         try {
           const allPagesRaw = localStorage.getItem("stickerbook_pages");
           if (allPagesRaw) {
@@ -480,7 +472,6 @@
           // ignore
         }
       } else {
-        // pageData exists: still check stickerbook_pages as a possible richer source
         try {
           const allPagesRaw = localStorage.getItem("stickerbook_pages");
           if (allPagesRaw) {
@@ -502,7 +493,6 @@
         }
       }
 
-      // 🔴 Key normalization: if picker saved `image` instead of `src`, fix that
       if (pageData && Array.isArray(pageData.stickers)) {
         pageData.stickers.forEach((s) => {
           if (!s.src && s.image) {
@@ -511,7 +501,6 @@
         });
       }
 
-      // Final filter: only keep stickers that definitely have an image source
       pageData.stickers = (pageData.stickers || []).filter((s) => !!s.src);
     }
 
@@ -526,6 +515,7 @@
       canvasBounds.height = rect.height;
     }
 
+    // initial grid: set centers, not final box size
     function layoutStickersOnGrid() {
       if (!pageData || !pageData.stickers) return;
 
@@ -542,7 +532,6 @@
       for (let index = 0; index < count; index++) {
         const sticker = pageData.stickers[index];
 
-        // If sticker already has a saved position/scale, respect it
         if (
           typeof sticker.x === "number" &&
           typeof sticker.y === "number" &&
@@ -558,7 +547,6 @@
         const cellCenterX = SAFE_MARGIN + col * cellWidth + cellWidth / 2;
         const cellCenterY = SAFE_MARGIN + row * cellHeight + cellHeight / 2;
 
-        // BIGGER starting stickers
         const stickerSize = Math.min(cellWidth, cellHeight) * 0.95;
 
         sticker.scale = 1;
@@ -570,14 +558,10 @@
         sticker.y = cellCenterY - halfSize;
       }
 
-      // extra stickers (if any) stack at bottom center
       for (let i = maxCells; i < pageData.stickers.length; i++) {
         const sticker = pageData.stickers[i];
 
-        if (
-          typeof sticker.x === "number" &&
-          typeof sticker.y === "number"
-        ) {
+        if (typeof sticker.x === "number" && typeof sticker.y === "number") {
           continue;
         }
 
@@ -593,24 +577,34 @@
       stickersData = pageData.stickers;
     }
 
-    // Constrain sticker so it stays in the vertical "safe" area under the logo/pill.
+    function getStickerBaseDimensions(stickerObj) {
+      const defaultSize = stickerObj.size || 80;
+      const baseWidth = stickerObj.baseWidth || stickerObj.width || defaultSize;
+      const baseHeight = stickerObj.baseHeight || stickerObj.height || defaultSize;
+      return { baseWidth, baseHeight };
+    }
+
     function clampStickerPosition(stickerObj) {
-      const size = stickerObj.size || 80;
+      const { baseWidth, baseHeight } = getStickerBaseDimensions(stickerObj);
       const scale = stickerObj.scale || 1;
-      const scaledSize = size * scale;
-      const extra = (scaledSize - size) / 2;
+
+      const scaledWidth = baseWidth * scale;
+      const scaledHeight = baseHeight * scale;
+
+      const extraX = (scaledWidth - baseWidth) / 2;
+      const extraY = (scaledHeight - baseHeight) / 2;
 
       const minX = SAFE_MARGIN;
-      const maxX = canvasBounds.width - size - SAFE_MARGIN;
+      const maxX = canvasBounds.width - baseWidth - SAFE_MARGIN;
 
-      const minY = SAFE_MARGIN + extra;
-      const maxY = canvasBounds.height - SAFE_MARGIN - size - extra;
+      const minY = SAFE_MARGIN + extraY;
+      const maxY = canvasBounds.height - SAFE_MARGIN - baseHeight - extraY;
 
       if (stickerObj.x < minX) stickerObj.x = minX;
       if (stickerObj.x > maxX) stickerObj.x = maxX;
 
       if (minY > maxY) {
-        const mid = (canvasBounds.height - size) / 2;
+        const mid = (canvasBounds.height - baseHeight) / 2;
         stickerObj.y = mid;
       } else {
         if (stickerObj.y < minY) stickerObj.y = minY;
@@ -621,7 +615,6 @@
     function setActiveSticker(el) {
       if (activeSticker === el) return;
 
-      // Hide header as soon as user interacts with a sticker
       hideHeaderCard();
 
       if (activeSticker) {
@@ -648,7 +641,9 @@
         y: parseFloat(el.dataset.y) || 0,
         scale: parseFloat(el.dataset.scale) || 1,
         rotation: parseFloat(el.dataset.rotation) || 0,
-        zIndex: parseInt(el.style.zIndex || "1", 10)
+        zIndex: parseInt(el.style.zIndex || "1", 10),
+        width: parseFloat(el.dataset.width) || undefined,
+        height: parseFloat(el.dataset.height) || undefined
       }));
 
       const bg =
@@ -688,11 +683,18 @@
       const el = document.createElement("div");
       el.className = "sticker";
 
-      const size = stickerObj.size || 80;
+      const baseSize = stickerObj.size || 80;
+
+      let baseWidth = stickerObj.width || baseSize;
+      let baseHeight = stickerObj.height || baseSize;
+
+      stickerObj.baseWidth = baseWidth;
+      stickerObj.baseHeight = baseHeight;
+
       clampStickerPosition(stickerObj);
 
-      el.style.width = size + "px";
-      el.style.height = size + "px";
+      el.style.width = baseWidth + "px";
+      el.style.height = baseHeight + "px";
       el.style.left = stickerObj.x + "px";
       el.style.top = stickerObj.y + "px";
 
@@ -710,13 +712,59 @@
       el.dataset.y = stickerObj.y;
       el.dataset.scale = scale;
       el.dataset.rotation = rotation;
+      el.dataset.width = baseWidth;
+      el.dataset.height = baseHeight;
 
       const img = document.createElement("img");
       img.src = stickerObj.src;
       img.alt = "";
       el.appendChild(img);
 
-      // tap/click to select
+      // adjust to real aspect once image loads
+      img.addEventListener("load", () => {
+        const iw = img.naturalWidth;
+        const ih = img.naturalHeight;
+        if (!iw || !ih) return;
+
+        const maxDim = stickerObj.size || baseSize;
+        let w, h;
+        const aspect = ih / iw;
+
+        if (iw >= ih) {
+          w = maxDim;
+          h = maxDim * aspect;
+        } else {
+          h = maxDim;
+          w = maxDim / aspect;
+        }
+
+        stickerObj.baseWidth = w;
+        stickerObj.baseHeight = h;
+        stickerObj.width = w;
+        stickerObj.height = h;
+
+        const scaleNow = stickerObj.scale || 1;
+        const rotationNow = stickerObj.rotation || 0;
+
+        const centerX = stickerObj.x + baseWidth / 2;
+        const centerY = stickerObj.y + baseHeight / 2;
+        stickerObj.x = centerX - w / 2;
+        stickerObj.y = centerY - h / 2;
+
+        clampStickerPosition(stickerObj);
+
+        el.style.width = w + "px";
+        el.style.height = h + "px";
+        el.style.left = stickerObj.x + "px";
+        el.style.top = stickerObj.y + "px";
+        el.style.transform = `scale(${scaleNow}) rotate(${rotationNow}deg)`;
+
+        el.dataset.x = stickerObj.x;
+        el.dataset.y = stickerObj.y;
+        el.dataset.width = w;
+        el.dataset.height = h;
+      });
+
       el.addEventListener("click", (event) => {
         event.stopPropagation();
         setActiveSticker(el);
@@ -730,7 +778,7 @@
     }
 
     function setupDesktopDrag(el) {
-      if (isTouchDevice) return; // mobile uses touch handlers
+      if (isTouchDevice) return;
 
       el.addEventListener("mousedown", (e) => {
         e.preventDefault();
@@ -777,7 +825,7 @@
     function setupTouchGestures(el) {
       if (!isTouchDevice) return;
 
-      let touchMode = null; // "pan" or "transform"
+      let touchMode = null;
       let startX = 0;
       let startY = 0;
       let startTouchX = 0;
@@ -802,7 +850,6 @@
         if (!st) return;
 
         if (e.touches.length === 1) {
-          // drag
           touchMode = "pan";
           const t = e.touches[0];
           startX = st.x;
@@ -810,7 +857,6 @@
           startTouchX = t.clientX;
           startTouchY = t.clientY;
         } else if (e.touches.length === 2) {
-          // pinch/rotate
           touchMode = "transform";
           const t1 = e.touches[0];
           const t2 = e.touches[1];
@@ -869,7 +915,6 @@
           st.scale = newScale;
           st.rotation = newRotation;
 
-          // Re-clamp vertically based on new scale so it doesn't cover header
           clampStickerPosition(st);
 
           el.dataset.x = st.x;
@@ -890,11 +935,9 @@
         }
 
         if (e.touches.length === 0) {
-          // gesture fully ended
           touchMode = null;
           saveLayoutToStorage();
         } else if (touchMode === "transform" && e.touches.length === 1) {
-          // dropped back to one finger: switch to pan
           const t = e.touches[0];
           startX = st.x;
           startY = st.y;
@@ -921,7 +964,6 @@
       loadPageFromStorage();
 
       if (!pageData || !Array.isArray(pageData.stickers) || pageData.stickers.length === 0) {
-        // No stickers = nothing to arrange, but don't crash
         canvas.innerHTML = "<p style='padding:12px;font-size:12px;color:#6b7280;text-align:center;'>No stickers found for this page. Go back and choose some first.</p>";
         removeButton.disabled = true;
         removeButton.classList.add("hidden-remove");
@@ -934,7 +976,6 @@
       layoutStickersOnGrid();
       renderStickers();
 
-      // Auto fade the pill after 5 seconds as a backup
       setTimeout(hideHeaderCard, 5000);
 
       removeButton.addEventListener("click", (event) => {
@@ -955,7 +996,6 @@
 
       window.addEventListener("resize", () => {
         recalcCanvasBounds();
-        // don't re-grid on resize; keep user layout
       });
     }
 
