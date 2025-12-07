@@ -27,9 +27,9 @@
       --button-gradient: linear-gradient(135deg, #ff4f96, #ff7a4e, #22d3ee);
       --button-text: #ffffff;
 
-      --frosted-bg: rgba(255, 255, 255, 0.86);
+      --frosted-bg: rgba(255, 255, 255, 0.9);
       --frosted-border: rgba(255, 255, 255, 0.7);
-      --frosted-shadow: 0 8px 20px rgba(15, 23, 42, 0.35);
+      --frosted-shadow: 0 6px 16px rgba(15, 23, 42, 0.28);
     }
 
     * {
@@ -94,7 +94,7 @@
       border-radius: 26px;
       border: 1px solid rgba(148, 163, 184, 0.35);
       background: #0ea5e9; /* overridden via JS with chosen background */
-      padding: 14px 12px 12px;
+      padding: 12px 10px 10px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -147,48 +147,35 @@
       background: linear-gradient(90deg, #ff4f96, #ff7a4e, #22d3ee);
     }
 
-    /* Slimmer header card */
+    /* Very small header chip */
     .header-card {
-      margin-bottom: 6px;
-      padding: 8px 10px;
-      border-radius: 16px;
+      margin-bottom: 4px;
+      padding: 5px 12px;
+      border-radius: 999px;
       background: var(--frosted-bg);
       border: 1px solid var(--frosted-border);
-      backdrop-filter: blur(12px);
+      backdrop-filter: blur(10px);
       box-shadow: var(--frosted-shadow);
       text-align: center;
+      align-self: center;
       flex-shrink: 0;
-    }
-
-    .header-eyebrow {
-      font-size: 9px;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--text-subtle);
-      margin-bottom: 2px;
     }
 
     .header-title {
       font-family: "Poppins", system-ui, sans-serif;
-      font-size: 14px;
+      font-size: 11px;
       font-weight: 600;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.16em;
       text-transform: uppercase;
       color: var(--text-main);
       margin: 0;
-    }
-
-    .header-subtitle {
-      font-size: 10px;
-      color: var(--text-muted);
-      margin: 2px 0 0;
     }
 
     /* Play area */
     .play-area {
       flex: 1;
       min-height: 0;
-      margin: 6px 0 10px;
+      margin: 4px 0 10px;
       position: relative;
     }
 
@@ -334,15 +321,11 @@
       }
 
       .phone-inner {
-        padding: 12px 8px 10px;
+        padding: 10px 8px 10px;
       }
 
       .header-title {
-        font-size: 13px;
-      }
-
-      .header-subtitle {
-        font-size: 9px;
+        font-size: 10px;
       }
 
       .btn-primary {
@@ -366,13 +349,9 @@
             </div>
           </div>
 
-          <!-- Slim header card -->
+          <!-- Tiny header chip (for later, we can replace with tutorial overlay) -->
           <div class="header-card">
-            <div class="header-eyebrow">Page 1</div>
             <h1 class="header-title">Arrange your stickers</h1>
-            <p class="header-subtitle">
-              Drag, pinch, and rotate to design this page.
-            </p>
           </div>
 
           <!-- Central play area -->
@@ -511,7 +490,6 @@
         const cellCenterX = SAFE_MARGIN + col * cellWidth + cellWidth / 2;
         const cellCenterY = SAFE_MARGIN + row * cellHeight + cellHeight / 2;
 
-        // Size based on cell so grid actually looks spaced
         const stickerSize = Math.min(cellWidth, cellHeight) * 0.8;
 
         sticker.scale = 1;
@@ -523,7 +501,7 @@
         sticker.y = cellCenterY - halfSize;
       }
 
-      // If there are extra stickers beyond grid capacity, just stack them at bottom center
+      // If there are extra stickers beyond grid capacity, stack along bottom center
       for (let i = maxCells; i < pageData.stickers.length; i++) {
         const sticker = pageData.stickers[i];
         const stickerSize = Math.min(cellWidth, cellHeight) * 0.8;
@@ -603,7 +581,6 @@
       el.appendChild(img);
 
       el.addEventListener("click", (event) => {
-        // prevent click on sticker from bubbling to play area clear
         event.stopPropagation();
         setActiveSticker(el);
         el.style.zIndex = ++currentZ;
@@ -622,6 +599,10 @@
 
       pinch.recognizeWith(rotate);
       manager.add([pan, pinch, rotate]);
+
+      // IMPORTANT: enable pinch & rotate (off by default)
+      manager.get('pinch').set({ enable: true });
+      manager.get('rotate').set({ enable: true });
 
       let startX = 0;
       let startY = 0;
@@ -738,7 +719,7 @@
       layoutStickersOnGrid();
       renderStickers();
 
-      // Remove button behavior
+      // Remove button
       removeButton.addEventListener("click", (event) => {
         event.stopPropagation();
         handleRemoveActiveSticker();
@@ -748,12 +729,11 @@
       continueButton.addEventListener("click", () => {
         saveLayoutToStorage();
         showToast();
-        // stay on page for now in MVP
+        // MVP: stay on page
       });
 
       // Tap empty space to clear selection
       playArea.addEventListener("click", (event) => {
-        // Only clear if click is directly on the play area / background
         if (event.target === playArea || event.target === canvas) {
           setActiveSticker(null);
         }
@@ -761,7 +741,7 @@
 
       window.addEventListener("resize", () => {
         recalcCanvasBounds();
-        // we do NOT re-grid on resize to avoid moving a user's layout
+        // do NOT re-grid on resize; user layout stays
       });
     }
 
