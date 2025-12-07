@@ -27,7 +27,7 @@
       --button-gradient: linear-gradient(135deg, #ff4f96, #ff7a4e, #22d3ee);
       --button-text: #ffffff;
 
-      --frosted-bg: rgba(255, 255, 255, 0.78);
+      --frosted-bg: rgba(255, 255, 255, 0.82);
       --frosted-border: rgba(255, 255, 255, 0.7);
       --frosted-shadow: 0 8px 20px rgba(15, 23, 42, 0.35);
     }
@@ -93,13 +93,14 @@
       width: 100%;
       border-radius: 26px;
       border: 1px solid rgba(148, 163, 184, 0.35);
-      background: #ffffff;
-      padding: 20px 18px 18px;
+      background: #0ea5e9; /* will be overridden by JS with chosen background */
+      padding: 16px 14px 14px;
       display: flex;
       flex-direction: column;
       align-items: center;
       flex: 1;
       overflow: hidden;
+      position: relative;
     }
 
     .shell-inner {
@@ -110,6 +111,8 @@
       flex-direction: column;
       align-items: stretch;
       height: 100%;
+      position: relative;
+      z-index: 1;
     }
 
     /* Logo */
@@ -117,7 +120,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
       flex-shrink: 0;
     }
 
@@ -181,17 +184,11 @@
       margin: 0;
     }
 
-    /* Canvas area */
-    .canvas-wrapper {
-      margin-top: 8px;
-      margin-bottom: 10px;
+    /* Play area (sticks within this vertically) */
+    .play-area {
       flex: 1;
       min-height: 0;
-      border-radius: 22px;
-      overflow: hidden;
-      box-shadow:
-        0 10px 24px rgba(15, 23, 42, 0.25),
-        0 0 0 1px rgba(15, 23, 42, 0.12);
+      margin: 6px 0 8px;
       position: relative;
     }
 
@@ -208,7 +205,7 @@
       user-select: none;
       transform-origin: center center;
       cursor: grab;
-      border-radius: 18px; /* subtle rounding for selection glow */
+      border-radius: 18px;
     }
 
     .sticker img {
@@ -226,7 +223,7 @@
         0 8px 18px rgba(15, 23, 42, 0.45);
     }
 
-    /* Frosted tip bar */
+    /* Tip bar */
     .tip-bar {
       margin-bottom: 8px;
       padding: 7px 10px;
@@ -251,13 +248,13 @@
 
     .btn-outline {
       border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.9);
+      border: 1px solid rgba(248, 250, 252, 0.85);
       padding: 8px 14px;
       font-size: 11px;
       font-weight: 600;
       cursor: pointer;
-      background: rgba(249, 250, 251, 0.9);
-      color: var(--text-muted);
+      background: rgba(15, 23, 42, 0.08);
+      color: #f9fafb;
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -271,14 +268,14 @@
     }
 
     .btn-outline:disabled {
-      opacity: 0.35;
+      opacity: 0.4;
       cursor: not-allowed;
       box-shadow: none;
     }
 
     .btn-outline:not(:disabled):active {
       transform: translateY(1px) scale(0.99);
-      box-shadow: 0 4px 10px rgba(148, 163, 184, 0.55);
+      box-shadow: 0 4px 10px rgba(15, 23, 42, 0.55);
     }
 
     .btn-primary {
@@ -325,7 +322,7 @@
     /* Save toast */
     .save-toast {
       position: absolute;
-      bottom: 18px;
+      bottom: 14px;
       left: 50%;
       transform: translateX(-50%);
       padding: 6px 12px;
@@ -336,6 +333,7 @@
       opacity: 0;
       pointer-events: none;
       transition: opacity 0.18s ease;
+      z-index: 3;
     }
 
     .save-toast.visible {
@@ -350,7 +348,7 @@
       }
 
       .phone-inner {
-        padding: 18px 14px 16px;
+        padding: 14px 10px 12px;
       }
 
       .header-title {
@@ -376,7 +374,7 @@
     <div class="phone-frame">
       <div class="phone-notch"></div>
 
-      <div class="phone-inner">
+      <div class="phone-inner" id="phone-inner">
         <div class="shell-inner">
           <!-- Logo -->
           <div class="top-row">
@@ -395,10 +393,9 @@
             </p>
           </div>
 
-          <!-- Canvas area (full-bleed background inside) -->
-          <div class="canvas-wrapper">
+          <!-- Central play area (background is full-bleed behind this) -->
+          <div class="play-area" id="play-area">
             <div id="stickerCanvas"></div>
-            <div id="save-toast" class="save-toast">Page saved</div>
           </div>
 
           <!-- Tip bar -->
@@ -416,6 +413,8 @@
             </button>
           </div>
         </div>
+
+        <div id="save-toast" class="save-toast">Page saved</div>
       </div>
     </div>
   </div>
@@ -424,8 +423,10 @@
     const BASE_STICKER_SIZE = 100; // px
     const GRID_COLS = 4;
     const GRID_ROWS = 5; // up to 20 stickers
-    const SAFE_MARGIN = 16; // padding inside canvas bounds
+    const SAFE_MARGIN = 8; // padding inside play area bounds
 
+    const phoneInner = document.getElementById("phone-inner");
+    const playArea = document.getElementById("play-area");
     const canvas = document.getElementById("stickerCanvas");
     const removeButton = document.getElementById("remove-button");
     const continueButton = document.getElementById("continue-button");
@@ -445,7 +446,6 @@
     }
 
     function loadPageFromStorage() {
-      // Primary source: stickerbook_page_1 (set by sticker-selection)
       const rawPage = localStorage.getItem("stickerbook_page_1");
       if (rawPage) {
         try {
@@ -455,7 +455,6 @@
         }
       }
 
-      // Fallback if needed
       if (!pageData || !pageData.stickers || !Array.isArray(pageData.stickers)) {
         const bg =
           localStorage.getItem("stickerbook_page_1_background") ||
@@ -477,13 +476,11 @@
           background: bg,
           stickers: stickerIds.map((id) => ({
             id,
-            src: null // we won't need src here if original page was saved correctly
+            src: null
           }))
         };
       }
 
-      // If any sticker is missing src (shouldn't happen if coming from selection),
-      // try to recover from stickerbook_pages map.
       try {
         const allPagesRaw = localStorage.getItem("stickerbook_pages");
         if (allPagesRaw) {
@@ -504,22 +501,22 @@
         // ignore
       }
 
-      // Filter out any stickers that still have no src
       pageData.stickers = pageData.stickers.filter((s) => !!s.src);
     }
 
-    function updateCanvasBackground() {
+    function updateBackground() {
       const bg = pageData && pageData.background ? pageData.background : "#ffffff";
-      canvas.style.background = bg;
+      phoneInner.style.background = bg;
     }
 
     function recalcCanvasBounds() {
-      const rect = canvas.getBoundingClientRect();
+      const rect = playArea.getBoundingClientRect();
       canvasBounds.width = rect.width;
       canvasBounds.height = rect.height;
     }
 
-    function layoutStickersOnGridIfNeeded() {
+    // For MVP: ALWAYS lay out fresh grid on load so nothing stacks
+    function layoutStickersOnGrid() {
       if (!pageData || !pageData.stickers) return;
 
       recalcCanvasBounds();
@@ -530,14 +527,6 @@
       const cellHeight = innerHeight / GRID_ROWS;
 
       pageData.stickers.forEach((sticker, index) => {
-        const needsLayout =
-          typeof sticker.x !== "number" ||
-          typeof sticker.y !== "number" ||
-          typeof sticker.scale !== "number" ||
-          typeof sticker.rotation !== "number";
-
-        if (!needsLayout) return;
-
         const row = Math.floor(index / GRID_COLS);
         const col = index % GRID_COLS;
 
@@ -589,7 +578,6 @@
 
       const size = stickerObj.size || BASE_STICKER_SIZE;
 
-      // Ensure we have sane position within bounds
       clampStickerPosition(stickerObj);
 
       el.style.width = size + "px";
@@ -617,7 +605,6 @@
       img.alt = "";
       el.appendChild(img);
 
-      // Clicking selects the sticker
       el.addEventListener("click", () => {
         setActiveSticker(el);
         el.style.zIndex = ++currentZ;
@@ -694,14 +681,10 @@
 
     function renderStickers() {
       canvas.innerHTML = "";
-      // re-append toast after clearing
-      canvas.appendChild(saveToast);
-
       stickersData.forEach((sticker) => {
         const el = createStickerElement(sticker);
         canvas.appendChild(el);
       });
-
       setActiveSticker(null);
     }
 
@@ -717,7 +700,10 @@
         zIndex: parseInt(el.style.zIndex || "1", 10)
       }));
 
-      const bg = canvas.style.background || (pageData && pageData.background) || "#ffffff";
+      const bg =
+        (pageData && pageData.background) ||
+        phoneInner.style.background ||
+        "#ffffff";
 
       const page1 = {
         background: bg,
@@ -748,8 +734,9 @@
 
     function init() {
       loadPageFromStorage();
-      updateCanvasBackground();
-      layoutStickersOnGridIfNeeded();
+      updateBackground();
+      recalcCanvasBounds();
+      layoutStickersOnGrid();
       renderStickers();
 
       removeButton.addEventListener("click", () => {
@@ -759,15 +746,12 @@
       continueButton.addEventListener("click", () => {
         saveLayoutToStorage();
         showToast();
-        // For now we stay on this page; real "Next step" flow can hook here later.
+        // keep user on page for MVP
       });
 
       window.addEventListener("resize", () => {
-        // Recalculate bounds but don't force re-layout; users may have already arranged things.
         recalcCanvasBounds();
       });
-
-      recalcCanvasBounds();
     }
 
     document.addEventListener("DOMContentLoaded", init);
