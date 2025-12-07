@@ -349,7 +349,7 @@
             </div>
           </div>
 
-          <!-- Tiny header chip (for later, we can replace with tutorial overlay) -->
+          <!-- Tiny header chip -->
           <div class="header-card">
             <h1 class="header-title">Arrange your stickers</h1>
           </div>
@@ -580,6 +580,7 @@
       img.alt = "";
       el.appendChild(img);
 
+      // click / tap to select
       el.addEventListener("click", (event) => {
         event.stopPropagation();
         setActiveSticker(el);
@@ -591,32 +592,28 @@
       return el;
     }
 
+    // SIMPLIFIED Hammer setup – this is the key change
     function attachGestureHandlers(el) {
-      const manager = new Hammer.Manager(el);
-      const pan = new Hammer.Pan({ threshold: 0 });
-      const pinch = new Hammer.Pinch({ threshold: 0 });
-      const rotate = new Hammer.Rotate({ threshold: 0 });
+      const hammer = new Hammer(el);
 
-      pinch.recognizeWith(rotate);
-      manager.add([pan, pinch, rotate]);
-
-      // IMPORTANT: enable pinch & rotate (off by default)
-      manager.get('pinch').set({ enable: true });
-      manager.get('rotate').set({ enable: true });
+      hammer.get("pan").set({ threshold: 0 });
+      hammer.get("pinch").set({ enable: true });
+      hammer.get("rotate").set({ enable: true });
 
       let startX = 0;
       let startY = 0;
       let startScale = 1;
       let startRotation = 0;
 
-      manager.on("panstart", (ev) => {
+      hammer.on("panstart", (ev) => {
         setActiveSticker(el);
         el.style.zIndex = ++currentZ;
+
         startX = parseFloat(el.dataset.x) || 0;
         startY = parseFloat(el.dataset.y) || 0;
       });
 
-      manager.on("panmove", (ev) => {
+      hammer.on("panmove", (ev) => {
         const id = el.dataset.id;
         const st = stickersData.find((s) => s.id === id);
         if (!st) return;
@@ -632,14 +629,12 @@
         el.style.top = st.y + "px";
       });
 
-      manager.on("pinchstart rotatestart", () => {
-        const currentScale = parseFloat(el.dataset.scale) || 1;
-        const currentRotation = parseFloat(el.dataset.rotation) || 0;
-        startScale = currentScale;
-        startRotation = currentRotation;
+      hammer.on("pinchstart rotatestart", () => {
+        startScale = parseFloat(el.dataset.scale) || 1;
+        startRotation = parseFloat(el.dataset.rotation) || 0;
       });
 
-      manager.on("pinchmove rotatemove", (ev) => {
+      hammer.on("pinchmove rotatemove", (ev) => {
         const id = el.dataset.id;
         const st = stickersData.find((s) => s.id === id);
         if (!st) return;
