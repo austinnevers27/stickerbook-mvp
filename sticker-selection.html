@@ -714,9 +714,19 @@
       visual.className = "sticker-visual";
 
       const img = document.createElement("img");
-      img.src = sticker.image;
-      img.alt = sticker.displayName || sticker.label || "Sticker";
-      img.className = "sticker-image";
+img.src = sticker.image;
+img.alt = sticker.displayName || sticker.label || "Sticker";
+img.className = "sticker-image";
+
+// 👇 Log broken images to the console
+img.addEventListener("error", () => {
+  console.error("Missing sticker image:", {
+    id: sticker.id,
+    filename: sticker.filename,
+    src: img.src
+  });
+});
+
 
       visual.appendChild(img);
       tile.appendChild(visual);
