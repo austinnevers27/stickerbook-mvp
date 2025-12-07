@@ -3,13 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <title>Stickerbook – Arrange Your Stickers</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-
-  <!-- Hammer.js for touch gestures -->
-  <script src="https://hammerjs.github.io/dist/hammer.min.js"></script>
 
   <style>
     :root {
@@ -40,6 +37,7 @@
       margin: 0;
       padding: 0;
       height: 100%;
+      touch-action: none; /* Let us fully control gestures */
     }
 
     body {
@@ -183,12 +181,12 @@
       position: relative;
       width: 100%;
       height: 100%;
-      touch-action: none; /* important for Hammer gestures */
+      touch-action: none;
     }
 
     .sticker {
       position: absolute;
-      touch-action: none; /* prevent browser from hijacking gestures */
+      touch-action: none;
       user-select: none;
       transform-origin: center center;
       cursor: grab;
@@ -377,8 +375,8 @@
 
   <script>
     const GRID_COLS = 4;
-    const GRID_ROWS = 5; // up to 20 stickers
-    const SAFE_MARGIN = 8; // padding inside play area bounds
+    const GRID_ROWS = 5;
+    const SAFE_MARGIN = 8;
 
     const phoneInner = document.getElementById("phone-inner");
     const playArea = document.getElementById("play-area");
@@ -386,6 +384,9 @@
     const removeButton = document.getElementById("remove-button");
     const continueButton = document.getElementById("continue-button");
     const saveToast = document.getElementById("save-toast");
+
+    const isTouchDevice =
+      "ontouchstart" in window || navigator.maxTouchPoints > 0;
 
     let pageData = null;
     let stickersData = [];
@@ -433,7 +434,7 @@
         };
       }
 
-      // Try to hydrate src from stickerbook_pages
+      // Hydrate src from stickerbook_pages if needed
       try {
         const allPagesRaw = localStorage.getItem("stickerbook_pages");
         if (allPagesRaw) {
@@ -454,7 +455,6 @@
         // ignore
       }
 
-      // Filter out any stickers with no src
       pageData.stickers = pageData.stickers.filter((s) => !!s.src);
     }
 
@@ -469,7 +469,6 @@
       canvasBounds.height = rect.height;
     }
 
-    // Lay out stickers in a 4x5 grid on this page
     function layoutStickersOnGrid() {
       if (!pageData || !pageData.stickers) return;
 
@@ -502,7 +501,7 @@
         sticker.y = cellCenterY - halfSize;
       }
 
-      // If there are extra stickers beyond grid capacity, stack along bottom center
+      // extra stickers (if any) stack at bottom center
       for (let i = maxCells; i < pageData.stickers.length; i++) {
         const sticker = pageData.stickers[i];
         const stickerSize = Math.min(cellWidth, cellHeight) * 0.8;
@@ -546,164 +545,6 @@
         removeButton.disabled = true;
         removeButton.classList.add("hidden-remove");
       }
-    }
-
-    function attachGestureHandlers(el) {
-      // Explicit Hammer manager + recognizers
-      const hammer = new Hammer.Manager(el);
-
-      const pan = new Hammer.Pan({
-        threshold: 0,
-        pointers: 0
-      });
-
-      const pinch = new Hammer.Pinch({
-        threshold: 0
-      });
-
-      const rotate = new Hammer.Rotate({
-        threshold: 0
-      });
-
-      // Allow gestures to recognize together
-      pinch.recognizeWith(rotate);
-      pinch.recognizeWith(pan);
-      rotate.recognizeWith(pan);
-
-      hammer.add([pan, pinch, rotate]);
-
-      let startX = 0;
-      let startY = 0;
-      let startScale = 1;
-      let startRotation = 0;
-
-      hammer.on("panstart", (ev) => {
-        setActiveSticker(el);
-        el.style.zIndex = ++currentZ;
-
-        startX = parseFloat(el.dataset.x) || 0;
-        startY = parseFloat(el.dataset.y) || 0;
-      });
-
-      hammer.on("panmove", (ev) => {
-        const id = el.dataset.id;
-        const st = stickersData.find((s) => s.id === id);
-        if (!st) return;
-
-        st.x = startX + ev.deltaX;
-        st.y = startY + ev.deltaY;
-
-        clampStickerPosition(st);
-
-        el.dataset.x = st.x;
-        el.dataset.y = st.y;
-        el.style.left = st.x + "px";
-        el.style.top = st.y + "px";
-      });
-
-      hammer.on("pinchstart", () => {
-        setActiveSticker(el);
-        el.style.zIndex = ++currentZ;
-
-        startScale = parseFloat(el.dataset.scale) || 1;
-      });
-
-      hammer.on("pinchmove", (ev) => {
-        const id = el.dataset.id;
-        const st = stickersData.find((s) => s.id === id);
-        if (!st) return;
-
-        let newScale = startScale * (ev.scale || 1);
-        if (newScale < 0.35) newScale = 0.35;
-        if (newScale > 3.0) newScale = 3.0;
-
-        st.scale = newScale;
-
-        const rotation = st.rotation || 0;
-
-        el.dataset.scale = newScale;
-        el.style.transform = `scale(${newScale}) rotate(${rotation}deg)`;
-      });
-
-      hammer.on("rotatestart", () => {
-        setActiveSticker(el);
-        el.style.zIndex = ++currentZ;
-
-        startRotation = parseFloat(el.dataset.rotation) || 0;
-      });
-
-      hammer.on("rotatemove", (ev) => {
-        const id = el.dataset.id;
-        const st = stickersData.find((s) => s.id === id);
-        if (!st) return;
-
-        const newRotation = startRotation + (ev.rotation || 0);
-        st.rotation = newRotation;
-
-        const scale = st.scale || parseFloat(el.dataset.scale) || 1;
-
-        el.dataset.rotation = newRotation;
-        el.style.transform = `scale(${scale}) rotate(${newRotation}deg)`;
-      });
-
-      // Persist layout after each finished gesture
-      hammer.on("panend pinchend rotateend", () => {
-        saveLayoutToStorage();
-      });
-    }
-
-    function createStickerElement(stickerObj) {
-      const el = document.createElement("div");
-      el.className = "sticker";
-
-      const size = stickerObj.size || 80;
-
-      clampStickerPosition(stickerObj);
-
-      el.style.width = size + "px";
-      el.style.height = size + "px";
-      el.style.left = stickerObj.x + "px";
-      el.style.top = stickerObj.y + "px";
-
-      const scale = stickerObj.scale || 1;
-      const rotation = stickerObj.rotation || 0;
-
-      el.style.transform = `scale(${scale}) rotate(${rotation}deg)`;
-      el.style.zIndex = (stickerObj.zIndex && Number.isFinite(stickerObj.zIndex))
-        ? stickerObj.zIndex
-        : ++currentZ;
-
-      el.dataset.id = stickerObj.id;
-      el.dataset.src = stickerObj.src;
-      el.dataset.x = stickerObj.x;
-      el.dataset.y = stickerObj.y;
-      el.dataset.scale = scale;
-      el.dataset.rotation = rotation;
-
-      const img = document.createElement("img");
-      img.src = stickerObj.src;
-      img.alt = "";
-      el.appendChild(img);
-
-      // click / tap to select
-      el.addEventListener("click", (event) => {
-        event.stopPropagation();
-        setActiveSticker(el);
-        el.style.zIndex = ++currentZ;
-      });
-
-      attachGestureHandlers(el);
-
-      return el;
-    }
-
-    function renderStickers() {
-      canvas.innerHTML = "";
-      stickersData.forEach((sticker) => {
-        const el = createStickerElement(sticker);
-        canvas.appendChild(el);
-      });
-      setActiveSticker(null); // start with nothing selected
     }
 
     function saveLayoutToStorage() {
@@ -751,6 +592,228 @@
       saveLayoutToStorage();
     }
 
+    function createStickerElement(stickerObj) {
+      const el = document.createElement("div");
+      el.className = "sticker";
+
+      const size = stickerObj.size || 80;
+      clampStickerPosition(stickerObj);
+
+      el.style.width = size + "px";
+      el.style.height = size + "px";
+      el.style.left = stickerObj.x + "px";
+      el.style.top = stickerObj.y + "px";
+
+      const scale = stickerObj.scale || 1;
+      const rotation = stickerObj.rotation || 0;
+
+      el.style.transform = `scale(${scale}) rotate(${rotation}deg)`;
+      el.style.zIndex = (stickerObj.zIndex && Number.isFinite(stickerObj.zIndex))
+        ? stickerObj.zIndex
+        : ++currentZ;
+
+      el.dataset.id = stickerObj.id;
+      el.dataset.src = stickerObj.src;
+      el.dataset.x = stickerObj.x;
+      el.dataset.y = stickerObj.y;
+      el.dataset.scale = scale;
+      el.dataset.rotation = rotation;
+
+      const img = document.createElement("img");
+      img.src = stickerObj.src;
+      img.alt = "";
+      el.appendChild(img);
+
+      // tap/click to select
+      el.addEventListener("click", (event) => {
+        event.stopPropagation();
+        setActiveSticker(el);
+        el.style.zIndex = ++currentZ;
+      });
+
+      setupDesktopDrag(el);
+      setupTouchGestures(el);
+
+      return el;
+    }
+
+    function setupDesktopDrag(el) {
+      if (isTouchDevice) return; // mobile uses touch handlers
+
+      el.addEventListener("mousedown", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        setActiveSticker(el);
+        el.style.zIndex = ++currentZ;
+
+        const id = el.dataset.id;
+        const st = stickersData.find((s) => s.id === id);
+        if (!st) return;
+
+        const startX = st.x;
+        const startY = st.y;
+        const startMouseX = e.clientX;
+        const startMouseY = e.clientY;
+
+        function onMove(ev) {
+          const dx = ev.clientX - startMouseX;
+          const dy = ev.clientY - startMouseY;
+
+          st.x = startX + dx;
+          st.y = startY + dy;
+
+          clampStickerPosition(st);
+
+          el.dataset.x = st.x;
+          el.dataset.y = st.y;
+          el.style.left = st.x + "px";
+          el.style.top = st.y + "px";
+        }
+
+        function onUp() {
+          window.removeEventListener("mousemove", onMove);
+          window.removeEventListener("mouseup", onUp);
+          saveLayoutToStorage();
+        }
+
+        window.addEventListener("mousemove", onMove);
+        window.addEventListener("mouseup", onUp);
+      });
+    }
+
+    function setupTouchGestures(el) {
+      if (!isTouchDevice) return;
+
+      let touchMode = null; // "pan" or "transform"
+      let startX = 0;
+      let startY = 0;
+      let startTouchX = 0;
+      let startTouchY = 0;
+
+      let initialDistance = 0;
+      let initialAngle = 0;
+      let startScale = 1;
+      let startRotation = 0;
+
+      const getStickerState = () => {
+        const id = el.dataset.id;
+        return stickersData.find((s) => s.id === id);
+      };
+
+      el.addEventListener("touchstart", (e) => {
+        if (e.touches.length === 0) return;
+        setActiveSticker(el);
+        el.style.zIndex = ++currentZ;
+
+        const st = getStickerState();
+        if (!st) return;
+
+        if (e.touches.length === 1) {
+          // drag
+          touchMode = "pan";
+          const t = e.touches[0];
+          startX = st.x;
+          startY = st.y;
+          startTouchX = t.clientX;
+          startTouchY = t.clientY;
+        } else if (e.touches.length === 2) {
+          // pinch/rotate
+          touchMode = "transform";
+          const t1 = e.touches[0];
+          const t2 = e.touches[1];
+          const dx = t2.clientX - t1.clientX;
+          const dy = t2.clientY - t1.clientY;
+          initialDistance = Math.hypot(dx, dy) || 1;
+          initialAngle = Math.atan2(dy, dx);
+
+          startScale = st.scale || parseFloat(el.dataset.scale) || 1;
+          startRotation = st.rotation || parseFloat(el.dataset.rotation) || 0;
+        }
+      }, { passive: false });
+
+      el.addEventListener("touchmove", (e) => {
+        if (!touchMode) return;
+        const st = getStickerState();
+        if (!st) return;
+
+        e.preventDefault();
+
+        if (touchMode === "pan" && e.touches.length === 1) {
+          const t = e.touches[0];
+          const dx = t.clientX - startTouchX;
+          const dy = t.clientY - startTouchY;
+
+          st.x = startX + dx;
+          st.y = startY + dy;
+
+          clampStickerPosition(st);
+
+          el.dataset.x = st.x;
+          el.dataset.y = st.y;
+          el.style.left = st.x + "px";
+          el.style.top = st.y + "px";
+        } else if (touchMode === "transform" && e.touches.length >= 2) {
+          const t1 = e.touches[0];
+          const t2 = e.touches[1];
+          const dx = t2.clientX - t1.clientX;
+          const dy = t2.clientY - t1.clientY;
+
+          const distance = Math.hypot(dx, dy);
+          const angle = Math.atan2(dy, dx);
+
+          const scaleFactor = distance / (initialDistance || distance);
+          let newScale = startScale * scaleFactor;
+          if (newScale < 0.35) newScale = 0.35;
+          if (newScale > 3.0) newScale = 3.0;
+
+          const rotationDelta = angle - initialAngle;
+          const newRotation = startRotation + (rotationDelta * 180 / Math.PI);
+
+          st.scale = newScale;
+          st.rotation = newRotation;
+
+          el.dataset.scale = newScale;
+          el.dataset.rotation = newRotation;
+          el.style.transform = `scale(${newScale}) rotate(${newRotation}deg)`;
+        }
+      }, { passive: false });
+
+      const handleTouchEndOrCancel = (e) => {
+        const st = getStickerState();
+        if (!st) {
+          touchMode = null;
+          return;
+        }
+
+        if (e.touches.length === 0) {
+          // gesture fully ended
+          touchMode = null;
+          saveLayoutToStorage();
+        } else if (touchMode === "transform" && e.touches.length === 1) {
+          // user lifted one finger, drop back to pan mode from the remaining finger
+          const t = e.touches[0];
+          startX = st.x;
+          startY = st.y;
+          startTouchX = t.clientX;
+          startTouchY = t.clientY;
+          touchMode = "pan";
+        }
+      };
+
+      el.addEventListener("touchend", handleTouchEndOrCancel, { passive: false });
+      el.addEventListener("touchcancel", handleTouchEndOrCancel, { passive: false });
+    }
+
+    function renderStickers() {
+      canvas.innerHTML = "";
+      stickersData.forEach((sticker) => {
+        const el = createStickerElement(sticker);
+        canvas.appendChild(el);
+      });
+      setActiveSticker(null);
+    }
+
     function init() {
       loadPageFromStorage();
       updateBackground();
@@ -758,20 +821,16 @@
       layoutStickersOnGrid();
       renderStickers();
 
-      // Remove button
       removeButton.addEventListener("click", (event) => {
         event.stopPropagation();
         handleRemoveActiveSticker();
       });
 
-      // Continue button
       continueButton.addEventListener("click", () => {
         saveLayoutToStorage();
         showToast();
-        // MVP: stay on page
       });
 
-      // Tap empty space to clear selection
       playArea.addEventListener("click", (event) => {
         if (event.target === playArea || event.target === canvas) {
           setActiveSticker(null);
@@ -780,32 +839,9 @@
 
       window.addEventListener("resize", () => {
         recalcCanvasBounds();
-        // do NOT re-grid on resize; user layout stays
+        // don't re-grid on resize; keep user layout
       });
     }
-
-    // Stop iOS Safari from hijacking pinch for page zoom
-    document.addEventListener(
-      "gesturestart",
-      function (e) {
-        e.preventDefault();
-      },
-      { passive: false }
-    );
-    document.addEventListener(
-      "gesturechange",
-      function (e) {
-        e.preventDefault();
-      },
-      { passive: false }
-    );
-    document.addEventListener(
-      "gestureend",
-      function (e) {
-        e.preventDefault();
-      },
-      { passive: false }
-    );
 
     document.addEventListener("DOMContentLoaded", init);
   </script>
