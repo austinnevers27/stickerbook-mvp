@@ -419,6 +419,13 @@
       }, 1500);
     }
 
+    /**
+     * Reads from:
+     * - stickerbook_page_1 (preferred, { background, stickers: [{id, src}] })
+     * - fallback: stickerbookSelectedStickers + background keys
+     * - fallback: stickerbook_pages.page_1 if present
+     * Also normalizes any { image: "..." } => { src: "..." } so we don't lose stickers.
+     */
     function loadPageFromStorage() {
       const rawPage = localStorage.getItem("stickerbook_page_1");
       if (rawPage) {
@@ -429,6 +436,7 @@
         }
       }
 
+      // If pageData is missing / malformed, build from older keys
       if (!pageData || !pageData.stickers || !Array.isArray(pageData.stickers)) {
         const bg =
           localStorage.getItem("stickerbook_page_1_background") ||
@@ -450,30 +458,61 @@
           background: bg,
           stickers: stickerIds.map((id) => ({ id, src: null }))
         };
-      }
 
-      // Hydrate src from stickerbook_pages if needed
-      try {
-        const allPagesRaw = localStorage.getItem("stickerbook_pages");
-        if (allPagesRaw) {
-          const allPages = JSON.parse(allPagesRaw);
-          if (allPages && allPages.page_1 && Array.isArray(allPages.page_1.stickers)) {
-            const map = {};
-            allPages.page_1.stickers.forEach((s) => {
-              map[s.id] = s.src || s.image;
-            });
-            pageData.stickers.forEach((s) => {
-              if (!s.src && map[s.id]) {
-                s.src = map[s.id];
-              }
-            });
+        // If stickerbook_pages has richer data, hydrate from there
+        try {
+          const allPagesRaw = localStorage.getItem("stickerbook_pages");
+          if (allPagesRaw) {
+            const allPages = JSON.parse(allPagesRaw);
+            if (allPages && allPages.page_1 && Array.isArray(allPages.page_1.stickers)) {
+              const map = {};
+              allPages.page_1.stickers.forEach((s) => {
+                map[s.id] = s.src || s.image;
+              });
+              pageData.stickers.forEach((s) => {
+                if (!s.src && map[s.id]) {
+                  s.src = map[s.id];
+                }
+              });
+            }
           }
+        } catch {
+          // ignore
         }
-      } catch {
-        // ignore
+      } else {
+        // pageData exists: still check stickerbook_pages as a possible richer source
+        try {
+          const allPagesRaw = localStorage.getItem("stickerbook_pages");
+          if (allPagesRaw) {
+            const allPages = JSON.parse(allPagesRaw);
+            if (allPages && allPages.page_1 && Array.isArray(allPages.page_1.stickers)) {
+              const map = {};
+              allPages.page_1.stickers.forEach((s) => {
+                map[s.id] = s.src || s.image;
+              });
+              pageData.stickers.forEach((s) => {
+                if (!s.src && map[s.id]) {
+                  s.src = map[s.id];
+                }
+              });
+            }
+          }
+        } catch {
+          // ignore
+        }
       }
 
-      pageData.stickers = pageData.stickers.filter((s) => !!s.src);
+      // 🔴 Key normalization: if picker saved `image` instead of `src`, fix that
+      if (pageData && Array.isArray(pageData.stickers)) {
+        pageData.stickers.forEach((s) => {
+          if (!s.src && s.image) {
+            s.src = s.image;
+          }
+        });
+      }
+
+      // Final filter: only keep stickers that definitely have an image source
+      pageData.stickers = (pageData.stickers || []).filter((s) => !!s.src);
     }
 
     function updateBackground() {
@@ -502,6 +541,17 @@
 
       for (let index = 0; index < count; index++) {
         const sticker = pageData.stickers[index];
+
+        // If sticker already has a saved position/scale, respect it
+        if (
+          typeof sticker.x === "number" &&
+          typeof sticker.y === "number" &&
+          typeof sticker.scale === "number" &&
+          typeof sticker.rotation === "number"
+        ) {
+          continue;
+        }
+
         const row = Math.floor(index / GRID_COLS);
         const col = index % GRID_COLS;
 
@@ -523,6 +573,14 @@
       // extra stickers (if any) stack at bottom center
       for (let i = maxCells; i < pageData.stickers.length; i++) {
         const sticker = pageData.stickers[i];
+
+        if (
+          typeof sticker.x === "number" &&
+          typeof sticker.y === "number"
+        ) {
+          continue;
+        }
+
         const stickerSize = Math.min(cellWidth, cellHeight) * 0.95;
         sticker.scale = 1;
         sticker.rotation = 0;
@@ -536,25 +594,21 @@
     }
 
     // Constrain sticker so it stays in the vertical "safe" area under the logo/pill.
-    // We still allow some side "fall off", but top can't creep up over the header.
     function clampStickerPosition(stickerObj) {
       const size = stickerObj.size || 80;
       const scale = stickerObj.scale || 1;
       const scaledSize = size * scale;
-      const extra = (scaledSize - size) / 2; // how much the transform extends past the box on each side
+      const extra = (scaledSize - size) / 2;
 
-      // Horizontal: keep like before (you still get some side bleed visually)
       const minX = SAFE_MARGIN;
       const maxX = canvasBounds.width - size - SAFE_MARGIN;
 
-      // Vertical: account for the scaled visual height so it can't cover the header area
-      const minY = SAFE_MARGIN + extra; // push down as it grows
+      const minY = SAFE_MARGIN + extra;
       const maxY = canvasBounds.height - SAFE_MARGIN - size - extra;
 
       if (stickerObj.x < minX) stickerObj.x = minX;
       if (stickerObj.x > maxX) stickerObj.x = maxX;
 
-      // If scaled so huge that minY > maxY, clamp to center-ish
       if (minY > maxY) {
         const mid = (canvasBounds.height - size) / 2;
         stickerObj.y = mid;
@@ -762,8 +816,11 @@
           const t2 = e.touches[1];
           const dx = t2.clientX - t1.clientX;
           const dy = t2.clientY - t1.clientY;
-          initialDistance = Math.hypot(dx, dy) || 1;
-          initialAngle = Math.atan2(dy, dx);
+          const distance = Math.hypot(dx, dy) || 1;
+          const angle = Math.atan2(dy, dx);
+
+          initialDistance = distance;
+          initialAngle = angle;
 
           startScale = st.scale || parseFloat(el.dataset.scale) || 1;
           startRotation = st.rotation || parseFloat(el.dataset.rotation) || 0;
@@ -862,6 +919,16 @@
 
     function init() {
       loadPageFromStorage();
+
+      if (!pageData || !Array.isArray(pageData.stickers) || pageData.stickers.length === 0) {
+        // No stickers = nothing to arrange, but don't crash
+        canvas.innerHTML = "<p style='padding:12px;font-size:12px;color:#6b7280;text-align:center;'>No stickers found for this page. Go back and choose some first.</p>";
+        removeButton.disabled = true;
+        removeButton.classList.add("hidden-remove");
+        updateBackground();
+        return;
+      }
+
       updateBackground();
       recalcCanvasBounds();
       layoutStickersOnGrid();
