@@ -1,0 +1,345 @@
+[
+  {
+    "id": "sticker_001",
+    "filename": "alhambratheatre0001.png",
+    "displayName": "Alhambra Theatre",
+    "category": "Places & Travel",
+    "tags": ["theater", "historic", "sacramento", "movies"]
+  },
+  {
+    "id": "sticker_002",
+    "filename": "ambulance0001.png",
+    "displayName": "Ambulance",
+    "category": "Objects & Stuff",
+    "tags": ["vehicle", "medic", "first responder", "paramedic", "siren", "ambulance"]
+  },
+  {
+    "id": "sticker_003",
+    "filename": "arches0001.png",
+    "displayName": "Arches National Park",
+    "category": "Places & Travel",
+    "tags": ["arches", "utah", "national park", "moab", "geology", "canyon", "rock"]
+  },
+  {
+    "id": "sticker_004",
+    "filename": "berniesanders0001.png",
+    "displayName": "Bernie Sanders Meme",
+    "category": "Entertainment",
+    "tags": ["politics", "politicians", "liberal", "left wing", "socialism", "progressive", "america", "bernie sanders"]
+  },
+  {
+    "id": "sticker_005",
+    "filename": "bidet0001.png",
+    "displayName": "Bidet 2028",
+    "category": "Vibes & Aesthetic",
+    "tags": ["humor", "meme", "2028", "president", "politics", "politicians", "america", "elections"]
+  },
+  {
+    "id": "sticker_006",
+    "filename": "blackcat0001.png",
+    "displayName": "Black Cat Energy",
+    "category": "Animals",
+    "tags": ["cat", "black cat", "void", "energy", "witch"]
+  },
+  {
+    "id": "sticker_007",
+    "filename": "brickbybrick0001.png",
+    "displayName": "Brick by Brick",
+    "category": "Vibes & Aesthetic",
+    "tags": ["meme", "funny", "humor", "fyp", "for you page", "brick", "wall", "building"]
+  },
+  {
+    "id": "sticker_008",
+    "filename": "cityofsneeze0001.png",
+    "displayName": "City of Sneeze",
+    "category": "Local / Sacramento",
+    "tags": ["sacramento", "allergy", "allergies", "tree", "flower", "pollen", "city of trees"]
+  },
+  {
+    "id": "sticker_009",
+    "filename": "cityoftrees0001.png",
+    "displayName": "Sacramento Water Tower",
+    "category": "Places & Travel",
+    "tags": ["sacramento", "landmark", "water tower", "city of trees", "iconic"]
+  },
+  {
+    "id": "sticker_010",
+    "filename": "clown0001.png",
+    "displayName": "Victorian Clown",
+    "category": "Entertainment",
+    "tags": ["victorian", "clown", "costume", "vintage", "circus"]
+  },
+  {
+    "id": "sticker_011",
+    "filename": "cocacola0001.png",
+    "displayName": "Coca Cola Clydesdales",
+    "category": "Animals",
+    "tags": ["horses", "clydesdales", "coca cola", "christmas", "holiday", "animals"]
+  },
+  {
+    "id": "sticker_012",
+    "filename": "coexist0001.png",
+    "displayName": "Coexist",
+    "category": "Vibes & Aesthetic",
+    "tags": ["coexist", "peace", "love", "unity", "symbol", "message"]
+  },
+  {
+    "id": "sticker_013",
+    "filename": "coffee0001.png",
+    "displayName": "But First, Coffee",
+    "category": "Vibes & Aesthetic",
+    "tags": ["coffee", "morning", "caffeine", "phrase", "quote"]
+  },
+  {
+    "id": "sticker_014",
+    "filename": "crockerartmuseum0001.png",
+    "displayName": "Crocker Art Museum",
+    "category": "Places & Travel",
+    "tags": ["sacramento", "museum", "art", "culture", "landmark"]
+  },
+  {
+    "id": "sticker_015",
+    "filename": "cubansandwich0001.png",
+    "displayName": "Cuban Sandwich",
+    "category": "Food & Drinks",
+    "tags": ["food", "sandwich", "cuban", "pork", "pickles", "bread"]
+  },
+  {
+    "id": "sticker_016",
+    "filename": "daffodil0001.png",
+    "displayName": "Daffodil",
+    "category": "Nature & Outdoors",
+    "tags": ["flower", "yellow", "spring", "nature"]
+  },
+  {
+    "id": "sticker_017",
+    "filename": "dirtymartini0001.png",
+    "displayName": "Dirty Martini",
+    "category": "Food & Drinks",
+    "tags": ["martini", "cocktail", "drink", "alcohol", "olive"]
+  },
+  {
+    "id": "sticker_018",
+    "filename": "dodgers0001.png",
+    "displayName": "Los Angeles Dodgers",
+    "category": "Sports",
+    "tags": ["dodgers", "baseball", "mlb", "los angeles", "sports"]
+  },
+  {
+    "id": "sticker_019",
+    "filename": "donut0001.png",
+    "displayName": "Donut",
+    "category": "Food & Drinks",
+    "tags": ["donut", "dessert", "sweet", "food", "pastry"]
+  },
+  {
+    "id": "sticker_020",
+    "filename": "firetruck0001.png",
+    "displayName": "Firetruck",
+    "category": "Objects & Stuff",
+    "tags": ["firetruck", "vehicle", "emergency", "fire", "first responder"]
+  },
+  {
+    "id": "sticker_021",
+    "filename": "fleabag0001.png",
+    "displayName": "Fleabag",
+    "category": "Entertainment",
+    "tags": ["fleabag", "tv", "show", "phoebe waller-bridge", "comedy", "bbc"]
+  },
+  {
+    "id": "sticker_022",
+    "filename": "fox0001.png",
+    "displayName": "Fox",
+    "category": "Animals",
+    "tags": ["fox", "forest", "wildlife", "animal", "nature"]
+  },
+  {
+    "id": "sticker_023",
+    "filename": "germanshepherd0001.png",
+    "displayName": "German Shepherd",
+    "category": "Animals",
+    "tags": ["dog", "german shepherd", "pet", "puppy", "animal"]
+  },
+  {
+    "id": "sticker_024",
+    "filename": "gunthers0001.png",
+    "displayName": "Gunther’s Ice Cream",
+    "category": "Local / Sacramento",
+    "tags": ["sacramento", "ice cream", "dessert", "local", "gunthers"]
+  },
+  {
+    "id": "sticker_025",
+    "filename": "honeybear0001.png",
+    "displayName": "Honeybear",
+    "category": "Animals",
+    "tags": ["bear", "honey", "cute", "animal", "nature"]
+  },
+  {
+    "id": "sticker_026",
+    "filename": "icecreamcone0001.png",
+    "displayName": "Ice Cream Cone",
+    "category": "Food & Drinks",
+    "tags": ["ice cream", "cone", "dessert", "sweet", "food"]
+  },
+  {
+    "id": "sticker_027",
+    "filename": "jesus0001.png",
+    "displayName": "Jesus",
+    "category": "People & Characters",
+    "tags": ["jesus", "religion", "christian", "catholic", "faith"]
+  },
+  {
+    "id": "sticker_028",
+    "filename": "keepthatobelive0001.png",
+    "displayName": "Keep That O Believin’",
+    "category": "Vibes & Aesthetic",
+    "tags": ["phrase", "inspiration", "message", "quote", "believe"]
+  },
+  {
+    "id": "sticker_029",
+    "filename": "leavetheleaves0001.png",
+    "displayName": "Leave the Leaves",
+    "category": "Nature & Outdoors",
+    "tags": ["leaves", "fall", "nature", "autumn"]
+  },
+  {
+    "id": "sticker_030",
+    "filename": "lightthebeam0001.png",
+    "displayName": "Light the Beam",
+    "category": "Sports",
+    "tags": ["kings", "sacramento kings", "nba", "beam team", "basketball"]
+  },
+  {
+    "id": "sticker_031",
+    "filename": "lukesdiner0001.png",
+    "displayName": "Luke’s Diner",
+    "category": "Entertainment",
+    "tags": ["gilmore girls", "tv", "diner", "luke danes", "coffee"]
+  },
+  {
+    "id": "sticker_032",
+    "filename": "mamamiamovie0001.png",
+    "displayName": "Mamma Mia",
+    "category": "Entertainment",
+    "tags": ["mamma mia", "movie", "abba", "musical", "film"]
+  },
+  {
+    "id": "sticker_033",
+    "filename": "mushroom0001.png",
+    "displayName": "Mushroom",
+    "category": "Nature & Outdoors",
+    "tags": ["mushroom", "fungi", "forest", "nature", "plant"]
+  },
+  {
+    "id": "sticker_034",
+    "filename": "pineapplepete0001.png",
+    "displayName": "Pineapple Pete",
+    "category": "Vibes & Aesthetic",
+    "tags": ["pineapple", "pete", "fruit", "funny", "mascot"]
+  },
+  {
+    "id": "sticker_035",
+    "filename": "redkettle0001.png",
+    "displayName": "Red Kettle",
+    "category": "Objects & Stuff",
+    "tags": ["kettle", "red kettle", "bell", "bell ringer", "salvation army"]
+  },
+  {
+    "id": "sticker_036",
+    "filename": "reno0001.png",
+    "displayName": "Reno Arch",
+    "category": "Places & Travel",
+    "tags": ["reno", "sign", "nevada", "landmark", "casino", "gambling"]
+  },
+  {
+    "id": "sticker_037",
+    "filename": "rolex0001.png",
+    "displayName": "Rolex Watch",
+    "category": "Objects & Stuff",
+    "tags": ["rolex", "watch", "gold watch", "wealth", "jewelry", "timepiece"]
+  },
+  {
+    "id": "sticker_038",
+    "filename": "rubikscube0001.png",
+    "displayName": "Rubik’s Cube",
+    "category": "Objects & Stuff",
+    "tags": ["toy", "toys", "games", "puzzles", "80s", "nostalgia"]
+  },
+  {
+    "id": "sticker_039",
+    "filename": "seinfeld0001.png",
+    "displayName": "Seinfeld",
+    "category": "Entertainment",
+    "tags": ["tv", "tv show", "television", "jerry seinfeld", "cosmo kramer", "george costanza", "elaine benes"]
+  },
+  {
+    "id": "sticker_040",
+    "filename": "slinky0001.png",
+    "displayName": "Slinky",
+    "category": "Objects & Stuff",
+    "tags": ["toy", "toys", "nostalgia", "classic", "children", "puzzles"]
+  },
+  {
+    "id": "sticker_041",
+    "filename": "strangerthings0001.png",
+    "displayName": "Stranger Things",
+    "category": "Entertainment",
+    "tags": ["stranger things", "eleven", "tv", "dustin henderson", "mike wheeler", "lucas sinclair", "netflix"]
+  },
+  {
+    "id": "sticker_042",
+    "filename": "towerbridge0001.png",
+    "displayName": "Tower Bridge",
+    "category": "Places & Travel",
+    "tags": ["sacramento", "old sacramento", "west sacramento", "tower bridge", "landmark"]
+  },
+  {
+    "id": "sticker_043",
+    "filename": "trashpanda0001.png",
+    "displayName": "Trash Panda",
+    "category": "Animals",
+    "tags": ["raccoon", "possum", "opossum", "skunk", "street cats", "trash panda"]
+  },
+  {
+    "id": "sticker_044",
+    "filename": "triviawizard0001.png",
+    "displayName": "Trivia Wizard",
+    "category": "People & Characters",
+    "tags": ["trivia", "wizard", "magic", "brain", "smart"]
+  },
+  {
+    "id": "sticker_045",
+    "filename": "veryhungrycaterpillar0001.png",
+    "displayName": "Very Hungry Caterpillar",
+    "category": "Entertainment",
+    "tags": ["book", "children’s book", "eric carle", "caterpillar", "kids"]
+  },
+  {
+    "id": "sticker_046",
+    "filename": "wizardofjesus0001.png",
+    "displayName": "Wizard Jesus",
+    "category": "People & Characters",
+    "tags": ["religion", "jesus", "christian", "catholic", "church", "faith"]
+  },
+  {
+    "id": "sticker_047",
+    "filename": "wicked0001.png",
+    "displayName": "Wicked",
+    "category": "Entertainment",
+    "tags": ["wicked", "wizard", "wizard of oz", "oz", "yellow brick road", "musical"]
+  },
+  {
+    "id": "sticker_048",
+    "filename": "williamb001.png",
+    "displayName": "William Booth",
+    "category": "People & Characters",
+    "tags": ["william booth", "salvation army", "charity", "london", "religion"]
+  },
+  {
+    "id": "sticker_049",
+    "filename": "yorkie0001.png",
+    "displayName": "Yorkie",
+    "category": "Animals",
+    "tags": ["dog", "puppy", "animal", "yorkshire", "yorkshire terrier"]
+  }
+]

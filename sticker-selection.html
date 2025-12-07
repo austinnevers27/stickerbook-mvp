@@ -181,7 +181,7 @@
       flex-shrink: 0;
     }
 
-    /* Search (now near bottom) */
+    /* Search (near bottom) */
     .search-row {
       margin: 8px 0 6px;
       flex-shrink: 0;
@@ -621,480 +621,25 @@
     const MIN_SELECTIONS = 1;
     const MAX_SELECTIONS = 20;
 
-    const AGE_GROUPS = {
-      GEN_ALPHA: "genalpha",
-      GEN_Z: "genz",
-      MILLENNIAL: "millennial",
-      OTHER: "other",
-    };
-
-    function getAgeGroup(age) {
-      const n = parseInt(age, 10);
-      if (isNaN(n)) return AGE_GROUPS.OTHER;
-      if (n <= 17) return AGE_GROUPS.GEN_ALPHA;
-      if (n <= 27) return AGE_GROUPS.GEN_Z;
-      if (n <= 42) return AGE_GROUPS.MILLENNIAL;
-      return AGE_GROUPS.OTHER;
-    }
-
+    // Category definitions map directly to your stickers.json "category" field
     const CATEGORY_DEFS = [
-      { key: "for-you", label: "For You" },
-      { key: "sacramento", label: "Sacramento" },
-      { key: "tv-movies", label: "TV & Movies" },
-      { key: "animals", label: "Animals" },
-      { key: "humor", label: "Humor" },
-      { key: "aesthetics", label: "Aesthetics" },
-      { key: "places", label: "Places" },
+      { key: "Local / Sacramento", label: "Sacramento" },
+      { key: "Places & Travel", label: "Places & Travel" },
+      { key: "Animals", label: "Animals" },
+      { key: "Food & Drinks", label: "Food & Drinks" },
+      { key: "Entertainment", label: "TV & Movies" },
+      { key: "Vibes & Aesthetic", label: "Vibes & Aesthetic" },
+      { key: "People & Characters", label: "People & Characters" },
+      { key: "Nature & Outdoors", label: "Nature & Outdoors" },
+      { key: "Sports", label: "Sports" },
+      { key: "Holidays & Seasonal", label: "Holidays & Seasonal" }
     ];
 
-    const allStickers = [
-      // SACRAMENTO
-      {
-        id: "crocker",
-        label: "Crocker Art Museum",
-        mainCategory: "sacramento",
-        image: "assets/Stickers/Sticker - Crocker Art Museum.PNG",
-        tags: ["sacramento", "crocker", "museum", "art"],
-        localSac: true,
-        trending: false,
-        seasonal: false,
-        forYouGroups: ["millennial", "genz", "other"],
-      },
-      {
-        id: "sac_alhambra",
-        label: "Sacramento Alhambra Theater",
-        mainCategory: "sacramento",
-        image: "assets/Stickers/Sticker - Sacramento Alhambra Theater.PNG",
-        tags: ["sacramento", "alhambra", "theater", "history"],
-        localSac: true,
-        trending: false,
-        seasonal: false,
-        forYouGroups: ["millennial", "genz"],
-      },
-      {
-        id: "sac_sneeze",
-        label: "Sacramento City of Sneeze",
-        mainCategory: "sacramento",
-        image: "assets/Stickers/Sticker - Sacramento City of Sneeze.PNG",
-        tags: ["sacramento", "allergies", "pollen", "joke"],
-        localSac: true,
-        trending: true,
-        seasonal: true,
-        forYouGroups: ["millennial", "genz"],
-      },
-      {
-        id: "sac_trees",
-        label: "Sac City of Trees Water Tower",
-        mainCategory: "sacramento",
-        image: "assets/Stickers/Sticker - Sacramento City of Trees Water Tower.PNG",
-        tags: ["sacramento", "trees", "water tower", "city of trees"],
-        localSac: true,
-        trending: false,
-        seasonal: false,
-        forYouGroups: ["millennial", "genz", "other"],
-      },
-      {
-        id: "sac_gunthers",
-        label: "Gunther’s Ice Cream",
-        mainCategory: "sacramento",
-        image: "assets/Stickers/Sticker - Sacramento Gunther's Ice Cream.PNG",
-        tags: ["sacramento", "gunthers", "ice cream", "food"],
-        localSac: true,
-        trending: true,
-        seasonal: true,
-        forYouGroups: ["millennial", "genz"],
-      },
-      {
-        id: "sac_beam",
-        label: "Light the Beam",
-        mainCategory: "sacramento",
-        image: "assets/Stickers/Sticker - Sacramento Skyline Light the Beam.PNG",
-        tags: ["sacramento", "kings", "beam", "nba"],
-        localSac: true,
-        trending: true,
-        seasonal: false,
-        forYouGroups: ["millennial", "genz"],
-      },
-      {
-        id: "sac_bridge",
-        label: "Sacramento Tower Bridge",
-        mainCategory: "sacramento",
-        image: "assets/Stickers/Sticker - Sacramento Tower Bridge.PNG",
-        tags: ["sacramento", "tower bridge", "landmark", "river"],
-        localSac: true,
-        trending: false,
-        seasonal: false,
-        forYouGroups: ["millennial", "genz", "other"],
-      },
-
-      // TV & MOVIES
-      {
-        id: "bernie_meme",
-        label: "Bernie Sanders Sitting",
-        mainCategory: "tv",
-        image: "assets/Stickers/Sticker - Bernie Sanders Sitting Meme.PNG",
-        tags: ["bernie", "meme", "politics"],
-        localSac: false,
-        trending: true,
-        seasonal: false,
-        forYouGroups: ["millennial", "genz"],
-      },
-      {
-        id: "donna_dynamos",
-        label: "Donna & the Dynamos",
-        mainCategory: "tv",
-        image: "assets/Stickers/Sticker - Donna & the Dynamos Mamma Mia 2.PNG",
-        tags: ["mamma mia", "musical", "movie"],
-        localSac: false,
-        trending: false,
-        seasonal: false,
-        forYouGroups: ["millennial", "genz"],
-      },
-      {
-        id: "fleabag",
-        label: "Fleabag, Belinda & Statue",
-        mainCategory: "tv",
-        image: "assets/Stickers/Sticker - Fleabag, Belinda, and Statue.PNG",
-        tags: ["fleabag", "tv", "comedy"],
-        localSac: false,
-        trending: true,
-        seasonal: false,
-        forYouGroups: ["millennial", "genz"],
-      },
-      {
-        id: "wicked_pair",
-        label: "Galinda & Elphaba",
-        mainCategory: "tv",
-        image: "assets/Stickers/Sticker - Galinda and Elphaba.PNG",
-        tags: ["wicked", "musical", "broadway"],
-        localSac: false,
-        trending: false,
-        seasonal: false,
-        forYouGroups: ["millennial", "genz"],
-      },
-      {
-        id: "heat_cold_misers",
-        label: "Heat & Cold Misers",
-        mainCategory: "tv",
-        image: "assets/Stickers/Sticker - Heat and Cold Misers.PNG",
-        tags: ["holiday", "movie", "classic"],
-        localSac: false,
-        trending: false,
-        seasonal: true,
-        forYouGroups: ["millennial", "genz", "genalpha"],
-      },
-      {
-        id: "homeward_bound",
-        label: "Homeward Bound Animals",
-        mainCategory: "tv",
-        image: "assets/Stickers/Sticker - Homeward Bound animals.PNG",
-        tags: ["homeward bound", "movie", "animals"],
-        localSac: false,
-        trending: false,
-        seasonal: false,
-        forYouGroups: ["millennial"],
-      },
-      {
-        id: "lukes_diner",
-        label: "Luke’s Diner Mug",
-        mainCategory: "tv",
-        image: "assets/Stickers/Sticker - Luke's Diner Coffee Mug Gilmore Girls.PNG",
-        tags: ["gilmore girls", "coffee", "tv show"],
-        localSac: false,
-        trending: false,
-        seasonal: false,
-        forYouGroups: ["millennial", "genz"],
-      },
-
-      // ANIMALS
-      {
-        id: "black_cat_energy",
-        label: "Black Cat Energy",
-        mainCategory: "animals",
-        image: "assets/Stickers/Sticker - Black Cat Energy.PNG",
-        tags: ["cat", "black cat"],
-        localSac: false,
-        trending: true,
-        seasonal: false,
-        forYouGroups: ["genz", "millennial"],
-      },
-      {
-        id: "german_shepherd",
-        label: "German Shepherd",
-        mainCategory: "animals",
-        image: "assets/Stickers/Sticker - German Shepherd.PNG",
-        tags: ["dog", "german shepherd"],
-        localSac: false,
-        trending: false,
-        seasonal: false,
-        forYouGroups: ["millennial", "other"],
-      },
-      {
-        id: "orca",
-        label: "Orca",
-        mainCategory: "animals",
-        image: "assets/Stickers/Sticker - Orca.PNG",
-        tags: ["orca", "whale"],
-        localSac: false,
-        trending: false,
-        seasonal: false,
-        forYouGroups: ["genz", "millennial"],
-      },
-      {
-        id: "raccoon_stump",
-        label: "Raccoon on Stump",
-        mainCategory: "animals",
-        image: "assets/Stickers/Sticker - Raccoon Sleeping on Stump.PNG",
-        tags: ["raccoon", "forest", "cozy"],
-        localSac: false,
-        trending: false,
-        seasonal: false,
-        forYouGroups: ["genz", "millennial"],
-      },
-      {
-        id: "no_evil_cats",
-        label: "No Evil Street Cats",
-        mainCategory: "animals",
-        image: "assets/Stickers/Sticker - No Evil Street Cats.PNG",
-        tags: ["cats", "see no evil"],
-        localSac: false,
-        trending: false,
-        seasonal: false,
-        forYouGroups: ["genz", "millennial"],
-      },
-      {
-        id: "orange_cat_smoking",
-        label: "Orange Cat Smoking",
-        mainCategory: "animals",
-        image: "assets/Stickers/Sticker - Orange Cat Smoking.PNG",
-        tags: ["cat", "orange cat", "smoking"],
-        localSac: false,
-        trending: true,
-        seasonal: false,
-        forYouGroups: ["genz", "millennial"],
-      },
-      {
-        id: "hungry_caterpillar",
-        label: "Hungry Caterpillar",
-        mainCategory: "animals",
-        image: "assets/Stickers/Sticker - Hungry Caterpillar.PNG",
-        tags: ["hungry caterpillar", "book"],
-        localSac: false,
-        trending: false,
-        seasonal: false,
-        forYouGroups: ["genalpha", "millennial"],
-      },
-
-      // HUMOR
-      {
-        id: "bidet_2028",
-        label: "Bidet 2028",
-        mainCategory: "humor",
-        image: "assets/Stickers/Sticker - Bidet 2028 Humorous Meme.PNG",
-        tags: ["bidet", "politics", "joke"],
-        localSac: false,
-        trending: true,
-        seasonal: false,
-        forYouGroups: ["genz", "millennial"],
-      },
-      {
-        id: "brick_by_brick",
-        label: "Brick by Brick",
-        mainCategory: "humor",
-        image: "assets/Stickers/Sticker - Brick by Brick.PNG",
-        tags: ["brick by brick", "grind"],
-        localSac: false,
-        trending: false,
-        seasonal: false,
-        forYouGroups: ["millennial", "other"],
-      },
-      {
-        id: "pride_alien",
-        label: "Pride Flag on Moon (Alien)",
-        mainCategory: "humor",
-        image: "assets/Stickers/Sticker - Pride Flag Moon Planting by Alien.PNG",
-        tags: ["pride", "alien", "space"],
-        localSac: false,
-        trending: true,
-        seasonal: true,
-        forYouGroups: ["genz", "millennial", "genalpha"],
-      },
-
-      // AESTHETICS / OBJECTS
-      {
-        id: "but_first_coffee",
-        label: "But First, Coffee",
-        mainCategory: "aesthetics",
-        image: "assets/Stickers/Sticker - But First, Coffee.PNG",
-        tags: ["coffee", "mug", "morning"],
-        localSac: false,
-        trending: true,
-        seasonal: false,
-        forYouGroups: ["millennial", "genz"],
-      },
-      {
-        id: "coke_clydesdales",
-        label: "Coca Cola Clydesdales",
-        mainCategory: "aesthetics",
-        image: "assets/Stickers/Sticker - Coca Cola Clydesdales.PNG",
-        tags: ["coca cola", "clydesdales", "holiday"],
-        localSac: false,
-        trending: false,
-        seasonal: true,
-        forYouGroups: ["millennial", "genz"],
-      },
-      {
-        id: "coexist",
-        label: "Coexist",
-        mainCategory: "aesthetics",
-        image: "assets/Stickers/Sticker - Coexist.PNG",
-        tags: ["coexist", "values", "peace"],
-        localSac: false,
-        trending: false,
-        seasonal: false,
-        forYouGroups: ["millennial", "genz", "other"],
-      },
-      {
-        id: "cubano",
-        label: "Cubano Sandwich",
-        mainCategory: "aesthetics",
-        image: "assets/Stickers/Sticker - Cubano Sandwich.PNG",
-        tags: ["food", "sandwich", "cubano"],
-        localSac: false,
-        trending: false,
-        seasonal: false,
-        forYouGroups: ["millennial", "genz"],
-      },
-      {
-        id: "gold_rolex",
-        label: "Gold Rolex Watch",
-        mainCategory: "aesthetics",
-        image: "assets/Stickers/Sticker - Gold Rolex Watch.PNG",
-        tags: ["watch", "luxury", "rolex"],
-        localSac: false,
-        trending: false,
-        seasonal: false,
-        forYouGroups: ["millennial", "other"],
-      },
-      {
-        id: "keep_tahoe_blue",
-        label: "Keep Tahoe Blue",
-        mainCategory: "aesthetics",
-        image: "assets/Stickers/Sticker - Keep Tahoe Blue.PNG",
-        tags: ["tahoe", "lake", "environment"],
-        localSac: false,
-        trending: false,
-        seasonal: false,
-        forYouGroups: ["millennial", "other"],
-      },
-      {
-        id: "leave_trees",
-        label: "Leave the Trees",
-        mainCategory: "aesthetics",
-        image: "assets/Stickers/Sticker - Leave the Trees.PNG",
-        tags: ["trees", "environment"],
-        localSac: false,
-        trending: false,
-        seasonal: false,
-        forYouGroups: ["millennial", "genz"],
-      },
-      {
-        id: "mushrooms",
-        label: "Mushrooms",
-        mainCategory: "aesthetics",
-        image: "assets/Stickers/Sticker - Mushrooms.PNG",
-        tags: ["mushrooms", "forest"],
-        localSac: false,
-        trending: false,
-        seasonal: false,
-        forYouGroups: ["genz", "millennial"],
-      },
-      {
-        id: "rubix_cube",
-        label: "Rubix Cube",
-        mainCategory: "aesthetics",
-        image: "assets/Stickers/Sticker - Rubix Cube.PNG",
-        tags: ["rubix", "puzzle", "retro"],
-        localSac: false,
-        trending: false,
-        seasonal: false,
-        forYouGroups: ["millennial", "genz"],
-      },
-      {
-        id: "jesus",
-        label: "Jesus",
-        mainCategory: "aesthetics",
-        image: "assets/Stickers/Sticker - Jesus.PNG",
-        tags: ["jesus", "faith", "icon"],
-        localSac: false,
-        trending: false,
-        seasonal: false,
-        forYouGroups: ["millennial", "other"],
-      },
-      {
-        id: "pride_flag_moon",
-        label: "Pride Flag on Moon",
-        mainCategory: "aesthetics",
-        image: "assets/Stickers/Sticker - Pride Flag Moon Planting.PNG",
-        tags: ["pride", "space"],
-        localSac: false,
-        trending: true,
-        seasonal: true,
-        forYouGroups: ["genz", "millennial", "genalpha"],
-      },
-      {
-        id: "firetruck",
-        label: "Firetruck",
-        mainCategory: "aesthetics",
-        image: "assets/Stickers/Sticker - Firetruck.PNG",
-        tags: ["firetruck", "emergency"],
-        localSac: false,
-        trending: false,
-        seasonal: false,
-        forYouGroups: ["genalpha", "millennial"],
-      },
-      {
-        id: "ambulance",
-        label: "Ambulance",
-        mainCategory: "aesthetics",
-        image: "assets/Stickers/Sticker - Ambulance.PNG",
-        tags: ["ambulance", "emergency"],
-        localSac: false,
-        trending: false,
-        seasonal: false,
-        forYouGroups: ["genalpha", "millennial"],
-      },
-
-      // PLACES
-      {
-        id: "arches_np",
-        label: "Arches National Park",
-        mainCategory: "places",
-        image: "assets/Stickers/Sticker - Arches National Park.PNG",
-        tags: ["arches", "national park", "utah"],
-        localSac: false,
-        trending: false,
-        seasonal: false,
-        forYouGroups: ["millennial", "other"],
-      },
-      {
-        id: "reno_sign",
-        label: "Reno Sign",
-        mainCategory: "places",
-        image: "assets/Stickers/Sticker - Reno Sign.PNG",
-        tags: ["reno", "nevada", "city"],
-        localSac: false,
-        trending: false,
-        seasonal: false,
-        forYouGroups: ["millennial", "genz"],
-      }
-    ];
+    // This will be filled from stickers.json
+    let allStickers = [];
 
     // STATE
     let selectedIds = new Set();
-    let userAgeGroup = AGE_GROUPS.OTHER;
-    let userZip = null;
-
     let currentMode = "overview"; // "overview" | "category" | "search"
     let currentCategoryKey = null;
     let searchTerm = "";
@@ -1115,18 +660,6 @@
     const searchClearEl = document.getElementById("search-clear");
 
     // UTILITIES
-    function loadUserContext() {
-      try {
-        const age = localStorage.getItem("stickerbook_age");
-        const zip = localStorage.getItem("stickerbook_zip");
-        userAgeGroup = getAgeGroup(age);
-        userZip = zip || null;
-      } catch (e) {
-        userAgeGroup = AGE_GROUPS.OTHER;
-        userZip = null;
-      }
-    }
-
     function loadSelections() {
       try {
         const raw = localStorage.getItem("stickerbookSelectedStickers");
@@ -1154,63 +687,17 @@
       return (str || "").toLowerCase();
     }
 
-    function getForYouStickers() {
-      const relevant = allStickers.filter((s) => {
-        if (!s.forYouGroups || !Array.isArray(s.forYouGroups)) return false;
-        return (
-          s.forYouGroups.includes(userAgeGroup) ||
-          s.forYouGroups.includes(AGE_GROUPS.OTHER)
-        );
-      });
-
-      const isSac =
-        userZip &&
-        (userZip.startsWith("958") ||
-         userZip.startsWith("956"));
-
-      if (isSac) {
-        const locals = allStickers.filter((s) => s.localSac);
-        locals.forEach((loc) => {
-          if (!relevant.some((s) => s.id === loc.id)) {
-            relevant.push(loc);
-          }
-        });
-      }
-
-      return relevant;
-    }
-
-    function getStickersForCategoryKey(categoryKey) {
-      if (categoryKey === "for-you") {
-        return getForYouStickers();
-      }
-      if (categoryKey === "sacramento") {
-        return allStickers.filter((s) => s.mainCategory === "sacramento");
-      }
-      if (categoryKey === "tv-movies") {
-        return allStickers.filter((s) => s.mainCategory === "tv");
-      }
-      if (categoryKey === "animals") {
-        return allStickers.filter((s) => s.mainCategory === "animals");
-      }
-      if (categoryKey === "humor") {
-        return allStickers.filter((s) => s.mainCategory === "humor");
-      }
-      if (categoryKey === "aesthetics") {
-        return allStickers.filter((s) => s.mainCategory === "aesthetics");
-      }
-      if (categoryKey === "places") {
-        return allStickers.filter((s) => s.mainCategory === "places");
-      }
-      return [];
-    }
-
     function clearError() {
       selectionErrorEl.textContent = "";
     }
 
     function showError(msg) {
       selectionErrorEl.textContent = msg;
+    }
+
+    // CATEGORY + FILTER HELPERS
+    function getStickersForCategoryKey(categoryKey) {
+      return allStickers.filter((s) => s.category === categoryKey);
     }
 
     // STICKER TILE
@@ -1228,7 +715,7 @@
 
       const img = document.createElement("img");
       img.src = sticker.image;
-      img.alt = sticker.label || "Sticker";
+      img.alt = sticker.displayName || sticker.label || "Sticker";
       img.className = "sticker-image";
 
       visual.appendChild(img);
@@ -1303,12 +790,12 @@
       });
     }
 
-    // SEARCH RENDER
+    // SEARCH
     function getSearchResults() {
       const term = normalize(searchTerm);
       if (!term) return [];
       return allStickers.filter((s) => {
-        if (normalize(s.label).includes(term)) return true;
+        if (normalize(s.displayName || s.label).includes(term)) return true;
         if (s.tags && s.tags.some((t) => normalize(t).includes(term))) return true;
         return false;
       });
@@ -1343,6 +830,7 @@
       categoryDetailEl.classList.remove("hidden");
 
       renderCategoryDetail();
+      syncStickerTileClasses();
     }
 
     function showSearchView() {
@@ -1353,6 +841,7 @@
       categoryDetailEl.classList.remove("hidden");
 
       renderSearchResults();
+      syncStickerTileClasses();
     }
 
     function showOverview() {
@@ -1363,6 +852,7 @@
       overviewRowsEl.classList.remove("hidden");
 
       renderOverviewRows();
+      syncStickerTileClasses();
     }
 
     // SELECTION UI
@@ -1413,7 +903,6 @@
       searchTerm = "";
       searchInputEl.value = "";
       showOverview();
-      syncStickerTileClasses();
     });
 
     continueButtonEl.addEventListener("click", () => {
@@ -1456,7 +945,6 @@
       }
 
       window.location.href = "sticker-placement.html";
-
     });
 
     searchInputEl.addEventListener("input", (e) => {
@@ -1464,11 +952,9 @@
       if (searchTerm.length === 0) {
         if (currentMode === "search") {
           showOverview();
-          syncStickerTileClasses();
         }
       } else {
         showSearchView();
-        syncStickerTileClasses();
       }
     });
 
@@ -1477,17 +963,31 @@
       searchInputEl.value = "";
       if (currentMode === "search") {
         showOverview();
-        syncStickerTileClasses();
       }
     });
 
     // INIT
-    function init() {
-      loadUserContext();
+    async function init() {
       loadSelections();
-      showOverview();
-      updateSelectionUI();
-      syncStickerTileClasses();
+
+      try {
+        const res = await fetch("stickers.json");
+        const data = await res.json();
+
+        // Normalize into the structure this page expects
+        allStickers = data.map((s) => ({
+          ...s,
+          label: s.displayName || s.label || "",
+          image: "assets/Stickers/" + s.filename
+        }));
+
+        showOverview();
+        updateSelectionUI();
+        syncStickerTileClasses();
+      } catch (err) {
+        console.error("Error loading stickers.json:", err);
+        showError("There was a problem loading stickers. Try refreshing the page.");
+      }
     }
 
     document.addEventListener("DOMContentLoaded", init);
