@@ -118,6 +118,105 @@
       padding: 9px 20px;
     }
 
+    /* Background picker overlay */
+    .bg-picker-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+      z-index: 100;
+    }
+
+    .bg-picker-overlay.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .bg-picker-card {
+      background: white;
+      border-radius: var(--radius-lg);
+      padding: 16px;
+      box-shadow: 0 20px 40px rgba(15, 23, 42, 0.3);
+      max-width: 280px;
+      width: 90%;
+    }
+
+    .bg-picker-title {
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--color-text-primary);
+      margin-bottom: 12px;
+      text-align: center;
+    }
+
+    .bg-picker-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+    }
+
+    .bg-picker-swatch {
+      aspect-ratio: 1;
+      border-radius: 8px;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: transform 0.12s ease, border-color 0.12s ease;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    }
+
+    .bg-picker-swatch:hover {
+      transform: scale(1.08);
+    }
+
+    .bg-picker-swatch.selected {
+      border-color: var(--color-cyan);
+    }
+
+    .bg-picker-close {
+      margin-top: 12px;
+      width: 100%;
+      padding: 8px;
+      border: none;
+      border-radius: var(--radius-pill);
+      background: var(--color-field-bg);
+      color: var(--color-text-muted);
+      font-size: 11px;
+      cursor: pointer;
+    }
+
+    /* Paint button */
+    .btn-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 1px solid rgba(248, 250, 252, 0.85);
+      background: rgba(15, 23, 42, 0.14);
+      color: #f9fafb;
+      font-size: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.12s ease, background 0.15s ease;
+    }
+
+    .btn-icon:hover {
+      background: rgba(15, 23, 42, 0.25);
+    }
+
+    .btn-icon:active {
+      transform: scale(0.95);
+    }
+
     /* Save toast */
     .save-toast {
       position: absolute;
@@ -177,12 +276,26 @@
 
             <!-- Footer actions -->
             <div class="footer-row">
+              <button id="bg-picker-btn" class="btn-icon" type="button" title="Change background">
+                🎨
+              </button>
               <button id="remove-button" class="btn-outline hidden-remove" type="button" disabled>
                 Remove sticker
               </button>
               <button id="continue-button" class="btn btn-primary" type="button">
                 Continue
               </button>
+            </div>
+
+            <!-- Background picker overlay -->
+            <div class="bg-picker-overlay" id="bg-picker-overlay">
+              <div class="bg-picker-card">
+                <div class="bg-picker-title">Change Background</div>
+                <div class="bg-picker-grid" id="bg-picker-grid">
+                  <!-- Swatches injected by JS -->
+                </div>
+                <button class="bg-picker-close" id="bg-picker-close">Cancel</button>
+              </div>
             </div>
 
             <div id="save-toast" class="save-toast">Page saved</div>
@@ -200,6 +313,13 @@
     const MIN_SCALE = 0.5;
     const MAX_SCALE = 5;
 
+    const BACKGROUND_COLORS = [
+      "#ffffff", "#e5e7eb", "#fef3c7",
+      "#020617", "#1d4ed8", "#92400e",
+      "#ef4444", "#fb923c", "#facc15",
+      "#22c55e", "#0ea5e9", "#a855f7"
+    ];
+
     const canvasArea = document.getElementById("canvas-area");
     const playArea = document.getElementById("play-area");
     const canvas = document.getElementById("stickerCanvas");
@@ -207,6 +327,11 @@
     const continueButton = document.getElementById("continue-button");
     const saveToast = document.getElementById("save-toast");
     const headerCard = document.getElementById("header-card");
+
+    const bgPickerBtn = document.getElementById("bg-picker-btn");
+    const bgPickerOverlay = document.getElementById("bg-picker-overlay");
+    const bgPickerGrid = document.getElementById("bg-picker-grid");
+    const bgPickerClose = document.getElementById("bg-picker-close");
 
     const isTouchDevice =
       "ontouchstart" in window || navigator.maxTouchPoints > 0;
@@ -218,6 +343,78 @@
     let canvasBounds = { width: 0, height: 0 };
     let headerHidden = false;
 
+    // ============ BACKGROUND PICKER ============
+    function initBackgroundPicker() {
+      bgPickerGrid.innerHTML = "";
+      
+      const currentBg = pageData?.background || "#ffffff";
+      
+      BACKGROUND_COLORS.forEach(color => {
+        const swatch = document.createElement("div");
+        swatch.className = "bg-picker-swatch";
+        if (color === currentBg) {
+          swatch.classList.add("selected");
+        }
+        swatch.style.backgroundColor = color;
+        swatch.dataset.color = color;
+        
+        swatch.addEventListener("click", () => {
+          selectBackground(color);
+        });
+        
+        bgPickerGrid.appendChild(swatch);
+      });
+    }
+
+    function selectBackground(color) {
+      // Update UI
+      canvasArea.style.background = color;
+      
+      // Update data
+      if (pageData) {
+        pageData.background = color;
+      }
+      
+      // Update localStorage
+      localStorage.setItem("stickerbook_page_1_background", color);
+      localStorage.setItem("current_page_background", color);
+      
+      // Save full layout
+      saveLayoutToStorage();
+      
+      // Close picker
+      closeBgPicker();
+      
+      // Show feedback
+      showToast();
+    }
+
+    function openBgPicker() {
+      initBackgroundPicker();
+      bgPickerOverlay.classList.add("visible");
+    }
+
+    function closeBgPicker() {
+      bgPickerOverlay.classList.remove("visible");
+    }
+
+    bgPickerBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      openBgPicker();
+    });
+
+    bgPickerClose.addEventListener("click", (e) => {
+      e.stopPropagation();
+      closeBgPicker();
+    });
+
+    bgPickerOverlay.addEventListener("click", (e) => {
+      if (e.target === bgPickerOverlay) {
+        closeBgPicker();
+      }
+    });
+
+    // ============ EXISTING FUNCTIONS ============
     function hideHeaderCard() {
       if (headerHidden || !headerCard) return;
       headerHidden = true;
