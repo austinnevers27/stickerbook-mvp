@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <title>Stickerbook</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
   <style>
     * {
       margin: 0;
@@ -22,53 +22,27 @@
       background: linear-gradient(135deg, #ffddee 0%, #ffffff 50%, #d4f4ff 100%);
       min-height: 100vh;
       min-height: 100dvh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
     }
 
     /* ========== SPLASH CONTAINER ========== */
     .splash-container {
-      position: relative;
+      position: fixed;
+      top: 0;
+      left: 0;
       width: 100%;
       height: 100%;
-      max-width: 400px;
-      max-height: 700px;
-      transition: opacity 0.3s ease-out;
+      overflow: hidden;
+      transition: opacity 0.5s ease-out;
     }
 
     .splash-container.fade-out {
       opacity: 0;
     }
 
-    /* ========== TITLE ========== */
-    .splash-title {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-family: "Poppins", system-ui, sans-serif;
-      font-size: 28px;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: #111827;
-      white-space: nowrap;
-      z-index: 100;
-      opacity: 0;
-      transition: opacity 0.4s ease-out;
-    }
-
-    .splash-title.visible {
-      opacity: 1;
-    }
-
     /* ========== STICKERS ========== */
     .sticker {
       position: absolute;
-      opacity: 0;
-      transform: scale(5);
-      transition: none;
+      pointer-events: none;
     }
 
     .sticker img {
@@ -77,28 +51,62 @@
       object-fit: contain;
     }
 
-    .sticker.placed {
-      animation: placeSticker 0.4s ease-out forwards;
+    /* ========== TITLE STICKER ========== */
+    .title-sticker {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(-2deg);
+      z-index: 1000;
+      
+      /* Sticker shape */
+      background: linear-gradient(135deg, #ff6b9d 0%, #ffa07a 25%, #ffb347 50%, #87ceeb 75%, #00ced1 100%);
+      border: 6px solid #fff;
+      border-radius: 20px;
+      box-shadow: 
+        0 4px 15px rgba(0, 0, 0, 0.2),
+        0 2px 5px rgba(0, 0, 0, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4);
+      
+      /* Content */
+      padding: 20px 35px 18px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
     }
 
-    @keyframes placeSticker {
-      0% {
-        transform: scale(5) var(--rotate, rotate(0deg));
-        opacity: 0;
-      }
-      20% {
-        opacity: 1;
-      }
-      60% {
-        transform: scale(calc(var(--final-scale, 1) * 1.08)) var(--rotate, rotate(0deg));
-      }
-      80% {
-        transform: scale(calc(var(--final-scale, 1) * 0.97)) var(--rotate, rotate(0deg));
-      }
-      100% {
-        transform: scale(var(--final-scale, 1)) var(--rotate, rotate(0deg));
-        opacity: 1;
-      }
+    .title-sticker::before {
+      content: '';
+      position: absolute;
+      top: -8px;
+      left: -8px;
+      right: -8px;
+      bottom: -8px;
+      border: 3px solid rgba(255, 255, 255, 0.5);
+      border-radius: 26px;
+      pointer-events: none;
+    }
+
+    .title-text {
+      font-family: "Poppins", system-ui, sans-serif;
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #ffffff;
+      text-shadow: 
+        2px 2px 0 rgba(0, 0, 0, 0.15),
+        -1px -1px 0 rgba(255, 255, 255, 0.3);
+      white-space: nowrap;
+    }
+
+    .title-bar {
+      width: 120px;
+      height: 4px;
+      border-radius: 2px;
+      background: rgba(255, 255, 255, 0.8);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
     }
 
     /* ========== HEADER STATE (after transition) ========== */
@@ -212,114 +220,29 @@
         0 16px 28px rgba(236, 72, 153, 0.4),
         0 0 0 1px rgba(248, 250, 252, 0.7);
     }
+
+    /* ========== RESPONSIVE ========== */
+    @media (min-width: 400px) {
+      .title-text {
+        font-size: 30px;
+      }
+      .title-sticker {
+        padding: 24px 45px 22px;
+      }
+    }
   </style>
 </head>
 <body>
 
-  <!-- SPLASH: Freeform sticker collage -->
+  <!-- SPLASH: Sticker bomb -->
   <div class="splash-container" id="splashContainer">
+    <!-- Stickers will be injected here by JavaScript -->
     
-    <!-- Title in center -->
-    <div class="splash-title" id="splashTitle">Stickerbook</div>
-
-    <!-- TOP LEFT CLUSTER -->
-    <div class="sticker" style="top: 2%; left: 2%; width: 70px; --final-scale: 2.3; --rotate: rotate(-12deg); z-index: 5;" data-delay="0">
-      <img src="assets/Stickers/splash/moon.png" alt="">
+    <!-- Title sticker on top -->
+    <div class="title-sticker">
+      <div class="title-text">Stickerbook</div>
+      <div class="title-bar"></div>
     </div>
-    <div class="sticker" style="top: 5%; left: 22%; width: 55px; --final-scale: 1.7; --rotate: rotate(8deg); z-index: 6;" data-delay="300">
-      <img src="assets/Stickers/splash/coffee0001.png" alt="">
-    </div>
-    <div class="sticker" style="top: 0%; left: 42%; width: 65px; --final-scale: 1.8; --rotate: rotate(-5deg); z-index: 4;" data-delay="150">
-      <img src="assets/Stickers/splash/clown0001.png" alt="">
-    </div>
-
-    <!-- TOP RIGHT CLUSTER -->
-    <div class="sticker" style="top: 2%; right: 2%; width: 75px; --final-scale: 2.0; --rotate: rotate(15deg); z-index: 5;" data-delay="200">
-      <img src="assets/Stickers/splash/controller.png" alt="">
-    </div>
-    <div class="sticker" style="top: 8%; right: 25%; width: 50px; --final-scale: 1.6; --rotate: rotate(-8deg); z-index: 6;" data-delay="450">
-      <img src="assets/Stickers/splash/mushroom0001.png" alt="">
-    </div>
-
-    <!-- UPPER LEFT -->
-    <div class="sticker" style="top: 18%; left: 2%; width: 80px; --final-scale: 2.2; --rotate: rotate(6deg); z-index: 7;" data-delay="100">
-      <img src="assets/Stickers/splash/fox.png" alt="">
-    </div>
-    <div class="sticker" style="top: 22%; left: 25%; width: 60px; --final-scale: 1.7; --rotate: rotate(-15deg); z-index: 8;" data-delay="500">
-      <img src="assets/Stickers/splash/yorkie0001.png" alt="">
-    </div>
-
-    <!-- UPPER RIGHT -->
-    <div class="sticker" style="top: 18%; right: 0%; width: 70px; --final-scale: 2.5; --rotate: rotate(-10deg); z-index: 7;" data-delay="350">
-      <img src="assets/Stickers/splash/airplane.png" alt="">
-    </div>
-    <div class="sticker" style="top: 24%; right: 28%; width: 55px; --final-scale: 1.8; --rotate: rotate(12deg); z-index: 8;" data-delay="600">
-      <img src="assets/Stickers/splash/donut.png" alt="">
-    </div>
-
-    <!-- LEFT SIDE (above title) -->
-    <div class="sticker" style="top: 32%; left: 0%; width: 75px; --final-scale: 2.1; --rotate: rotate(18deg); z-index: 10;" data-delay="250">
-      <img src="assets/Stickers/splash/germanshepherd0001.png" alt="">
-    </div>
-    
-    <!-- RIGHT SIDE (above title) -->
-    <div class="sticker" style="top: 30%; right: 0%; width: 70px; --final-scale: 2.3; --rotate: rotate(-14deg); z-index: 10;" data-delay="400">
-      <img src="assets/Stickers/splash/raccoon0001.png" alt="">
-    </div>
-
-    <!-- LEFT SIDE (below title) -->
-    <div class="sticker" style="top: 58%; left: 0%; width: 65px; --final-scale: 1.9; --rotate: rotate(-8deg); z-index: 11;" data-delay="550">
-      <img src="assets/Stickers/splash/cat.png" alt="">
-    </div>
-    <div class="sticker" style="top: 52%; left: 18%; width: 50px; --final-scale: 1.6; --rotate: rotate(-6deg); z-index: 9;" data-delay="700">
-      <img src="assets/Stickers/splash/baseball.png" alt="">
-    </div>
-
-    <!-- RIGHT SIDE (below title) -->
-    <div class="sticker" style="top: 56%; right: 0%; width: 60px; --final-scale: 2.0; --rotate: rotate(20deg); z-index: 11;" data-delay="650">
-      <img src="assets/Stickers/splash/orca0001.png" alt="">
-    </div>
-    <div class="sticker" style="top: 54%; right: 22%; width: 55px; --final-scale: 1.8; --rotate: rotate(10deg); z-index: 9;" data-delay="750">
-      <img src="assets/Stickers/splash/peace.png" alt="">
-    </div>
-
-    <!-- LOWER LEFT -->
-    <div class="sticker" style="top: 68%; left: 2%; width: 70px; --final-scale: 2.4; --rotate: rotate(14deg); z-index: 12;" data-delay="850">
-      <img src="assets/Stickers/splash/cubansandwich0001.png" alt="">
-    </div>
-    <div class="sticker" style="top: 66%; left: 28%; width: 75px; --final-scale: 2.1; --rotate: rotate(-12deg); z-index: 12;" data-delay="900">
-      <img src="assets/Stickers/splash/palmtree.png" alt="">
-    </div>
-
-    <!-- LOWER RIGHT -->
-    <div class="sticker" style="top: 68%; right: 2%; width: 60px; --final-scale: 1.9; --rotate: rotate(-15deg); z-index: 13;" data-delay="1050">
-      <img src="assets/Stickers/splash/orangecat0001.png" alt="">
-    </div>
-    <div class="sticker" style="top: 70%; right: 28%; width: 70px; --final-scale: 1.7; --rotate: rotate(10deg); z-index: 13;" data-delay="800">
-      <img src="assets/Stickers/splash/firetruck0001.png" alt="">
-    </div>
-
-    <!-- BOTTOM LEFT CLUSTER -->
-    <div class="sticker" style="top: 82%; left: 5%; width: 55px; --final-scale: 2.0; --rotate: rotate(-18deg); z-index: 14;" data-delay="1000">
-      <img src="assets/Stickers/splash/saxophone.png" alt="">
-    </div>
-    <div class="sticker" style="top: 85%; left: 25%; width: 60px; --final-scale: 1.6; --rotate: rotate(5deg); z-index: 15;" data-delay="1100">
-      <img src="assets/Stickers/splash/leavetheleaves0001.png" alt="">
-    </div>
-
-    <!-- BOTTOM CENTER -->
-    <div class="sticker" style="top: 84%; left: 42%; width: 65px; --final-scale: 1.7; --rotate: rotate(-7deg); z-index: 14;" data-delay="950">
-      <img src="assets/Stickers/splash/noevilanimals0001.png" alt="">
-    </div>
-
-    <!-- BOTTOM RIGHT CLUSTER -->
-    <div class="sticker" style="top: 84%; right: 22%; width: 50px; --final-scale: 1.6; --rotate: rotate(8deg); z-index: 14;" data-delay="1150">
-      <img src="assets/Stickers/splash/prideflag0002.png" alt="">
-    </div>
-    <div class="sticker" style="top: 82%; right: 2%; width: 55px; --final-scale: 1.8; --rotate: rotate(-10deg); z-index: 15;" data-delay="1200">
-      <img src="assets/Stickers/splash/fox.png" alt="">
-    </div>
-
   </div>
 
   <!-- HEADER: Title that persists and moves to top -->
@@ -355,28 +278,94 @@
   </div>
 
   <script>
+    // ============ STICKER CONFIGURATION ============
+    // Easy to update: just add/remove paths from this array
+    const STICKER_PATHS = [
+      'assets/Stickers/splash/airplane.png',
+      'assets/Stickers/splash/baseball.png',
+      'assets/Stickers/splash/cat.png',
+      'assets/Stickers/splash/clown0001.png',
+      'assets/Stickers/splash/coffee0001.png',
+      'assets/Stickers/splash/controller.png',
+      'assets/Stickers/splash/cubansandwich0001.png',
+      'assets/Stickers/splash/donut.png',
+      'assets/Stickers/splash/firetruck0001.png',
+      'assets/Stickers/splash/fox.png',
+      'assets/Stickers/splash/germanshepherd0001.png',
+      'assets/Stickers/splash/leavetheleaves0001.png',
+      'assets/Stickers/splash/moon.png',
+      'assets/Stickers/splash/mushroom0001.png',
+      'assets/Stickers/splash/noevilanimals0001.png',
+      'assets/Stickers/splash/orangecat0001.png',
+      'assets/Stickers/splash/orca0001.png',
+      'assets/Stickers/splash/palmtree.png',
+      'assets/Stickers/splash/peace.png',
+      'assets/Stickers/splash/prideflag0002.png',
+      'assets/Stickers/splash/raccoon0001.png',
+      'assets/Stickers/splash/saxophone.png',
+      'assets/Stickers/splash/yorkie0001.png',
+    ];
+
+    const TOTAL_STICKERS = 500;
+    const MIN_SIZE = 60;
+    const MAX_SIZE = 120;
+    const MIN_ROTATION = -25;
+    const MAX_ROTATION = 25;
+
+    // ============ GENERATE STICKERS ============
+    function generateStickers() {
+      const container = document.getElementById('splashContainer');
+      const titleSticker = container.querySelector('.title-sticker');
+      
+      for (let i = 0; i < TOTAL_STICKERS; i++) {
+        // Random sticker from array
+        const stickerPath = STICKER_PATHS[Math.floor(Math.random() * STICKER_PATHS.length)];
+        
+        // Random position (full coverage, can bleed off edges)
+        const x = Math.random() * (window.innerWidth + 100) - 50;
+        const y = Math.random() * (window.innerHeight + 100) - 50;
+        
+        // Random size
+        const size = MIN_SIZE + Math.random() * (MAX_SIZE - MIN_SIZE);
+        
+        // Random rotation
+        const rotation = MIN_ROTATION + Math.random() * (MAX_ROTATION - MIN_ROTATION);
+        
+        // Random z-index (layering)
+        const zIndex = Math.floor(Math.random() * 100);
+        
+        // Create element
+        const div = document.createElement('div');
+        div.className = 'sticker';
+        div.style.cssText = `
+          left: ${x}px;
+          top: ${y}px;
+          width: ${size}px;
+          height: ${size}px;
+          transform: rotate(${rotation}deg);
+          z-index: ${zIndex};
+        `;
+        
+        const img = document.createElement('img');
+        img.src = stickerPath;
+        img.alt = '';
+        
+        div.appendChild(img);
+        container.insertBefore(div, titleSticker);
+      }
+    }
+
+    // ============ TRANSITION LOGIC ============
     const splashContainer = document.getElementById('splashContainer');
-    const splashTitle = document.getElementById('splashTitle');
     const headerTitle = document.getElementById('headerTitle');
     const introContent = document.getElementById('introContent');
     const ctaButton = document.getElementById('ctaButton');
-    const stickers = document.querySelectorAll('.sticker');
 
-    // Animate stickers in based on their data-delay
     window.addEventListener('load', () => {
-      stickers.forEach(sticker => {
-        const delay = parseInt(sticker.getAttribute('data-delay')) || 0;
-        setTimeout(() => {
-          sticker.classList.add('placed');
-        }, delay);
-      });
-
-      // Show title after most stickers are placed
-      setTimeout(() => {
-        splashTitle.classList.add('visible');
-      }, 1400);
-
-      // After all stickers + title + pause, transition
+      // Generate the sticker bomb
+      generateStickers();
+      
+      // After 2.5 seconds, transition to intro
       setTimeout(() => {
         splashContainer.classList.add('fade-out');
         headerTitle.classList.add('visible');
@@ -393,9 +382,9 @@
             ctaButton.classList.add('visible');
           }, 900);
 
-        }, 300);
+        }, 500);
 
-      }, 3500);
+      }, 2500);
     });
   </script>
 </body>
