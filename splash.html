@@ -31,8 +31,8 @@
     /* ========== SPLASH STATE ========== */
     .sticker-area {
       display: grid;
-      grid-template-columns: repeat(4, 70px);
-      grid-template-rows: repeat(5, 70px);
+      grid-template-columns: repeat(4, 105px);
+      grid-template-rows: repeat(3, 105px);
       gap: 12px;
       transition: opacity 0.2s ease-out;
     }
@@ -42,8 +42,8 @@
     }
 
     .sticker {
-      width: 70px;
-      height: 70px;
+      width: 105px;
+      height: 105px;
       transform: scale(0.05);
       opacity: 0;
       display: flex;
@@ -101,8 +101,6 @@
     .sticker.row-1 { animation-delay: 0s; }
     .sticker.row-2 { animation-delay: 0.4s; }
     .sticker.row-3 { animation-delay: 0.8s; }
-    .sticker.row-4 { animation-delay: 1.2s; }
-    .sticker.row-5 { animation-delay: 1.6s; }
 
     /* ========== HEADER STATE (after transition) ========== */
     .header-title {
@@ -219,13 +217,13 @@
     /* ========== RESPONSIVE ========== */
     @media (min-width: 400px) {
       .sticker-area {
-        grid-template-columns: repeat(4, 80px);
-        grid-template-rows: repeat(5, 80px);
+        grid-template-columns: repeat(4, 120px);
+        grid-template-rows: repeat(3, 120px);
         gap: 14px;
       }
       .sticker {
-        width: 80px;
-        height: 80px;
+        width: 120px;
+        height: 120px;
       }
       .splash-title {
         font-size: 28px;
@@ -240,13 +238,13 @@
 
     @media (min-width: 768px) {
       .sticker-area {
-        grid-template-columns: repeat(4, 100px);
-        grid-template-rows: repeat(5, 100px);
+        grid-template-columns: repeat(4, 150px);
+        grid-template-rows: repeat(3, 150px);
         gap: 18px;
       }
       .sticker {
-        width: 100px;
-        height: 100px;
+        width: 150px;
+        height: 150px;
       }
       .splash-title {
         font-size: 32px;
@@ -265,30 +263,20 @@
 
   <!-- SPLASH: Sticker grid -->
   <div class="sticker-area" id="stickerArea">
-    <!-- Row 1 -->
+    <!-- Row 1: 4 stickers -->
     <div class="sticker row-1"><img src="assets/Stickers/splash/airplane.png" alt=""></div>
     <div class="sticker row-1"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
     <div class="sticker row-1"><img src="assets/Stickers/splash/controller.png" alt=""></div>
     <div class="sticker row-1"><img src="assets/Stickers/splash/donut.png" alt=""></div>
-    <!-- Row 2 -->
+    <!-- Row 2: 1 sticker + title (spans 2) + 1 sticker -->
     <div class="sticker row-2"><img src="assets/Stickers/splash/fox.png" alt=""></div>
+    <div class="sticker row-2 featured"><span class="splash-title">Stickerbook</span></div>
     <div class="sticker row-2"><img src="assets/Stickers/splash/moon.png" alt=""></div>
-    <div class="sticker row-2"><img src="assets/Stickers/splash/airplane.png" alt=""></div>
-    <div class="sticker row-2"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
-    <!-- Row 3: 9, then 10-11 merged with title, then 12 -->
-    <div class="sticker row-3"><img src="assets/Stickers/splash/controller.png" alt=""></div>
-    <div class="sticker row-3 featured"><span class="splash-title">Stickerbook</span></div>
-    <div class="sticker row-3"><img src="assets/Stickers/splash/donut.png" alt=""></div>
-    <!-- Row 4 -->
-    <div class="sticker row-4"><img src="assets/Stickers/splash/fox.png" alt=""></div>
-    <div class="sticker row-4"><img src="assets/Stickers/splash/moon.png" alt=""></div>
-    <div class="sticker row-4"><img src="assets/Stickers/splash/airplane.png" alt=""></div>
-    <div class="sticker row-4"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
-    <!-- Row 5 -->
-    <div class="sticker row-5"><img src="assets/Stickers/splash/controller.png" alt=""></div>
-    <div class="sticker row-5"><img src="assets/Stickers/splash/donut.png" alt=""></div>
-    <div class="sticker row-5"><img src="assets/Stickers/splash/fox.png" alt=""></div>
-    <div class="sticker row-5"><img src="assets/Stickers/splash/moon.png" alt=""></div>
+    <!-- Row 3: 4 stickers (4 blank for now) -->
+    <div class="sticker row-3"></div>
+    <div class="sticker row-3"></div>
+    <div class="sticker row-3"></div>
+    <div class="sticker row-3"></div>
   </div>
 
   <!-- HEADER: Title that persists and moves to top -->
@@ -333,7 +321,7 @@
     window.addEventListener('load', () => {
       document.querySelectorAll('.sticker').forEach(s => s.classList.add('placed'));
 
-      // After stickers are done (2s) + small pause (0.5s), start transition
+      // After stickers are done (1.2s for 3 rows) + small pause (0.5s), start transition
       setTimeout(() => {
         // Fade out stickers
         stickerArea.classList.add('fade-out');
@@ -360,7 +348,7 @@
 
         }, 200);
 
-      }, 2500);
+      }, 1700);
     });
   </script>
 
