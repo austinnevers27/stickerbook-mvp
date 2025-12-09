@@ -112,8 +112,84 @@
       }
     }
 
-    /* Baseball - spins 7 full rotations */
-    @keyframes spinIn {
+    /* Baseball - starts 3x size upside down, 2.5 rotations, shrinks to 1x */
+    @keyframes spinShrink {
+      0% {
+        transform: scale(3) rotate(180deg);
+        opacity: 0;
+      }
+      20% {
+        opacity: 1;
+      }
+      100% {
+        transform: scale(1) rotate(1080deg);
+        opacity: 1;
+      }
+    }
+
+    /* Controller - 25px to 150px, tilted 7 degrees right */
+    @keyframes popInController {
+      0% {
+        transform: scale(0.24) rotate(0deg);
+        opacity: 0;
+      }
+      50% {
+        opacity: 1;
+      }
+      80% {
+        transform: scale(1.48) rotate(9deg);
+      }
+      100% {
+        transform: scale(1.43) rotate(7deg);
+        opacity: 1;
+      }
+    }
+
+    /* Donut - 50px to 225px */
+    @keyframes popInDonut {
+      0% {
+        transform: scale(0.48);
+        opacity: 0;
+      }
+      50% {
+        opacity: 1;
+      }
+      80% {
+        transform: scale(2.2);
+      }
+      100% {
+        transform: scale(2.14);
+        opacity: 1;
+      }
+    }
+
+    /* Fox - 250px final, wobble, tilt 17 degrees left */
+    @keyframes popInFoxWobble {
+      0% {
+        transform: scale(0.05) rotate(0deg);
+        opacity: 0;
+      }
+      40% {
+        opacity: 1;
+        transform: scale(2.5) rotate(-22deg);
+      }
+      55% {
+        transform: scale(2.3) rotate(-12deg);
+      }
+      70% {
+        transform: scale(2.45) rotate(-20deg);
+      }
+      85% {
+        transform: scale(2.35) rotate(-15deg);
+      }
+      100% {
+        transform: scale(2.38) rotate(-17deg);
+        opacity: 1;
+      }
+    }
+
+    /* Moon - tilt 8 degrees left */
+    @keyframes popInMoon {
       0% {
         transform: scale(0.05) rotate(0deg);
         opacity: 0;
@@ -122,34 +198,41 @@
         opacity: 1;
       }
       80% {
-        transform: scale(1.05) rotate(2520deg);
+        transform: scale(1.05) rotate(-10deg);
       }
       100% {
-        transform: scale(1) rotate(2520deg);
+        transform: scale(1) rotate(-8deg);
         opacity: 1;
       }
     }
 
-    /* Controller - lands tilted 7 degrees right */
-    @keyframes popInTilted {
+    /* Cat - 140px, wobble */
+    @keyframes popInCatWobble {
       0% {
         transform: scale(0.05) rotate(0deg);
         opacity: 0;
       }
-      50% {
+      40% {
         opacity: 1;
+        transform: scale(1.4) rotate(5deg);
       }
-      80% {
-        transform: scale(1.05) rotate(9deg);
+      55% {
+        transform: scale(1.3) rotate(-3deg);
+      }
+      70% {
+        transform: scale(1.38) rotate(3deg);
+      }
+      85% {
+        transform: scale(1.32) rotate(-1deg);
       }
       100% {
-        transform: scale(1) rotate(7deg);
+        transform: scale(1.33) rotate(0deg);
         opacity: 1;
       }
     }
 
-    /* Donut - pops in 50% bigger */
-    @keyframes popInBig {
+    /* Peace - 180px */
+    @keyframes popInPeace {
       0% {
         transform: scale(0.05);
         opacity: 0;
@@ -158,10 +241,28 @@
         opacity: 1;
       }
       80% {
-        transform: scale(1.58);
+        transform: scale(1.76);
       }
       100% {
-        transform: scale(1.5);
+        transform: scale(1.71);
+        opacity: 1;
+      }
+    }
+
+    /* Saxophone - 180px, tilt 4 degrees right */
+    @keyframes popInSax {
+      0% {
+        transform: scale(0.05) rotate(0deg);
+        opacity: 0;
+      }
+      50% {
+        opacity: 1;
+      }
+      80% {
+        transform: scale(1.76) rotate(6deg);
+      }
+      100% {
+        transform: scale(1.71) rotate(4deg);
         opacity: 1;
       }
     }
@@ -176,15 +277,35 @@
     }
 
     .sticker.baseball.placed {
-      animation: spinIn 0.5s ease-out forwards;
+      animation: spinShrink 0.7s ease-out forwards;
     }
 
     .sticker.controller.placed {
-      animation: popInTilted 0.4s ease-out forwards;
+      animation: popInController 0.4s ease-out forwards;
     }
 
     .sticker.donut.placed {
-      animation: popInBig 0.4s ease-out forwards;
+      animation: popInDonut 0.4s ease-out forwards;
+    }
+
+    .sticker.fox.placed {
+      animation: popInFoxWobble 0.6s ease-out forwards;
+    }
+
+    .sticker.moon.placed {
+      animation: popInMoon 0.4s ease-out forwards;
+    }
+
+    .sticker.cat.placed {
+      animation: popInCatWobble 0.6s ease-out forwards;
+    }
+
+    .sticker.peace.placed {
+      animation: popInPeace 0.4s ease-out forwards;
+    }
+
+    .sticker.saxophone.placed {
+      animation: popInSax 0.4s ease-out forwards;
     }
 
     /* Individual sticker timing - entrance order */
