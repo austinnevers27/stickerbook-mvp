@@ -7,17 +7,18 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/stickerbook.css">
 </head>
-<body>
+<body class="layout-contained">
   <div class="app-shell">
     <div class="phone-frame">
       <div class="phone-inner">
         <div class="shell-inner">
-          <!-- Logo only, centered -->
-          <div class="top-row top-row--centered">
-            <div class="logo-group" style="align-items: center;">
+          <!-- Header -->
+          <div class="top-row">
+            <div class="logo-group" style="align-items: flex-start;">
               <div class="logo-mark">STICKERBOOK</div>
               <div class="logo-accent"></div>
             </div>
+            <button class="btn-skip" id="skip-btn">Skip</button>
           </div>
 
           <h1 class="screen-title text-center">Pick your background</h1>
@@ -25,75 +26,31 @@
             Set the vibe for this page. You can change it later.
           </p>
 
-          <!-- Background picker -->
-          <div class="background-section">
-            <div class="background-label">Backgrounds</div>
-            <div class="background-grid-wrapper">
-              <div class="background-grid" id="background-grid">
-                <!-- Row 1 – Neutrals -->
-                <div class="bg-tile" data-color="#ffffff">
-                  <div class="bg-tile-inner" style="background-color: #ffffff;"></div>
-                  <div class="bg-label">White</div>
-                </div>
+          <!-- Background picker section -->
+          <div class="bg-picker-section">
+            <!-- Pattern type tabs -->
+            <div class="bg-tabs">
+              <button class="bg-tab active" data-pattern="solid">Solid</button>
+              <button class="bg-tab" data-pattern="stripes">Stripes</button>
+              <button class="bg-tab" data-pattern="dots">Dots</button>
+            </div>
 
-                <div class="bg-tile" data-color="#e5e7eb">
-                  <div class="bg-tile-inner" style="background-color: #e5e7eb;"></div>
-                  <div class="bg-label">Light Gray</div>
-                </div>
+            <!-- Sub-filters (contextual) -->
+            <div class="bg-subfilter hidden" id="stripes-filter">
+              <button class="bg-subfilter-btn active" data-value="diagonal">Diagonal</button>
+              <button class="bg-subfilter-btn" data-value="horizontal">Horizontal</button>
+              <button class="bg-subfilter-btn" data-value="vertical">Vertical</button>
+            </div>
 
-                <div class="bg-tile" data-color="#fef3c7">
-                  <div class="bg-tile-inner" style="background-color: #fef3c7;"></div>
-                  <div class="bg-label">Cream</div>
-                </div>
+            <div class="bg-subfilter hidden" id="dots-filter">
+              <button class="bg-subfilter-btn" data-value="small">Small</button>
+              <button class="bg-subfilter-btn active" data-value="medium">Medium</button>
+              <button class="bg-subfilter-btn" data-value="large">Large</button>
+            </div>
 
-                <!-- Row 2 – Dark / dramatic -->
-                <div class="bg-tile" data-color="#020617">
-                  <div class="bg-tile-inner" style="background-color: #020617;"></div>
-                  <div class="bg-label">Black</div>
-                </div>
-
-                <div class="bg-tile" data-color="#1d4ed8">
-                  <div class="bg-tile-inner" style="background-color: #1d4ed8;"></div>
-                  <div class="bg-label">Dark Blue</div>
-                </div>
-
-                <div class="bg-tile" data-color="#92400e">
-                  <div class="bg-tile-inner" style="background-color: #92400e;"></div>
-                  <div class="bg-label">Brown</div>
-                </div>
-
-                <!-- Row 3 – Warm -->
-                <div class="bg-tile" data-color="#ef4444">
-                  <div class="bg-tile-inner" style="background-color: #ef4444;"></div>
-                  <div class="bg-label">Red</div>
-                </div>
-
-                <div class="bg-tile" data-color="#fb923c">
-                  <div class="bg-tile-inner" style="background-color: #fb923c;"></div>
-                  <div class="bg-label">Orange</div>
-                </div>
-
-                <div class="bg-tile" data-color="#facc15">
-                  <div class="bg-tile-inner" style="background-color: #facc15;"></div>
-                  <div class="bg-label">Yellow</div>
-                </div>
-
-                <!-- Row 4 – Cool -->
-                <div class="bg-tile" data-color="#22c55e">
-                  <div class="bg-tile-inner" style="background-color: #22c55e;"></div>
-                  <div class="bg-label">Green</div>
-                </div>
-
-                <div class="bg-tile" data-color="#0ea5e9">
-                  <div class="bg-tile-inner" style="background-color: #0ea5e9;"></div>
-                  <div class="bg-label">Blue</div>
-                </div>
-
-                <div class="bg-tile" data-color="#a855f7">
-                  <div class="bg-tile-inner" style="background-color: #a855f7;"></div>
-                  <div class="bg-label">Purple</div>
-                </div>
-              </div>
+            <!-- Scrollable color rows container -->
+            <div class="bg-rows-container" id="bg-rows-container">
+              <!-- JS injects Netflix-style rows here -->
             </div>
           </div>
 
@@ -110,56 +67,359 @@
 
   <script>
     (function () {
-      const tiles = document.querySelectorAll('.bg-tile');
+      // === COLOR DATA ===
+      const COLOR_FAMILIES = [
+        {
+          name: 'Neutrals',
+          colors: [
+            { name: 'White', hex: '#ffffff' },
+            { name: 'Light Gray', hex: '#e5e7eb' },
+            { name: 'Gray', hex: '#9ca3af' },
+            { name: 'Dark Gray', hex: '#4b5563' },
+            { name: 'Charcoal', hex: '#1f2937' },
+            { name: 'Black', hex: '#030712' },
+          ]
+        },
+        {
+          name: 'Browns',
+          colors: [
+            { name: 'Cream', hex: '#fef3c7' },
+            { name: 'Tan', hex: '#d4a574' },
+            { name: 'Camel', hex: '#b8860b' },
+            { name: 'Brown', hex: '#92400e' },
+            { name: 'Chocolate', hex: '#6b3410' },
+            { name: 'Espresso', hex: '#3d1f0d' },
+          ]
+        },
+        {
+          name: 'Reds',
+          colors: [
+            { name: 'Blush', hex: '#fecaca' },
+            { name: 'Light Red', hex: '#f87171' },
+            { name: 'Red', hex: '#ef4444' },
+            { name: 'True Red', hex: '#dc2626' },
+            { name: 'Dark Red', hex: '#b91c1c' },
+            { name: 'Maroon', hex: '#7f1d1d' },
+          ]
+        },
+        {
+          name: 'Oranges',
+          colors: [
+            { name: 'Peach', hex: '#fed7aa' },
+            { name: 'Light Orange', hex: '#fdba74' },
+            { name: 'Orange', hex: '#fb923c' },
+            { name: 'True Orange', hex: '#f97316' },
+            { name: 'Dark Orange', hex: '#ea580c' },
+            { name: 'Burnt Orange', hex: '#9a3412' },
+          ]
+        },
+        {
+          name: 'Yellows',
+          colors: [
+            { name: 'Lemon', hex: '#fef9c3' },
+            { name: 'Light Yellow', hex: '#fef08a' },
+            { name: 'Yellow', hex: '#facc15' },
+            { name: 'Gold', hex: '#eab308' },
+            { name: 'Dark Gold', hex: '#ca8a04' },
+            { name: 'Mustard', hex: '#a16207' },
+          ]
+        },
+        {
+          name: 'Greens',
+          colors: [
+            { name: 'Mint', hex: '#bbf7d0' },
+            { name: 'Light Green', hex: '#86efac' },
+            { name: 'Green', hex: '#22c55e' },
+            { name: 'True Green', hex: '#16a34a' },
+            { name: 'Dark Green', hex: '#15803d' },
+            { name: 'Forest', hex: '#14532d' },
+          ]
+        },
+        {
+          name: 'Blues',
+          colors: [
+            { name: 'Ice', hex: '#bfdbfe' },
+            { name: 'Light Blue', hex: '#7dd3fc' },
+            { name: 'Sky', hex: '#0ea5e9' },
+            { name: 'Blue', hex: '#3b82f6' },
+            { name: 'Dark Blue', hex: '#1d4ed8' },
+            { name: 'Navy', hex: '#1e3a8a' },
+          ]
+        },
+        {
+          name: 'Purples',
+          colors: [
+            { name: 'Lavender', hex: '#e9d5ff' },
+            { name: 'Light Purple', hex: '#d8b4fe' },
+            { name: 'Purple', hex: '#a855f7' },
+            { name: 'True Purple', hex: '#9333ea' },
+            { name: 'Dark Purple', hex: '#7e22ce' },
+            { name: 'Deep Purple', hex: '#581c87' },
+          ]
+        },
+        {
+          name: 'Pinks',
+          colors: [
+            { name: 'Pale Pink', hex: '#fce7f3' },
+            { name: 'Light Pink', hex: '#f9a8d4' },
+            { name: 'Pink', hex: '#f472b6' },
+            { name: 'Hot Pink', hex: '#ec4899' },
+            { name: 'Dark Pink', hex: '#db2777' },
+            { name: 'Magenta', hex: '#a21caf' },
+          ]
+        }
+      ];
+
+      // === STATE ===
+      let currentPattern = 'solid';
+      let currentSubfilter = {
+        stripes: 'diagonal',
+        dots: 'medium'
+      };
+      let selectedBackground = null;
+
+      // === DOM ===
+      const tabs = document.querySelectorAll('.bg-tab');
+      const stripesFilter = document.getElementById('stripes-filter');
+      const dotsFilter = document.getElementById('dots-filter');
+      const rowsContainer = document.getElementById('bg-rows-container');
       const chooseBtn = document.getElementById('choose-stickers-btn');
+      const skipBtn = document.getElementById('skip-btn');
 
-      const savedColor =
-        localStorage.getItem('stickerbook_page_1_background') ||
-        localStorage.getItem('current_page_background') ||
-        '';
+      // === PATTERN GENERATORS ===
+      function getPatternCSS(pattern, subfilter, hex) {
+        const isLight = isLightColor(hex);
+        const patternColor = isLight ? 'rgba(0,0,0,0.12)' : 'rgba(255,255,255,0.2)';
 
-      let selectedColor = null;
+        switch (pattern) {
+          case 'solid':
+            return `background-color: ${hex};`;
 
-      function applyColor(color) {
-        selectedColor = color;
+          case 'stripes':
+            const size = '10px';
+            if (subfilter === 'diagonal') {
+              return `background: repeating-linear-gradient(
+                45deg,
+                ${hex},
+                ${hex} ${size},
+                ${adjustColor(hex, isLight ? -15 : 15)} ${size},
+                ${adjustColor(hex, isLight ? -15 : 15)} calc(${size} * 2)
+              );`;
+            } else if (subfilter === 'horizontal') {
+              return `background: repeating-linear-gradient(
+                0deg,
+                ${hex},
+                ${hex} ${size},
+                ${adjustColor(hex, isLight ? -15 : 15)} ${size},
+                ${adjustColor(hex, isLight ? -15 : 15)} calc(${size} * 2)
+              );`;
+            } else if (subfilter === 'vertical') {
+              return `background: repeating-linear-gradient(
+                90deg,
+                ${hex},
+                ${hex} ${size},
+                ${adjustColor(hex, isLight ? -15 : 15)} ${size},
+                ${adjustColor(hex, isLight ? -15 : 15)} calc(${size} * 2)
+              );`;
+            }
+            break;
 
-        tiles.forEach(tile => {
-          const tileColor = tile.getAttribute('data-color');
-          if (tileColor === color) {
-            tile.classList.add('selected');
-          } else {
-            tile.classList.remove('selected');
-          }
+          case 'dots':
+            let dotSize, gap;
+            if (subfilter === 'small') {
+              dotSize = '4px';
+              gap = '12px';
+            } else if (subfilter === 'medium') {
+              dotSize = '8px';
+              gap = '20px';
+            } else {
+              dotSize = '12px';
+              gap = '28px';
+            }
+            return `background-color: ${hex}; background-image: radial-gradient(${patternColor} ${dotSize}, transparent ${dotSize}); background-size: ${gap} ${gap};`;
+        }
+
+        return `background-color: ${hex};`;
+      }
+
+      function isLightColor(hex) {
+        const r = parseInt(hex.slice(1, 3), 16);
+        const g = parseInt(hex.slice(3, 5), 16);
+        const b = parseInt(hex.slice(5, 7), 16);
+        const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+        return luminance > 0.5;
+      }
+
+      function adjustColor(hex, amount) {
+        const r = Math.max(0, Math.min(255, parseInt(hex.slice(1, 3), 16) + amount));
+        const g = Math.max(0, Math.min(255, parseInt(hex.slice(3, 5), 16) + amount));
+        const b = Math.max(0, Math.min(255, parseInt(hex.slice(5, 7), 16) + amount));
+        return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+      }
+
+      // === RENDER ===
+      function renderRows() {
+        rowsContainer.innerHTML = '';
+        const subfilter = currentSubfilter[currentPattern] || null;
+
+        COLOR_FAMILIES.forEach(family => {
+          const section = document.createElement('section');
+          section.className = 'bg-row-section';
+
+          const header = document.createElement('div');
+          header.className = 'bg-row-header';
+          header.textContent = family.name;
+          section.appendChild(header);
+
+          const strip = document.createElement('div');
+          strip.className = 'bg-row-strip';
+
+          family.colors.forEach(color => {
+            const tile = document.createElement('div');
+            tile.className = 'bg-tile-new';
+            tile.dataset.hex = color.hex;
+            tile.dataset.pattern = currentPattern;
+            tile.dataset.subfilter = subfilter || '';
+
+            const inner = document.createElement('div');
+            inner.className = 'bg-tile-new-inner';
+            inner.style.cssText = getPatternCSS(currentPattern, subfilter, color.hex);
+
+            // Check if this is the selected background
+            if (selectedBackground &&
+                selectedBackground.hex === color.hex &&
+                selectedBackground.pattern === currentPattern &&
+                selectedBackground.subfilter === (subfilter || '')) {
+              tile.classList.add('selected');
+            }
+
+            tile.appendChild(inner);
+            tile.addEventListener('click', () => selectTile(tile, color.hex, currentPattern, subfilter));
+            strip.appendChild(tile);
+          });
+
+          section.appendChild(strip);
+          rowsContainer.appendChild(section);
         });
       }
 
-      tiles.forEach(tile => {
-        tile.addEventListener('click', function () {
-          const color = this.getAttribute('data-color');
-          applyColor(color);
-          chooseBtn.disabled = false;
+      function selectTile(tile, hex, pattern, subfilter) {
+        // Remove previous selection
+        document.querySelectorAll('.bg-tile-new.selected').forEach(t => t.classList.remove('selected'));
+        
+        // Select new tile
+        tile.classList.add('selected');
+        
+        selectedBackground = { hex, pattern, subfilter: subfilter || '' };
+        chooseBtn.disabled = false;
+      }
+
+      // === TAB SWITCHING ===
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          tabs.forEach(t => t.classList.remove('active'));
+          tab.classList.add('active');
+
+          currentPattern = tab.dataset.pattern;
+
+          // Show/hide subfilters
+          stripesFilter.classList.add('hidden');
+          dotsFilter.classList.add('hidden');
+
+          if (currentPattern === 'stripes') {
+            stripesFilter.classList.remove('hidden');
+          } else if (currentPattern === 'dots') {
+            dotsFilter.classList.remove('hidden');
+          }
+
+          renderRows();
         });
       });
 
-      if (savedColor) {
-        const hasMatchingTile = Array.from(tiles).some(
-          tile => tile.getAttribute('data-color') === savedColor
+      // === SUBFILTER SWITCHING ===
+      stripesFilter.querySelectorAll('.bg-subfilter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          stripesFilter.querySelectorAll('.bg-subfilter-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          currentSubfilter.stripes = btn.dataset.value;
+          renderRows();
+        });
+      });
+
+      dotsFilter.querySelectorAll('.bg-subfilter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          dotsFilter.querySelectorAll('.bg-subfilter-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          currentSubfilter.dots = btn.dataset.value;
+          renderRows();
+        });
+      });
+
+      // === SAVE & CONTINUE ===
+      chooseBtn.addEventListener('click', () => {
+        if (!selectedBackground) return;
+
+        // Build a CSS string for the final background
+        const finalCSS = getPatternCSS(
+          selectedBackground.pattern,
+          selectedBackground.subfilter,
+          selectedBackground.hex
         );
-        if (hasMatchingTile) {
-          applyColor(savedColor);
-          chooseBtn.disabled = false;
-        }
-      }
 
-      chooseBtn.addEventListener('click', function () {
-        if (!selectedColor) return;
-
+        // Store selection
         localStorage.setItem('current_page_index', '1');
-        localStorage.setItem('current_page_background', selectedColor);
-        localStorage.setItem('stickerbook_page_1_background', selectedColor);
+        localStorage.setItem('current_page_background', selectedBackground.hex);
+        localStorage.setItem('stickerbook_page_1_background', selectedBackground.hex);
+        localStorage.setItem('stickerbook_page_1_background_css', finalCSS);
+        localStorage.setItem('stickerbook_page_1_background_data', JSON.stringify(selectedBackground));
 
         window.location.href = 'sticker-selection.html';
       });
+
+      // === SKIP (dev tool) ===
+      skipBtn.addEventListener('click', () => {
+        window.location.href = 'sticker-selection.html';
+      });
+
+      // === LOAD SAVED STATE ===
+      function loadSavedState() {
+        try {
+          const saved = localStorage.getItem('stickerbook_page_1_background_data');
+          if (saved) {
+            const data = JSON.parse(saved);
+            selectedBackground = data;
+            currentPattern = data.pattern || 'solid';
+
+            // Set tab
+            tabs.forEach(t => {
+              t.classList.toggle('active', t.dataset.pattern === currentPattern);
+            });
+
+            // Set subfilter
+            if (currentPattern === 'stripes' && data.subfilter) {
+              currentSubfilter.stripes = data.subfilter;
+              stripesFilter.classList.remove('hidden');
+              stripesFilter.querySelectorAll('.bg-subfilter-btn').forEach(b => {
+                b.classList.toggle('active', b.dataset.value === data.subfilter);
+              });
+            } else if (currentPattern === 'dots' && data.subfilter) {
+              currentSubfilter.dots = data.subfilter;
+              dotsFilter.classList.remove('hidden');
+              dotsFilter.querySelectorAll('.bg-subfilter-btn').forEach(b => {
+                b.classList.toggle('active', b.dataset.value === data.subfilter);
+              });
+            }
+
+            chooseBtn.disabled = false;
+          }
+        } catch (e) {
+          // Ignore parse errors
+        }
+      }
+
+      // === INIT ===
+      loadSavedState();
+      renderRows();
     })();
   </script>
 </body>
