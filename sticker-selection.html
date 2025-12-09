@@ -6,6 +6,48 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/stickerbook.css">
+  <style>
+    /* White background for scroll area */
+    .overview-rows {
+      background: #ffffff;
+      margin-left: -18px;
+      margin-right: -18px;
+      padding-left: 18px;
+      padding-right: 18px;
+    }
+
+    /* See more button - Miami Vice style */
+    .see-more-tile {
+      min-width: 80px;
+      min-height: 72px;
+      padding: 12px 16px;
+      border-radius: var(--radius-md);
+      border: none;
+      background: linear-gradient(135deg, var(--color-pink), var(--color-orange), var(--color-cyan));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: #ffffff;
+      cursor: pointer;
+      flex-shrink: 0;
+      box-shadow: 0 4px 12px rgba(236, 72, 153, 0.3);
+      transition: transform 0.12s ease, box-shadow 0.15s ease;
+    }
+
+    .see-more-tile:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(236, 72, 153, 0.4);
+    }
+
+    .see-more-tile:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 8px rgba(236, 72, 153, 0.3);
+    }
+  </style>
 </head>
 <body>
   <div class="app-shell">
@@ -22,14 +64,9 @@
 
           <!-- Title -->
           <h1 class="screen-title text-center">Choose your stickers</h1>
-          <p class="screen-subtitle text-center">
-            Pick up to 20 stickers. Tap to select.
-          </p>
 
           <!-- Sticker section -->
           <div class="sticker-section">
-            <div class="sticker-label">Stickers</div>
-
             <!-- Overview (Netflix-style rows) -->
             <div class="overview-rows" id="overview-rows">
               <!-- JS injects rows here -->
@@ -74,7 +111,7 @@
             <!-- Footer / controls -->
             <div class="selection-footer">
               <div class="selection-text">
-                Selected: <span id="selected-count">0</span> / <span>20</span>
+                Selected: <span id="selected-count">0</span>
               </div>
               <button id="continue-button" class="btn btn-primary" style="width: auto; padding: 9px 20px;" disabled>
                 Continue
@@ -89,7 +126,8 @@
 
   <script>
     const MIN_SELECTIONS = 1;
-    const MAX_SELECTIONS = 20;
+    const MAX_SELECTIONS_PER_PAGE = 20;
+    const STICKERS_PER_ROW = 20;
 
     // Category definitions map directly to your stickers.json "category" field
     const CATEGORY_DEFS = [
@@ -136,7 +174,7 @@
         if (raw) {
           const arr = JSON.parse(raw);
           if (Array.isArray(arr)) {
-            selectedIds = new Set(arr.slice(0, MAX_SELECTIONS));
+            selectedIds = new Set(arr);
           }
         }
       } catch (e) {
@@ -231,15 +269,15 @@
         const strip = document.createElement("div");
         strip.className = "row-strip";
 
-        const initial = stickers.slice(0, 10);
+        const initial = stickers.slice(0, STICKERS_PER_ROW);
         initial.forEach((sticker) => {
           strip.appendChild(createStickerTile(sticker));
         });
 
-        if (stickers.length > 10) {
+        if (stickers.length > STICKERS_PER_ROW) {
           const seeMore = document.createElement("div");
           seeMore.className = "see-more-tile";
-          seeMore.innerHTML = "<span>⋯</span>See more";
+          seeMore.textContent = "See more";
           seeMore.addEventListener("click", () => {
             showCategoryDetail(cat.key);
           });
@@ -365,10 +403,6 @@
       if (selectedIds.has(id)) {
         selectedIds.delete(id);
       } else {
-        if (selectedIds.size >= MAX_SELECTIONS) {
-          showError(`You can pick up to ${MAX_SELECTIONS} stickers for this page.`);
-          return;
-        }
         selectedIds.add(id);
       }
 

@@ -6,12 +6,37 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/stickerbook.css">
+  <style>
+    /* Temporary dev skip button */
+    .dev-skip {
+      position: fixed;
+      top: 12px;
+      right: 12px;
+      padding: 6px 10px;
+      font-size: 9px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      background: #fef3c7;
+      color: #92400e;
+      border: 1px dashed #f59e0b;
+      border-radius: 4px;
+      cursor: pointer;
+      z-index: 9999;
+      opacity: 0.85;
+    }
+    .dev-skip:hover {
+      opacity: 1;
+      background: #fde68a;
+    }
+  </style>
 </head>
 <body>
+  <!-- TEMP: Dev skip button -->
+  <button class="dev-skip" onclick="window.location.href='background.html'">DEV: Skip →</button>
+
   <div class="app-shell">
     <div class="phone-frame">
-      <div class="phone-notch"></div>
-
       <div class="phone-inner">
         <div class="shell-inner">
           <!-- Header -->
