@@ -85,104 +85,97 @@
   <script>
     (function () {
       // === COLOR DATA ===
+      // Order: Pinks → Reds → Oranges → Yellows → Greens → Blues → Purples → Browns → Neutrals
+      // Each row: dark/bold first → pastel/light last
       const COLOR_FAMILIES = [
         {
-          name: 'Neutrals',
           colors: [
-            { name: 'White', hex: '#ffffff' },
-            { name: 'Light Gray', hex: '#e5e7eb' },
-            { name: 'Gray', hex: '#9ca3af' },
-            { name: 'Dark Gray', hex: '#4b5563' },
-            { name: 'Charcoal', hex: '#1f2937' },
-            { name: 'Black', hex: '#030712' },
-          ]
-        },
-        {
-          name: 'Browns',
-          colors: [
-            { name: 'Cream', hex: '#fef3c7' },
-            { name: 'Tan', hex: '#d4a574' },
-            { name: 'Camel', hex: '#b8860b' },
-            { name: 'Brown', hex: '#92400e' },
-            { name: 'Chocolate', hex: '#6b3410' },
-            { name: 'Espresso', hex: '#3d1f0d' },
-          ]
-        },
-        {
-          name: 'Reds',
-          colors: [
-            { name: 'Blush', hex: '#fecaca' },
-            { name: 'Light Red', hex: '#f87171' },
-            { name: 'Red', hex: '#ef4444' },
-            { name: 'True Red', hex: '#dc2626' },
-            { name: 'Dark Red', hex: '#b91c1c' },
-            { name: 'Maroon', hex: '#7f1d1d' },
-          ]
-        },
-        {
-          name: 'Oranges',
-          colors: [
-            { name: 'Peach', hex: '#fed7aa' },
-            { name: 'Light Orange', hex: '#fdba74' },
-            { name: 'Orange', hex: '#fb923c' },
-            { name: 'True Orange', hex: '#f97316' },
-            { name: 'Dark Orange', hex: '#ea580c' },
-            { name: 'Burnt Orange', hex: '#9a3412' },
-          ]
-        },
-        {
-          name: 'Yellows',
-          colors: [
-            { name: 'Lemon', hex: '#fef9c3' },
-            { name: 'Light Yellow', hex: '#fef08a' },
-            { name: 'Yellow', hex: '#facc15' },
-            { name: 'Gold', hex: '#eab308' },
-            { name: 'Dark Gold', hex: '#ca8a04' },
-            { name: 'Mustard', hex: '#a16207' },
-          ]
-        },
-        {
-          name: 'Greens',
-          colors: [
-            { name: 'Mint', hex: '#bbf7d0' },
-            { name: 'Light Green', hex: '#86efac' },
-            { name: 'Green', hex: '#22c55e' },
-            { name: 'True Green', hex: '#16a34a' },
-            { name: 'Dark Green', hex: '#15803d' },
-            { name: 'Forest', hex: '#14532d' },
-          ]
-        },
-        {
-          name: 'Blues',
-          colors: [
-            { name: 'Ice', hex: '#bfdbfe' },
-            { name: 'Light Blue', hex: '#7dd3fc' },
-            { name: 'Sky', hex: '#0ea5e9' },
-            { name: 'Blue', hex: '#3b82f6' },
-            { name: 'Dark Blue', hex: '#1d4ed8' },
-            { name: 'Navy', hex: '#1e3a8a' },
-          ]
-        },
-        {
-          name: 'Purples',
-          colors: [
-            { name: 'Lavender', hex: '#e9d5ff' },
-            { name: 'Light Purple', hex: '#d8b4fe' },
-            { name: 'Purple', hex: '#a855f7' },
-            { name: 'True Purple', hex: '#9333ea' },
-            { name: 'Dark Purple', hex: '#7e22ce' },
-            { name: 'Deep Purple', hex: '#581c87' },
-          ]
-        },
-        {
-          name: 'Pinks',
-          colors: [
-            { name: 'Pale Pink', hex: '#fce7f3' },
-            { name: 'Light Pink', hex: '#f9a8d4' },
-            { name: 'Pink', hex: '#f472b6' },
-            { name: 'Hot Pink', hex: '#ec4899' },
-            { name: 'Dark Pink', hex: '#db2777' },
             { name: 'Magenta', hex: '#a21caf' },
+            { name: 'Dark Pink', hex: '#db2777' },
+            { name: 'Hot Pink', hex: '#ec4899' },
+            { name: 'Pink', hex: '#f472b6' },
+            { name: 'Light Pink', hex: '#f9a8d4' },
+            { name: 'Pale Pink', hex: '#fce7f3' },
+          ]
+        },
+        {
+          colors: [
+            { name: 'Maroon', hex: '#7f1d1d' },
+            { name: 'Dark Red', hex: '#b91c1c' },
+            { name: 'True Red', hex: '#dc2626' },
+            { name: 'Red', hex: '#ef4444' },
+            { name: 'Light Red', hex: '#f87171' },
+            { name: 'Blush', hex: '#fecaca' },
+          ]
+        },
+        {
+          colors: [
+            { name: 'Burnt Orange', hex: '#9a3412' },
+            { name: 'Dark Orange', hex: '#ea580c' },
+            { name: 'True Orange', hex: '#f97316' },
+            { name: 'Orange', hex: '#fb923c' },
+            { name: 'Light Orange', hex: '#fdba74' },
+            { name: 'Peach', hex: '#fed7aa' },
+          ]
+        },
+        {
+          colors: [
+            { name: 'Mustard', hex: '#a16207' },
+            { name: 'Dark Gold', hex: '#ca8a04' },
+            { name: 'Gold', hex: '#eab308' },
+            { name: 'Yellow', hex: '#facc15' },
+            { name: 'Light Yellow', hex: '#fef08a' },
+            { name: 'Lemon', hex: '#fef9c3' },
+          ]
+        },
+        {
+          colors: [
+            { name: 'Forest', hex: '#14532d' },
+            { name: 'Dark Green', hex: '#15803d' },
+            { name: 'True Green', hex: '#16a34a' },
+            { name: 'Green', hex: '#22c55e' },
+            { name: 'Light Green', hex: '#86efac' },
+            { name: 'Mint', hex: '#bbf7d0' },
+          ]
+        },
+        {
+          colors: [
+            { name: 'Navy', hex: '#1e3a8a' },
+            { name: 'Dark Blue', hex: '#1d4ed8' },
+            { name: 'Blue', hex: '#3b82f6' },
+            { name: 'Sky', hex: '#0ea5e9' },
+            { name: 'Light Blue', hex: '#7dd3fc' },
+            { name: 'Ice', hex: '#bfdbfe' },
+          ]
+        },
+        {
+          colors: [
+            { name: 'Deep Purple', hex: '#581c87' },
+            { name: 'Dark Purple', hex: '#7e22ce' },
+            { name: 'True Purple', hex: '#9333ea' },
+            { name: 'Purple', hex: '#a855f7' },
+            { name: 'Light Purple', hex: '#d8b4fe' },
+            { name: 'Lavender', hex: '#e9d5ff' },
+          ]
+        },
+        {
+          colors: [
+            { name: 'Espresso', hex: '#3d1f0d' },
+            { name: 'Chocolate', hex: '#6b3410' },
+            { name: 'Brown', hex: '#92400e' },
+            { name: 'Camel', hex: '#b8860b' },
+            { name: 'Tan', hex: '#d4a574' },
+            { name: 'Cream', hex: '#fef3c7' },
+          ]
+        },
+        {
+          colors: [
+            { name: 'Black', hex: '#030712' },
+            { name: 'Charcoal', hex: '#1f2937' },
+            { name: 'Dark Gray', hex: '#4b5563' },
+            { name: 'Gray', hex: '#9ca3af' },
+            { name: 'Light Gray', hex: '#e5e7eb' },
+            { name: 'White', hex: '#ffffff' },
           ]
         }
       ];
@@ -310,11 +303,6 @@
         COLOR_FAMILIES.forEach(family => {
           const section = document.createElement('section');
           section.className = 'bg-row-section';
-
-          const header = document.createElement('div');
-          header.className = 'bg-row-header';
-          header.textContent = family.name;
-          section.appendChild(header);
 
           const strip = document.createElement('div');
           strip.className = 'bg-row-strip';
