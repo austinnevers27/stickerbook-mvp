@@ -31,9 +31,9 @@
     /* ========== SPLASH STATE ========== */
     .sticker-area {
       display: grid;
-      grid-template-columns: repeat(3, 90px);
-      grid-template-rows: repeat(5, 90px);
-      gap: 10px;
+      grid-template-columns: repeat(3, 100px);
+      grid-template-rows: repeat(5, 100px);
+      gap: 5px;
       transition: opacity 0.2s ease-out;
     }
 
@@ -42,9 +42,9 @@
     }
 
     .sticker {
-      width: 90px;
-      height: 90px;
-      transform: scale(0.05);
+      width: 100px;
+      height: 100px;
+      transform: scale(300);
       opacity: 0;
       display: flex;
       align-items: center;
@@ -76,68 +76,95 @@
       white-space: nowrap;
     }
 
-    /* Pop-in animation (default) */
-    @keyframes popIn {
+    /* Base wobble-place animation - starts 300x, shrinks with wobble */
+    @keyframes placeWobble {
       0% {
-        transform: scale(0.05);
-        opacity: 0;
-      }
-      50% {
-        opacity: 1;
-      }
-      80% {
-        transform: scale(1.05);
-      }
-      100% {
-        transform: scale(1);
-        opacity: 1;
-      }
-    }
-
-    /* Airplane - zooms in from bottom-right at 15% grade */
-    @keyframes flyIn {
-      0% {
-        transform: translate(200px, 30px) scale(0.2);
-        opacity: 0;
-      }
-      30% {
-        opacity: 1;
-      }
-      80% {
-        transform: translate(-3px, -1px) scale(1.02);
-      }
-      100% {
-        transform: translate(0, 0) scale(1);
-        opacity: 1;
-      }
-    }
-
-    /* Baseball - starts 3x size upside down, 2.5 rotations, shrinks to 1x */
-    @keyframes spinShrink {
-      0% {
-        transform: scale(3) rotate(180deg);
+        transform: scale(300);
         opacity: 0;
       }
       20% {
         opacity: 1;
       }
+      60% {
+        transform: scale(1.15) rotate(3deg);
+      }
+      75% {
+        transform: scale(1.12) rotate(-2deg);
+      }
+      90% {
+        transform: scale(1.18) rotate(1deg);
+      }
       100% {
-        transform: scale(1) rotate(1080deg);
+        transform: scale(1.15) rotate(0deg);
         opacity: 1;
       }
     }
 
-    /* Controller - small to 1.15x, tilted 7 degrees right */
-    @keyframes popInController {
+    /* Airplane - wobble, no tilt */
+    @keyframes placeAirplane {
       0% {
-        transform: scale(0.25) rotate(0deg);
+        transform: scale(300);
         opacity: 0;
       }
-      50% {
+      20% {
         opacity: 1;
       }
-      80% {
-        transform: scale(1.2) rotate(9deg);
+      60% {
+        transform: scale(1.18) rotate(2deg);
+      }
+      75% {
+        transform: scale(1.14) rotate(-1deg);
+      }
+      90% {
+        transform: scale(1.17) rotate(1deg);
+      }
+      100% {
+        transform: scale(1.15) rotate(0deg);
+        opacity: 1;
+      }
+    }
+
+    /* Baseball - wobble */
+    @keyframes placeBaseball {
+      0% {
+        transform: scale(300);
+        opacity: 0;
+      }
+      20% {
+        opacity: 1;
+      }
+      60% {
+        transform: scale(1.18) rotate(-3deg);
+      }
+      75% {
+        transform: scale(1.14) rotate(2deg);
+      }
+      90% {
+        transform: scale(1.17) rotate(-1deg);
+      }
+      100% {
+        transform: scale(1.15) rotate(0deg);
+        opacity: 1;
+      }
+    }
+
+    /* Controller - wobble, tilt 7 degrees right */
+    @keyframes placeController {
+      0% {
+        transform: scale(300) rotate(0deg);
+        opacity: 0;
+      }
+      20% {
+        opacity: 1;
+      }
+      60% {
+        transform: scale(1.18) rotate(10deg);
+      }
+      75% {
+        transform: scale(1.14) rotate(5deg);
+      }
+      90% {
+        transform: scale(1.17) rotate(8deg);
       }
       100% {
         transform: scale(1.15) rotate(7deg);
@@ -145,42 +172,47 @@
       }
     }
 
-    /* Donut - slightly bigger, 1.25x */
-    @keyframes popInDonut {
+    /* Donut - wobble, bigger */
+    @keyframes placeDonut {
       0% {
-        transform: scale(0.1);
+        transform: scale(300);
         opacity: 0;
       }
-      50% {
+      20% {
         opacity: 1;
       }
-      80% {
-        transform: scale(1.3);
+      60% {
+        transform: scale(1.28) rotate(3deg);
+      }
+      75% {
+        transform: scale(1.22) rotate(-2deg);
+      }
+      90% {
+        transform: scale(1.26) rotate(1deg);
       }
       100% {
-        transform: scale(1.25);
+        transform: scale(1.25) rotate(0deg);
         opacity: 1;
       }
     }
 
-    /* Fox - 1.2x final, wobble, tilt 17 degrees left */
-    @keyframes popInFoxWobble {
+    /* Fox - wobble, tilt 17 degrees left */
+    @keyframes placeFox {
       0% {
-        transform: scale(0.05) rotate(0deg);
+        transform: scale(300) rotate(0deg);
         opacity: 0;
       }
-      40% {
+      20% {
         opacity: 1;
-        transform: scale(1.25) rotate(-22deg);
       }
-      55% {
-        transform: scale(1.15) rotate(-12deg);
-      }
-      70% {
+      60% {
         transform: scale(1.22) rotate(-20deg);
       }
-      85% {
-        transform: scale(1.18) rotate(-15deg);
+      75% {
+        transform: scale(1.18) rotate(-14deg);
+      }
+      90% {
+        transform: scale(1.21) rotate(-18deg);
       }
       100% {
         transform: scale(1.2) rotate(-17deg);
@@ -188,42 +220,71 @@
       }
     }
 
-    /* Moon - tilt 8 degrees left */
-    @keyframes popInMoon {
+    /* Fox2 (lower) - wobble, tilt 15 degrees right */
+    @keyframes placeFox2 {
       0% {
-        transform: scale(0.05) rotate(0deg);
+        transform: scale(300) rotate(0deg);
         opacity: 0;
       }
-      50% {
+      20% {
         opacity: 1;
       }
-      80% {
-        transform: scale(1.05) rotate(-10deg);
+      60% {
+        transform: scale(1.22) rotate(18deg);
+      }
+      75% {
+        transform: scale(1.18) rotate(12deg);
+      }
+      90% {
+        transform: scale(1.21) rotate(16deg);
       }
       100% {
-        transform: scale(1) rotate(-8deg);
+        transform: scale(1.2) rotate(15deg);
         opacity: 1;
       }
     }
 
-    /* Cat - 1.1x, wobble */
-    @keyframes popInCatWobble {
+    /* Moon - wobble, tilt 8 degrees left */
+    @keyframes placeMoon {
       0% {
-        transform: scale(0.05) rotate(0deg);
+        transform: scale(300) rotate(0deg);
         opacity: 0;
       }
-      40% {
+      20% {
         opacity: 1;
-        transform: scale(1.15) rotate(5deg);
       }
-      55% {
-        transform: scale(1.05) rotate(-3deg);
+      60% {
+        transform: scale(1.18) rotate(-11deg);
       }
-      70% {
-        transform: scale(1.12) rotate(3deg);
+      75% {
+        transform: scale(1.14) rotate(-6deg);
       }
-      85% {
-        transform: scale(1.08) rotate(-1deg);
+      90% {
+        transform: scale(1.17) rotate(-9deg);
+      }
+      100% {
+        transform: scale(1.15) rotate(-8deg);
+        opacity: 1;
+      }
+    }
+
+    /* Cat - wobble */
+    @keyframes placeCat {
+      0% {
+        transform: scale(300) rotate(0deg);
+        opacity: 0;
+      }
+      20% {
+        opacity: 1;
+      }
+      60% {
+        transform: scale(1.12) rotate(4deg);
+      }
+      75% {
+        transform: scale(1.08) rotate(-2deg);
+      }
+      90% {
+        transform: scale(1.11) rotate(2deg);
       }
       100% {
         transform: scale(1.1) rotate(0deg);
@@ -231,53 +292,47 @@
       }
     }
 
-    /* Peace - 1.15x */
-    @keyframes popInPeace {
+    /* Peace - wobble */
+    @keyframes placePeace {
       0% {
-        transform: scale(0.05);
+        transform: scale(300);
         opacity: 0;
       }
-      50% {
+      20% {
         opacity: 1;
       }
-      80% {
-        transform: scale(1.2);
+      60% {
+        transform: scale(1.18) rotate(-3deg);
+      }
+      75% {
+        transform: scale(1.14) rotate(2deg);
+      }
+      90% {
+        transform: scale(1.17) rotate(-1deg);
       }
       100% {
-        transform: scale(1.15);
+        transform: scale(1.15) rotate(0deg);
         opacity: 1;
       }
     }
 
-    /* Saxophone - 1.15x, tilt 4 degrees right */
-    @keyframes popInSax {
+    /* Palmtree - wobble, slight tilt */
+    @keyframes placePalm {
       0% {
-        transform: scale(0.05) rotate(0deg);
+        transform: scale(300) rotate(0deg);
         opacity: 0;
       }
-      50% {
+      20% {
         opacity: 1;
       }
-      80% {
-        transform: scale(1.2) rotate(6deg);
+      60% {
+        transform: scale(1.08) rotate(-4deg);
       }
-      100% {
-        transform: scale(1.15) rotate(4deg);
-        opacity: 1;
+      75% {
+        transform: scale(1.04) rotate(1deg);
       }
-    }
-
-    /* Palmtree - standard with slight tilt */
-    @keyframes popInPalm {
-      0% {
-        transform: scale(0.05) rotate(0deg);
-        opacity: 0;
-      }
-      50% {
-        opacity: 1;
-      }
-      80% {
-        transform: scale(1.08) rotate(-3deg);
+      90% {
+        transform: scale(1.07) rotate(-3deg);
       }
       100% {
         transform: scale(1.05) rotate(-2deg);
@@ -285,49 +340,77 @@
       }
     }
 
+    /* Saxophone - wobble, tilt 20 degrees left */
+    @keyframes placeSax {
+      0% {
+        transform: scale(300) rotate(0deg);
+        opacity: 0;
+      }
+      20% {
+        opacity: 1;
+      }
+      60% {
+        transform: scale(1.18) rotate(-23deg);
+      }
+      75% {
+        transform: scale(1.14) rotate(-17deg);
+      }
+      90% {
+        transform: scale(1.17) rotate(-21deg);
+      }
+      100% {
+        transform: scale(1.15) rotate(-20deg);
+        opacity: 1;
+      }
+    }
+
     .sticker.placed {
-      animation: popIn 0.4s ease-out forwards;
+      animation: placeWobble 0.5s ease-out forwards;
     }
 
     /* Custom animations by sticker type */
     .sticker.airplane.placed {
-      animation: flyIn 0.5s ease-out forwards;
+      animation: placeAirplane 0.5s ease-out forwards;
     }
 
     .sticker.baseball.placed {
-      animation: spinShrink 0.7s ease-out forwards;
+      animation: placeBaseball 0.5s ease-out forwards;
     }
 
     .sticker.controller.placed {
-      animation: popInController 0.4s ease-out forwards;
+      animation: placeController 0.5s ease-out forwards;
     }
 
     .sticker.donut.placed {
-      animation: popInDonut 0.4s ease-out forwards;
+      animation: placeDonut 0.5s ease-out forwards;
     }
 
     .sticker.fox.placed {
-      animation: popInFoxWobble 0.6s ease-out forwards;
+      animation: placeFox 0.5s ease-out forwards;
+    }
+
+    .sticker.fox2.placed {
+      animation: placeFox2 0.5s ease-out forwards;
     }
 
     .sticker.moon.placed {
-      animation: popInMoon 0.4s ease-out forwards;
+      animation: placeMoon 0.5s ease-out forwards;
     }
 
     .sticker.cat.placed {
-      animation: popInCatWobble 0.6s ease-out forwards;
+      animation: placeCat 0.5s ease-out forwards;
     }
 
     .sticker.peace.placed {
-      animation: popInPeace 0.4s ease-out forwards;
-    }
-
-    .sticker.saxophone.placed {
-      animation: popInSax 0.4s ease-out forwards;
+      animation: placePeace 0.5s ease-out forwards;
     }
 
     .sticker.palmtree.placed {
-      animation: popInPalm 0.4s ease-out forwards;
+      animation: placePalm 0.5s ease-out forwards;
+    }
+
+    .sticker.saxophone.placed {
+      animation: placeSax 0.5s ease-out forwards;
     }
 
     /* Individual sticker timing - entrance order */
@@ -460,13 +543,13 @@
     /* ========== RESPONSIVE ========== */
     @media (min-width: 400px) {
       .sticker-area {
-        grid-template-columns: repeat(3, 100px);
-        grid-template-rows: repeat(5, 100px);
-        gap: 12px;
+        grid-template-columns: repeat(3, 110px);
+        grid-template-rows: repeat(5, 110px);
+        gap: 6px;
       }
       .sticker {
-        width: 100px;
-        height: 100px;
+        width: 110px;
+        height: 110px;
       }
       .splash-title {
         font-size: 32px;
@@ -481,13 +564,13 @@
 
     @media (min-width: 768px) {
       .sticker-area {
-        grid-template-columns: repeat(3, 120px);
-        grid-template-rows: repeat(5, 120px);
-        gap: 16px;
+        grid-template-columns: repeat(3, 130px);
+        grid-template-rows: repeat(5, 130px);
+        gap: 8px;
       }
       .sticker {
-        width: 120px;
-        height: 120px;
+        width: 130px;
+        height: 130px;
       }
       .splash-title {
         font-size: 38px;
@@ -507,22 +590,22 @@
   <!-- SPLASH: Sticker grid 3x5 -->
   <div class="sticker-area" id="stickerArea">
     <!-- Row 1: spots 1-3 -->
-    <div class="sticker order-3 airplane"><img src="assets/Stickers/splash/airplane.png" alt=""></div>
+    <div class="sticker order-3 moon"><img src="assets/Stickers/splash/moon.png" alt=""></div>
     <div class="sticker order-7 baseball"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
     <div class="sticker order-1 controller"><img src="assets/Stickers/splash/controller.png" alt=""></div>
     <!-- Row 2: spots 4-6 -->
     <div class="sticker order-5 donut"><img src="assets/Stickers/splash/donut.png" alt=""></div>
     <div class="sticker order-9 fox"><img src="assets/Stickers/splash/fox.png" alt=""></div>
-    <div class="sticker order-2 moon"><img src="assets/Stickers/splash/moon.png" alt=""></div>
+    <div class="sticker order-2 airplane"><img src="assets/Stickers/splash/airplane.png" alt=""></div>
     <!-- Row 3: STICKERBOOK spans all 3 -->
     <div class="sticker order-13 featured"><span class="splash-title">Stickerbook</span></div>
     <!-- Row 4: spots 7-9 -->
     <div class="sticker order-6 cat"><img src="assets/Stickers/splash/cat.png" alt=""></div>
     <div class="sticker order-10 peace"><img src="assets/Stickers/splash/peace.png" alt=""></div>
     <div class="sticker order-4 palmtree"><img src="assets/Stickers/splash/palmtree.png" alt=""></div>
-    <!-- Row 5: spots 10-12 (reuse fox and cat) -->
+    <!-- Row 5: spots 10-12 -->
     <div class="sticker order-8 saxophone"><img src="assets/Stickers/splash/saxophone.png" alt=""></div>
-    <div class="sticker order-12 fox"><img src="assets/Stickers/splash/fox.png" alt=""></div>
+    <div class="sticker order-12 fox2"><img src="assets/Stickers/splash/fox.png" alt=""></div>
     <div class="sticker order-11 cat"><img src="assets/Stickers/splash/cat.png" alt=""></div>
   </div>
 
