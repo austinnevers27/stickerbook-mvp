@@ -230,6 +230,27 @@ body {
   transform: none;
 }
 
+.btn-outline {
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(248, 250, 252, 0.85);
+  padding: 8px 14px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  background: rgba(15, 23, 42, 0.14);
+  color: #f9fafb;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  transition: transform 0.12s ease, box-shadow 0.18s ease, opacity 0.18s ease, background 0.18s ease;
+}
+
+.btn-outline:active {
+  transform: translateY(1px) scale(0.99);
+  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.55);
+}
+
 .btn-secondary {
   background: var(--color-bg-white);
   color: var(--color-text-primary);
