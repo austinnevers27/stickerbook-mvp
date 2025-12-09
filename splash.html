@@ -54,6 +54,7 @@
             left: 0;
             width: 100%;
             height: 100%;
+            background: #000;
             z-index: 3;
             display: flex;
             align-items: center;
@@ -67,6 +68,8 @@
             grid-template-columns: repeat(3, 100px);
             grid-template-rows: repeat(3, 100px);
             gap: 20px;
+            position: relative;
+            z-index: 4;
         }
 
         /* Each sticker cell - black square with sticker on top */
@@ -83,7 +86,7 @@
         .sticker {
             width: 100%;
             height: 100%;
-            background-image: url('/assets/Stickers/splash/baseball.png');
+            background-image: url('assets/Stickers/splash/baseball.png');
             background-size: contain;
             background-position: center;
             background-repeat: no-repeat;
@@ -127,7 +130,7 @@
         .silhouette {
             width: 100px;
             height: 100px;
-            background-image: url('/assets/Stickers/splash_silhouette/baseball-silhouette.png');
+            background-image: url('assets/Stickers/splash_silhouette/baseball-silhouette.png');
             background-size: contain;
             background-position: center;
             background-repeat: no-repeat;
