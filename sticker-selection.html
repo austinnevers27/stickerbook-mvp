@@ -7,62 +7,25 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/stickerbook.css">
   <style>
-    /* Lock the page - no scrolling on body */
+    /* Lock the page */
     html, body {
       height: 100%;
-      overflow: hidden;
-    }
-
-    /* Make app shell fill screen exactly */
-    .app-shell {
-      height: 100vh;
-      height: 100dvh;
-      overflow: hidden;
-    }
-
-    .phone-frame {
-      height: 100%;
-      overflow: hidden;
-    }
-
-    .phone-inner {
-      height: 100%;
-      overflow: hidden;
-      padding-bottom: 0;
-    }
-
-    .shell-inner {
-      height: 100%;
-      display: flex;
-      flex-direction: column;
       overflow: hidden;
     }
 
     /* Tighten header spacing */
     .top-row {
       margin-bottom: 8px;
-      flex-shrink: 0;
     }
 
     .screen-title {
       margin-bottom: 12px;
-      flex-shrink: 0;
     }
 
-    /* Sticker section fills remaining space */
-    .sticker-section {
-      flex: 1;
-      min-height: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      overflow: hidden;
-    }
-
-    /* Scrollable container - takes remaining space */
+    /* Scrollable container - simple max-height like background.html */
     .sticker-container {
-      flex: 1;
-      min-height: 0;
+      max-height: calc(100vh - 240px);
+      max-height: calc(100dvh - 240px);
       background: #ffffff;
       border-radius: var(--radius-lg);
       box-shadow: 0 8px 32px rgba(15, 23, 42, 0.12), 0 2px 8px rgba(15, 23, 42, 0.08);
@@ -119,9 +82,7 @@
 
     /* Larger search bar */
     .search-row {
-      flex-shrink: 0;
-      margin: 0;
-      padding: 0 4px;
+      margin-top: 12px;
     }
 
     .search-wrapper {
@@ -146,31 +107,19 @@
 
     /* Category detail view */
     .category-detail {
-      flex: 1;
-      min-height: 0;
-      display: flex;
-      flex-direction: column;
+      max-height: calc(100vh - 240px);
+      max-height: calc(100dvh - 240px);
       background: #ffffff;
       border-radius: var(--radius-lg);
       box-shadow: 0 8px 32px rgba(15, 23, 42, 0.12), 0 2px 8px rgba(15, 23, 42, 0.08);
-      overflow: hidden;
-      padding: 16px 12px;
-    }
-
-    .category-detail-grid-wrapper {
-      flex: 1;
-      min-height: 0;
       overflow-y: auto;
-      padding-right: 2px;
-      margin-top: 8px;
+      overflow-x: hidden;
+      padding: 16px 12px;
     }
 
     /* Selection footer */
     .selection-footer {
-      flex-shrink: 0;
       margin-top: 12px;
-      padding-top: 0;
-      border-top: none;
     }
   </style>
 </head>
