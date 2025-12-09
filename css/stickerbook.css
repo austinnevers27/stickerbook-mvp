@@ -1414,6 +1414,32 @@ body.layout-contained .overview-rows {
   border-color: var(--color-cyan);
 }
 
+/* Section titles (Base Color / Stripe Color / Dot Color) */
+.bg-section-title {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-text-primary);
+  text-align: center;
+  margin: 16px 0 10px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--color-border-light);
+}
+
+.bg-section-title:first-child {
+  margin-top: 0;
+}
+
+/* Hint text when no base color selected */
+.bg-section-hint {
+  font-size: 12px;
+  color: var(--color-text-subtle);
+  text-align: center;
+  padding: 20px;
+  font-style: italic;
+}
+
 /* Background picker in contained layout */
 body.layout-contained .bg-picker-section {
   flex: 1;
