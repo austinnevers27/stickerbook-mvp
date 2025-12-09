@@ -7,37 +7,68 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/stickerbook.css">
   <style>
+    /* Lock the page - no scrolling on body */
+    html, body {
+      height: 100%;
+      overflow: hidden;
+    }
+
+    /* Make app shell fill screen exactly */
+    .app-shell {
+      height: 100vh;
+      height: 100dvh;
+      overflow: hidden;
+    }
+
+    .phone-frame {
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .phone-inner {
+      height: 100%;
+      overflow: hidden;
+      padding-bottom: 0;
+    }
+
+    .shell-inner {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
     /* Tighten header spacing */
     .top-row {
       margin-bottom: 8px;
+      flex-shrink: 0;
     }
 
     .screen-title {
       margin-bottom: 12px;
+      flex-shrink: 0;
     }
 
-    /* Sticker section layout */
+    /* Sticker section fills remaining space */
     .sticker-section {
-      display: flex;
-      flex-direction: column;
       flex: 1;
       min-height: 0;
+      display: flex;
+      flex-direction: column;
       gap: 12px;
+      overflow: hidden;
     }
 
-    /* Fixed scrollable container */
+    /* Scrollable container - takes remaining space */
     .sticker-container {
-      max-height: 82vh;
+      flex: 1;
+      min-height: 0;
       background: #ffffff;
       border-radius: var(--radius-lg);
       box-shadow: 0 8px 32px rgba(15, 23, 42, 0.12), 0 2px 8px rgba(15, 23, 42, 0.08);
       overflow-y: auto;
       overflow-x: hidden;
       padding: 16px 12px;
-    }
-
-    .overview-rows {
-      /* No overflow here - parent handles scrolling */
     }
 
     /* Center category titles */
@@ -94,12 +125,12 @@
     }
 
     .search-wrapper {
-      max-width: 275px; /* 125% of ~220px */
+      max-width: 275px;
     }
 
     .search-input {
       width: 100%;
-      padding: 10px 32px 10px 32px; /* ~120% height via padding */
+      padding: 10px 32px 10px 32px;
       font-size: 13px;
     }
 
