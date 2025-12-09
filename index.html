@@ -1,215 +1,283 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Stickerbook – Connections That Stick</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Stickerbook</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/stickerbook.css">
   <style>
-    /* Basic reset */
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
+    /* ========== PAGE-SPECIFIC: SPLASH ========== */
     html, body {
+      overflow: hidden;
+    }
+
+    /* Splash container */
+    .splash-container {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 100%;
+      max-width: 375px;
       height: 100%;
+      max-height: 700px;
+      overflow: hidden;
+      transition: opacity 0.5s ease-out;
     }
 
-    body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
-        "Helvetica Neue", Arial, sans-serif;
-      background:
-        radial-gradient(circle at top left, #ffeef7 0, #ffffff 45%),
-        radial-gradient(circle at bottom right, #e7f9ff 0, #ffffff 45%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 16px;
-      color: #111827;
+    .splash-container.fade-out {
+      opacity: 0;
     }
 
-    .app-shell {
-      width: 100%;
-      max-width: 420px;
-      display: flex;
-      justify-content: center;
+    /* Title sticker positioning */
+    .title-sticker {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(-2deg);
+      z-index: 1000;
     }
 
-    .phone-frame {
-      width: 100%;
-      max-width: 380px;
-      background: #ffffff;
-      border-radius: 32px;
-      padding: 24px 18px 24px;
-      box-shadow:
-        0 18px 40px rgba(15, 23, 42, 0.20),
-        0 0 0 1px rgba(148, 163, 184, 0.10);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .phone-notch {
-      width: 80px;
-      height: 6px;
-      border-radius: 999px;
-      background: #e5e7eb;
-      margin-bottom: 12px;
-    }
-
-    .title {
-      font-size: 1.6rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      font-weight: 800;
-      text-align: center;
-      color: #111827;
-      margin-bottom: 4px;
-    }
-
-    .accent-bar {
-      width: 120px;
-      height: 3px;
-      border-radius: 999px;
-      background: linear-gradient(90deg, #f973b3, #f97316, #22d3ee);
-      margin-bottom: 10px;
-    }
-
-    .tagline {
-      font-size: 0.86rem;
-      text-transform: uppercase;
-      letter-spacing: 0.18em;
-      font-weight: 500;
-      text-align: center;
-      color: #9ca3af;
-      margin-bottom: 14px;
-    }
-
-    .hero-wrap {
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      margin-bottom: 16px;             /* slightly tighter than before */
-      padding: 18px 16px;
-      border-radius: 24px;
-      background: #ffffff;
-      box-shadow:
-        0 16px 32px rgba(15, 23, 42, 0.14),
-        0 0 0 1px rgba(148, 163, 184, 0.20);
-    }
-
-    .hero-illustration {
-      max-width: 270px;                /* bigger hero (Option B) */
-      width: 100%;
-      display: block;
-    }
-
-    .button-group {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-top: 6px;                 /* hero → buttons gap tightened */
-    }
-
-    .btn {
-      width: 100%;
-      border-radius: 999px;
-      padding: 12px 16px;
-      font-size: 0.96rem;
+    /* Header state (after transition) */
+    .header-title {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: var(--font-display);
+      font-size: 24px;
       font-weight: 700;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
-      border: none;
-      cursor: pointer;
-      transition:
-        transform 0.12s ease,
-        box-shadow 0.12s ease,
-        background 0.12s ease,
-        color 0.12s ease;
+      color: var(--color-text-primary);
+      opacity: 0;
+      pointer-events: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      transition: all 1s ease-out;
     }
 
-    .btn-primary {
-      background: linear-gradient(135deg, #ff4f96, #ff7a4e, #22d3ee);
-      color: #ffffff;
-      box-shadow:
-        0 12px 22px rgba(236, 72, 153, 0.35),
-        0 0 0 1px rgba(248, 250, 252, 0.5);
+    .header-title.visible {
+      opacity: 1;
     }
 
-    .btn-primary:active {
-      transform: translateY(1px) scale(0.99);
-      box-shadow:
-        0 6px 12px rgba(236, 72, 153, 0.30);
+    .header-title.at-top {
+      top: 60px;
+      font-size: 18px;
+      letter-spacing: 0.15em;
     }
 
-    .btn-secondary {
-      background: #ffffff;
-      color: #111827;
-      border: 1px solid rgba(148, 163, 184, 0.9);
-      box-shadow: 0 2px 5px rgba(15, 23, 42, 0.06);
+    .header-title .accent-bar {
+      transition: width 1s ease-out;
     }
 
-    .btn-secondary:active {
-      transform: translateY(1px) scale(0.99);
-      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.10);
+    .header-title.at-top .accent-bar {
+      width: 80px;
     }
 
-    .footnote {
-      margin-top: 12px;
-      font-size: 0.75rem;
-      text-align: center;
-      color: #9ca3af;
+    /* Intro content */
+    .intro-content {
+      position: fixed;
+      top: 110px;
+      left: 50%;
+      transform: translateX(-50%) translateY(30px);
+      width: 100%;
+      max-width: 340px;
+      height: calc(100vh - 130px);
+      height: calc(100dvh - 130px);
+      padding: 0 24px 40px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+      overflow-y: auto;
     }
 
-    @media (min-height: 750px) {
-      .phone-frame {
-        padding-top: 28px;
-        padding-bottom: 28px;
-      }
+    .intro-content.visible {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+      pointer-events: auto;
+    }
 
-      .title {
-        font-size: 1.7rem;
-      }
+    .intro-text {
+      font-size: 14px;
+      line-height: 1.65;
+      color: var(--color-text-primary);
+      margin-bottom: 14px;
+      font-weight: 500;
+    }
+
+    /* CTA button overrides for splash */
+    .cta-button {
+      opacity: 0;
+      margin-bottom: 20px;
+    }
+
+    .cta-button.visible {
+      opacity: 1;
     }
   </style>
 </head>
 <body>
-  <div class="app-shell">
-    <div class="phone-frame">
-      <div class="phone-notch"></div>
 
-      <div class="title">STICKERBOOK</div>
-      <div class="accent-bar"></div>
-      <div class="tagline">CONNECTIONS THAT STICK</div>
-
-      <div class="hero-wrap">
-        <!-- Update src to your actual hero filename -->
-        <img
-          src="stickerbook-hero.png"
-          alt="Open sticker book with laptop and water bottle covered in stickers"
-          class="hero-illustration"
-        />
-      </div>
-
-      <div class="button-group">
- <button class="btn btn-primary" onclick="window.location.href='intro.html'">
-
-    Get Started
-  </button>
-
-  <button class="btn btn-secondary">
-    Log In
-  </button>
-</div>
-
-
-            <div class="footnote">
-        MVP preview — visual design only
-      </div>
+  <!-- SPLASH: Sticker bomb -->
+  <div class="splash-container" id="splashContainer">
+    <!-- Stickers will be injected here by JavaScript -->
+    
+    <!-- Title sticker on top -->
+    <div class="title-sticker">
+      <div class="title-sticker__text">Stickerbook</div>
+      <div class="title-sticker__bar"></div>
     </div>
   </div>
 
+  <!-- HEADER: Title that persists and moves to top -->
+  <div class="header-title" id="headerTitle">
+    <span>Stickerbook</span>
+    <div class="accent-bar accent-bar--md"></div>
   </div>
+
+  <!-- INTRO: Content that fades in -->
+  <div class="intro-content" id="introContent">
+    <p class="intro-text">
+      They're small, but they say a lot. They tell people what we love, what we notice, what matters to us.
+    </p>
+    <p class="intro-text">
+      We all leave little signals — the symbols, references, and pieces of ourselves we put into the world.
+      On our shirts. Our bags. Our water bottles. Our laptops. Even the ones we carry on our skin.
+    </p>
+    <p class="intro-text">
+      Stickerbook gathers those signals into pages you can shape with intention. Each sticker is one truth;
+      together, they make a picture that feels unmistakably you.
+    </p>
+    <p class="intro-text">
+      And when someone else sees your pages and thinks, "Wait... that looks like my kind of person,"
+      you've already skipped the small talk.
+    </p>
+    <p class="intro-text">
+      This is where those signals become<br>
+      <span class="text-tagline">connections that stick.</span>
+    </p>
+    <button id="ctaButton" class="btn btn-primary cta-button" onclick="window.location.href='account.html'">
+      Get Started
+    </button>
+  </div>
+
+  <script>
+    // ============ STICKER CONFIGURATION ============
+    // Easy to update: just add/remove paths from this array
+    const STICKER_PATHS = [
+      'assets/Stickers/splash/airplane.png',
+      'assets/Stickers/splash/baseball.png',
+      'assets/Stickers/splash/cat.png',
+      'assets/Stickers/splash/clown0001.png',
+      'assets/Stickers/splash/coffee0001.png',
+      'assets/Stickers/splash/controller.png',
+      'assets/Stickers/splash/cubansandwich0001.png',
+      'assets/Stickers/splash/donut.png',
+      'assets/Stickers/splash/firetruck0001.png',
+      'assets/Stickers/splash/fox.png',
+      'assets/Stickers/splash/germanshepherd0001.png',
+      'assets/Stickers/splash/leavetheleaves0001.png',
+      'assets/Stickers/splash/moon.png',
+      'assets/Stickers/splash/mushroom0001.png',
+      'assets/Stickers/splash/noevilanimals0001.png',
+      'assets/Stickers/splash/orangecat0001.png',
+      'assets/Stickers/splash/orca0001.png',
+      'assets/Stickers/splash/palmtree.png',
+      'assets/Stickers/splash/peace.png',
+      'assets/Stickers/splash/prideflag0002.png',
+      'assets/Stickers/splash/raccoon0001.png',
+      'assets/Stickers/splash/saxophone.png',
+      'assets/Stickers/splash/yorkie0001.png',
+    ];
+
+    const TOTAL_STICKERS = 500;
+    const MIN_SIZE = 60;
+    const MAX_SIZE = 120;
+    const MIN_ROTATION = -25;
+    const MAX_ROTATION = 25;
+
+    // ============ GENERATE STICKERS ============
+    function generateStickers() {
+      const container = document.getElementById('splashContainer');
+      const titleSticker = container.querySelector('.title-sticker');
+      
+      // Use fixed phone dimensions
+      const containerWidth = 375;
+      const containerHeight = 700;
+      
+      for (let i = 0; i < TOTAL_STICKERS; i++) {
+        // Random sticker from array
+        const stickerPath = STICKER_PATHS[Math.floor(Math.random() * STICKER_PATHS.length)];
+        
+        // Random position (full coverage, can bleed off edges)
+        const x = Math.random() * (containerWidth + 100) - 50;
+        const y = Math.random() * (containerHeight + 100) - 50;
+        
+        // Random size
+        const size = MIN_SIZE + Math.random() * (MAX_SIZE - MIN_SIZE);
+        
+        // Random rotation
+        const rotation = MIN_ROTATION + Math.random() * (MAX_ROTATION - MIN_ROTATION);
+        
+        // Random z-index (layering)
+        const zIndex = Math.floor(Math.random() * 100);
+        
+        // Create element
+        const div = document.createElement('div');
+        div.className = 'sticker';
+        div.style.cssText = `
+          left: ${x}px;
+          top: ${y}px;
+          width: ${size}px;
+          height: ${size}px;
+          transform: rotate(${rotation}deg);
+          z-index: ${zIndex};
+        `;
+        
+        const img = document.createElement('img');
+        img.src = stickerPath;
+        img.alt = '';
+        
+        div.appendChild(img);
+        container.insertBefore(div, titleSticker);
+      }
+    }
+
+    // ============ TRANSITION LOGIC ============
+    const splashContainer = document.getElementById('splashContainer');
+    const headerTitle = document.getElementById('headerTitle');
+    const introContent = document.getElementById('introContent');
+    const ctaButton = document.getElementById('ctaButton');
+
+    window.addEventListener('load', () => {
+      // Generate the sticker bomb
+      generateStickers();
+      
+      // After 2.5 seconds, transition to intro
+      setTimeout(() => {
+        splashContainer.classList.add('fade-out');
+        headerTitle.classList.add('visible');
+
+        setTimeout(() => {
+          splashContainer.style.display = 'none';
+          headerTitle.classList.add('at-top');
+
+          setTimeout(() => {
+            introContent.classList.add('visible');
+          }, 400);
+
+          setTimeout(() => {
+            ctaButton.classList.add('visible');
+          }, 900);
+
+        }, 500);
+
+      }, 2500);
+    });
+  </script>
 </body>
 </html>
