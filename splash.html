@@ -16,7 +16,7 @@
             overflow: hidden;
         }
 
-        /* BOTTOM LAYER: White page with text - always there */
+        /* ========== LAYER 1 (BOTTOM): White page with text ========== */
         .white-layer {
             position: fixed;
             top: 0;
@@ -86,8 +86,8 @@
             transform: scale(1.05);
         }
 
-        /* MIDDLE LAYER: Black with holes punched through */
-        .black-layer {
+        /* ========== LAYER 2: Black background that fills gaps ========== */
+        .black-fill {
             position: fixed;
             top: 0;
             left: 0;
@@ -98,13 +98,13 @@
             transition: opacity 1s ease-out;
         }
 
-        .black-layer.fading {
+        .black-fill.fading {
             opacity: 0;
             pointer-events: none;
         }
 
-        /* TOP LAYER: Just the stickers (no black background) */
-        .sticker-layer {
+        /* ========== LAYER 3: Grid of black cells that get holes punched ========== */
+        .mask-layer {
             position: fixed;
             top: 0;
             left: 0;
@@ -115,9 +115,54 @@
             align-items: center;
             justify-content: center;
             pointer-events: none;
+            transition: opacity 1s ease-out;
         }
 
-        /* 3x3 grid positioning for stickers */
+        .mask-layer.fading {
+            opacity: 0;
+        }
+
+        .mask-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 100px);
+            grid-template-rows: repeat(3, 100px);
+            gap: 20px;
+        }
+
+        .mask-cell {
+            width: 100px;
+            height: 100px;
+            background: #000;
+        }
+
+        /* When punched, the inverted silhouette masks this cell:
+           - Black parts of mask (outside baseball) = cell shows = stays black
+           - Transparent parts (baseball hole) = cell hidden = white shows through */
+        .mask-cell.punched {
+            -webkit-mask-image: url('assets/Stickers/splash_silhouette/baseball-silhouette.png');
+            mask-image: url('assets/Stickers/splash_silhouette/baseball-silhouette.png');
+            -webkit-mask-size: contain;
+            mask-size: contain;
+            -webkit-mask-position: center;
+            mask-position: center;
+            -webkit-mask-repeat: no-repeat;
+            mask-repeat: no-repeat;
+        }
+
+        /* ========== LAYER 4 (TOP): Stickers ========== */
+        .sticker-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+        }
+
         .sticker-grid {
             display: grid;
             grid-template-columns: repeat(3, 100px);
@@ -131,7 +176,6 @@
             position: relative;
         }
 
-        /* The sticker image */
         .sticker {
             width: 100%;
             height: 100%;
@@ -144,7 +188,7 @@
             left: 0;
         }
 
-        /* Peel animations - different directions */
+        /* ========== Peel Animations ========== */
         @keyframes peelBottomLeft {
             0% {
                 transform: perspective(500px) rotateX(0deg) rotateY(0deg);
@@ -220,7 +264,7 @@
     </style>
 </head>
 <body>
-    <!-- BOTTOM: White page with text -->
+    <!-- LAYER 1: White page with text -->
     <div class="white-layer">
         <div class="logo">stickerbook</div>
         <div class="logo-underline"></div>
@@ -234,12 +278,27 @@
         <button class="cta-button" id="ctaButton">CREATE ACCOUNT</button>
     </div>
 
-    <!-- MIDDLE: Black layer - holes get punched through this -->
-    <div class="black-layer" id="blackLayer"></div>
+    <!-- LAYER 2: Black fill for areas outside the grid -->
+    <div class="black-fill" id="blackFill"></div>
 
-    <!-- TOP: Sticker layer - just the peeling stickers -->
+    <!-- LAYER 3: Black cells that get holes punched -->
+    <div class="mask-layer" id="maskLayer">
+        <div class="mask-grid">
+            <div class="mask-cell"></div>
+            <div class="mask-cell"></div>
+            <div class="mask-cell"></div>
+            <div class="mask-cell"></div>
+            <div class="mask-cell"></div>
+            <div class="mask-cell"></div>
+            <div class="mask-cell"></div>
+            <div class="mask-cell"></div>
+            <div class="mask-cell"></div>
+        </div>
+    </div>
+
+    <!-- LAYER 4: Stickers -->
     <div class="sticker-layer">
-        <div class="sticker-grid" id="stickerGrid">
+        <div class="sticker-grid">
             <div class="sticker-cell"><div class="sticker"></div></div>
             <div class="sticker-cell"><div class="sticker"></div></div>
             <div class="sticker-cell"><div class="sticker"></div></div>
@@ -254,96 +313,15 @@
 
     <script>
         const stickers = document.querySelectorAll('.sticker');
-        const blackLayer = document.getElementById('blackLayer');
-        const stickerGrid = document.getElementById('stickerGrid');
+        const maskCells = document.querySelectorAll('.mask-cell');
+        const blackFill = document.getElementById('blackFill');
+        const maskLayer = document.getElementById('maskLayer');
         const ctaButton = document.getElementById('ctaButton');
 
-        // Peel order: which sticker peels when (0-8 grid positions)
-        // Grid layout:  0 1 2
-        //               3 4 5
-        //               6 7 8
-        // Your sequence: 7, 6, 1, 4, 9, 2, 8, 3, 5 (converted to 0-indexed: 6, 5, 0, 3, 8, 1, 7, 2, 4)
+        // Peel order (0-indexed): 7,6,1,4,9,2,8,3,5 → 6,5,0,3,8,1,7,2,4
         const peelOrder = [6, 5, 0, 3, 8, 1, 7, 2, 4];
-        
-        // Peel directions for variety
         const peelDirections = ['peel-bl', 'peel-tr', 'peel-br', 'peel-tl', 'peel-bl', 'peel-tr', 'peel-br', 'peel-tl', 'peel-bl'];
 
-        // Track which holes have been punched
-        const punchedHoles = [];
-
-        // Grid dimensions
-        const cellSize = 100;
-        const gap = 20;
-        const gridSize = (cellSize * 3) + (gap * 2); // 340px
-
-        // Calculate the position of each cell relative to the viewport center
-        function getCellPosition(index) {
-            const row = Math.floor(index / 3);
-            const col = index % 3;
-            
-            // Position relative to grid's top-left
-            const localX = col * (cellSize + gap);
-            const localY = row * (cellSize + gap);
-            
-            // Grid is centered in viewport
-            const gridLeft = (window.innerWidth - gridSize) / 2;
-            const gridTop = (window.innerHeight - gridSize) / 2;
-            
-            return {
-                x: gridLeft + localX,
-                y: gridTop + localY
-            };
-        }
-
-        // Build the mask string for all punched holes
-        function updateBlackLayerMask() {
-            if (punchedHoles.length === 0) {
-                blackLayer.style.maskImage = 'none';
-                blackLayer.style.webkitMaskImage = 'none';
-                return;
-            }
-
-            // Build mask layers: each silhouette + a base white layer
-            // The silhouettes will be "subtracted" from the base using mask-composite
-            const maskImages = [];
-            const maskPositions = [];
-            const maskSizes = [];
-            const maskRepeats = [];
-
-            punchedHoles.forEach(hole => {
-                maskImages.push(`url('assets/Stickers/splash_silhouette/baseball-silhouette.png')`);
-                maskPositions.push(`${hole.x}px ${hole.y}px`);
-                maskSizes.push(`${cellSize}px ${cellSize}px`);
-                maskRepeats.push('no-repeat');
-            });
-
-            // Add base layer (solid white = show everything)
-            maskImages.push('linear-gradient(white, white)');
-            maskPositions.push('0 0');
-            maskSizes.push('100% 100%');
-            maskRepeats.push('no-repeat');
-
-            // Apply the mask
-            blackLayer.style.maskImage = maskImages.join(', ');
-            blackLayer.style.webkitMaskImage = maskImages.join(', ');
-            
-            blackLayer.style.maskPosition = maskPositions.join(', ');
-            blackLayer.style.webkitMaskPosition = maskPositions.join(', ');
-            
-            blackLayer.style.maskSize = maskSizes.join(', ');
-            blackLayer.style.webkitMaskSize = maskSizes.join(', ');
-            
-            blackLayer.style.maskRepeat = maskRepeats.join(', ');
-            blackLayer.style.webkitMaskRepeat = maskRepeats.join(', ');
-
-            // Key: use mask-composite to SUBTRACT the silhouettes from the base
-            // 'exclude' means: where silhouette overlaps base, make it transparent
-            const composites = punchedHoles.map(() => 'exclude').join(', ') + ', add';
-            blackLayer.style.maskComposite = composites;
-            blackLayer.style.webkitMaskComposite = punchedHoles.map(() => 'xor').join(', ') + ', source-over';
-        }
-
-        // Start animation after 1 second
         setTimeout(startAnimation, 1000);
 
         function startAnimation() {
@@ -352,17 +330,16 @@
                     // Peel the sticker
                     stickers[gridIndex].classList.add(peelDirections[orderIndex]);
                     
-                    // After sticker peels away, punch hole in black layer
+                    // After sticker peels, punch hole in the black cell
                     setTimeout(() => {
-                        const pos = getCellPosition(gridIndex);
-                        punchedHoles.push(pos);
-                        updateBlackLayerMask();
-                    }, 700);
+                        maskCells[gridIndex].classList.add('punched');
+                    }, 600);
 
-                    // After last sticker, fade black layer entirely
+                    // After last sticker, fade everything
                     if (orderIndex === peelOrder.length - 1) {
                         setTimeout(() => {
-                            blackLayer.classList.add('fading');
+                            blackFill.classList.add('fading');
+                            maskLayer.classList.add('fading');
                             setTimeout(() => {
                                 ctaButton.classList.add('visible');
                             }, 500);
@@ -372,27 +349,8 @@
             });
         }
 
-        // Handle window resize - recalculate hole positions
-        window.addEventListener('resize', () => {
-            // Recalculate all hole positions based on new viewport
-            punchedHoles.length = 0; // Clear
-            document.querySelectorAll('.sticker.peel-bl, .sticker.peel-tr, .sticker.peel-br, .sticker.peel-tl').forEach(sticker => {
-                const cell = sticker.parentElement;
-                const cells = Array.from(document.querySelectorAll('.sticker-cell'));
-                const index = cells.indexOf(cell);
-                if (index !== -1) {
-                    punchedHoles.push(getCellPosition(index));
-                }
-            });
-            if (punchedHoles.length > 0) {
-                updateBlackLayerMask();
-            }
-        });
-
-        // Click to reload (for testing)
-        document.addEventListener('click', () => {
-            location.reload();
-        });
+        // Click to reload (testing)
+        document.addEventListener('click', () => location.reload());
     </script>
 </body>
 </html>
