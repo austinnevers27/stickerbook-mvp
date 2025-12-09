@@ -27,12 +27,16 @@
     /* ========== SPLASH CONTAINER ========== */
     .splash-container {
       position: fixed;
-      top: 0;
-      left: 0;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
       width: 100%;
+      max-width: 375px;
       height: 100%;
+      max-height: 700px;
       overflow: hidden;
       transition: opacity 0.5s ease-out;
+      border-radius: 0;
     }
 
     .splash-container.fade-out {
@@ -51,7 +55,7 @@
       object-fit: contain;
     }
 
-    /* ========== TITLE STICKER ========== */
+    /* ========== TITLE STICKER (Die-cut style) ========== */
     .title-sticker {
       position: absolute;
       top: 50%;
@@ -59,54 +63,37 @@
       transform: translate(-50%, -50%) rotate(-2deg);
       z-index: 1000;
       
-      /* Sticker shape */
-      background: linear-gradient(135deg, #ff6b9d 0%, #ffa07a 25%, #ffb347 50%, #87ceeb 75%, #00ced1 100%);
-      border: 6px solid #fff;
-      border-radius: 20px;
+      /* Die-cut sticker look */
+      background: linear-gradient(135deg, #ffb6c1 0%, #ffd4a3 25%, #fffacd 50%, #b0e0e6 75%, #87ceeb 100%);
+      border: 5px solid #f5f5f0;
+      border-radius: 18px;
       box-shadow: 
-        0 4px 15px rgba(0, 0, 0, 0.2),
-        0 2px 5px rgba(0, 0, 0, 0.1),
-        inset 0 1px 0 rgba(255, 255, 255, 0.4);
+        0 3px 10px rgba(0, 0, 0, 0.15),
+        0 1px 3px rgba(0, 0, 0, 0.1);
       
       /* Content */
-      padding: 20px 35px 18px;
+      padding: 18px 32px 16px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 8px;
-    }
-
-    .title-sticker::before {
-      content: '';
-      position: absolute;
-      top: -8px;
-      left: -8px;
-      right: -8px;
-      bottom: -8px;
-      border: 3px solid rgba(255, 255, 255, 0.5);
-      border-radius: 26px;
-      pointer-events: none;
+      gap: 6px;
     }
 
     .title-text {
       font-family: "Poppins", system-ui, sans-serif;
-      font-size: 26px;
-      font-weight: 800;
-      letter-spacing: 0.08em;
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: #ffffff;
-      text-shadow: 
-        2px 2px 0 rgba(0, 0, 0, 0.15),
-        -1px -1px 0 rgba(255, 255, 255, 0.3);
+      color: #111827;
       white-space: nowrap;
     }
 
     .title-bar {
-      width: 120px;
-      height: 4px;
+      width: 100px;
+      height: 3px;
       border-radius: 2px;
-      background: rgba(255, 255, 255, 0.8);
-      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+      background: linear-gradient(90deg, #ff4f96, #ff7a4e, #22d3ee);
     }
 
     /* ========== HEADER STATE (after transition) ========== */
@@ -221,15 +208,6 @@
         0 0 0 1px rgba(248, 250, 252, 0.7);
     }
 
-    /* ========== RESPONSIVE ========== */
-    @media (min-width: 400px) {
-      .title-text {
-        font-size: 30px;
-      }
-      .title-sticker {
-        padding: 24px 45px 22px;
-      }
-    }
   </style>
 </head>
 <body>
@@ -317,13 +295,17 @@
       const container = document.getElementById('splashContainer');
       const titleSticker = container.querySelector('.title-sticker');
       
+      // Use fixed phone dimensions
+      const containerWidth = 375;
+      const containerHeight = 700;
+      
       for (let i = 0; i < TOTAL_STICKERS; i++) {
         // Random sticker from array
         const stickerPath = STICKER_PATHS[Math.floor(Math.random() * STICKER_PATHS.length)];
         
         // Random position (full coverage, can bleed off edges)
-        const x = Math.random() * (window.innerWidth + 100) - 50;
-        const y = Math.random() * (window.innerHeight + 100) - 50;
+        const x = Math.random() * (containerWidth + 100) - 50;
+        const y = Math.random() * (containerHeight + 100) - 50;
         
         // Random size
         const size = MIN_SIZE + Math.random() * (MAX_SIZE - MIN_SIZE);
