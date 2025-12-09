@@ -62,12 +62,13 @@
       grid-column: span 2;
       width: 100%;
       height: 100%;
+      justify-content: center;
     }
 
     /* The Stickerbook title in the grid */
     .splash-title {
       font-family: "Poppins", system-ui, sans-serif;
-      font-size: 24px;
+      font-size: 30px;
       font-weight: 700;
       letter-spacing: 0.12em;
       text-transform: uppercase;
@@ -75,7 +76,7 @@
       white-space: nowrap;
     }
 
-    /* Pop-in animation */
+    /* Pop-in animation (default) */
     @keyframes popIn {
       0% {
         transform: scale(0.05);
@@ -93,14 +94,103 @@
       }
     }
 
+    /* Airplane - zooms in from bottom-right at 15% grade */
+    @keyframes flyIn {
+      0% {
+        transform: translate(300px, 45px) scale(0.2);
+        opacity: 0;
+      }
+      30% {
+        opacity: 1;
+      }
+      80% {
+        transform: translate(-5px, -1px) scale(1.02);
+      }
+      100% {
+        transform: translate(0, 0) scale(1);
+        opacity: 1;
+      }
+    }
+
+    /* Baseball - spins 7 full rotations */
+    @keyframes spinIn {
+      0% {
+        transform: scale(0.05) rotate(0deg);
+        opacity: 0;
+      }
+      50% {
+        opacity: 1;
+      }
+      80% {
+        transform: scale(1.05) rotate(2520deg);
+      }
+      100% {
+        transform: scale(1) rotate(2520deg);
+        opacity: 1;
+      }
+    }
+
+    /* Controller - lands tilted 7 degrees right */
+    @keyframes popInTilted {
+      0% {
+        transform: scale(0.05) rotate(0deg);
+        opacity: 0;
+      }
+      50% {
+        opacity: 1;
+      }
+      80% {
+        transform: scale(1.05) rotate(9deg);
+      }
+      100% {
+        transform: scale(1) rotate(7deg);
+        opacity: 1;
+      }
+    }
+
+    /* Donut - pops in 50% bigger */
+    @keyframes popInBig {
+      0% {
+        transform: scale(0.05);
+        opacity: 0;
+      }
+      50% {
+        opacity: 1;
+      }
+      80% {
+        transform: scale(1.58);
+      }
+      100% {
+        transform: scale(1.5);
+        opacity: 1;
+      }
+    }
+
     .sticker.placed {
       animation: popIn 0.4s ease-out forwards;
     }
 
-    /* Row timing */
-    .sticker.row-1 { animation-delay: 0s; }
-    .sticker.row-2 { animation-delay: 0.4s; }
-    .sticker.row-3 { animation-delay: 0.8s; }
+    /* Custom animations by sticker type */
+    .sticker.airplane.placed {
+      animation: flyIn 0.5s ease-out forwards;
+    }
+
+    .sticker.baseball.placed {
+      animation: spinIn 0.5s ease-out forwards;
+    }
+
+    .sticker.controller.placed {
+      animation: popInTilted 0.4s ease-out forwards;
+    }
+
+    .sticker.donut.placed {
+      animation: popInBig 0.4s ease-out forwards;
+    }
+
+    /* Row timing - applies to all animations */
+    .sticker.row-1.placed { animation-delay: 0s !important; }
+    .sticker.row-2.placed { animation-delay: 0.4s !important; }
+    .sticker.row-3.placed { animation-delay: 0.8s !important; }
 
     /* ========== HEADER STATE (after transition) ========== */
     .header-title {
@@ -226,7 +316,7 @@
         height: 120px;
       }
       .splash-title {
-        font-size: 28px;
+        font-size: 35px;
       }
       .header-title {
         font-size: 28px;
@@ -247,7 +337,7 @@
         height: 150px;
       }
       .splash-title {
-        font-size: 32px;
+        font-size: 40px;
       }
       .header-title {
         font-size: 32px;
@@ -264,14 +354,14 @@
   <!-- SPLASH: Sticker grid -->
   <div class="sticker-area" id="stickerArea">
     <!-- Row 1: 4 stickers -->
-    <div class="sticker row-1"><img src="assets/Stickers/splash/airplane.png" alt=""></div>
-    <div class="sticker row-1"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
-    <div class="sticker row-1"><img src="assets/Stickers/splash/controller.png" alt=""></div>
-    <div class="sticker row-1"><img src="assets/Stickers/splash/donut.png" alt=""></div>
+    <div class="sticker row-1 airplane"><img src="assets/Stickers/splash/airplane.png" alt=""></div>
+    <div class="sticker row-1 baseball"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
+    <div class="sticker row-1 controller"><img src="assets/Stickers/splash/controller.png" alt=""></div>
+    <div class="sticker row-1 donut"><img src="assets/Stickers/splash/donut.png" alt=""></div>
     <!-- Row 2: 1 sticker + title (spans 2) + 1 sticker -->
-    <div class="sticker row-2"><img src="assets/Stickers/splash/fox.png" alt=""></div>
+    <div class="sticker row-2 fox"><img src="assets/Stickers/splash/fox.png" alt=""></div>
     <div class="sticker row-2 featured"><span class="splash-title">Stickerbook</span></div>
-    <div class="sticker row-2"><img src="assets/Stickers/splash/moon.png" alt=""></div>
+    <div class="sticker row-2 moon"><img src="assets/Stickers/splash/moon.png" alt=""></div>
     <!-- Row 3: 4 stickers (4 blank for now) -->
     <div class="sticker row-3"></div>
     <div class="sticker row-3"></div>
