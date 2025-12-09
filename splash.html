@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <title>Stickerbook</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap" rel="stylesheet">
   <style>
     * {
       margin: 0;
@@ -22,15 +23,22 @@
       min-height: 100vh;
       min-height: 100dvh;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
     }
 
+    /* ========== SPLASH STATE ========== */
     .sticker-area {
       display: grid;
       grid-template-columns: repeat(4, 70px);
       grid-template-rows: repeat(5, 70px);
       gap: 12px;
+      transition: opacity 0.2s ease-out;
+    }
+
+    .sticker-area.fade-out {
+      opacity: 0;
     }
 
     .sticker {
@@ -49,16 +57,22 @@
       object-fit: contain;
     }
 
-    /* Merged center cell - spans 2 columns */
+    /* Center featured cell - holds the title */
     .sticker.featured {
       grid-column: span 2;
       width: 100%;
       height: 100%;
     }
 
-    .sticker.featured img {
-      width: 122px;  /* 70 * 1.75 = 122.5 */
-      height: 122px;
+    /* The Stickerbook title in the grid */
+    .splash-title {
+      font-family: "Poppins", system-ui, sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #111827;
+      white-space: nowrap;
     }
 
     /* Pop-in animation */
@@ -90,7 +104,113 @@
     .sticker.row-4 { animation-delay: 1.2s; }
     .sticker.row-5 { animation-delay: 1.6s; }
 
-    /* Scale up on larger phones */
+    /* ========== HEADER STATE (after transition) ========== */
+    .header-title {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: "Poppins", system-ui, sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #111827;
+      opacity: 0;
+      pointer-events: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.5s ease-out;
+    }
+
+    .header-title.visible {
+      opacity: 1;
+    }
+
+    .header-title.at-top {
+      top: 60px;
+      font-size: 18px;
+      letter-spacing: 0.15em;
+    }
+
+    .accent-bar {
+      width: 100px;
+      height: 3px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #ff4f96, #ff7a4e, #22d3ee);
+      transition: width 0.5s ease-out;
+    }
+
+    .header-title.at-top .accent-bar {
+      width: 80px;
+    }
+
+    /* ========== INTRO CONTENT ========== */
+    .intro-content {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 100%;
+      max-width: 340px;
+      padding: 100px 24px 24px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.5s ease-out 0.2s;
+    }
+
+    .intro-content.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .intro-text {
+      font-size: 14px;
+      line-height: 1.65;
+      color: #111827;
+      margin-bottom: 16px;
+      font-weight: 500;
+    }
+
+    .tagline-highlight {
+      font-weight: 700;
+      text-transform: uppercase;
+      background: linear-gradient(90deg, #ff4f96, #ff7a4e, #22d3ee);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      letter-spacing: 0.03em;
+    }
+
+    .cta-button {
+      width: 100%;
+      border-radius: 999px;
+      border: none;
+      padding: 14px 28px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      background: linear-gradient(135deg, #ff4f96, #ff7a4e, #22d3ee);
+      color: #ffffff;
+      box-shadow:
+        0 12px 22px rgba(236, 72, 153, 0.35),
+        0 0 0 1px rgba(248, 250, 252, 0.5);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-top: 24px;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .cta-button:hover {
+      transform: translateY(-1px);
+      box-shadow:
+        0 16px 28px rgba(236, 72, 153, 0.4),
+        0 0 0 1px rgba(248, 250, 252, 0.7);
+    }
+
+    /* ========== RESPONSIVE ========== */
     @media (min-width: 400px) {
       .sticker-area {
         grid-template-columns: repeat(4, 80px);
@@ -101,13 +221,17 @@
         width: 80px;
         height: 80px;
       }
-      .sticker.featured img {
-        width: 140px;  /* 80 * 1.75 */
-        height: 140px;
+      .splash-title {
+        font-size: 28px;
+      }
+      .header-title {
+        font-size: 28px;
+      }
+      .header-title.at-top {
+        font-size: 20px;
       }
     }
 
-    /* Tablets/desktop */
     @media (min-width: 768px) {
       .sticker-area {
         grid-template-columns: repeat(4, 100px);
@@ -118,46 +242,106 @@
         width: 100px;
         height: 100px;
       }
-      .sticker.featured img {
-        width: 175px;  /* 100 * 1.75 */
-        height: 175px;
+      .splash-title {
+        font-size: 32px;
+      }
+      .header-title {
+        font-size: 32px;
+      }
+      .header-title.at-top {
+        font-size: 22px;
+        top: 80px;
       }
     }
   </style>
 </head>
 <body>
 
-  <div class="sticker-area">
-    <!-- Row 1: positions 1-4 -->
+  <!-- SPLASH: Sticker grid -->
+  <div class="sticker-area" id="stickerArea">
+    <!-- Row 1 -->
     <div class="sticker row-1"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
     <div class="sticker row-1"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
     <div class="sticker row-1"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
     <div class="sticker row-1"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
-    <!-- Row 2: positions 5-8 -->
+    <!-- Row 2 -->
     <div class="sticker row-2"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
     <div class="sticker row-2"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
     <div class="sticker row-2"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
     <div class="sticker row-2"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
-    <!-- Row 3: position 9, then 10-11 merged (featured), then 12 -->
+    <!-- Row 3: 9, then 10-11 merged with title, then 12 -->
     <div class="sticker row-3"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
-    <div class="sticker row-3 featured"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
+    <div class="sticker row-3 featured"><span class="splash-title">Stickerbook</span></div>
     <div class="sticker row-3"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
-    <!-- Row 4: positions 13-16 -->
+    <!-- Row 4 -->
     <div class="sticker row-4"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
     <div class="sticker row-4"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
     <div class="sticker row-4"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
     <div class="sticker row-4"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
-    <!-- Row 5: positions 17-20 -->
+    <!-- Row 5 -->
     <div class="sticker row-5"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
     <div class="sticker row-5"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
     <div class="sticker row-5"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
     <div class="sticker row-5"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
   </div>
 
+  <!-- HEADER: Title that persists and moves to top -->
+  <div class="header-title" id="headerTitle">
+    <span>Stickerbook</span>
+    <div class="accent-bar"></div>
+  </div>
+
+  <!-- INTRO: Content that fades in -->
+  <div class="intro-content" id="introContent">
+    <p class="intro-text">
+      We all leave little signals — the symbols, references, and pieces of ourselves we put into the world.
+      On our shirts. Our bags. Our water bottles. Our laptops. Even the ones we carry on our skin.
+    </p>
+    <p class="intro-text">
+      They're small, but they say a lot. They tell people what we love, what we notice, what matters to us.
+    </p>
+    <p class="intro-text">
+      Stickerbook gathers those signals into pages you can shape with intention. Each sticker is one truth;
+      together, they make a picture that feels unmistakably you.
+    </p>
+    <p class="intro-text">
+      And when someone else sees your pages and thinks, "Wait… that looks like my kind of person,"
+      you've already skipped the small talk.
+    </p>
+    <p class="intro-text">
+      This is where those signals become
+      <span class="tagline-highlight">connections that stick.</span>
+    </p>
+    <button class="cta-button" onclick="window.location.href='account.html'">
+      Create Account
+    </button>
+  </div>
+
   <script>
-    // Trigger animation on load
+    const stickerArea = document.getElementById('stickerArea');
+    const headerTitle = document.getElementById('headerTitle');
+    const introContent = document.getElementById('introContent');
+
+    // Start sticker placement animation
     window.addEventListener('load', () => {
       document.querySelectorAll('.sticker').forEach(s => s.classList.add('placed'));
+
+      // After stickers are done (2s) + small pause (0.5s), start transition
+      setTimeout(() => {
+        // Fade out stickers
+        stickerArea.classList.add('fade-out');
+
+        // Show the header title (starts centered)
+        headerTitle.classList.add('visible');
+
+        // After stickers fade, move title to top and show intro
+        setTimeout(() => {
+          stickerArea.style.display = 'none';
+          headerTitle.classList.add('at-top');
+          introContent.classList.add('visible');
+        }, 200);
+
+      }, 2500);
     });
   </script>
 
