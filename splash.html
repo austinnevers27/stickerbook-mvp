@@ -23,39 +23,52 @@
       min-height: 100vh;
       min-height: 100dvh;
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
     }
 
-    /* ========== SPLASH STATE ========== */
-    .sticker-area {
-      display: grid;
-      grid-template-columns: repeat(3, 100px);
-      grid-template-rows: repeat(5, 100px);
-      gap: 5px;
-      transition: opacity 0.2s ease-out;
-      overflow: hidden;
+    /* ========== SPLASH CONTAINER ========== */
+    .splash-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      max-width: 400px;
+      max-height: 700px;
+      transition: opacity 0.3s ease-out;
     }
 
-    .sticker-area.fade-out {
+    .splash-container.fade-out {
       opacity: 0;
     }
 
+    /* ========== TITLE ========== */
+    .splash-title {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: "Poppins", system-ui, sans-serif;
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #111827;
+      white-space: nowrap;
+      z-index: 50;
+      opacity: 0;
+      transition: opacity 0.4s ease-out;
+    }
+
+    .splash-title.visible {
+      opacity: 1;
+    }
+
+    /* ========== STICKERS ========== */
     .sticker {
-      width: 100px;
-      height: 100px;
-      transform: scale(5);
+      position: absolute;
       opacity: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 2;
-    }
-
-    /* Bottom layer stickers - others can overlap these */
-    .sticker.bottom-layer {
-      z-index: 1;
+      transform: scale(5);
+      transition: none;
     }
 
     .sticker img {
@@ -64,377 +77,29 @@
       object-fit: contain;
     }
 
-    /* Center featured cell - holds the title, spans full row */
-    .sticker.featured {
-      grid-column: span 3;
-      width: 100%;
-      height: 100%;
-      justify-content: center;
-      z-index: 3;
-    }
-
-    /* The Stickerbook title in the grid */
-    .splash-title {
-      font-family: "Poppins", system-ui, sans-serif;
-      font-size: 26px;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: #111827;
-      white-space: nowrap;
-    }
-
-    /* Base wobble-place animation - starts 300x, shrinks with wobble */
-    @keyframes placeWobble {
-      0% {
-        transform: scale(5);
-        opacity: 0;
-      }
-      20% {
-        opacity: 1;
-      }
-      60% {
-        transform: scale(1.15) rotate(3deg);
-      }
-      75% {
-        transform: scale(1.12) rotate(-2deg);
-      }
-      90% {
-        transform: scale(1.18) rotate(1deg);
-      }
-      100% {
-        transform: scale(1.15) rotate(0deg);
-        opacity: 1;
-      }
-    }
-
-    /* Airplane - wobble, 170% size */
-    @keyframes placeAirplane {
-      0% {
-        transform: scale(5);
-        opacity: 0;
-      }
-      20% {
-        opacity: 1;
-      }
-      60% {
-        transform: scale(1.75) rotate(2deg);
-      }
-      75% {
-        transform: scale(1.65) rotate(-1deg);
-      }
-      90% {
-        transform: scale(1.72) rotate(1deg);
-      }
-      100% {
-        transform: scale(1.7) rotate(0deg);
-        opacity: 1;
-      }
-    }
-
-    /* Baseball - wobble, 117.5% size */
-    @keyframes placeBaseball {
-      0% {
-        transform: scale(5);
-        opacity: 0;
-      }
-      20% {
-        opacity: 1;
-      }
-      60% {
-        transform: scale(1.2) rotate(-3deg);
-      }
-      75% {
-        transform: scale(1.15) rotate(2deg);
-      }
-      90% {
-        transform: scale(1.19) rotate(-1deg);
-      }
-      100% {
-        transform: scale(1.175) rotate(0deg);
-        opacity: 1;
-      }
-    }
-
-    /* Controller - wobble, tilt 12 degrees LEFT */
-    @keyframes placeController {
-      0% {
-        transform: scale(5) rotate(0deg);
-        opacity: 0;
-      }
-      20% {
-        opacity: 1;
-      }
-      60% {
-        transform: scale(1.18) rotate(-15deg);
-      }
-      75% {
-        transform: scale(1.14) rotate(-9deg);
-      }
-      90% {
-        transform: scale(1.17) rotate(-13deg);
-      }
-      100% {
-        transform: scale(1.15) rotate(-12deg);
-        opacity: 1;
-      }
-    }
-
-    /* Donut - wobble, 175% size */
-    @keyframes placeDonut {
-      0% {
-        transform: scale(5);
-        opacity: 0;
-      }
-      20% {
-        opacity: 1;
-      }
-      60% {
-        transform: scale(1.8) rotate(3deg);
-      }
-      75% {
-        transform: scale(1.7) rotate(-2deg);
-      }
-      90% {
-        transform: scale(1.77) rotate(1deg);
-      }
-      100% {
-        transform: scale(1.75) rotate(0deg);
-        opacity: 1;
-      }
-    }
-
-    /* Fox - wobble, tilt 8 degrees left */
-    @keyframes placeFox {
-      0% {
-        transform: scale(5) rotate(0deg);
-        opacity: 0;
-      }
-      20% {
-        opacity: 1;
-      }
-      60% {
-        transform: scale(1.22) rotate(-11deg);
-      }
-      75% {
-        transform: scale(1.18) rotate(-5deg);
-      }
-      90% {
-        transform: scale(1.21) rotate(-9deg);
-      }
-      100% {
-        transform: scale(1.2) rotate(-8deg);
-        opacity: 1;
-      }
-    }
-
-    /* Fox2 (lower) - wobble, tilt 15 degrees right, 80% size */
-    @keyframes placeFox2 {
-      0% {
-        transform: scale(5) rotate(0deg);
-        opacity: 0;
-      }
-      20% {
-        opacity: 1;
-      }
-      60% {
-        transform: scale(0.83) rotate(18deg);
-      }
-      75% {
-        transform: scale(0.78) rotate(12deg);
-      }
-      90% {
-        transform: scale(0.82) rotate(16deg);
-      }
-      100% {
-        transform: scale(0.8) rotate(15deg);
-        opacity: 1;
-      }
-    }
-
-    /* Moon - wobble, tilt 8 degrees left, 150% size */
-    @keyframes placeMoon {
-      0% {
-        transform: scale(5) rotate(0deg);
-        opacity: 0;
-      }
-      20% {
-        opacity: 1;
-      }
-      60% {
-        transform: scale(1.55) rotate(-11deg);
-      }
-      75% {
-        transform: scale(1.45) rotate(-6deg);
-      }
-      90% {
-        transform: scale(1.52) rotate(-9deg);
-      }
-      100% {
-        transform: scale(1.5) rotate(-8deg);
-        opacity: 1;
-      }
-    }
-
-    /* Cat - wobble, 126.5% size */
-    @keyframes placeCat {
-      0% {
-        transform: scale(5) rotate(0deg);
-        opacity: 0;
-      }
-      20% {
-        opacity: 1;
-      }
-      60% {
-        transform: scale(1.3) rotate(4deg);
-      }
-      75% {
-        transform: scale(1.24) rotate(-2deg);
-      }
-      90% {
-        transform: scale(1.28) rotate(2deg);
-      }
-      100% {
-        transform: scale(1.265) rotate(0deg);
-        opacity: 1;
-      }
-    }
-
-    /* Peace - wobble */
-    @keyframes placePeace {
-      0% {
-        transform: scale(5);
-        opacity: 0;
-      }
-      20% {
-        opacity: 1;
-      }
-      60% {
-        transform: scale(1.18) rotate(-3deg);
-      }
-      75% {
-        transform: scale(1.14) rotate(2deg);
-      }
-      90% {
-        transform: scale(1.17) rotate(-1deg);
-      }
-      100% {
-        transform: scale(1.15) rotate(0deg);
-        opacity: 1;
-      }
-    }
-
-    /* Palmtree - wobble, slight tilt, 125% size */
-    @keyframes placePalm {
-      0% {
-        transform: scale(5) rotate(0deg);
-        opacity: 0;
-      }
-      20% {
-        opacity: 1;
-      }
-      60% {
-        transform: scale(1.28) rotate(-4deg);
-      }
-      75% {
-        transform: scale(1.22) rotate(1deg);
-      }
-      90% {
-        transform: scale(1.26) rotate(-3deg);
-      }
-      100% {
-        transform: scale(1.25) rotate(-2deg);
-        opacity: 1;
-      }
-    }
-
-    /* Saxophone - wobble, tilt 20 degrees left */
-    @keyframes placeSax {
-      0% {
-        transform: scale(5) rotate(0deg);
-        opacity: 0;
-      }
-      20% {
-        opacity: 1;
-      }
-      60% {
-        transform: scale(1.18) rotate(-23deg);
-      }
-      75% {
-        transform: scale(1.14) rotate(-17deg);
-      }
-      90% {
-        transform: scale(1.17) rotate(-21deg);
-      }
-      100% {
-        transform: scale(1.15) rotate(-20deg);
-        opacity: 1;
-      }
-    }
-
     .sticker.placed {
-      animation: placeWobble 0.5s ease-out forwards;
+      animation: placeSticker 0.4s ease-out forwards;
     }
 
-    /* Custom animations by sticker type */
-    .sticker.airplane.placed {
-      animation: placeAirplane 0.5s ease-out forwards;
+    @keyframes placeSticker {
+      0% {
+        transform: scale(5) var(--rotate, rotate(0deg));
+        opacity: 0;
+      }
+      20% {
+        opacity: 1;
+      }
+      60% {
+        transform: scale(calc(var(--final-scale, 1) * 1.08)) var(--rotate, rotate(0deg));
+      }
+      80% {
+        transform: scale(calc(var(--final-scale, 1) * 0.97)) var(--rotate, rotate(0deg));
+      }
+      100% {
+        transform: scale(var(--final-scale, 1)) var(--rotate, rotate(0deg));
+        opacity: 1;
+      }
     }
-
-    .sticker.baseball.placed {
-      animation: placeBaseball 0.5s ease-out forwards;
-    }
-
-    .sticker.controller.placed {
-      animation: placeController 0.5s ease-out forwards;
-    }
-
-    .sticker.donut.placed {
-      animation: placeDonut 0.5s ease-out forwards;
-    }
-
-    .sticker.fox.placed {
-      animation: placeFox 0.5s ease-out forwards;
-    }
-
-    .sticker.fox2.placed {
-      animation: placeFox2 0.5s ease-out forwards;
-    }
-
-    .sticker.moon.placed {
-      animation: placeMoon 0.5s ease-out forwards;
-    }
-
-    .sticker.cat.placed {
-      animation: placeCat 0.5s ease-out forwards;
-    }
-
-    .sticker.peace.placed {
-      animation: placePeace 0.5s ease-out forwards;
-    }
-
-    .sticker.palmtree.placed {
-      animation: placePalm 0.5s ease-out forwards;
-    }
-
-    .sticker.saxophone.placed {
-      animation: placeSax 0.5s ease-out forwards;
-    }
-
-    /* Individual sticker timing - entrance order */
-    .sticker.order-1.placed { animation-delay: 0.0s !important; }
-    .sticker.order-2.placed { animation-delay: 0.3s !important; }
-    .sticker.order-3.placed { animation-delay: 0.6s !important; }
-    .sticker.order-4.placed { animation-delay: 0.9s !important; }
-    .sticker.order-5.placed { animation-delay: 1.2s !important; }
-    .sticker.order-6.placed { animation-delay: 1.5s !important; }
-    .sticker.order-7.placed { animation-delay: 1.8s !important; }
-    .sticker.order-8.placed { animation-delay: 2.1s !important; }
-    .sticker.order-9.placed { animation-delay: 2.4s !important; }
-    .sticker.order-10.placed { animation-delay: 2.7s !important; }
-    .sticker.order-11.placed { animation-delay: 3.0s !important; }
-    .sticker.order-12.placed { animation-delay: 3.3s !important; }
-    .sticker.order-13.placed { animation-delay: 3.6s !important; }  /* stickerbook */
 
     /* ========== HEADER STATE (after transition) ========== */
     .header-title {
@@ -547,74 +212,110 @@
         0 16px 28px rgba(236, 72, 153, 0.4),
         0 0 0 1px rgba(248, 250, 252, 0.7);
     }
-
-    /* ========== RESPONSIVE ========== */
-    @media (min-width: 400px) {
-      .sticker-area {
-        grid-template-columns: repeat(3, 110px);
-        grid-template-rows: repeat(5, 110px);
-        gap: 6px;
-      }
-      .sticker {
-        width: 110px;
-        height: 110px;
-      }
-      .splash-title {
-        font-size: 32px;
-      }
-      .header-title {
-        font-size: 28px;
-      }
-      .header-title.at-top {
-        font-size: 20px;
-      }
-    }
-
-    @media (min-width: 768px) {
-      .sticker-area {
-        grid-template-columns: repeat(3, 130px);
-        grid-template-rows: repeat(5, 130px);
-        gap: 8px;
-      }
-      .sticker {
-        width: 130px;
-        height: 130px;
-      }
-      .splash-title {
-        font-size: 38px;
-      }
-      .header-title {
-        font-size: 32px;
-      }
-      .header-title.at-top {
-        font-size: 22px;
-        top: 80px;
-      }
-    }
   </style>
 </head>
 <body>
 
-  <!-- SPLASH: Sticker grid 3x5 -->
-  <div class="sticker-area" id="stickerArea">
-    <!-- Row 1: spots 1-3 -->
-    <div class="sticker order-3 moon"><img src="assets/Stickers/splash/moon.png" alt=""></div>
-    <div class="sticker order-7 fox bottom-layer"><img src="assets/Stickers/splash/fox.png" alt=""></div>
-    <div class="sticker order-1 controller"><img src="assets/Stickers/splash/controller.png" alt=""></div>
-    <!-- Row 2: spots 4-6 -->
-    <div class="sticker order-5 donut"><img src="assets/Stickers/splash/donut.png" alt=""></div>
-    <div class="sticker order-9 baseball bottom-layer"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
-    <div class="sticker order-2 airplane"><img src="assets/Stickers/splash/airplane.png" alt=""></div>
-    <!-- Row 3: STICKERBOOK spans all 3 -->
-    <div class="sticker order-13 featured"><span class="splash-title">Stickerbook</span></div>
-    <!-- Row 4: spots 7-9 -->
-    <div class="sticker order-6 cat"><img src="assets/Stickers/splash/cat.png" alt=""></div>
-    <div class="sticker order-10 peace bottom-layer"><img src="assets/Stickers/splash/peace.png" alt=""></div>
-    <div class="sticker order-4 palmtree"><img src="assets/Stickers/splash/palmtree.png" alt=""></div>
-    <!-- Row 5: spots 10-12 -->
-    <div class="sticker order-8 saxophone"><img src="assets/Stickers/splash/saxophone.png" alt=""></div>
-    <div class="sticker order-12 fox2"><img src="assets/Stickers/splash/fox.png" alt=""></div>
-    <div class="sticker order-11 cat"><img src="assets/Stickers/splash/cat.png" alt=""></div>
+  <!-- SPLASH: Freeform sticker collage -->
+  <div class="splash-container" id="splashContainer">
+    
+    <!-- Title in center -->
+    <div class="splash-title" id="splashTitle">Stickerbook</div>
+
+    <!-- TOP LEFT CLUSTER -->
+    <div class="sticker" style="top: 2%; left: 2%; width: 70px; --final-scale: 1; --rotate: rotate(-12deg); z-index: 5;" data-delay="0">
+      <img src="assets/Stickers/splash/moon.png" alt="">
+    </div>
+    <div class="sticker" style="top: 8%; left: 18%; width: 55px; --final-scale: 1; --rotate: rotate(8deg); z-index: 6;" data-delay="300">
+      <img src="assets/Stickers/splash/coffee0001.png" alt="">
+    </div>
+    <div class="sticker" style="top: 1%; left: 38%; width: 65px; --final-scale: 1; --rotate: rotate(-5deg); z-index: 4;" data-delay="150">
+      <img src="assets/Stickers/splash/clown0001.png" alt="">
+    </div>
+
+    <!-- TOP RIGHT CLUSTER -->
+    <div class="sticker" style="top: 3%; right: 5%; width: 75px; --final-scale: 1; --rotate: rotate(15deg); z-index: 5;" data-delay="200">
+      <img src="assets/Stickers/splash/controller.png" alt="">
+    </div>
+    <div class="sticker" style="top: 12%; right: 22%; width: 50px; --final-scale: 1; --rotate: rotate(-8deg); z-index: 6;" data-delay="450">
+      <img src="assets/Stickers/splash/mushroom0001.png" alt="">
+    </div>
+
+    <!-- UPPER LEFT -->
+    <div class="sticker" style="top: 18%; left: 0%; width: 80px; --final-scale: 1; --rotate: rotate(6deg); z-index: 7;" data-delay="100">
+      <img src="assets/Stickers/splash/fox.png" alt="">
+    </div>
+    <div class="sticker" style="top: 22%; left: 22%; width: 60px; --final-scale: 1; --rotate: rotate(-15deg); z-index: 8;" data-delay="500">
+      <img src="assets/Stickers/splash/yorkie0001.png" alt="">
+    </div>
+
+    <!-- UPPER RIGHT -->
+    <div class="sticker" style="top: 20%; right: 2%; width: 70px; --final-scale: 1; --rotate: rotate(-10deg); z-index: 7;" data-delay="350">
+      <img src="assets/Stickers/splash/airplane.png" alt="">
+    </div>
+    <div class="sticker" style="top: 26%; right: 20%; width: 55px; --final-scale: 1; --rotate: rotate(12deg); z-index: 8;" data-delay="600">
+      <img src="assets/Stickers/splash/donut.png" alt="">
+    </div>
+
+    <!-- LEFT SIDE (near title) -->
+    <div class="sticker" style="top: 38%; left: -2%; width: 75px; --final-scale: 1; --rotate: rotate(18deg); z-index: 10;" data-delay="250">
+      <img src="assets/Stickers/splash/germanshepherd0001.png" alt="">
+    </div>
+    <div class="sticker" style="top: 42%; left: 15%; width: 50px; --final-scale: 1; --rotate: rotate(-6deg); z-index: 9;" data-delay="700">
+      <img src="assets/Stickers/splash/baseball.png" alt="">
+    </div>
+
+    <!-- RIGHT SIDE (near title) -->
+    <div class="sticker" style="top: 36%; right: 0%; width: 70px; --final-scale: 1; --rotate: rotate(-14deg); z-index: 10;" data-delay="400">
+      <img src="assets/Stickers/splash/raccoon0001.png" alt="">
+    </div>
+    <div class="sticker" style="top: 44%; right: 18%; width: 55px; --final-scale: 1; --rotate: rotate(10deg); z-index: 9;" data-delay="750">
+      <img src="assets/Stickers/splash/peace.png" alt="">
+    </div>
+
+    <!-- LOWER LEFT -->
+    <div class="sticker" style="top: 55%; left: 0%; width: 65px; --final-scale: 1; --rotate: rotate(-8deg); z-index: 11;" data-delay="550">
+      <img src="assets/Stickers/splash/cat.png" alt="">
+    </div>
+    <div class="sticker" style="top: 58%; left: 18%; width: 70px; --final-scale: 1; --rotate: rotate(14deg); z-index: 12;" data-delay="850">
+      <img src="assets/Stickers/splash/cubansandwich0001.png" alt="">
+    </div>
+
+    <!-- LOWER RIGHT -->
+    <div class="sticker" style="top: 54%; right: 2%; width: 60px; --final-scale: 1; --rotate: rotate(20deg); z-index: 11;" data-delay="650">
+      <img src="assets/Stickers/splash/orca0001.png" alt="">
+    </div>
+    <div class="sticker" style="top: 60%; right: 20%; width: 75px; --final-scale: 1; --rotate: rotate(-12deg); z-index: 12;" data-delay="900">
+      <img src="assets/Stickers/splash/palmtree.png" alt="">
+    </div>
+
+    <!-- BOTTOM LEFT CLUSTER -->
+    <div class="sticker" style="top: 72%; left: 2%; width: 70px; --final-scale: 1; --rotate: rotate(10deg); z-index: 13;" data-delay="800">
+      <img src="assets/Stickers/splash/firetruck0001.png" alt="">
+    </div>
+    <div class="sticker" style="top: 78%; left: 20%; width: 55px; --final-scale: 1; --rotate: rotate(-18deg); z-index: 14;" data-delay="1000">
+      <img src="assets/Stickers/splash/saxophone.png" alt="">
+    </div>
+    <div class="sticker" style="top: 85%; left: 5%; width: 60px; --final-scale: 1; --rotate: rotate(5deg); z-index: 15;" data-delay="1100">
+      <img src="assets/Stickers/splash/leavetheleaves0001.png" alt="">
+    </div>
+
+    <!-- BOTTOM CENTER -->
+    <div class="sticker" style="top: 82%; left: 38%; width: 65px; --final-scale: 1; --rotate: rotate(-7deg); z-index: 14;" data-delay="950">
+      <img src="assets/Stickers/splash/noevilanimals0001.png" alt="">
+    </div>
+
+    <!-- BOTTOM RIGHT CLUSTER -->
+    <div class="sticker" style="top: 70%; right: 5%; width: 60px; --final-scale: 1; --rotate: rotate(-15deg); z-index: 13;" data-delay="1050">
+      <img src="assets/Stickers/splash/orangecat0001.png" alt="">
+    </div>
+    <div class="sticker" style="top: 80%; right: 18%; width: 50px; --final-scale: 1; --rotate: rotate(8deg); z-index: 14;" data-delay="1150">
+      <img src="assets/Stickers/splash/prideflag0002.png" alt="">
+    </div>
+    <div class="sticker" style="top: 88%; right: 2%; width: 55px; --final-scale: 1; --rotate: rotate(-10deg); z-index: 15;" data-delay="1200">
+      <img src="assets/Stickers/splash/fox.png" alt="">
+    </div>
+
   </div>
 
   <!-- HEADER: Title that persists and moves to top -->
@@ -637,11 +338,11 @@
       together, they make a picture that feels unmistakably you.
     </p>
     <p class="intro-text">
-      And when someone else sees your pages and thinks, "Wait… that looks like my kind of person,"
+      And when someone else sees your pages and thinks, "Wait... that looks like my kind of person,"
       you've already skipped the small talk.
     </p>
     <p class="intro-text">
-      This is where those signals become
+      This is where those signals become<br>
       <span class="tagline-highlight">connections that stick.</span>
     </p>
     <button id="ctaButton" class="cta-button" onclick="window.location.href='account.html'">
@@ -650,45 +351,48 @@
   </div>
 
   <script>
-    const stickerArea = document.getElementById('stickerArea');
+    const splashContainer = document.getElementById('splashContainer');
+    const splashTitle = document.getElementById('splashTitle');
     const headerTitle = document.getElementById('headerTitle');
     const introContent = document.getElementById('introContent');
     const ctaButton = document.getElementById('ctaButton');
+    const stickers = document.querySelectorAll('.sticker');
 
-    // Start sticker placement animation
+    // Animate stickers in based on their data-delay
     window.addEventListener('load', () => {
-      document.querySelectorAll('.sticker').forEach(s => s.classList.add('placed'));
+      stickers.forEach(sticker => {
+        const delay = parseInt(sticker.getAttribute('data-delay')) || 0;
+        setTimeout(() => {
+          sticker.classList.add('placed');
+        }, delay);
+      });
 
-      // After stickers are done (4s) + 1s static pause, start transition
+      // Show title after most stickers are placed
       setTimeout(() => {
-        // Fade out stickers
-        stickerArea.classList.add('fade-out');
+        splashTitle.classList.add('visible');
+      }, 1400);
 
-        // Show the header title (starts centered)
+      // After all stickers + title + pause, transition
+      setTimeout(() => {
+        splashContainer.classList.add('fade-out');
         headerTitle.classList.add('visible');
 
-        // After stickers fade, start the sequence
         setTimeout(() => {
-          stickerArea.style.display = 'none';
-          
-          // 1. Title slides up (takes 1s)
+          splashContainer.style.display = 'none';
           headerTitle.classList.add('at-top');
 
-          // 2. Copy slides up (start after title begins moving)
           setTimeout(() => {
             introContent.classList.add('visible');
           }, 400);
 
-          // 3. Button fades in last
           setTimeout(() => {
             ctaButton.classList.add('visible');
           }, 900);
 
-        }, 200);
+        }, 300);
 
-      }, 5000);
+      }, 3500);
     });
   </script>
-
 </body>
 </html>
