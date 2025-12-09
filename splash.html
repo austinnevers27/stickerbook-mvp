@@ -35,6 +35,7 @@
       grid-template-rows: repeat(5, 100px);
       gap: 5px;
       transition: opacity 0.2s ease-out;
+      overflow: hidden;
     }
 
     .sticker-area.fade-out {
@@ -44,11 +45,17 @@
     .sticker {
       width: 100px;
       height: 100px;
-      transform: scale(300);
+      transform: scale(5);
       opacity: 0;
       display: flex;
       align-items: center;
       justify-content: center;
+      z-index: 2;
+    }
+
+    /* Bottom layer stickers - others can overlap these */
+    .sticker.bottom-layer {
+      z-index: 1;
     }
 
     .sticker img {
@@ -63,6 +70,7 @@
       width: 100%;
       height: 100%;
       justify-content: center;
+      z-index: 3;
     }
 
     /* The Stickerbook title in the grid */
@@ -79,7 +87,7 @@
     /* Base wobble-place animation - starts 300x, shrinks with wobble */
     @keyframes placeWobble {
       0% {
-        transform: scale(300);
+        transform: scale(5);
         opacity: 0;
       }
       20% {
@@ -100,95 +108,47 @@
       }
     }
 
-    /* Airplane - wobble, no tilt */
+    /* Airplane - wobble, 200% size */
     @keyframes placeAirplane {
       0% {
-        transform: scale(300);
+        transform: scale(5);
         opacity: 0;
       }
       20% {
         opacity: 1;
       }
       60% {
-        transform: scale(1.18) rotate(2deg);
+        transform: scale(2.05) rotate(2deg);
       }
       75% {
-        transform: scale(1.14) rotate(-1deg);
+        transform: scale(1.95) rotate(-1deg);
       }
       90% {
-        transform: scale(1.17) rotate(1deg);
+        transform: scale(2.02) rotate(1deg);
       }
       100% {
-        transform: scale(1.15) rotate(0deg);
+        transform: scale(2) rotate(0deg);
         opacity: 1;
       }
     }
 
-    /* Baseball - wobble */
+    /* Baseball - wobble, 125% size */
     @keyframes placeBaseball {
       0% {
-        transform: scale(300);
+        transform: scale(5);
         opacity: 0;
       }
       20% {
         opacity: 1;
       }
       60% {
-        transform: scale(1.18) rotate(-3deg);
+        transform: scale(1.28) rotate(-3deg);
       }
       75% {
-        transform: scale(1.14) rotate(2deg);
+        transform: scale(1.22) rotate(2deg);
       }
       90% {
-        transform: scale(1.17) rotate(-1deg);
-      }
-      100% {
-        transform: scale(1.15) rotate(0deg);
-        opacity: 1;
-      }
-    }
-
-    /* Controller - wobble, tilt 7 degrees right */
-    @keyframes placeController {
-      0% {
-        transform: scale(300) rotate(0deg);
-        opacity: 0;
-      }
-      20% {
-        opacity: 1;
-      }
-      60% {
-        transform: scale(1.18) rotate(10deg);
-      }
-      75% {
-        transform: scale(1.14) rotate(5deg);
-      }
-      90% {
-        transform: scale(1.17) rotate(8deg);
-      }
-      100% {
-        transform: scale(1.15) rotate(7deg);
-        opacity: 1;
-      }
-    }
-
-    /* Donut - wobble, bigger */
-    @keyframes placeDonut {
-      0% {
-        transform: scale(300);
-        opacity: 0;
-      }
-      20% {
-        opacity: 1;
-      }
-      60% {
-        transform: scale(1.28) rotate(3deg);
-      }
-      75% {
-        transform: scale(1.22) rotate(-2deg);
-      }
-      90% {
-        transform: scale(1.26) rotate(1deg);
+        transform: scale(1.26) rotate(-1deg);
       }
       100% {
         transform: scale(1.25) rotate(0deg);
@@ -196,10 +156,58 @@
       }
     }
 
+    /* Controller - wobble, tilt 12 degrees LEFT */
+    @keyframes placeController {
+      0% {
+        transform: scale(5) rotate(0deg);
+        opacity: 0;
+      }
+      20% {
+        opacity: 1;
+      }
+      60% {
+        transform: scale(1.18) rotate(-15deg);
+      }
+      75% {
+        transform: scale(1.14) rotate(-9deg);
+      }
+      90% {
+        transform: scale(1.17) rotate(-13deg);
+      }
+      100% {
+        transform: scale(1.15) rotate(-12deg);
+        opacity: 1;
+      }
+    }
+
+    /* Donut - wobble, 175% size */
+    @keyframes placeDonut {
+      0% {
+        transform: scale(5);
+        opacity: 0;
+      }
+      20% {
+        opacity: 1;
+      }
+      60% {
+        transform: scale(1.8) rotate(3deg);
+      }
+      75% {
+        transform: scale(1.7) rotate(-2deg);
+      }
+      90% {
+        transform: scale(1.77) rotate(1deg);
+      }
+      100% {
+        transform: scale(1.75) rotate(0deg);
+        opacity: 1;
+      }
+    }
+
     /* Fox - wobble, tilt 17 degrees left */
     @keyframes placeFox {
       0% {
-        transform: scale(300) rotate(0deg);
+        transform: scale(5) rotate(0deg);
         opacity: 0;
       }
       20% {
@@ -223,7 +231,7 @@
     /* Fox2 (lower) - wobble, tilt 15 degrees right */
     @keyframes placeFox2 {
       0% {
-        transform: scale(300) rotate(0deg);
+        transform: scale(5) rotate(0deg);
         opacity: 0;
       }
       20% {
@@ -244,26 +252,26 @@
       }
     }
 
-    /* Moon - wobble, tilt 8 degrees left */
+    /* Moon - wobble, tilt 8 degrees left, 150% size */
     @keyframes placeMoon {
       0% {
-        transform: scale(300) rotate(0deg);
+        transform: scale(5) rotate(0deg);
         opacity: 0;
       }
       20% {
         opacity: 1;
       }
       60% {
-        transform: scale(1.18) rotate(-11deg);
+        transform: scale(1.55) rotate(-11deg);
       }
       75% {
-        transform: scale(1.14) rotate(-6deg);
+        transform: scale(1.45) rotate(-6deg);
       }
       90% {
-        transform: scale(1.17) rotate(-9deg);
+        transform: scale(1.52) rotate(-9deg);
       }
       100% {
-        transform: scale(1.15) rotate(-8deg);
+        transform: scale(1.5) rotate(-8deg);
         opacity: 1;
       }
     }
@@ -271,7 +279,7 @@
     /* Cat - wobble */
     @keyframes placeCat {
       0% {
-        transform: scale(300) rotate(0deg);
+        transform: scale(5) rotate(0deg);
         opacity: 0;
       }
       20% {
@@ -295,7 +303,7 @@
     /* Peace - wobble */
     @keyframes placePeace {
       0% {
-        transform: scale(300);
+        transform: scale(5);
         opacity: 0;
       }
       20% {
@@ -316,26 +324,26 @@
       }
     }
 
-    /* Palmtree - wobble, slight tilt */
+    /* Palmtree - wobble, slight tilt, 125% size */
     @keyframes placePalm {
       0% {
-        transform: scale(300) rotate(0deg);
+        transform: scale(5) rotate(0deg);
         opacity: 0;
       }
       20% {
         opacity: 1;
       }
       60% {
-        transform: scale(1.08) rotate(-4deg);
+        transform: scale(1.28) rotate(-4deg);
       }
       75% {
-        transform: scale(1.04) rotate(1deg);
+        transform: scale(1.22) rotate(1deg);
       }
       90% {
-        transform: scale(1.07) rotate(-3deg);
+        transform: scale(1.26) rotate(-3deg);
       }
       100% {
-        transform: scale(1.05) rotate(-2deg);
+        transform: scale(1.25) rotate(-2deg);
         opacity: 1;
       }
     }
@@ -343,7 +351,7 @@
     /* Saxophone - wobble, tilt 20 degrees left */
     @keyframes placeSax {
       0% {
-        transform: scale(300) rotate(0deg);
+        transform: scale(5) rotate(0deg);
         opacity: 0;
       }
       20% {
@@ -591,17 +599,17 @@
   <div class="sticker-area" id="stickerArea">
     <!-- Row 1: spots 1-3 -->
     <div class="sticker order-3 moon"><img src="assets/Stickers/splash/moon.png" alt=""></div>
-    <div class="sticker order-7 baseball"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
+    <div class="sticker order-7 fox bottom-layer"><img src="assets/Stickers/splash/fox.png" alt=""></div>
     <div class="sticker order-1 controller"><img src="assets/Stickers/splash/controller.png" alt=""></div>
     <!-- Row 2: spots 4-6 -->
     <div class="sticker order-5 donut"><img src="assets/Stickers/splash/donut.png" alt=""></div>
-    <div class="sticker order-9 fox"><img src="assets/Stickers/splash/fox.png" alt=""></div>
+    <div class="sticker order-9 baseball bottom-layer"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
     <div class="sticker order-2 airplane"><img src="assets/Stickers/splash/airplane.png" alt=""></div>
     <!-- Row 3: STICKERBOOK spans all 3 -->
     <div class="sticker order-13 featured"><span class="splash-title">Stickerbook</span></div>
     <!-- Row 4: spots 7-9 -->
     <div class="sticker order-6 cat"><img src="assets/Stickers/splash/cat.png" alt=""></div>
-    <div class="sticker order-10 peace"><img src="assets/Stickers/splash/peace.png" alt=""></div>
+    <div class="sticker order-10 peace bottom-layer"><img src="assets/Stickers/splash/peace.png" alt=""></div>
     <div class="sticker order-4 palmtree"><img src="assets/Stickers/splash/palmtree.png" alt=""></div>
     <!-- Row 5: spots 10-12 -->
     <div class="sticker order-8 saxophone"><img src="assets/Stickers/splash/saxophone.png" alt=""></div>
