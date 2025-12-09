@@ -1,356 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stickerbook - Splash</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Stickerbook</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            overflow: hidden;
-        }
+    html, body {
+      height: 100%;
+      overflow: hidden;
+    }
 
-        /* ========== LAYER 1 (BOTTOM): White page with text ========== */
-        .white-layer {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #fff;
-            z-index: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 40px 20px;
-        }
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: linear-gradient(135deg, #ffeef7 0%, #ffffff 50%, #e7f9ff 100%);
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
-        .logo {
-            font-size: 48px;
-            font-weight: 300;
-            color: #000;
-            margin-bottom: 8px;
-            letter-spacing: -1px;
-        }
+    .sticker-area {
+      display: grid;
+      grid-template-columns: repeat(3, 90px);
+      grid-template-rows: repeat(3, 90px);
+      gap: 16px;
+    }
 
-        .logo-underline {
-            width: 200px;
-            height: 3px;
-            background: #FF6B35;
-            margin-bottom: 40px;
-        }
+    .sticker {
+      width: 90px;
+      height: 90px;
+    }
 
-        .intro-text {
-            max-width: 500px;
-            text-align: center;
-            font-size: 16px;
-            line-height: 1.7;
-            color: #333;
-        }
+    .sticker img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
 
-        .intro-text p {
-            margin-bottom: 20px;
-        }
+    /* Scale up slightly on larger phones */
+    @media (min-width: 400px) {
+      .sticker-area {
+        grid-template-columns: repeat(3, 100px);
+        grid-template-rows: repeat(3, 100px);
+      }
+      .sticker {
+        width: 100px;
+        height: 100px;
+      }
+    }
 
-        .tagline {
-            color: #FF6B35;
-            font-weight: 600;
-        }
-
-        .cta-button {
-            margin-top: 40px;
-            padding: 16px 48px;
-            font-size: 16px;
-            font-weight: 600;
-            color: white;
-            background: linear-gradient(135deg, #FF6B35, #ff8555);
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            opacity: 0;
-            transition: opacity 1s ease, transform 0.2s ease;
-        }
-
-        .cta-button.visible {
-            opacity: 1;
-        }
-
-        .cta-button:hover {
-            transform: scale(1.05);
-        }
-
-        /* ========== LAYER 2: Black background that fills gaps ========== */
-        .black-fill {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #000;
-            z-index: 2;
-            transition: opacity 1s ease-out;
-        }
-
-        .black-fill.fading {
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        /* ========== LAYER 3: Grid of black cells that get holes punched ========== */
-        .mask-layer {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 3;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            pointer-events: none;
-            transition: opacity 1s ease-out;
-        }
-
-        .mask-layer.fading {
-            opacity: 0;
-        }
-
-        .mask-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 100px);
-            grid-template-rows: repeat(3, 100px);
-            gap: 20px;
-        }
-
-        .mask-cell {
-            width: 100px;
-            height: 100px;
-            background: #000;
-        }
-
-        /* When punched, the inverted silhouette masks this cell:
-           - Black parts of mask (outside baseball) = cell shows = stays black
-           - Transparent parts (baseball hole) = cell hidden = white shows through */
-        .mask-cell.punched {
-            -webkit-mask-image: url('assets/Stickers/splash_silhouette/baseball-silhouette.png');
-            mask-image: url('assets/Stickers/splash_silhouette/baseball-silhouette.png');
-            -webkit-mask-size: contain;
-            mask-size: contain;
-            -webkit-mask-position: center;
-            mask-position: center;
-            -webkit-mask-repeat: no-repeat;
-            mask-repeat: no-repeat;
-        }
-
-        /* ========== LAYER 4 (TOP): Stickers ========== */
-        .sticker-layer {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 4;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            pointer-events: none;
-        }
-
-        .sticker-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 100px);
-            grid-template-rows: repeat(3, 100px);
-            gap: 20px;
-        }
-
-        .sticker-cell {
-            width: 100px;
-            height: 100px;
-            position: relative;
-        }
-
-        .sticker {
-            width: 100%;
-            height: 100%;
-            background-image: url('assets/Stickers/splash/baseball.png');
-            background-size: contain;
-            background-position: center;
-            background-repeat: no-repeat;
-            position: absolute;
-            top: 0;
-            left: 0;
-        }
-
-        /* ========== Peel Animations ========== */
-        @keyframes peelBottomLeft {
-            0% {
-                transform: perspective(500px) rotateX(0deg) rotateY(0deg);
-                transform-origin: bottom left;
-                opacity: 1;
-            }
-            30% {
-                transform: perspective(500px) rotateX(10deg) rotateY(-15deg);
-                transform-origin: bottom left;
-            }
-            100% {
-                transform: perspective(500px) rotateX(45deg) rotateY(-90deg) translateX(-100px);
-                transform-origin: bottom left;
-                opacity: 0;
-            }
-        }
-
-        @keyframes peelTopRight {
-            0% {
-                transform: perspective(500px) rotateX(0deg) rotateY(0deg);
-                transform-origin: top right;
-                opacity: 1;
-            }
-            30% {
-                transform: perspective(500px) rotateX(-10deg) rotateY(15deg);
-                transform-origin: top right;
-            }
-            100% {
-                transform: perspective(500px) rotateX(-45deg) rotateY(90deg) translateX(100px);
-                transform-origin: top right;
-                opacity: 0;
-            }
-        }
-
-        @keyframes peelBottomRight {
-            0% {
-                transform: perspective(500px) rotateX(0deg) rotateY(0deg);
-                transform-origin: bottom right;
-                opacity: 1;
-            }
-            30% {
-                transform: perspective(500px) rotateX(10deg) rotateY(15deg);
-                transform-origin: bottom right;
-            }
-            100% {
-                transform: perspective(500px) rotateX(45deg) rotateY(90deg) translateX(100px);
-                transform-origin: bottom right;
-                opacity: 0;
-            }
-        }
-
-        @keyframes peelTopLeft {
-            0% {
-                transform: perspective(500px) rotateX(0deg) rotateY(0deg);
-                transform-origin: top left;
-                opacity: 1;
-            }
-            30% {
-                transform: perspective(500px) rotateX(-10deg) rotateY(-15deg);
-                transform-origin: top left;
-            }
-            100% {
-                transform: perspective(500px) rotateX(-45deg) rotateY(-90deg) translateX(-100px);
-                transform-origin: top left;
-                opacity: 0;
-            }
-        }
-
-        .sticker.peel-bl { animation: peelBottomLeft 0.7s ease-out forwards; }
-        .sticker.peel-tr { animation: peelTopRight 0.7s ease-out forwards; }
-        .sticker.peel-br { animation: peelBottomRight 0.7s ease-out forwards; }
-        .sticker.peel-tl { animation: peelTopLeft 0.7s ease-out forwards; }
-    </style>
+    /* Even bigger on tablets/desktop for testing */
+    @media (min-width: 768px) {
+      .sticker-area {
+        grid-template-columns: repeat(3, 120px);
+        grid-template-rows: repeat(3, 120px);
+        gap: 24px;
+      }
+      .sticker {
+        width: 120px;
+        height: 120px;
+      }
+    }
+  </style>
 </head>
 <body>
-    <!-- LAYER 1: White page with text -->
-    <div class="white-layer">
-        <div class="logo">stickerbook</div>
-        <div class="logo-underline"></div>
-        <div class="intro-text">
-            <p>We all leave little signals — the symbols, references, and pieces of ourselves we put into the world. On our shirts. Our bags. Our water bottles. Our laptops. Even the ones we carry on our skin.</p>
-            <p>They're small, but they say a lot. They tell people what we love, what we notice, what matters to us.</p>
-            <p>Stickerbook gathers those signals into pages you can shape with intention. Each sticker is one truth; together, they make a picture that feels unmistakably you.</p>
-            <p>And when someone else sees your pages and thinks, "Wait... that looks like my kind of person," you've already skipped the small talk.</p>
-            <p>This is where those signals become <span class="tagline">CONNECTIONS THAT STICK.</span></p>
-        </div>
-        <button class="cta-button" id="ctaButton">CREATE ACCOUNT</button>
-    </div>
 
-    <!-- LAYER 2: Black fill for areas outside the grid -->
-    <div class="black-fill" id="blackFill"></div>
+  <div class="sticker-area">
+    <div class="sticker"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
+    <div class="sticker"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
+    <div class="sticker"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
+    <div class="sticker"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
+    <div class="sticker"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
+    <div class="sticker"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
+    <div class="sticker"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
+    <div class="sticker"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
+    <div class="sticker"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
+  </div>
 
-    <!-- LAYER 3: Black cells that get holes punched -->
-    <div class="mask-layer" id="maskLayer">
-        <div class="mask-grid">
-            <div class="mask-cell"></div>
-            <div class="mask-cell"></div>
-            <div class="mask-cell"></div>
-            <div class="mask-cell"></div>
-            <div class="mask-cell"></div>
-            <div class="mask-cell"></div>
-            <div class="mask-cell"></div>
-            <div class="mask-cell"></div>
-            <div class="mask-cell"></div>
-        </div>
-    </div>
-
-    <!-- LAYER 4: Stickers -->
-    <div class="sticker-layer">
-        <div class="sticker-grid">
-            <div class="sticker-cell"><div class="sticker"></div></div>
-            <div class="sticker-cell"><div class="sticker"></div></div>
-            <div class="sticker-cell"><div class="sticker"></div></div>
-            <div class="sticker-cell"><div class="sticker"></div></div>
-            <div class="sticker-cell"><div class="sticker"></div></div>
-            <div class="sticker-cell"><div class="sticker"></div></div>
-            <div class="sticker-cell"><div class="sticker"></div></div>
-            <div class="sticker-cell"><div class="sticker"></div></div>
-            <div class="sticker-cell"><div class="sticker"></div></div>
-        </div>
-    </div>
-
-    <script>
-        const stickers = document.querySelectorAll('.sticker');
-        const maskCells = document.querySelectorAll('.mask-cell');
-        const blackFill = document.getElementById('blackFill');
-        const maskLayer = document.getElementById('maskLayer');
-        const ctaButton = document.getElementById('ctaButton');
-
-        // Peel order (0-indexed): 7,6,1,4,9,2,8,3,5 → 6,5,0,3,8,1,7,2,4
-        const peelOrder = [6, 5, 0, 3, 8, 1, 7, 2, 4];
-        const peelDirections = ['peel-bl', 'peel-tr', 'peel-br', 'peel-tl', 'peel-bl', 'peel-tr', 'peel-br', 'peel-tl', 'peel-bl'];
-
-        setTimeout(startAnimation, 1000);
-
-        function startAnimation() {
-            peelOrder.forEach((gridIndex, orderIndex) => {
-                setTimeout(() => {
-                    // Peel the sticker
-                    stickers[gridIndex].classList.add(peelDirections[orderIndex]);
-                    
-                    // After sticker peels, punch hole in the black cell
-                    setTimeout(() => {
-                        maskCells[gridIndex].classList.add('punched');
-                    }, 600);
-
-                    // After last sticker, fade everything
-                    if (orderIndex === peelOrder.length - 1) {
-                        setTimeout(() => {
-                            blackFill.classList.add('fading');
-                            maskLayer.classList.add('fading');
-                            setTimeout(() => {
-                                ctaButton.classList.add('visible');
-                            }, 500);
-                        }, 1000);
-                    }
-                }, orderIndex * 350);
-            });
-        }
-
-        // Click to reload (testing)
-        document.addEventListener('click', () => location.reload());
-    </script>
 </body>
 </html>
