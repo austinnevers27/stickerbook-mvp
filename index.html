@@ -12,16 +12,10 @@
       overflow: hidden;
     }
 
-    /* Splash container */
+    /* Splash container - full viewport */
     .splash-container {
       position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 100%;
-      max-width: 375px;
-      height: 100%;
-      max-height: 700px;
+      inset: 0;
       overflow: hidden;
       transition: opacity 0.5s ease-out;
     }
@@ -167,7 +161,6 @@
 
   <script>
     // ============ STICKER CONFIGURATION ============
-    // Easy to update: just add/remove paths from this array
     const STICKER_PATHS = [
       'assets/Stickers/splash/airplane.png',
       'assets/Stickers/splash/baseball.png',
@@ -205,28 +198,21 @@
       const container = document.getElementById('splashContainer');
       const titleSticker = container.querySelector('.title-sticker');
       
-      // Use fixed phone dimensions
-      const containerWidth = 375;
-      const containerHeight = 700;
+      // Use actual viewport dimensions
+      const containerWidth = window.innerWidth;
+      const containerHeight = window.innerHeight;
       
       for (let i = 0; i < TOTAL_STICKERS; i++) {
-        // Random sticker from array
         const stickerPath = STICKER_PATHS[Math.floor(Math.random() * STICKER_PATHS.length)];
         
         // Random position (full coverage, can bleed off edges)
         const x = Math.random() * (containerWidth + 100) - 50;
         const y = Math.random() * (containerHeight + 100) - 50;
         
-        // Random size
         const size = MIN_SIZE + Math.random() * (MAX_SIZE - MIN_SIZE);
-        
-        // Random rotation
         const rotation = MIN_ROTATION + Math.random() * (MAX_ROTATION - MIN_ROTATION);
-        
-        // Random z-index (layering)
         const zIndex = Math.floor(Math.random() * 100);
         
-        // Create element
         const div = document.createElement('div');
         div.className = 'sticker';
         div.style.cssText = `
@@ -254,10 +240,8 @@
     const ctaButton = document.getElementById('ctaButton');
 
     window.addEventListener('load', () => {
-      // Generate the sticker bomb
       generateStickers();
       
-      // After 2.5 seconds, transition to intro
       setTimeout(() => {
         splashContainer.classList.add('fade-out');
         headerTitle.classList.add('visible');
