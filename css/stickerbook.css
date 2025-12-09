@@ -1001,3 +1001,171 @@ body {
     flex-direction: column;
   }
 }
+
+
+/* ========== CONTAINED SCROLL LAYOUT ==========
+   Add class "layout-contained" to <body> on pages where
+   only an inner container should scroll (not the whole page).
+   
+   This creates a fixed-height flex chain so the scroll
+   constraint flows down to the inner container.
+   ============================================== */
+
+/* Lock the viewport - no page scroll */
+body.layout-contained {
+  overflow: hidden;
+  height: 100vh;
+  height: 100dvh;
+}
+
+/* Every flex child in the chain needs min-height: 0 
+   so it can shrink below its content size */
+body.layout-contained .app-shell {
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+}
+
+body.layout-contained .phone-frame {
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+body.layout-contained .phone-inner {
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+  padding-bottom: 0;
+}
+
+body.layout-contained .shell-inner {
+  height: 100%;
+  min-height: 0;
+}
+
+/* The section containing scrollable content */
+body.layout-contained .sticker-section {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* The actual scroll container */
+body.layout-contained .sticker-container {
+  flex: 1;
+  min-height: 0;
+  background: #ffffff;
+  border-radius: var(--radius-lg);
+  box-shadow: 0 8px 32px rgba(15, 23, 42, 0.12), 0 2px 8px rgba(15, 23, 42, 0.08);
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 16px 12px;
+}
+
+/* Category detail view (when drilling into a category) */
+body.layout-contained .category-detail {
+  flex: 1;
+  min-height: 0;
+  background: #ffffff;
+  border-radius: var(--radius-lg);
+  box-shadow: 0 8px 32px rgba(15, 23, 42, 0.12), 0 2px 8px rgba(15, 23, 42, 0.08);
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 16px 12px;
+}
+
+/* Fixed elements that shouldn't scroll */
+body.layout-contained .top-row {
+  flex-shrink: 0;
+  margin-bottom: 8px;
+}
+
+body.layout-contained .screen-title {
+  flex-shrink: 0;
+  margin-bottom: 12px;
+}
+
+body.layout-contained .search-row {
+  flex-shrink: 0;
+  margin-top: 12px;
+}
+
+body.layout-contained .search-wrapper {
+  max-width: 275px;
+}
+
+body.layout-contained .search-input {
+  padding: 10px 32px;
+  font-size: 13px;
+}
+
+body.layout-contained .search-icon {
+  left: 12px;
+  font-size: 14px;
+}
+
+body.layout-contained .search-clear {
+  right: 12px;
+  font-size: 13px;
+}
+
+body.layout-contained .selection-footer {
+  flex-shrink: 0;
+  margin-top: 12px;
+  border-top: none;
+  padding-top: 0;
+}
+
+/* Center category titles in contained layout */
+body.layout-contained .row-header {
+  justify-content: center;
+}
+
+body.layout-contained .row-title {
+  text-align: center;
+}
+
+body.layout-contained .row-section {
+  margin-bottom: 16px;
+}
+
+/* Miami Vice see-more button styling */
+body.layout-contained .see-more-tile {
+  min-width: 80px;
+  min-height: 72px;
+  padding: 12px 16px;
+  border-radius: var(--radius-md);
+  border: none;
+  background: linear-gradient(135deg, var(--color-pink), var(--color-orange), var(--color-cyan));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #ffffff;
+  cursor: pointer;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(236, 72, 153, 0.3);
+  transition: transform 0.12s ease, box-shadow 0.15s ease;
+}
+
+body.layout-contained .see-more-tile:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(236, 72, 153, 0.4);
+}
+
+body.layout-contained .see-more-tile:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(236, 72, 153, 0.3);
+}
+
+/* Overview rows don't need their own scroll in contained layout */
+body.layout-contained .overview-rows {
+  overflow: visible;
+}
