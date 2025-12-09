@@ -1335,13 +1335,13 @@ body.layout-contained .overview-rows {
 
 /* Row sections */
 .bg-row-section {
-  margin-bottom: 6px;
+  margin-bottom: 5px;
 }
 
 /* Horizontal strip */
 .bg-row-strip {
   display: flex;
-  gap: 6px;
+  gap: 5px;
   overflow-x: auto;
   padding: 2px;
   scrollbar-width: none;
@@ -1352,11 +1352,11 @@ body.layout-contained .overview-rows {
   display: none;
 }
 
-/* Background tiles - 40px rounded squares */
+/* Background tiles - 38px rounded squares (7 per row) */
 .bg-tile-new {
   flex-shrink: 0;
-  width: 40px;
-  height: 40px;
+  width: 38px;
+  height: 38px;
   cursor: pointer;
   transition: transform 0.12s ease;
 }
