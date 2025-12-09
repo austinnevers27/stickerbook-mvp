@@ -14,25 +14,11 @@
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             overflow: hidden;
-            background: #000;
         }
 
-        .splash-container {
+        /* BOTTOM LAYER: White page with text - always there */
+        .white-layer {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background: #000;
-        }
-
-        /* White backing layer - always visible underneath */
-        .white-backing {
-            position: absolute;
             top: 0;
             left: 0;
             width: 100%;
@@ -46,43 +32,115 @@
             padding: 40px 20px;
         }
 
-        /* Black top layer - will have stickers */
-        /* TOP LAYER: Container for 3x3 grid - NO solid background */
+        .logo {
+            font-size: 48px;
+            font-weight: 300;
+            color: #000;
+            margin-bottom: 8px;
+            letter-spacing: -1px;
+        }
+
+        .logo-underline {
+            width: 200px;
+            height: 3px;
+            background: #FF6B35;
+            margin-bottom: 40px;
+        }
+
+        .intro-text {
+            max-width: 500px;
+            text-align: center;
+            font-size: 16px;
+            line-height: 1.7;
+            color: #333;
+        }
+
+        .intro-text p {
+            margin-bottom: 20px;
+        }
+
+        .tagline {
+            color: #FF6B35;
+            font-weight: 600;
+        }
+
+        .cta-button {
+            margin-top: 40px;
+            padding: 16px 48px;
+            font-size: 16px;
+            font-weight: 600;
+            color: white;
+            background: linear-gradient(135deg, #FF6B35, #ff8555);
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 1s ease, transform 0.2s ease;
+        }
+
+        .cta-button.visible {
+            opacity: 1;
+        }
+
+        .cta-button:hover {
+            transform: scale(1.05);
+        }
+
+        /* TOP LAYER: Black with sticker grid */
         .black-layer {
-            position: absolute;
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             background: #000;
-            z-index: 3;
+            z-index: 2;
             display: flex;
             align-items: center;
             justify-content: center;
-            pointer-events: none;
         }
 
-        /* Sticker grid - each cell is independently black */
+        .black-layer.fading {
+            animation: fadeOut 1s ease-out forwards;
+        }
+
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                pointer-events: none;
+            }
+        }
+
+        /* 3x3 grid of sticker cells */
         .sticker-grid {
             display: grid;
             grid-template-columns: repeat(3, 100px);
             grid-template-rows: repeat(3, 100px);
             gap: 20px;
-            position: relative;
-            z-index: 4;
         }
 
-        /* Each sticker cell - black square with sticker on top */
+        /* Each cell - starts black, becomes masked hole when sticker peels */
         .sticker-cell {
             width: 100px;
             height: 100px;
-            background: #000;
-            border-radius: 8px;
             position: relative;
-            transition: background 0.3s ease;
+            background: #000;
         }
 
-        /* The actual sticker image sits on the black cell */
+        /* When peeled, cell becomes a silhouette-shaped hole showing white underneath */
+        .sticker-cell.peeled {
+            background: #fff;
+            -webkit-mask-image: url('assets/Stickers/splash_silhouette/baseball-silhouette.png');
+            mask-image: url('assets/Stickers/splash_silhouette/baseball-silhouette.png');
+            -webkit-mask-size: contain;
+            mask-size: contain;
+            -webkit-mask-position: center;
+            mask-position: center;
+            -webkit-mask-repeat: no-repeat;
+            mask-repeat: no-repeat;
+        }
+
+        /* The sticker image on top of each cell */
         .sticker {
             width: 100%;
             height: 100%;
@@ -93,385 +151,156 @@
             position: absolute;
             top: 0;
             left: 0;
-            transform-origin: bottom left;
         }
 
-        .sticker span {
-            display: none;
-        }
-
-        /* When sticker peels, cell becomes transparent (creates hole) */
-        .sticker-cell.peeled {
-            background: transparent;
-        }
-
-        /* MIDDLE LAYER: Transparent with silhouettes */
-        .silhouette-layer {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: transparent;
-            z-index: 2;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            pointer-events: none;
-        }
-
-        .silhouette-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 100px);
-            grid-template-rows: repeat(3, 100px);
-            gap: 20px;
-        }
-
-        .silhouette {
-            width: 100px;
-            height: 100px;
-            background-image: url('assets/Stickers/splash_silhouette/baseball-silhouette.png');
-            background-size: contain;
-            background-position: center;
-            background-repeat: no-repeat;
-            border-radius: 8px;
-        }
-
-        /* Logo on white layer - visible from start */
-        .logo-container {
-            position: absolute;
-            top: 15%;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 1;
-        }
-
-        .stickerbook-logo {
-            font-size: 48px;
-            font-weight: 700;
-            color: #000;
-            text-transform: lowercase;
-            letter-spacing: 2px;
-            border-bottom: 3px solid #ff6b4a;
-            padding-bottom: 10px;
-        }
-
-        /* Intro content on white layer - visible from start */
-        .intro-content-underneath {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 90%;
-            max-width: 500px;
-            z-index: 1;
-            text-align: left;
-            padding: 20px;
-            margin-top: 60px;
-        }
-
-        .intro-content-underneath p {
-            font-size: 16px;
-            line-height: 1.6;
-            color: #333;
-            margin-bottom: 16px;
-        }
-
-        .intro-content-underneath .tagline {
-            color: #ff6b4a;
-            font-weight: 700;
-        }
-
-        .intro-content-underneath .cta-button {
-            width: 100%;
-            padding: 16px;
-            margin-top: 24px;
-            background: linear-gradient(135deg, #ff6b9d 0%, #4ecdc4 100%);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 600;
-            letter-spacing: 1px;
-            cursor: pointer;
-            opacity: 0;
-            transition: transform 0.2s ease;
-        }
-
-        .intro-content-underneath .cta-button:hover {
-            transform: translateY(-2px);
-        }
-
-        /* Peel animations - different directions for variety */
+        /* Peel animations - different directions */
         @keyframes peelBottomLeft {
             0% {
-                transform: perspective(400px) rotateX(0deg) rotateY(0deg) translateZ(0);
+                transform: perspective(500px) rotateX(0deg) rotateY(0deg);
+                transform-origin: bottom left;
                 opacity: 1;
             }
             30% {
-                transform: perspective(400px) rotateX(15deg) rotateY(-10deg) translateZ(20px);
-                opacity: 1;
+                transform: perspective(500px) rotateX(10deg) rotateY(-15deg);
+                transform-origin: bottom left;
             }
             100% {
-                transform: perspective(400px) rotateX(60deg) rotateY(-30deg) translateZ(0) translateX(-150px) translateY(100px);
+                transform: perspective(500px) rotateX(45deg) rotateY(-90deg) translateX(-100px);
+                transform-origin: bottom left;
                 opacity: 0;
             }
         }
 
         @keyframes peelTopRight {
             0% {
-                transform: perspective(400px) rotateX(0deg) rotateY(0deg) translateZ(0);
+                transform: perspective(500px) rotateX(0deg) rotateY(0deg);
+                transform-origin: top right;
                 opacity: 1;
             }
             30% {
-                transform: perspective(400px) rotateX(-15deg) rotateY(10deg) translateZ(20px);
-                opacity: 1;
+                transform: perspective(500px) rotateX(-10deg) rotateY(15deg);
+                transform-origin: top right;
             }
             100% {
-                transform: perspective(400px) rotateX(-60deg) rotateY(30deg) translateZ(0) translateX(150px) translateY(-100px);
+                transform: perspective(500px) rotateX(-45deg) rotateY(90deg) translateX(100px);
+                transform-origin: top right;
                 opacity: 0;
             }
         }
 
         @keyframes peelBottomRight {
             0% {
-                transform: perspective(400px) rotateX(0deg) rotateY(0deg) translateZ(0);
+                transform: perspective(500px) rotateX(0deg) rotateY(0deg);
+                transform-origin: bottom right;
                 opacity: 1;
             }
             30% {
-                transform: perspective(400px) rotateX(15deg) rotateY(10deg) translateZ(20px);
-                opacity: 1;
+                transform: perspective(500px) rotateX(10deg) rotateY(15deg);
+                transform-origin: bottom right;
             }
             100% {
-                transform: perspective(400px) rotateX(60deg) rotateY(30deg) translateZ(0) translateX(150px) translateY(100px);
+                transform: perspective(500px) rotateX(45deg) rotateY(90deg) translateX(100px);
+                transform-origin: bottom right;
                 opacity: 0;
             }
         }
 
         @keyframes peelTopLeft {
             0% {
-                transform: perspective(400px) rotateX(0deg) rotateY(0deg) translateZ(0);
+                transform: perspective(500px) rotateX(0deg) rotateY(0deg);
+                transform-origin: top left;
                 opacity: 1;
             }
             30% {
-                transform: perspective(400px) rotateX(-15deg) rotateY(-10deg) translateZ(20px);
-                opacity: 1;
+                transform: perspective(500px) rotateX(-10deg) rotateY(-15deg);
+                transform-origin: top left;
             }
             100% {
-                transform: perspective(400px) rotateX(-60deg) rotateY(-30deg) translateZ(0) translateX(-150px) translateY(-100px);
+                transform: perspective(500px) rotateX(-45deg) rotateY(-90deg) translateX(-100px);
+                transform-origin: top left;
                 opacity: 0;
             }
         }
 
-        .sticker.peel-bl {
-            animation: peelBottomLeft 0.7s ease-out forwards;
-        }
-
-        .sticker.peel-tr {
-            animation: peelTopRight 0.7s ease-out forwards;
-        }
-
-        .sticker.peel-br {
-            animation: peelBottomRight 0.7s ease-out forwards;
-        }
-
-        .sticker.peel-tl {
-            animation: peelTopLeft 0.7s ease-out forwards;
-        }
-
-        /* Black layer AND silhouette layer fade out together */
-        @keyframes layerFade {
-            from {
-                opacity: 1;
-            }
-            to {
-                opacity: 0;
-                pointer-events: none;
-            }
-        }
-
-        .black-layer.fading {
-            animation: layerFade 1s ease-out forwards;
-        }
-
-        .silhouette-layer.fading {
-            animation: layerFade 1s ease-out forwards;
-        }
-
-        /* Button fade in */
-        @keyframes buttonFadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-
-        .cta-button.visible {
-            animation: buttonFadeIn 1s ease-out forwards;
-        }
+        .sticker.peel-bl { animation: peelBottomLeft 0.7s ease-out forwards; }
+        .sticker.peel-tr { animation: peelTopRight 0.7s ease-out forwards; }
+        .sticker.peel-br { animation: peelBottomRight 0.7s ease-out forwards; }
+        .sticker.peel-tl { animation: peelTopLeft 0.7s ease-out forwards; }
     </style>
 </head>
 <body>
-    <div class="splash-container">
-        <!-- BOTTOM LAYER: White backing with logo, copy, and button -->
-        <div class="white-backing">
-            <!-- Logo - visible underneath from start -->
-            <div class="logo-container">
-                <div class="stickerbook-logo" id="logo">stickerbook</div>
-            </div>
-
-            <!-- Intro content - visible underneath from start -->
-            <div class="intro-content-underneath" id="introContent">
-                <p>We all leave little signals — the symbols, references, and pieces of ourselves we put into the world. On our shirts. Our bags. Our water bottles. Our laptops. Even the ones we carry on our skin.</p>
-                
-                <p>They're small, but they say a lot. They tell people what we love, what we notice, what matters to us.</p>
-                
-                <p>Stickerbook gathers those signals into pages you can shape with intention. Each sticker is one truth; together, they make a picture that feels unmistakably you.</p>
-                
-                <p>And when someone else sees your pages and thinks, "Wait... that looks like my kind of person," you've already skipped the small talk.</p>
-                
-                <p>This is where those signals become <strong class="tagline">CONNECTIONS THAT STICK.</strong></p>
-                
-                <button class="cta-button" id="ctaButton">CREATE ACCOUNT</button>
-            </div>
+    <!-- BOTTOM: White page with text -->
+    <div class="white-layer">
+        <div class="logo">stickerbook</div>
+        <div class="logo-underline"></div>
+        <div class="intro-text">
+            <p>We all leave little signals — the symbols, references, and pieces of ourselves we put into the world. On our shirts. Our bags. Our water bottles. Our laptops. Even the ones we carry on our skin.</p>
+            <p>They're small, but they say a lot. They tell people what we love, what we notice, what matters to us.</p>
+            <p>Stickerbook gathers those signals into pages you can shape with intention. Each sticker is one truth; together, they make a picture that feels unmistakably you.</p>
+            <p>And when someone else sees your pages and thinks, "Wait... that looks like my kind of person," you've already skipped the small talk.</p>
+            <p>This is where those signals become <span class="tagline">CONNECTIONS THAT STICK.</span></p>
         </div>
+        <button class="cta-button" id="ctaButton">CREATE ACCOUNT</button>
+    </div>
 
-        <!-- MIDDLE LAYER: Transparent with silhouettes (the "ink on wax paper") -->
-        <div class="silhouette-layer" id="silhouetteLayer">
-            <div class="silhouette-grid">
-                <div class="silhouette" data-silhouette="airplane"></div>
-                <div class="silhouette" data-silhouette="baseball"></div>
-                <div class="silhouette" data-silhouette="donut"></div>
-                <div class="silhouette" data-silhouette="fox"></div>
-                <div class="silhouette" data-silhouette="controller"></div>
-                <div class="silhouette" data-silhouette="moon"></div>
-                <div class="silhouette" data-silhouette="palm"></div>
-                <div class="silhouette" data-silhouette="peace"></div>
-                <div class="silhouette" data-silhouette="sax"></div>
-            </div>
-        </div>
-
-        <!-- TOP LAYER: Black with stickers -->
-        <div class="black-layer" id="blackLayer">
-            <!-- 9 stickers in 3x3 grid - each in its own black cell -->
-            <div class="sticker-grid" id="stickerGrid">
-                <div class="sticker-cell" data-cell="0">
-                    <div class="sticker" data-name="airplane">
-                        <span>✈️<br>AIRPLANE</span>
-                    </div>
-                </div>
-                <div class="sticker-cell" data-cell="1">
-                    <div class="sticker" data-name="baseball">
-                        <span>⚾<br>BASEBALL</span>
-                    </div>
-                </div>
-                <div class="sticker-cell" data-cell="2">
-                    <div class="sticker" data-name="donut">
-                        <span>🍩<br>DONUT</span>
-                    </div>
-                </div>
-                <div class="sticker-cell" data-cell="3">
-                    <div class="sticker" data-name="fox">
-                        <span>🦊<br>FOX</span>
-                    </div>
-                </div>
-                <div class="sticker-cell" data-cell="4">
-                    <div class="sticker" data-name="controller">
-                        <span>🎮<br>CONTROLLER</span>
-                    </div>
-                </div>
-                <div class="sticker-cell" data-cell="5">
-                    <div class="sticker" data-name="moon">
-                        <span>🌙<br>MOON</span>
-                    </div>
-                </div>
-                <div class="sticker-cell" data-cell="6">
-                    <div class="sticker" data-name="palm">
-                        <span>🌴<br>PALM TREE</span>
-                    </div>
-                </div>
-                <div class="sticker-cell" data-cell="7">
-                    <div class="sticker" data-name="peace">
-                        <span>✌️<br>PEACE</span>
-                    </div>
-                </div>
-                <div class="sticker-cell" data-cell="8">
-                    <div class="sticker" data-name="sax">
-                        <span>🎷<br>SAX</span>
-                    </div>
-                </div>
-            </div>
+    <!-- TOP: Black layer with sticker grid -->
+    <div class="black-layer" id="blackLayer">
+        <div class="sticker-grid">
+            <div class="sticker-cell"><div class="sticker"></div></div>
+            <div class="sticker-cell"><div class="sticker"></div></div>
+            <div class="sticker-cell"><div class="sticker"></div></div>
+            <div class="sticker-cell"><div class="sticker"></div></div>
+            <div class="sticker-cell"><div class="sticker"></div></div>
+            <div class="sticker-cell"><div class="sticker"></div></div>
+            <div class="sticker-cell"><div class="sticker"></div></div>
+            <div class="sticker-cell"><div class="sticker"></div></div>
+            <div class="sticker-cell"><div class="sticker"></div></div>
         </div>
     </div>
 
     <script>
-        // Animation sequence
-        const stickerCells = document.querySelectorAll('.sticker-cell');
+        const cells = document.querySelectorAll('.sticker-cell');
         const stickers = document.querySelectorAll('.sticker');
         const blackLayer = document.getElementById('blackLayer');
-        const silhouetteLayer = document.getElementById('silhouetteLayer');
+        const ctaButton = document.getElementById('ctaButton');
 
-        // Custom peel order: 7, 6, 1, 4, 9, 2, 8, 3, 5
-        // (converting to 0-indexed: 6, 5, 0, 3, 8, 1, 7, 2, 4)
+        // Peel order: which sticker peels when (0-8 grid positions)
         const peelOrder = [6, 5, 0, 3, 8, 1, 7, 2, 4];
         
-        // Assign peel directions for variety
-        const peelDirections = {
-            0: 'peel-tl',  // sticker 1 - top left
-            1: 'peel-tr',  // sticker 2 - top right  
-            2: 'peel-tr',  // sticker 3 - top right
-            3: 'peel-bl',  // sticker 4 - bottom left
-            4: 'peel-br',  // sticker 5 - bottom right (center, mix it up)
-            5: 'peel-tl',  // sticker 6 - top left
-            6: 'peel-bl',  // sticker 7 - bottom left
-            7: 'peel-bl',  // sticker 8 - bottom left
-            8: 'peel-br'   // sticker 9 - bottom right
-        };
+        // Peel directions for variety
+        const peelDirections = ['peel-bl', 'peel-tr', 'peel-br', 'peel-tl', 'peel-bl', 'peel-tr', 'peel-br', 'peel-tl', 'peel-bl'];
 
-        // Wait 1 second before starting
-        setTimeout(() => {
-            startAnimation();
-        }, 1000);
+        // Start animation after 1 second
+        setTimeout(startAnimation, 1000);
 
         function startAnimation() {
-            // Peel stickers in custom order
-            peelOrder.forEach((stickerIndex, orderIndex) => {
+            peelOrder.forEach((gridIndex, orderIndex) => {
                 setTimeout(() => {
-                    const sticker = stickers[stickerIndex];
-                    const cell = stickerCells[stickerIndex];
-                    const direction = peelDirections[stickerIndex];
+                    // Peel the sticker
+                    stickers[gridIndex].classList.add(peelDirections[orderIndex]);
                     
-                    // Peel the sticker with its assigned direction
-                    sticker.classList.add(direction);
-                    
-                    // After sticker peels away, mark cell as peeled (creates hole)
+                    // After sticker peels, make cell a shaped hole
                     setTimeout(() => {
-                        cell.classList.add('peeled');
-                    }, 700); // Wait for peel animation to complete
-                    
-                    // After last sticker, fade out black layer AND silhouette layer
+                        cells[gridIndex].classList.add('peeled');
+                    }, 700);
+
+                    // After last sticker, fade black layer
                     if (orderIndex === peelOrder.length - 1) {
                         setTimeout(() => {
                             blackLayer.classList.add('fading');
-                            silhouetteLayer.classList.add('fading');
-                            
-                            // Fade in button after layers start fading
-                            const ctaButton = document.getElementById('ctaButton');
                             setTimeout(() => {
                                 ctaButton.classList.add('visible');
                             }, 500);
                         }, 1000);
                     }
-                }, orderIndex * 350); // 350ms between each sticker start (overlapping peels)
+                }, orderIndex * 350);
             });
         }
 
-        // Click anywhere to restart animation (for testing)
+        // Click to reload (for testing)
         document.addEventListener('click', () => {
             location.reload();
         });
     </script>
-</body> hi austin
-</html> 
+</body>
+</html>
