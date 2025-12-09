@@ -18,7 +18,7 @@
 
     body {
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: linear-gradient(135deg, #ffeef7 0%, #ffffff 50%, #e7f9ff 100%);
+      background: linear-gradient(135deg, #ffddee 0%, #ffffff 50%, #d4f4ff 100%);
       min-height: 100vh;
       min-height: 100dvh;
       display: flex;
@@ -28,14 +28,16 @@
 
     .sticker-area {
       display: grid;
-      grid-template-columns: repeat(3, 90px);
-      grid-template-rows: repeat(3, 90px);
-      gap: 16px;
+      grid-template-columns: repeat(4, 70px);
+      grid-template-rows: repeat(5, 70px);
+      gap: 12px;
     }
 
     .sticker {
-      width: 90px;
-      height: 90px;
+      width: 70px;
+      height: 70px;
+      transform: scale(0.05);
+      opacity: 0;
     }
 
     .sticker img {
@@ -44,28 +46,58 @@
       object-fit: contain;
     }
 
-    /* Scale up slightly on larger phones */
+    /* Pop-in animation */
+    @keyframes popIn {
+      0% {
+        transform: scale(0.05);
+        opacity: 0;
+      }
+      50% {
+        opacity: 1;
+      }
+      80% {
+        transform: scale(1.05);
+      }
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .sticker.placed {
+      animation: popIn 0.4s ease-out forwards;
+    }
+
+    /* Row timing: each row starts 0.4s after the previous */
+    .sticker.row-1 { animation-delay: 0s; }
+    .sticker.row-2 { animation-delay: 0.4s; }
+    .sticker.row-3 { animation-delay: 0.8s; }
+    .sticker.row-4 { animation-delay: 1.2s; }
+    .sticker.row-5 { animation-delay: 1.6s; }
+
+    /* Scale up on larger phones */
     @media (min-width: 400px) {
       .sticker-area {
-        grid-template-columns: repeat(3, 100px);
-        grid-template-rows: repeat(3, 100px);
+        grid-template-columns: repeat(4, 80px);
+        grid-template-rows: repeat(5, 80px);
+        gap: 14px;
+      }
+      .sticker {
+        width: 80px;
+        height: 80px;
+      }
+    }
+
+    /* Tablets/desktop */
+    @media (min-width: 768px) {
+      .sticker-area {
+        grid-template-columns: repeat(4, 100px);
+        grid-template-rows: repeat(5, 100px);
+        gap: 18px;
       }
       .sticker {
         width: 100px;
         height: 100px;
-      }
-    }
-
-    /* Even bigger on tablets/desktop for testing */
-    @media (min-width: 768px) {
-      .sticker-area {
-        grid-template-columns: repeat(3, 120px);
-        grid-template-rows: repeat(3, 120px);
-        gap: 24px;
-      }
-      .sticker {
-        width: 120px;
-        height: 120px;
       }
     }
   </style>
@@ -73,16 +105,39 @@
 <body>
 
   <div class="sticker-area">
-    <div class="sticker"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
-    <div class="sticker"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
-    <div class="sticker"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
-    <div class="sticker"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
-    <div class="sticker"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
-    <div class="sticker"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
-    <div class="sticker"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
-    <div class="sticker"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
-    <div class="sticker"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
+    <!-- Row 1 -->
+    <div class="sticker row-1"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
+    <div class="sticker row-1"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
+    <div class="sticker row-1"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
+    <div class="sticker row-1"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
+    <!-- Row 2 -->
+    <div class="sticker row-2"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
+    <div class="sticker row-2"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
+    <div class="sticker row-2"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
+    <div class="sticker row-2"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
+    <!-- Row 3 -->
+    <div class="sticker row-3"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
+    <div class="sticker row-3"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
+    <div class="sticker row-3"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
+    <div class="sticker row-3"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
+    <!-- Row 4 -->
+    <div class="sticker row-4"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
+    <div class="sticker row-4"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
+    <div class="sticker row-4"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
+    <div class="sticker row-4"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
+    <!-- Row 5 -->
+    <div class="sticker row-5"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
+    <div class="sticker row-5"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
+    <div class="sticker row-5"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
+    <div class="sticker row-5"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
   </div>
+
+  <script>
+    // Trigger animation on load
+    window.addEventListener('load', () => {
+      document.querySelectorAll('.sticker').forEach(s => s.classList.add('placed'));
+    });
+  </script>
 
 </body>
 </html>
