@@ -2,18 +2,56 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Stickerbook – Choose Your Stickers</title>
+  <title>Stickerbook – Sticker Shop</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/stickerbook.css">
   <style>
-    /* White background for scroll area */
-    .overview-rows {
+    /* Tighten header spacing */
+    .top-row {
+      margin-bottom: 8px;
+    }
+
+    .screen-title {
+      margin-bottom: 12px;
+    }
+
+    /* Sticker section layout */
+    .sticker-section {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      min-height: 0;
+      gap: 12px;
+    }
+
+    /* Fixed scrollable container */
+    .sticker-container {
+      max-height: 82vh;
       background: #ffffff;
-      margin-left: -18px;
-      margin-right: -18px;
-      padding-left: 18px;
-      padding-right: 18px;
+      border-radius: var(--radius-lg);
+      box-shadow: 0 8px 32px rgba(15, 23, 42, 0.12), 0 2px 8px rgba(15, 23, 42, 0.08);
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: 16px 12px;
+    }
+
+    .overview-rows {
+      /* No overflow here - parent handles scrolling */
+    }
+
+    /* Center category titles */
+    .row-header {
+      justify-content: center;
+    }
+
+    .row-title {
+      text-align: center;
+    }
+
+    /* Row section spacing */
+    .row-section {
+      margin-bottom: 16px;
     }
 
     /* See more button - Miami Vice style */
@@ -47,6 +85,62 @@
       transform: translateY(0);
       box-shadow: 0 2px 8px rgba(236, 72, 153, 0.3);
     }
+
+    /* Larger search bar */
+    .search-row {
+      flex-shrink: 0;
+      margin: 0;
+      padding: 0 4px;
+    }
+
+    .search-wrapper {
+      max-width: 275px; /* 125% of ~220px */
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 10px 32px 10px 32px; /* ~120% height via padding */
+      font-size: 13px;
+    }
+
+    .search-icon {
+      left: 12px;
+      font-size: 14px;
+    }
+
+    .search-clear {
+      right: 12px;
+      font-size: 13px;
+    }
+
+    /* Category detail view */
+    .category-detail {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      background: #ffffff;
+      border-radius: var(--radius-lg);
+      box-shadow: 0 8px 32px rgba(15, 23, 42, 0.12), 0 2px 8px rgba(15, 23, 42, 0.08);
+      overflow: hidden;
+      padding: 16px 12px;
+    }
+
+    .category-detail-grid-wrapper {
+      flex: 1;
+      min-height: 0;
+      overflow-y: auto;
+      padding-right: 2px;
+      margin-top: 8px;
+    }
+
+    /* Selection footer */
+    .selection-footer {
+      flex-shrink: 0;
+      margin-top: 12px;
+      padding-top: 0;
+      border-top: none;
+    }
   </style>
 </head>
 <body>
@@ -63,13 +157,16 @@
           </div>
 
           <!-- Title -->
-          <h1 class="screen-title text-center">Choose your stickers</h1>
+          <h1 class="screen-title text-center">Sticker Shop</h1>
 
           <!-- Sticker section -->
           <div class="sticker-section">
-            <!-- Overview (Netflix-style rows) -->
-            <div class="overview-rows" id="overview-rows">
-              <!-- JS injects rows here -->
+            <!-- Fixed container for sticker browsing -->
+            <div class="sticker-container" id="sticker-container">
+              <!-- Overview (rows) -->
+              <div class="overview-rows" id="overview-rows">
+                <!-- JS injects rows here -->
+              </div>
             </div>
 
             <!-- Category / search detail view -->
@@ -93,7 +190,7 @@
               </div>
             </div>
 
-            <!-- Search (between gallery and footer) -->
+            <!-- Search bar (fixed below container) -->
             <div class="search-row">
               <div class="search-wrapper">
                 <span class="search-icon">🔍</span>
@@ -153,6 +250,7 @@
     let searchTerm = "";
 
     // DOM
+    const stickerContainer = document.getElementById("sticker-container");
     const overviewRowsEl = document.getElementById("overview-rows");
     const categoryDetailEl = document.getElementById("category-detail");
     const categoryDetailTitleEl = document.getElementById("category-detail-title");
@@ -343,7 +441,7 @@
       currentMode = "category";
       currentCategoryKey = categoryKey;
 
-      overviewRowsEl.classList.add("hidden");
+      stickerContainer.classList.add("hidden");
       categoryDetailEl.classList.remove("hidden");
 
       renderCategoryDetail();
@@ -354,7 +452,7 @@
       currentMode = "search";
       currentCategoryKey = null;
 
-      overviewRowsEl.classList.add("hidden");
+      stickerContainer.classList.add("hidden");
       categoryDetailEl.classList.remove("hidden");
 
       renderSearchResults();
@@ -366,7 +464,7 @@
       currentCategoryKey = null;
 
       categoryDetailEl.classList.add("hidden");
-      overviewRowsEl.classList.remove("hidden");
+      stickerContainer.classList.remove("hidden");
 
       renderOverviewRows();
       syncStickerTileClasses();
