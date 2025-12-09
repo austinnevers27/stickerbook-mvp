@@ -367,16 +367,18 @@
     }
 
     function selectBackground(color) {
-      // Update UI
-      canvasArea.style.background = color;
+      // Update UI with solid color (mini picker only does solids)
+      canvasArea.style.cssText = `background-color: ${color};`;
       
-      // Update data
+      // Update data - switching to solid clears pattern
       if (pageData) {
         pageData.background = color;
+        pageData.backgroundCSS = `background-color: ${color};`;
       }
       
       // Update localStorage
       localStorage.setItem("stickerbook_page_1_background", color);
+      localStorage.setItem("stickerbook_page_1_background_css", `background-color: ${color};`);
       localStorage.setItem("current_page_background", color);
       
       // Save full layout
@@ -445,6 +447,8 @@
           localStorage.getItem("current_page_background") ||
           "#ffffff";
 
+        const bgCSS = localStorage.getItem("stickerbook_page_1_background_css") || null;
+
         let stickerIds = [];
         try {
           const rawSel = localStorage.getItem("stickerbookSelectedStickers");
@@ -458,6 +462,7 @@
 
         pageData = {
           background: bg,
+          backgroundCSS: bgCSS,
           stickers: stickerIds.map((id) => ({ id, src: null }))
         };
 
@@ -481,6 +486,11 @@
           // ignore
         }
       } else {
+        // Also check for backgroundCSS in loaded pageData
+        if (!pageData.backgroundCSS) {
+          pageData.backgroundCSS = localStorage.getItem("stickerbook_page_1_background_css") || null;
+        }
+
         try {
           const allPagesRaw = localStorage.getItem("stickerbook_pages");
           if (allPagesRaw) {
@@ -514,8 +524,17 @@
     }
 
     function updateBackground() {
-      const bg = pageData && pageData.background ? pageData.background : "#ffffff";
-      canvasArea.style.background = bg;
+      // Check for full CSS pattern first
+      const bgCSS = pageData?.backgroundCSS || localStorage.getItem("stickerbook_page_1_background_css");
+      
+      if (bgCSS) {
+        // Apply the full CSS (could be pattern or solid)
+        canvasArea.style.cssText = bgCSS;
+      } else {
+        // Fallback to simple hex color
+        const bg = pageData?.background || "#ffffff";
+        canvasArea.style.background = bg;
+      }
     }
 
     function recalcCanvasBounds() {
@@ -655,13 +674,12 @@
         height: parseFloat(el.dataset.height) || undefined
       }));
 
-      const bg =
-        (pageData && pageData.background) ||
-        canvasArea.style.background ||
-        "#ffffff";
+      const bg = pageData?.background || canvasArea.style.backgroundColor || "#ffffff";
+      const bgCSS = pageData?.backgroundCSS || localStorage.getItem("stickerbook_page_1_background_css") || null;
 
       const page1 = {
         background: bg,
+        backgroundCSS: bgCSS,
         stickers
       };
 

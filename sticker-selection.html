@@ -338,7 +338,14 @@
         localStorage.getItem("current_page_background") ||
         "#ffffff";
 
-      const page1 = { background: backgroundColor, stickers: selectedStickers };
+      const backgroundCSS =
+        localStorage.getItem("stickerbook_page_1_background_css") || null;
+
+      const page1 = { 
+        background: backgroundColor, 
+        backgroundCSS: backgroundCSS,
+        stickers: selectedStickers 
+      };
       localStorage.setItem("stickerbook_page_1", JSON.stringify(page1));
 
       try {
