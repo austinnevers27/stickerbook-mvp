@@ -2,611 +2,409 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Stickerbook – Sticker Shop</title>
+  <title>Stickerbook – Create Account</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/stickerbook.css">
-  <style>
-    /* Tighten header spacing */
-    .top-row {
-      margin-bottom: 8px;
-    }
-
-    .screen-title {
-      margin-bottom: 12px;
-    }
-
-    /* Sticker section layout */
-    .sticker-section {
-      display: flex;
-      flex-direction: column;
-      flex: 1;
-      min-height: 0;
-      gap: 12px;
-    }
-
-    /* Fixed scrollable container */
-    .sticker-container {
-      flex: 1;
-      min-height: 0;
-      background: #ffffff;
-      border-radius: var(--radius-lg);
-      box-shadow: 0 8px 32px rgba(15, 23, 42, 0.12), 0 2px 8px rgba(15, 23, 42, 0.08);
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .overview-rows {
-      flex: 1;
-      min-height: 0;
-      overflow-y: auto;
-      overflow-x: hidden;
-      padding: 16px 12px;
-    }
-
-    /* Center category titles */
-    .row-header {
-      justify-content: center;
-    }
-
-    .row-title {
-      text-align: center;
-    }
-
-    /* Row section spacing */
-    .row-section {
-      margin-bottom: 16px;
-    }
-
-    /* See more button - Miami Vice style */
-    .see-more-tile {
-      min-width: 80px;
-      min-height: 72px;
-      padding: 12px 16px;
-      border-radius: var(--radius-md);
-      border: none;
-      background: linear-gradient(135deg, var(--color-pink), var(--color-orange), var(--color-cyan));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      color: #ffffff;
-      cursor: pointer;
-      flex-shrink: 0;
-      box-shadow: 0 4px 12px rgba(236, 72, 153, 0.3);
-      transition: transform 0.12s ease, box-shadow 0.15s ease;
-    }
-
-    .see-more-tile:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(236, 72, 153, 0.4);
-    }
-
-    .see-more-tile:active {
-      transform: translateY(0);
-      box-shadow: 0 2px 8px rgba(236, 72, 153, 0.3);
-    }
-
-    /* Larger search bar */
-    .search-row {
-      flex-shrink: 0;
-      margin: 0;
-      padding: 0 4px;
-    }
-
-    .search-wrapper {
-      max-width: 275px; /* 125% of ~220px */
-    }
-
-    .search-input {
-      width: 100%;
-      padding: 10px 32px 10px 32px; /* ~120% height via padding */
-      font-size: 13px;
-    }
-
-    .search-icon {
-      left: 12px;
-      font-size: 14px;
-    }
-
-    .search-clear {
-      right: 12px;
-      font-size: 13px;
-    }
-
-    /* Category detail view */
-    .category-detail {
-      flex: 1;
-      min-height: 0;
-      display: flex;
-      flex-direction: column;
-      background: #ffffff;
-      border-radius: var(--radius-lg);
-      box-shadow: 0 8px 32px rgba(15, 23, 42, 0.12), 0 2px 8px rgba(15, 23, 42, 0.08);
-      overflow: hidden;
-      padding: 16px 12px;
-    }
-
-    .category-detail-grid-wrapper {
-      flex: 1;
-      min-height: 0;
-      overflow-y: auto;
-      padding-right: 2px;
-      margin-top: 8px;
-    }
-
-    /* Selection footer */
-    .selection-footer {
-      flex-shrink: 0;
-      margin-top: 12px;
-      padding-top: 0;
-      border-top: none;
-    }
-  </style>
 </head>
 <body>
   <div class="app-shell">
     <div class="phone-frame">
       <div class="phone-inner">
         <div class="shell-inner">
-          <!-- Logo -->
-          <div class="top-row top-row--centered">
-            <div class="logo-group" style="align-items: center;">
+          <!-- Header with logo and skip button -->
+          <div class="top-row">
+            <div class="logo-group" style="align-items: flex-start;">
               <div class="logo-mark">STICKERBOOK</div>
               <div class="logo-accent"></div>
             </div>
+            <button class="btn-skip" id="skip-btn">Skip</button>
           </div>
 
           <!-- Title -->
-          <h1 class="screen-title text-center">Sticker Shop</h1>
+          <h1 class="screen-title text-center">Create your account</h1>
+          <p class="screen-subtitle text-center">
+            Just a few quick things, then we'll get to the fun part.
+          </p>
 
-          <!-- Sticker section -->
-          <div class="sticker-section">
-            <!-- Fixed container for sticker browsing -->
-            <div class="sticker-container" id="sticker-container">
-              <!-- Overview (rows) -->
-              <div class="overview-rows" id="overview-rows">
-                <!-- JS injects rows here -->
-              </div>
+          <!-- Form -->
+          <form class="form" id="account-form" novalidate>
+            <!-- Name -->
+            <div class="field">
+              <label class="field-label" for="name">Name</label>
+              <input 
+                type="text" 
+                id="name" 
+                class="field-input" 
+                placeholder="What should we call you?"
+                autocomplete="given-name"
+                required
+              />
+              <div class="field-error" id="name-error"></div>
             </div>
 
-            <!-- Category / search detail view -->
-            <div class="category-detail hidden" id="category-detail">
-              <div class="category-detail-header">
-                <button id="back-to-overview" class="back-link-small">
-                  <span class="icon">←</span>
-                  <span>Back</span>
-                </button>
-                <div>
-                  <div id="category-detail-title" class="category-detail-title"></div>
-                  <div id="category-detail-subtitle" class="category-detail-subtitle">
-                    Tap to add or remove stickers.
-                  </div>
-                </div>
-              </div>
-              <div class="category-detail-grid-wrapper">
-                <div class="sticker-grid" id="category-detail-grid">
-                  <!-- JS injects full grid here -->
-                </div>
-              </div>
-            </div>
-
-            <!-- Search bar (fixed below container) -->
-            <div class="search-row">
-              <div class="search-wrapper">
-                <span class="search-icon">🔍</span>
-                <input
-                  id="search-input"
-                  class="search-input"
-                  type="text"
-                  autocomplete="off"
-                  placeholder="Search stickers"
+            <!-- Date of Birth -->
+            <div class="field">
+              <label class="field-label">Date of Birth</label>
+              <div class="dob-row">
+                <input 
+                  type="text" 
+                  id="dob-month" 
+                  class="field-input" 
+                  placeholder="MM"
+                  maxlength="2"
+                  inputmode="numeric"
+                  autocomplete="bday-month"
+                  required
                 />
-                <span id="search-clear" class="search-clear">✕</span>
+                <input 
+                  type="text" 
+                  id="dob-day" 
+                  class="field-input" 
+                  placeholder="DD"
+                  maxlength="2"
+                  inputmode="numeric"
+                  autocomplete="bday-day"
+                  required
+                />
+                <input 
+                  type="text" 
+                  id="dob-year" 
+                  class="field-input" 
+                  placeholder="YYYY"
+                  maxlength="4"
+                  inputmode="numeric"
+                  autocomplete="bday-year"
+                  required
+                />
               </div>
+              <div class="field-error" id="dob-error"></div>
             </div>
 
-            <!-- Footer / controls -->
-            <div class="selection-footer">
-              <div class="selection-text">
-                Selected: <span id="selected-count">0</span>
+            <!-- Location -->
+            <div class="field">
+              <label class="field-label">Location</label>
+              <div class="location-row">
+                <input 
+                  type="text" 
+                  id="city" 
+                  class="field-input field-input--city" 
+                  placeholder="City"
+                  autocomplete="address-level2"
+                  required
+                />
+                <input 
+                  type="text" 
+                  id="state" 
+                  class="field-input field-input--state" 
+                  placeholder="ST"
+                  maxlength="2"
+                  autocomplete="address-level1"
+                  required
+                />
+                <input 
+                  type="text" 
+                  id="zip" 
+                  class="field-input field-input--zip" 
+                  placeholder="Zip"
+                  maxlength="5"
+                  inputmode="numeric"
+                  autocomplete="postal-code"
+                  required
+                />
               </div>
-              <button id="continue-button" class="btn btn-primary" style="width: auto; padding: 9px 20px;" disabled>
+              <div class="field-error" id="location-error"></div>
+            </div>
+
+            <!-- Email -->
+            <div class="field">
+              <label class="field-label" for="email">Email</label>
+              <input 
+                type="email" 
+                id="email" 
+                class="field-input" 
+                placeholder="you@example.com"
+                autocomplete="email"
+                required
+              />
+              <div class="field-error" id="email-error"></div>
+            </div>
+
+            <!-- Password -->
+            <div class="field">
+              <label class="field-label" for="password">Password</label>
+              <input 
+                type="password" 
+                id="password" 
+                class="field-input" 
+                placeholder="Create a password"
+                autocomplete="new-password"
+                required
+              />
+              <div class="password-rules">
+                <div class="password-rule" id="rule-length">At least 8 characters</div>
+                <div class="password-rule" id="rule-upper">One uppercase letter</div>
+                <div class="password-rule" id="rule-lower">One lowercase letter</div>
+                <div class="password-rule" id="rule-number">One number</div>
+              </div>
+              <div class="field-error" id="password-error"></div>
+            </div>
+
+            <!-- Terms -->
+            <div class="terms-row">
+              <input type="checkbox" id="terms" required />
+              <label for="terms">
+                I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
+              </label>
+            </div>
+            <div class="field-error" id="terms-error"></div>
+
+            <!-- Submit -->
+            <div class="cta-row">
+              <button type="submit" class="btn btn-primary" id="submit-btn">
                 Continue
               </button>
             </div>
-            <div id="selection-error" class="inline-error"></div>
-          </div>
+          </form>
         </div>
       </div>
     </div>
   </div>
 
   <script>
-    const MIN_SELECTIONS = 1;
-    const MAX_SELECTIONS_PER_PAGE = 20;
-    const STICKERS_PER_ROW = 20;
+    // DOM elements
+    const form = document.getElementById('account-form');
+    const skipBtn = document.getElementById('skip-btn');
+    
+    const nameInput = document.getElementById('name');
+    const dobMonth = document.getElementById('dob-month');
+    const dobDay = document.getElementById('dob-day');
+    const dobYear = document.getElementById('dob-year');
+    const cityInput = document.getElementById('city');
+    const stateInput = document.getElementById('state');
+    const zipInput = document.getElementById('zip');
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+    const termsCheckbox = document.getElementById('terms');
 
-    // Category definitions map directly to your stickers.json "category" field
-    const CATEGORY_DEFS = [
-      { key: "Local / Sacramento", label: "Sacramento" },
-      { key: "Places & Travel", label: "Places & Travel" },
-      { key: "Animals", label: "Animals" },
-      { key: "Food & Drinks", label: "Food & Drinks" },
-      { key: "Entertainment", label: "TV & Movies" },
-      { key: "Vibes & Aesthetic", label: "Vibes & Aesthetic" },
-      { key: "People & Characters", label: "People & Characters" },
-      { key: "Nature & Outdoors", label: "Nature & Outdoors" },
-      { key: "Sports", label: "Sports" },
-      { key: "Holidays & Seasonal", label: "Holidays & Seasonal" }
-    ];
+    const nameError = document.getElementById('name-error');
+    const dobError = document.getElementById('dob-error');
+    const locationError = document.getElementById('location-error');
+    const emailError = document.getElementById('email-error');
+    const passwordError = document.getElementById('password-error');
+    const termsError = document.getElementById('terms-error');
 
-    // This will be filled from stickers.json
-    let allStickers = [];
+    const ruleLength = document.getElementById('rule-length');
+    const ruleUpper = document.getElementById('rule-upper');
+    const ruleLower = document.getElementById('rule-lower');
+    const ruleNumber = document.getElementById('rule-number');
 
-    // STATE
-    let selectedIds = new Set();
-    let currentMode = "overview"; // "overview" | "category" | "search"
-    let currentCategoryKey = null;
-    let searchTerm = "";
-
-    // DOM
-    const stickerContainer = document.getElementById("sticker-container");
-    const overviewRowsEl = document.getElementById("overview-rows");
-    const categoryDetailEl = document.getElementById("category-detail");
-    const categoryDetailTitleEl = document.getElementById("category-detail-title");
-    const categoryDetailSubtitleEl = document.getElementById("category-detail-subtitle");
-    const categoryDetailGridEl = document.getElementById("category-detail-grid");
-    const backToOverviewEl = document.getElementById("back-to-overview");
-
-    const selectedCountEl = document.getElementById("selected-count");
-    const continueButtonEl = document.getElementById("continue-button");
-    const selectionErrorEl = document.getElementById("selection-error");
-
-    const searchInputEl = document.getElementById("search-input");
-    const searchClearEl = document.getElementById("search-clear");
-
-    // UTILITIES
-    function loadSelections() {
-      try {
-        const raw = localStorage.getItem("stickerbookSelectedStickers");
-        if (raw) {
-          const arr = JSON.parse(raw);
-          if (Array.isArray(arr)) {
-            selectedIds = new Set(arr);
-          }
+    // Auto-tab for DOB fields
+    function autoTab(current, next, maxLength) {
+      current.addEventListener('input', (e) => {
+        // Only allow numbers
+        e.target.value = e.target.value.replace(/\D/g, '');
+        
+        if (e.target.value.length >= maxLength && next) {
+          next.focus();
         }
-      } catch (e) {
-        selectedIds = new Set();
-      }
-    }
-
-    function saveSelections() {
-      try {
-        const arr = Array.from(selectedIds);
-        localStorage.setItem("stickerbookSelectedStickers", JSON.stringify(arr));
-      } catch (e) {
-        // ignore
-      }
-    }
-
-    function normalize(str) {
-      return (str || "").toLowerCase();
-    }
-
-    function clearError() {
-      selectionErrorEl.textContent = "";
-    }
-
-    function showError(msg) {
-      selectionErrorEl.textContent = msg;
-    }
-
-    // CATEGORY + FILTER HELPERS
-    function getStickersForCategoryKey(categoryKey) {
-      return allStickers.filter((s) => s.category === categoryKey);
-    }
-
-    // STICKER TILE
-    function createStickerTile(sticker) {
-      const tile = document.createElement("div");
-      tile.className = "sticker-tile";
-      tile.dataset.stickerId = sticker.id;
-
-      if (selectedIds.has(sticker.id)) {
-        tile.classList.add("selected");
-      }
-
-      const visual = document.createElement("div");
-      visual.className = "sticker-visual";
-
-      const img = document.createElement("img");
-      img.src = sticker.image;
-      img.alt = sticker.displayName || sticker.label || "Sticker";
-      img.className = "sticker-image";
-
-      // Log broken images to the console
-      img.addEventListener("error", () => {
-        console.error("Missing sticker image:", {
-          id: sticker.id,
-          filename: sticker.filename,
-          src: img.src
-        });
-      });
-
-      visual.appendChild(img);
-      tile.appendChild(visual);
-
-      tile.addEventListener("click", () => {
-        toggleStickerSelection(sticker.id);
-      });
-
-      return tile;
-    }
-
-    // OVERVIEW RENDER
-    function renderOverviewRows() {
-      overviewRowsEl.innerHTML = "";
-
-      CATEGORY_DEFS.forEach((cat) => {
-        const stickers = getStickersForCategoryKey(cat.key);
-        if (!stickers || stickers.length === 0) return;
-
-        const section = document.createElement("section");
-        section.className = "row-section";
-
-        const header = document.createElement("div");
-        header.className = "row-header";
-
-        const title = document.createElement("div");
-        title.className = "row-title";
-        title.textContent = cat.label;
-
-        header.appendChild(title);
-        section.appendChild(header);
-
-        const strip = document.createElement("div");
-        strip.className = "row-strip";
-
-        const initial = stickers.slice(0, STICKERS_PER_ROW);
-        initial.forEach((sticker) => {
-          strip.appendChild(createStickerTile(sticker));
-        });
-
-        if (stickers.length > STICKERS_PER_ROW) {
-          const seeMore = document.createElement("div");
-          seeMore.className = "see-more-tile";
-          seeMore.textContent = "See more";
-          seeMore.addEventListener("click", () => {
-            showCategoryDetail(cat.key);
-          });
-          strip.appendChild(seeMore);
-        }
-
-        section.appendChild(strip);
-        overviewRowsEl.appendChild(section);
       });
     }
 
-    // CATEGORY DETAIL RENDER
-    function renderCategoryDetail() {
-      const def = CATEGORY_DEFS.find((c) => c.key === currentCategoryKey);
-      const label = def ? def.label : "Stickers";
+    autoTab(dobMonth, dobDay, 2);
+    autoTab(dobDay, dobYear, 2);
+    autoTab(dobYear, null, 4);
 
-      categoryDetailTitleEl.textContent = label;
-      categoryDetailSubtitleEl.textContent = "Tap to add or remove stickers.";
+    // Auto-tab for zip (just filter to numbers)
+    zipInput.addEventListener('input', (e) => {
+      e.target.value = e.target.value.replace(/\D/g, '');
+    });
 
-      categoryDetailGridEl.innerHTML = "";
+    // State field: force uppercase
+    stateInput.addEventListener('input', (e) => {
+      e.target.value = e.target.value.toUpperCase().replace(/[^A-Z]/g, '');
+    });
 
-      const stickers = getStickersForCategoryKey(currentCategoryKey);
-      if (!stickers || stickers.length === 0) return;
-
-      stickers.forEach((sticker) => {
-        categoryDetailGridEl.appendChild(createStickerTile(sticker));
-      });
-    }
-
-    // SEARCH
-    function getSearchResults() {
-      const term = normalize(searchTerm);
-      if (!term) return [];
-      return allStickers.filter((s) => {
-        if (normalize(s.displayName || s.label).includes(term)) return true;
-        if (s.tags && s.tags.some((t) => normalize(t).includes(term))) return true;
-        return false;
-      });
-    }
-
-    function renderSearchResults() {
-      categoryDetailTitleEl.textContent = "Search results";
-      categoryDetailSubtitleEl.textContent = "Tap to add or remove stickers.";
-
-      categoryDetailGridEl.innerHTML = "";
-
-      const results = getSearchResults();
-      if (results.length === 0) {
-        const msg = document.createElement("div");
-        msg.className = "empty-msg";
-        msg.textContent = "No stickers match that search yet. Try a different word or clear search.";
-        categoryDetailGridEl.appendChild(msg);
-        return;
-      }
-
-      results.forEach((sticker) => {
-        categoryDetailGridEl.appendChild(createStickerTile(sticker));
-      });
-    }
-
-    // VIEW SWITCHING
-    function showCategoryDetail(categoryKey) {
-      currentMode = "category";
-      currentCategoryKey = categoryKey;
-
-      stickerContainer.classList.add("hidden");
-      categoryDetailEl.classList.remove("hidden");
-
-      renderCategoryDetail();
-      syncStickerTileClasses();
-    }
-
-    function showSearchView() {
-      currentMode = "search";
-      currentCategoryKey = null;
-
-      stickerContainer.classList.add("hidden");
-      categoryDetailEl.classList.remove("hidden");
-
-      renderSearchResults();
-      syncStickerTileClasses();
-    }
-
-    function showOverview() {
-      currentMode = "overview";
-      currentCategoryKey = null;
-
-      categoryDetailEl.classList.add("hidden");
-      stickerContainer.classList.remove("hidden");
-
-      renderOverviewRows();
-      syncStickerTileClasses();
-    }
-
-    // SELECTION UI
-    function updateSelectionUI() {
-      const count = selectedIds.size;
-      selectedCountEl.textContent = String(count);
-      continueButtonEl.disabled = count < MIN_SELECTIONS;
-      if (count < MIN_SELECTIONS) {
-        showError("Pick at least one sticker to continue.");
+    // Password validation - live update
+    passwordInput.addEventListener('input', () => {
+      const val = passwordInput.value;
+      
+      // Length check
+      if (val.length >= 8) {
+        ruleLength.classList.add('met');
       } else {
-        clearError();
+        ruleLength.classList.remove('met');
       }
+      
+      // Uppercase check
+      if (/[A-Z]/.test(val)) {
+        ruleUpper.classList.add('met');
+      } else {
+        ruleUpper.classList.remove('met');
+      }
+      
+      // Lowercase check
+      if (/[a-z]/.test(val)) {
+        ruleLower.classList.add('met');
+      } else {
+        ruleLower.classList.remove('met');
+      }
+      
+      // Number check
+      if (/[0-9]/.test(val)) {
+        ruleNumber.classList.add('met');
+      } else {
+        ruleNumber.classList.remove('met');
+      }
+    });
+
+    // Clear errors on input
+    nameInput.addEventListener('input', () => { nameError.textContent = ''; });
+    dobMonth.addEventListener('input', () => { dobError.textContent = ''; });
+    dobDay.addEventListener('input', () => { dobError.textContent = ''; });
+    dobYear.addEventListener('input', () => { dobError.textContent = ''; });
+    cityInput.addEventListener('input', () => { locationError.textContent = ''; });
+    stateInput.addEventListener('input', () => { locationError.textContent = ''; });
+    zipInput.addEventListener('input', () => { locationError.textContent = ''; });
+    emailInput.addEventListener('input', () => { emailError.textContent = ''; });
+    passwordInput.addEventListener('input', () => { passwordError.textContent = ''; });
+    termsCheckbox.addEventListener('change', () => { termsError.textContent = ''; });
+
+    // Validation helpers
+    function isValidEmail(email) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     }
 
-    function syncStickerTileClasses() {
-      const tiles = document.querySelectorAll(".sticker-tile");
-      tiles.forEach((tile) => {
-        const id = tile.dataset.stickerId;
-        if (!id) return;
-        if (selectedIds.has(id)) {
-          tile.classList.add("selected");
+    function isValidPassword(password) {
+      return (
+        password.length >= 8 &&
+        /[A-Z]/.test(password) &&
+        /[a-z]/.test(password) &&
+        /[0-9]/.test(password)
+      );
+    }
+
+    function calculateAge(month, day, year) {
+      const today = new Date();
+      const birthDate = new Date(year, month - 1, day);
+      let age = today.getFullYear() - birthDate.getFullYear();
+      const monthDiff = today.getMonth() - birthDate.getMonth();
+      
+      if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+      }
+      
+      return age;
+    }
+
+    function isValidDOB(month, day, year) {
+      const m = parseInt(month, 10);
+      const d = parseInt(day, 10);
+      const y = parseInt(year, 10);
+      
+      if (isNaN(m) || isNaN(d) || isNaN(y)) return { valid: false, reason: 'incomplete' };
+      if (m < 1 || m > 12) return { valid: false, reason: 'invalid' };
+      if (d < 1 || d > 31) return { valid: false, reason: 'invalid' };
+      if (y < 1900 || y > new Date().getFullYear()) return { valid: false, reason: 'invalid' };
+      
+      // Check if date actually exists
+      const testDate = new Date(y, m - 1, d);
+      if (testDate.getMonth() !== m - 1) return { valid: false, reason: 'invalid' };
+      
+      // Check age
+      const age = calculateAge(m, d, y);
+      if (age < 13) return { valid: false, reason: 'underage' };
+      
+      return { valid: true };
+    }
+
+    // Form submission
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      let hasError = false;
+      
+      // Validate name
+      if (!nameInput.value.trim()) {
+        nameError.textContent = 'Please enter your name.';
+        hasError = true;
+      }
+      
+      // Validate DOB
+      const dobResult = isValidDOB(dobMonth.value, dobDay.value, dobYear.value);
+      if (!dobResult.valid) {
+        if (dobResult.reason === 'incomplete') {
+          dobError.textContent = 'Please enter your complete date of birth.';
+        } else if (dobResult.reason === 'underage') {
+          dobError.textContent = 'You must be at least 13 years old to use Stickerbook.';
         } else {
-          tile.classList.remove("selected");
+          dobError.textContent = 'Please enter a valid date of birth.';
         }
-      });
-    }
-
-    function toggleStickerSelection(id) {
-      clearError();
-
-      if (selectedIds.has(id)) {
-        selectedIds.delete(id);
-      } else {
-        selectedIds.add(id);
+        hasError = true;
       }
-
-      saveSelections();
-      updateSelectionUI();
-      syncStickerTileClasses();
-    }
-
-    // EVENTS
-    backToOverviewEl.addEventListener("click", () => {
-      searchTerm = "";
-      searchInputEl.value = "";
-      showOverview();
-    });
-
-    continueButtonEl.addEventListener("click", () => {
-      const count = selectedIds.size;
-      if (count < MIN_SELECTIONS) {
-        showError("Pick at least one sticker to continue.");
-        return;
+      
+      // Validate location
+      if (!cityInput.value.trim() || !stateInput.value.trim() || !zipInput.value.trim()) {
+        locationError.textContent = 'Please enter your city, state, and zip code.';
+        hasError = true;
+      } else if (zipInput.value.length !== 5) {
+        locationError.textContent = 'Please enter a valid 5-digit zip code.';
+        hasError = true;
       }
-
-      const selectedStickers = allStickers
-        .filter((s) => selectedIds.has(s.id))
-        .map((s) => ({
-          id: s.id,
-          src: s.image
-        }));
-
-      saveSelections();
-
-      const backgroundColor =
-        localStorage.getItem("stickerbook_page_1_background") ||
-        localStorage.getItem("current_page_background") ||
-        "#ffffff";
-
-      const page1 = {
-        background: backgroundColor,
-        stickers: selectedStickers
+      
+      // Validate email
+      if (!emailInput.value.trim()) {
+        emailError.textContent = 'Please enter your email address.';
+        hasError = true;
+      } else if (!isValidEmail(emailInput.value)) {
+        emailError.textContent = 'Please enter a valid email address.';
+        hasError = true;
+      }
+      
+      // Validate password
+      if (!passwordInput.value) {
+        passwordError.textContent = 'Please create a password.';
+        hasError = true;
+      } else if (!isValidPassword(passwordInput.value)) {
+        passwordError.textContent = 'Password doesn\'t meet all requirements.';
+        hasError = true;
+      }
+      
+      // Validate terms
+      if (!termsCheckbox.checked) {
+        termsError.textContent = 'You must agree to the terms to continue.';
+        hasError = true;
+      }
+      
+      if (hasError) return;
+      
+      // Save to localStorage (for MVP - will be backend later)
+      const userData = {
+        name: nameInput.value.trim(),
+        dob: {
+          month: dobMonth.value,
+          day: dobDay.value,
+          year: dobYear.value
+        },
+        location: {
+          city: cityInput.value.trim(),
+          state: stateInput.value.trim().toUpperCase(),
+          zip: zipInput.value.trim()
+        },
+        email: emailInput.value.trim()
+        // Note: Never store passwords in localStorage in production!
       };
-
-      localStorage.setItem("stickerbook_page_1", JSON.stringify(page1));
-
-      try {
-        const existing = JSON.parse(localStorage.getItem("stickerbook_pages") || "{}");
-        existing.page_1 = page1;
-        localStorage.setItem("stickerbook_pages", JSON.stringify(existing));
-      } catch (e) {
-        localStorage.setItem(
-          "stickerbook_pages",
-          JSON.stringify({ page_1: page1 })
-        );
-      }
-
-      window.location.href = "sticker-placement.html";
+      
+      localStorage.setItem('stickerbook_user', JSON.stringify(userData));
+      
+      // Navigate to background selection
+      window.location.href = 'background.html';
     });
 
-    searchInputEl.addEventListener("input", (e) => {
-      searchTerm = e.target.value.trim();
-      if (searchTerm.length === 0) {
-        if (currentMode === "search") {
-          showOverview();
-        }
-      } else {
-        showSearchView();
-      }
+    // Skip button (developer tool)
+    skipBtn.addEventListener('click', () => {
+      window.location.href = 'background.html';
     });
-
-    searchClearEl.addEventListener("click", () => {
-      searchTerm = "";
-      searchInputEl.value = "";
-      if (currentMode === "search") {
-        showOverview();
-      }
-    });
-
-    // INIT
-    async function init() {
-      loadSelections();
-
-      try {
-        const res = await fetch("stickers.json");
-        const data = await res.json();
-
-        // Normalize into the structure this page expects
-        allStickers = data.map((s) => ({
-          ...s,
-          label: s.displayName || s.label || "",
-          image: "assets/Stickers/" + s.filename
-        }));
-
-        showOverview();
-        updateSelectionUI();
-        syncStickerTileClasses();
-      } catch (err) {
-        console.error("Error loading stickers.json:", err);
-        showError("There was a problem loading stickers. Try refreshing the page.");
-      }
-    }
-
-    document.addEventListener("DOMContentLoaded", init);
   </script>
 </body>
 </html>

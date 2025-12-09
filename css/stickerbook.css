@@ -267,6 +267,26 @@ body {
   box-shadow: 0 1px 3px rgba(15, 23, 42, 0.10);
 }
 
+/* Skip button (developer tool) */
+.btn-skip {
+  background: transparent;
+  border: 1px dashed var(--color-text-subtle);
+  color: var(--color-text-subtle);
+  padding: 6px 12px;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+.btn-skip:hover {
+  border-color: var(--color-text-muted);
+  color: var(--color-text-muted);
+}
+
 
 /* ========== STICKER STYLES ========== */
 .sticker {
@@ -505,6 +525,31 @@ body {
   min-width: 0;
 }
 
+/* Location row (City / State / Zip) */
+.location-row {
+  display: flex;
+  gap: 8px;
+}
+
+.location-row .field-input {
+  min-width: 0;
+}
+
+.location-row .field-input--city {
+  flex: 2;
+}
+
+.location-row .field-input--state {
+  flex: 1;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.location-row .field-input--zip {
+  flex: 1;
+  text-align: center;
+}
+
 
 /* ========== PASSWORD RULES ========== */
 .password-rules {
@@ -514,6 +559,10 @@ body {
   display: flex;
   flex-direction: column;
   gap: 2px;
+}
+
+.password-rule {
+  transition: color 0.2s ease;
 }
 
 .password-rule.met {
@@ -533,6 +582,7 @@ body {
 
 .terms-row input[type="checkbox"] {
   margin-top: 1px;
+  cursor: pointer;
 }
 
 .terms-row a {
@@ -999,6 +1049,19 @@ body {
 
   .field-row-2 {
     flex-direction: column;
+  }
+  
+  .location-row {
+    flex-wrap: wrap;
+  }
+  
+  .location-row .field-input--city {
+    flex: 1 1 100%;
+  }
+  
+  .location-row .field-input--state,
+  .location-row .field-input--zip {
+    flex: 1;
   }
 }
 
