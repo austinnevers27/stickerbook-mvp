@@ -38,12 +38,27 @@
       height: 70px;
       transform: scale(0.05);
       opacity: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .sticker img {
       width: 100%;
       height: 100%;
       object-fit: contain;
+    }
+
+    /* Merged center cell - spans 2 columns */
+    .sticker.featured {
+      grid-column: span 2;
+      width: 100%;
+      height: 100%;
+    }
+
+    .sticker.featured img {
+      width: 122px;  /* 70 * 1.75 = 122.5 */
+      height: 122px;
     }
 
     /* Pop-in animation */
@@ -68,7 +83,7 @@
       animation: popIn 0.4s ease-out forwards;
     }
 
-    /* Row timing: each row starts 0.4s after the previous */
+    /* Row timing */
     .sticker.row-1 { animation-delay: 0s; }
     .sticker.row-2 { animation-delay: 0.4s; }
     .sticker.row-3 { animation-delay: 0.8s; }
@@ -86,6 +101,10 @@
         width: 80px;
         height: 80px;
       }
+      .sticker.featured img {
+        width: 140px;  /* 80 * 1.75 */
+        height: 140px;
+      }
     }
 
     /* Tablets/desktop */
@@ -99,33 +118,36 @@
         width: 100px;
         height: 100px;
       }
+      .sticker.featured img {
+        width: 175px;  /* 100 * 1.75 */
+        height: 175px;
+      }
     }
   </style>
 </head>
 <body>
 
   <div class="sticker-area">
-    <!-- Row 1 -->
+    <!-- Row 1: positions 1-4 -->
     <div class="sticker row-1"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
     <div class="sticker row-1"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
     <div class="sticker row-1"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
     <div class="sticker row-1"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
-    <!-- Row 2 -->
+    <!-- Row 2: positions 5-8 -->
     <div class="sticker row-2"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
     <div class="sticker row-2"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
     <div class="sticker row-2"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
     <div class="sticker row-2"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
-    <!-- Row 3 -->
+    <!-- Row 3: position 9, then 10-11 merged (featured), then 12 -->
     <div class="sticker row-3"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
+    <div class="sticker row-3 featured"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
     <div class="sticker row-3"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
-    <div class="sticker row-3"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
-    <div class="sticker row-3"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
-    <!-- Row 4 -->
+    <!-- Row 4: positions 13-16 -->
     <div class="sticker row-4"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
     <div class="sticker row-4"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
     <div class="sticker row-4"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
     <div class="sticker row-4"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
-    <!-- Row 5 -->
+    <!-- Row 5: positions 17-20 -->
     <div class="sticker row-5"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
     <div class="sticker row-5"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
     <div class="sticker row-5"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
