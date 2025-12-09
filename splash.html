@@ -187,10 +187,18 @@
       animation: popInBig 0.4s ease-out forwards;
     }
 
-    /* Row timing - applies to all animations */
-    .sticker.row-1.placed { animation-delay: 0s !important; }
-    .sticker.row-2.placed { animation-delay: 0.4s !important; }
-    .sticker.row-3.placed { animation-delay: 0.8s !important; }
+    /* Individual sticker timing - entrance order */
+    .sticker.order-1.placed { animation-delay: 0.0s !important; }   /* spot 7 */
+    .sticker.order-2.placed { animation-delay: 0.3s !important; }   /* spot 6 */
+    .sticker.order-3.placed { animation-delay: 0.6s !important; }   /* spot 1 */
+    .sticker.order-4.placed { animation-delay: 0.9s !important; }   /* spot 10 */
+    .sticker.order-5.placed { animation-delay: 1.2s !important; }   /* spot 3 */
+    .sticker.order-6.placed { animation-delay: 1.5s !important; }   /* spot 8 */
+    .sticker.order-7.placed { animation-delay: 1.8s !important; }   /* spot 5 */
+    .sticker.order-8.placed { animation-delay: 2.1s !important; }   /* spot 4 */
+    .sticker.order-9.placed { animation-delay: 2.4s !important; }   /* spot 9 */
+    .sticker.order-10.placed { animation-delay: 2.7s !important; }  /* spot 2 */
+    .sticker.order-11.placed { animation-delay: 3.0s !important; }  /* stickerbook */
 
     /* ========== HEADER STATE (after transition) ========== */
     .header-title {
@@ -353,20 +361,20 @@
 
   <!-- SPLASH: Sticker grid -->
   <div class="sticker-area" id="stickerArea">
-    <!-- Row 1: 4 stickers -->
-    <div class="sticker row-1 airplane"><img src="assets/Stickers/splash/airplane.png" alt=""></div>
-    <div class="sticker row-1 baseball"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
-    <div class="sticker row-1 controller"><img src="assets/Stickers/splash/controller.png" alt=""></div>
-    <div class="sticker row-1 donut"><img src="assets/Stickers/splash/donut.png" alt=""></div>
-    <!-- Row 2: 1 sticker + title (spans 2) + 1 sticker -->
-    <div class="sticker row-2 fox"><img src="assets/Stickers/splash/fox.png" alt=""></div>
-    <div class="sticker row-2 featured"><span class="splash-title">Stickerbook</span></div>
-    <div class="sticker row-2 moon"><img src="assets/Stickers/splash/moon.png" alt=""></div>
-    <!-- Row 3: 4 stickers (4 blank for now) -->
-    <div class="sticker row-3"></div>
-    <div class="sticker row-3"></div>
-    <div class="sticker row-3"></div>
-    <div class="sticker row-3"></div>
+    <!-- Row 1: spots 1-4 -->
+    <div class="sticker order-3 airplane"><img src="assets/Stickers/splash/airplane.png" alt=""></div>
+    <div class="sticker order-10 baseball"><img src="assets/Stickers/splash/baseball.png" alt=""></div>
+    <div class="sticker order-5 controller"><img src="assets/Stickers/splash/controller.png" alt=""></div>
+    <div class="sticker order-8 donut"><img src="assets/Stickers/splash/donut.png" alt=""></div>
+    <!-- Row 2: spot 5 + title + spot 6 -->
+    <div class="sticker order-7 fox"><img src="assets/Stickers/splash/fox.png" alt=""></div>
+    <div class="sticker order-11 featured"><span class="splash-title">Stickerbook</span></div>
+    <div class="sticker order-2 moon"><img src="assets/Stickers/splash/moon.png" alt=""></div>
+    <!-- Row 3: spots 7-10 (blank for now) -->
+    <div class="sticker order-1"></div>
+    <div class="sticker order-6"></div>
+    <div class="sticker order-9"></div>
+    <div class="sticker order-4"></div>
   </div>
 
   <!-- HEADER: Title that persists and moves to top -->
@@ -411,7 +419,7 @@
     window.addEventListener('load', () => {
       document.querySelectorAll('.sticker').forEach(s => s.classList.add('placed'));
 
-      // After stickers are done (1.2s for 3 rows) + small pause (0.5s), start transition
+      // After stickers are done (3.4s) + 1s static pause, start transition
       setTimeout(() => {
         // Fade out stickers
         stickerArea.classList.add('fade-out');
@@ -438,7 +446,7 @@
 
         }, 200);
 
-      }, 1700);
+      }, 4400);
     });
   </script>
 
