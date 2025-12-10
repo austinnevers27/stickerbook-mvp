@@ -1144,6 +1144,7 @@
       gap: 8px;
       padding: 0 16px 12px;
       flex-shrink: 0;
+      justify-content: center;
     }
 
     .bg-swatch-row.visible {
@@ -1151,7 +1152,6 @@
     }
 
     .bg-swatch {
-      flex: 1;
       display: flex;
       align-items: center;
       gap: 8px;
@@ -1174,8 +1174,8 @@
     }
 
     .bg-swatch-color {
-      width: 28px;
-      height: 28px;
+      width: 24px;
+      height: 24px;
       border-radius: var(--radius-sm);
       box-shadow: var(--shadow-xs);
       flex-shrink: 0;
@@ -1242,25 +1242,181 @@
     }
 
     /* Shop link in background panel */
-    .bg-shop-link {
+    /* Background panel footer */
+    .bg-footer {
+      flex-shrink: 0;
+      border-top: 1px solid var(--color-border);
+      background: var(--color-canvas-elevated);
+    }
+
+    .bg-footer-shop {
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 6px;
       padding: 12px 16px;
-      border-top: 1px solid var(--color-border);
       background: var(--color-canvas-subtle);
       color: var(--color-text-muted);
       font-size: 11px;
       font-weight: 600;
       cursor: pointer;
       transition: background 0.15s ease, color 0.15s ease;
-      flex-shrink: 0;
     }
 
-    .bg-shop-link:hover {
+    .bg-footer-shop:hover {
       background: var(--color-hover-bg);
       color: var(--color-text-secondary);
+    }
+
+    .bg-footer-toggle {
+      display: flex;
+    }
+
+    .bg-footer-tab {
+      flex: 1;
+      padding: 12px 16px;
+      background: var(--color-canvas-subtle);
+      border: none;
+      color: var(--color-text-muted);
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s ease, color 0.15s ease;
+      font-family: var(--font-primary);
+    }
+
+    .bg-footer-tab:first-child {
+      border-right: 1px solid var(--color-border);
+    }
+
+    .bg-footer-tab:hover {
+      background: var(--color-hover-bg);
+    }
+
+    .bg-footer-tab.active {
+      background: var(--color-canvas-elevated);
+      color: var(--color-text-primary);
+    }
+
+    /* My Backgrounds view */
+    .bg-my-view {
+      display: none;
+      flex: 1;
+      overflow: hidden;
+      flex-direction: column;
+    }
+
+    .bg-my-view.visible {
+      display: flex;
+    }
+
+    .bg-default-view {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+      flex-direction: column;
+    }
+
+    .bg-default-view.hidden {
+      display: none;
+    }
+
+    .bg-my-grid {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px 16px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      align-content: start;
+    }
+
+    .bg-my-grid::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .bg-my-grid::-webkit-scrollbar-track {
+      background: var(--color-border-subtle);
+      border-radius: 2px;
+    }
+
+    .bg-my-grid::-webkit-scrollbar-thumb {
+      background: var(--color-border-strong);
+      border-radius: 2px;
+    }
+
+    .bg-my-item-wrapper {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-md);
+      aspect-ratio: 1 / 1;
+    }
+
+    .bg-my-item {
+      position: absolute;
+      inset: 0;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      border: 2px solid transparent;
+      box-shadow: var(--shadow-sm);
+      background-size: cover;
+      background-position: center;
+    }
+
+    .bg-my-item:hover {
+      transform: scale(1.03);
+    }
+
+    .bg-my-item.selected {
+      border-color: var(--color-accent);
+      box-shadow: 0 0 0 2px rgba(20, 184, 166, 0.3), var(--shadow-sm);
+    }
+
+    .bg-my-item-delete {
+      position: absolute;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      width: 50px;
+      background: var(--color-error);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 16px;
+      transform: translateX(100%);
+      transition: transform 0.2s ease;
+      border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    }
+
+    .bg-my-item-wrapper.swiped .bg-my-item-delete {
+      transform: translateX(0);
+    }
+
+    .bg-my-item-wrapper.swiped .bg-my-item {
+      transform: translateX(-50px);
+    }
+
+    .bg-my-empty {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+      text-align: center;
+      color: var(--color-text-muted);
+    }
+
+    .bg-my-empty-icon {
+      font-size: 32px;
+      margin-bottom: 12px;
+      opacity: 0.5;
+    }
+
+    .bg-my-empty-text {
+      font-size: 12px;
+      line-height: 1.5;
     }
   </style>
 </head>
@@ -1479,14 +1635,36 @@
         </div>
       </div>
 
-      <!-- Color grid -->
-      <div class="bg-color-grid" id="bg-color-grid">
-        <!-- Color rows injected by JS -->
+      <!-- Default view (colors/patterns) -->
+      <div class="bg-default-view" id="bg-default-view">
+        <!-- Color grid -->
+        <div class="bg-color-grid" id="bg-color-grid">
+          <!-- Color rows injected by JS -->
+        </div>
       </div>
 
-      <!-- Shop link -->
-      <div class="bg-shop-link" id="bg-shop-link">
-        🛒 <span>Get more backgrounds in the Shop</span>
+      <!-- My Backgrounds view (premium) -->
+      <div class="bg-my-view" id="bg-my-view">
+        <div class="bg-my-grid" id="bg-my-grid">
+          <!-- Premium backgrounds injected by JS -->
+        </div>
+        <div class="bg-my-empty" id="bg-my-empty">
+          <div class="bg-my-empty-icon">🎨</div>
+          <div class="bg-my-empty-text">No backgrounds yet.<br>Visit the Shop to discover artist backgrounds!</div>
+        </div>
+      </div>
+
+      <!-- Footer (shop link or toggle) -->
+      <div class="bg-footer" id="bg-footer">
+        <!-- Shop link (shown when no premium backgrounds) -->
+        <div class="bg-footer-shop" id="bg-footer-shop">
+          🛒 <span>Get more backgrounds in the Shop</span>
+        </div>
+        <!-- Toggle tabs (shown when has premium backgrounds) -->
+        <div class="bg-footer-toggle" id="bg-footer-toggle" style="display: none;">
+          <button class="bg-footer-tab active" id="bg-tab-default">Default</button>
+          <button class="bg-footer-tab" id="bg-tab-my">My Backgrounds</button>
+        </div>
       </div>
     </div>
   </div>
@@ -1622,6 +1800,8 @@
     let bgSelectedBaseColor = null;
     let bgSelectedPatternColor = null;
     let bgEditingTarget = 'base';
+    let bgViewMode = 'default'; // 'default' or 'my'
+    let myBackgrounds = []; // Premium/purchased backgrounds
 
     // ============ DOM ELEMENTS ============
     const stickerPage = document.getElementById('stickerbook-page');
@@ -1670,7 +1850,15 @@
     const bgSwatchPatternColor = document.getElementById('swatch-pattern-color');
     const bgSwatchPatternLabel = document.getElementById('swatch-pattern-label');
     const bgColorGrid = document.getElementById('bg-color-grid');
-    const bgShopLink = document.getElementById('bg-shop-link');
+    const bgDefaultView = document.getElementById('bg-default-view');
+    const bgMyView = document.getElementById('bg-my-view');
+    const bgMyGrid = document.getElementById('bg-my-grid');
+    const bgMyEmpty = document.getElementById('bg-my-empty');
+    const bgFooter = document.getElementById('bg-footer');
+    const bgFooterShop = document.getElementById('bg-footer-shop');
+    const bgFooterToggle = document.getElementById('bg-footer-toggle');
+    const bgTabDefault = document.getElementById('bg-tab-default');
+    const bgTabMy = document.getElementById('bg-tab-my');
 
     // Unlock modal elements
     const unlockInviteModal = document.getElementById('unlock-invite-modal');
@@ -1734,22 +1922,43 @@
       const page = pages[currentPageIndex];
       if (page && page.backgroundData) {
         const data = page.backgroundData;
-        bgCurrentPattern = data.pattern || 'solid';
-        bgSelectedBaseColor = data.baseColor || null;
-        bgSelectedPatternColor = data.patternColor || null;
+        
+        // Check if it's a premium background
+        if (data.pattern === 'premium') {
+          bgViewMode = 'my';
+          bgCurrentPattern = 'solid';
+          bgSelectedBaseColor = null;
+          bgSelectedPatternColor = null;
+        } else {
+          bgViewMode = 'default';
+          bgCurrentPattern = data.pattern || 'solid';
+          bgSelectedBaseColor = data.baseColor || null;
+          bgSelectedPatternColor = data.patternColor || null;
 
-        if (data.subfilter) {
-          bgSubfilter[bgCurrentPattern] = data.subfilter;
+          if (data.subfilter) {
+            bgSubfilter[bgCurrentPattern] = data.subfilter;
+          }
         }
       } else {
+        bgViewMode = 'default';
         bgCurrentPattern = 'solid';
         bgSelectedBaseColor = null;
         bgSelectedPatternColor = null;
       }
 
       bgEditingTarget = 'base';
-      updateBgPanelUI();
-      renderBgColorGrid();
+      
+      // Update footer based on whether user has premium backgrounds
+      updateBgFooter();
+      
+      // Update view mode (shows correct view)
+      updateBgViewMode();
+      
+      // For default view, also render the color grid
+      if (bgViewMode === 'default') {
+        updateBgPanelUI();
+        renderBgColorGrid();
+      }
 
       bgOverlay.classList.add('visible');
       bgPanel.classList.add('visible');
@@ -1972,11 +2181,204 @@
         renderBgColorGrid();
       });
 
-      // Shop link
-      bgShopLink.addEventListener('click', () => {
+      // Footer shop link
+      bgFooterShop.addEventListener('click', () => {
         closeBackgroundPanel();
         openShop();
       });
+
+      // Footer toggle tabs
+      bgTabDefault.addEventListener('click', () => {
+        if (bgViewMode !== 'default') {
+          bgViewMode = 'default';
+          updateBgViewMode();
+        }
+      });
+
+      bgTabMy.addEventListener('click', () => {
+        if (bgViewMode !== 'my') {
+          bgViewMode = 'my';
+          updateBgViewMode();
+        }
+      });
+    }
+
+    // ============ PREMIUM BACKGROUNDS ============
+    function seedPremiumBackgrounds() {
+      // Load from localStorage or seed with rainbow examples
+      try {
+        const saved = localStorage.getItem('stickerbook_my_backgrounds');
+        if (saved) {
+          myBackgrounds = JSON.parse(saved);
+          return;
+        }
+      } catch (e) {}
+
+      // Seed with rainbow solid examples to show thumbnail size
+      myBackgrounds = [
+        { id: 'bg_red', name: 'Ruby Red', css: 'background-color: #dc2626;', type: 'solid' },
+        { id: 'bg_orange', name: 'Sunset Orange', css: 'background-color: #ea580c;', type: 'solid' },
+        { id: 'bg_yellow', name: 'Golden Sun', css: 'background-color: #eab308;', type: 'solid' },
+        { id: 'bg_green', name: 'Forest Green', css: 'background-color: #16a34a;', type: 'solid' },
+        { id: 'bg_blue', name: 'Ocean Blue', css: 'background-color: #2563eb;', type: 'solid' },
+        { id: 'bg_indigo', name: 'Deep Indigo', css: 'background-color: #4f46e5;', type: 'solid' },
+        { id: 'bg_violet', name: 'Royal Violet', css: 'background-color: #7c3aed;', type: 'solid' },
+      ];
+      localStorage.setItem('stickerbook_my_backgrounds', JSON.stringify(myBackgrounds));
+    }
+
+    function updateBgFooter() {
+      // Show toggle if user has premium backgrounds, otherwise show shop link
+      if (myBackgrounds.length > 0) {
+        bgFooterShop.style.display = 'none';
+        bgFooterToggle.style.display = 'flex';
+      } else {
+        bgFooterShop.style.display = 'flex';
+        bgFooterToggle.style.display = 'none';
+      }
+    }
+
+    function updateBgViewMode() {
+      // Update tab active states
+      bgTabDefault.classList.toggle('active', bgViewMode === 'default');
+      bgTabMy.classList.toggle('active', bgViewMode === 'my');
+
+      // Show/hide views
+      if (bgViewMode === 'default') {
+        bgDefaultView.classList.remove('hidden');
+        bgMyView.classList.remove('visible');
+        // Show pattern tabs and swatches for default view
+        document.querySelector('.bg-pattern-tabs').style.display = 'flex';
+        updateBgPanelUI(); // This handles subfilter and swatch visibility
+      } else {
+        bgDefaultView.classList.add('hidden');
+        bgMyView.classList.add('visible');
+        // Hide pattern tabs and swatches for my backgrounds view
+        document.querySelector('.bg-pattern-tabs').style.display = 'none';
+        bgStripesFilter.classList.remove('visible');
+        bgCheckeredFilter.classList.remove('visible');
+        bgDotsFilter.classList.remove('visible');
+        bgSwatchRow.classList.remove('visible');
+        renderMyBackgrounds();
+      }
+    }
+
+    function renderMyBackgrounds() {
+      bgMyGrid.innerHTML = '';
+
+      if (myBackgrounds.length === 0) {
+        bgMyEmpty.style.display = 'flex';
+        return;
+      }
+
+      bgMyEmpty.style.display = 'none';
+
+      myBackgrounds.forEach((bg, index) => {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'bg-my-item-wrapper';
+
+        const item = document.createElement('div');
+        item.className = 'bg-my-item';
+        item.style.cssText = bg.css;
+        item.dataset.id = bg.id;
+        item.dataset.index = index;
+
+        // Check if this is the currently applied background
+        const page = pages[currentPageIndex];
+        if (page && page.backgroundData && page.backgroundData.premiumId === bg.id) {
+          item.classList.add('selected');
+        }
+
+        item.addEventListener('click', () => applyPremiumBackground(bg));
+
+        wrapper.appendChild(item);
+
+        // Delete button (swipe reveal)
+        const deleteBtn = document.createElement('div');
+        deleteBtn.className = 'bg-my-item-delete';
+        deleteBtn.textContent = '🗑️';
+        deleteBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          deletePremiumBackground(index);
+        });
+        wrapper.appendChild(deleteBtn);
+
+        // Setup swipe to delete
+        setupBgSwipeToDelete(wrapper, item);
+
+        bgMyGrid.appendChild(wrapper);
+      });
+    }
+
+    function setupBgSwipeToDelete(wrapper, item) {
+      let startX = 0;
+      let isSwiping = false;
+
+      item.addEventListener('touchstart', (e) => {
+        startX = e.touches[0].clientX;
+        isSwiping = true;
+      }, { passive: true });
+
+      item.addEventListener('touchmove', (e) => {
+        if (!isSwiping) return;
+        const currentX = e.touches[0].clientX;
+        const dx = startX - currentX;
+
+        if (dx > 30) {
+          wrapper.classList.add('swiped');
+        } else if (dx < -10) {
+          wrapper.classList.remove('swiped');
+        }
+      }, { passive: true });
+
+      item.addEventListener('touchend', () => {
+        isSwiping = false;
+      }, { passive: true });
+
+      // Click outside to close swipe
+      document.addEventListener('click', (e) => {
+        if (!wrapper.contains(e.target)) {
+          wrapper.classList.remove('swiped');
+        }
+      });
+    }
+
+    function applyPremiumBackground(bg) {
+      // Apply to visual page
+      stickerPage.style.cssText = bg.css;
+
+      // Save to page data
+      const page = pages[currentPageIndex];
+      page.background = null;
+      page.backgroundCSS = bg.css;
+      page.backgroundData = {
+        pattern: 'premium',
+        premiumId: bg.id,
+        premiumName: bg.name
+      };
+
+      hasUnsavedChanges = true;
+      renderPageDots();
+      renderMyBackgrounds(); // Update selection state
+
+      showToast(`Applied: ${bg.name}`);
+    }
+
+    function deletePremiumBackground(index) {
+      const bg = myBackgrounds[index];
+      myBackgrounds.splice(index, 1);
+      localStorage.setItem('stickerbook_my_backgrounds', JSON.stringify(myBackgrounds));
+
+      renderMyBackgrounds();
+      updateBgFooter();
+
+      // If no more backgrounds, switch back to default view
+      if (myBackgrounds.length === 0) {
+        bgViewMode = 'default';
+        updateBgViewMode();
+      }
+
+      showToast('Background removed');
     }
 
     // ============ DEV HELPER: Seed drawer with test stickers ============
@@ -2010,6 +2412,7 @@
       loadDataFromStorage();
       restorePagePosition();
       seedDrawerForTesting();
+      seedPremiumBackgrounds();
       loadUserProfile();
       renderPageDots();
       renderCurrentPage();
