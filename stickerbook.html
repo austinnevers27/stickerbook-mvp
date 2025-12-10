@@ -152,7 +152,7 @@
       touch-action: none;
       user-select: none;
       transform-origin: center center;
-      cursor: grab;
+      cursor: pointer;
     }
 
     .placed-sticker img {
@@ -164,10 +164,22 @@
       display: block;
     }
 
+    /* Pending selection - subtle pulse while holding */
+    .placed-sticker.pending-select {
+      animation: pendingPulse 0.3s ease-out;
+    }
+
+    @keyframes pendingPulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.03); }
+      100% { transform: scale(1); }
+    }
+
     .placed-sticker.active {
       z-index: 1000 !important;
       box-shadow: 0 0 0 2px var(--color-accent), var(--shadow-lg);
       border-radius: 4px;
+      cursor: grab;
     }
 
     .placed-sticker.dragging {
@@ -607,7 +619,7 @@
       opacity: 0;
       pointer-events: none;
       transition: opacity 0.25s ease;
-      z-index: 500;
+      z-index: 2500;
     }
 
     .drawer-overlay.visible {
@@ -626,7 +638,7 @@
       box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.15);
       transform: translateY(100%);
       transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1);
-      z-index: 501;
+      z-index: 2501;
       display: flex;
       flex-direction: column;
       overflow: hidden;
@@ -1006,7 +1018,7 @@
       box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.15);
       transform: translateY(100%);
       transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1);
-      z-index: 501;
+      z-index: 2501;
       display: flex;
       flex-direction: column;
       overflow: hidden;
@@ -2689,11 +2701,6 @@
       } else {
         setupMouseDrag(el, stickerData);
       }
-
-      el.addEventListener('click', (e) => {
-        e.stopPropagation();
-        setActiveSticker(el);
-      });
     }
 
     function setActiveSticker(el) {
@@ -2710,25 +2717,69 @@
       }
     }
 
+    // Keep at least 25% of sticker visible on page
+    function constrainStickerPosition(el, stickerData) {
+      const pageRect = stickerPage.getBoundingClientRect();
+      const pageWidth = pageRect.width;
+      const pageHeight = pageRect.height;
+      const stickerWidth = stickerData.width || 80;
+      const stickerHeight = stickerData.height || 80;
+      const minVisible = 0.25; // 25% must stay visible
+
+      const minX = -(stickerWidth * (1 - minVisible));
+      const maxX = pageWidth - (stickerWidth * minVisible);
+      const minY = -(stickerHeight * (1 - minVisible));
+      const maxY = pageHeight - (stickerHeight * minVisible);
+
+      stickerData.x = Math.max(minX, Math.min(maxX, stickerData.x));
+      stickerData.y = Math.max(minY, Math.min(maxY, stickerData.y));
+    }
+
     function setupMouseDrag(el, stickerData) {
       let startX, startY, startMouseX, startMouseY;
       let isDragging = false;
+      let isSelected = false;
+      let holdTimer = null;
+      const HOLD_DURATION = 150; // ms to hold before selecting
+      const MOVE_THRESHOLD = 8; // pixels of movement that cancels selection
 
       el.addEventListener('mousedown', (e) => {
         e.preventDefault();
         e.stopPropagation();
-        setActiveSticker(el);
 
-        startX = stickerData.x || parseFloat(el.style.left);
-        startY = stickerData.y || parseFloat(el.style.top);
         startMouseX = e.clientX;
         startMouseY = e.clientY;
-        isDragging = true;
-        el.classList.add('dragging');
-        enterDragMode();
+        startX = stickerData.x || parseFloat(el.style.left);
+        startY = stickerData.y || parseFloat(el.style.top);
+
+        // Start pending state
+        el.classList.add('pending-select');
+
+        // Start hold timer
+        holdTimer = setTimeout(() => {
+          // Hold completed - select the sticker
+          el.classList.remove('pending-select');
+          isSelected = true;
+          isDragging = true;
+          setActiveSticker(el);
+          el.classList.add('dragging');
+          enterDragMode();
+        }, HOLD_DURATION);
       });
 
       const handleMouseMove = (e) => {
+        // Check if we should cancel the hold (user is swiping)
+        if (holdTimer && !isSelected) {
+          const dx = Math.abs(e.clientX - startMouseX);
+          const dy = Math.abs(e.clientY - startMouseY);
+          if (dx > MOVE_THRESHOLD || dy > MOVE_THRESHOLD) {
+            clearTimeout(holdTimer);
+            holdTimer = null;
+            el.classList.remove('pending-select');
+            return; // Let the swipe happen
+          }
+        }
+
         if (!isDragging) return;
 
         const dx = e.clientX - startMouseX;
@@ -2736,6 +2787,9 @@
 
         stickerData.x = startX + dx;
         stickerData.y = startY + dy;
+
+        // Constrain to keep 25% visible
+        constrainStickerPosition(el, stickerData);
 
         el.style.left = `${stickerData.x}px`;
         el.style.top = `${stickerData.y}px`;
@@ -2745,13 +2799,28 @@
       };
 
       const handleMouseUp = (e) => {
-        if (!isDragging) return;
+        // Clear any pending hold
+        if (holdTimer) {
+          clearTimeout(holdTimer);
+          holdTimer = null;
+        }
+        el.classList.remove('pending-select');
+
+        if (!isDragging) {
+          isSelected = false;
+          return;
+        }
+
         isDragging = false;
+        isSelected = false;
         el.classList.remove('dragging');
 
         if (isOverDrawer(e.clientX, e.clientY)) {
           moveToDrawer(el, stickerData);
         } else {
+          constrainStickerPosition(el, stickerData);
+          el.style.left = `${stickerData.x}px`;
+          el.style.top = `${stickerData.y}px`;
           exitDragMode();
         }
       };
@@ -2764,21 +2833,40 @@
       let touchMode = null;
       let startX, startY, startTouchX, startTouchY;
       let initialDistance, initialAngle, startScale, startRotation;
+      let holdTimer = null;
+      let isSelected = false;
+      const HOLD_DURATION = 150; // ms to hold before selecting
+      const MOVE_THRESHOLD = 10; // pixels of movement that cancels selection
 
       el.addEventListener('touchstart', (e) => {
         e.preventDefault();
-        setActiveSticker(el);
 
         if (e.touches.length === 1) {
-          touchMode = 'pan';
           const t = e.touches[0];
-          startX = stickerData.x || parseFloat(el.style.left);
-          startY = stickerData.y || parseFloat(el.style.top);
           startTouchX = t.clientX;
           startTouchY = t.clientY;
-          el.classList.add('dragging');
-          enterDragMode();
-        } else if (e.touches.length === 2) {
+          startX = stickerData.x || parseFloat(el.style.left);
+          startY = stickerData.y || parseFloat(el.style.top);
+
+          // Start pending state
+          el.classList.add('pending-select');
+
+          // Start hold timer
+          holdTimer = setTimeout(() => {
+            // Hold completed - select the sticker
+            el.classList.remove('pending-select');
+            isSelected = true;
+            touchMode = 'pan';
+            setActiveSticker(el);
+            el.classList.add('dragging');
+            enterDragMode();
+          }, HOLD_DURATION);
+
+        } else if (e.touches.length === 2 && isSelected) {
+          // Two-finger gesture only if already selected
+          clearTimeout(holdTimer);
+          holdTimer = null;
+          el.classList.remove('pending-select');
           touchMode = 'transform';
           const t1 = e.touches[0];
           const t2 = e.touches[1];
@@ -2794,6 +2882,20 @@
       el.addEventListener('touchmove', (e) => {
         e.preventDefault();
 
+        // Check if we should cancel the hold (user is swiping)
+        if (holdTimer && !isSelected && e.touches.length === 1) {
+          const t = e.touches[0];
+          const dx = Math.abs(t.clientX - startTouchX);
+          const dy = Math.abs(t.clientY - startTouchY);
+          if (dx > MOVE_THRESHOLD || dy > MOVE_THRESHOLD) {
+            clearTimeout(holdTimer);
+            holdTimer = null;
+            el.classList.remove('pending-select');
+            touchMode = null;
+            return; // Let the swipe happen
+          }
+        }
+
         if (touchMode === 'pan' && e.touches.length === 1) {
           const t = e.touches[0];
           const dx = t.clientX - startTouchX;
@@ -2801,6 +2903,9 @@
 
           stickerData.x = startX + dx;
           stickerData.y = startY + dy;
+
+          // Constrain to keep 25% visible
+          constrainStickerPosition(el, stickerData);
 
           el.style.left = `${stickerData.x}px`;
           el.style.top = `${stickerData.y}px`;
@@ -2832,6 +2937,13 @@
       }, { passive: false });
 
       const handleTouchEnd = (e) => {
+        // Clear any pending hold
+        if (holdTimer) {
+          clearTimeout(holdTimer);
+          holdTimer = null;
+        }
+        el.classList.remove('pending-select');
+
         if (e.touches.length === 0) {
           el.classList.remove('dragging');
 
@@ -2840,6 +2952,9 @@
             if (isOverDrawer(lastTouch.clientX, lastTouch.clientY)) {
               moveToDrawer(el, stickerData);
             } else {
+              constrainStickerPosition(el, stickerData);
+              el.style.left = `${stickerData.x}px`;
+              el.style.top = `${stickerData.y}px`;
               exitDragMode();
             }
           } else {
@@ -2847,6 +2962,7 @@
           }
 
           touchMode = null;
+          isSelected = false;
         } else if (e.touches.length === 1 && touchMode === 'transform') {
           touchMode = 'pan';
           const t = e.touches[0];
