@@ -697,10 +697,10 @@
       flex: 1;
       overflow-x: hidden;
       overflow-y: auto;
-      padding: 10px;
+      padding: 12px;
       display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      gap: 6px;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
       align-content: start;
       position: relative;
       z-index: 1;
@@ -726,14 +726,14 @@
       background: var(--drawer-tile-bg);
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
-      border-radius: 8px;
-      padding: 4px;
+      border-radius: 10px;
+      padding: 6px;
       display: flex;
       align-items: center;
       justify-content: center;
       transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
       border: 1px solid var(--drawer-tile-border);
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
       position: relative;
       touch-action: pan-y;
     }
@@ -742,7 +742,7 @@
     .drawer-sticker-wrapper {
       position: relative;
       overflow: hidden;
-      border-radius: 8px;
+      border-radius: 10px;
     }
 
     .drawer-sticker-delete {
@@ -756,7 +756,7 @@
       align-items: center;
       justify-content: center;
       color: white;
-      font-size: 16px;
+      font-size: 18px;
       transform: translateX(100%);
       transition: transform 0.2s ease;
     }
@@ -882,11 +882,40 @@
       text-shadow: 0 1px 6px rgba(0, 0, 0, 0.3);
     }
 
+    .drawer-footer-buttons {
+      display: flex;
+      gap: 10px;
+    }
+
+    .drawer-delete-btn {
+      background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+      border: none;
+      border-radius: 20px;
+      padding: 10px 16px;
+      color: white;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
+      transition: transform 0.12s ease, box-shadow 0.12s ease;
+    }
+
+    .drawer-delete-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(239, 68, 68, 0.5);
+    }
+
+    .drawer-delete-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
     .drawer-add-btn {
       background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
       border: none;
       border-radius: 20px;
-      padding: 10px 20px;
+      padding: 10px 16px;
       color: white;
       font-size: 13px;
       font-weight: 700;
@@ -916,8 +945,8 @@
     }
 
     .drag-ghost img {
-      width: 70px;
-      height: 70px;
+      width: 120px;
+      height: 120px;
       object-fit: contain;
     }
 
@@ -1038,7 +1067,7 @@
         <div class="drawer-header-left">
           <div class="drawer-title">Sticker Drawer</div>
           <button class="drawer-expand-btn" id="drawer-expand-btn">
-            <span id="expand-icon">↑</span>
+            <span id="expand-text">Expand</span>
           </button>
         </div>
         <div class="drawer-header-right">
@@ -1054,7 +1083,10 @@
       </div>
       <div class="drawer-footer" id="drawer-footer">
         <div class="drawer-selection-count" id="drawer-selection-count">0 selected</div>
-        <button class="drawer-add-btn" id="drawer-add-btn" disabled>Add to Page</button>
+        <div class="drawer-footer-buttons">
+          <button class="drawer-delete-btn" id="drawer-delete-btn" disabled>Delete</button>
+          <button class="drawer-add-btn" id="drawer-add-btn" disabled>Add to Page</button>
+        </div>
       </div>
     </div>
   </div>
@@ -1104,9 +1136,10 @@
     const drawerCount = document.getElementById('drawer-count');
     const drawerEmpty = document.getElementById('drawer-empty');
     const drawerExpandBtn = document.getElementById('drawer-expand-btn');
-    const expandIcon = document.getElementById('expand-icon');
+    const expandText = document.getElementById('expand-text');
     const drawerFooter = document.getElementById('drawer-footer');
     const drawerSelectionCount = document.getElementById('drawer-selection-count');
+    const drawerDeleteBtn = document.getElementById('drawer-delete-btn');
     const drawerAddBtn = document.getElementById('drawer-add-btn');
 
     const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
@@ -1869,12 +1902,13 @@
     let drawerSelectedIds = new Set(); // Selection mode for expanded view
     let longPressTimer = null;
     const LONG_PRESS_DURATION = 300; // ms
+    const STICKER_PLACE_SIZE = 120; // 175% of 70px
 
     function openDrawer() {
       drawerSelectedIds.clear();
       drawerExpanded = false;
       drawerPanel.classList.remove('expanded');
-      expandIcon.textContent = '↑';
+      expandText.textContent = 'Expand';
       renderDrawer();
       drawerOverlay.classList.add('visible');
       drawerPanel.classList.add('visible');
@@ -1892,7 +1926,7 @@
     function toggleDrawerExpand() {
       drawerExpanded = !drawerExpanded;
       drawerPanel.classList.toggle('expanded', drawerExpanded);
-      expandIcon.textContent = drawerExpanded ? '↓' : '↑';
+      expandText.textContent = drawerExpanded ? 'Collapse' : 'Expand';
       
       // Re-render to switch between drag mode and selection mode
       renderDrawer();
@@ -1906,12 +1940,18 @@
       
       const selectedCount = drawerSelectedIds.size;
       drawerSelectionCount.textContent = `${selectedCount} selected (max ${maxSelectable})`;
-      drawerAddBtn.disabled = selectedCount === 0;
       
-      if (selectedCount > 0) {
-        drawerAddBtn.textContent = `Add ${selectedCount} to Page`;
+      // Enable/disable both buttons based on selection
+      const hasSelection = selectedCount > 0;
+      drawerAddBtn.disabled = !hasSelection;
+      drawerDeleteBtn.disabled = !hasSelection;
+      
+      if (hasSelection) {
+        drawerAddBtn.textContent = `Add ${selectedCount}`;
+        drawerDeleteBtn.textContent = `Delete ${selectedCount}`;
       } else {
         drawerAddBtn.textContent = 'Add to Page';
+        drawerDeleteBtn.textContent = 'Delete';
       }
     }
 
@@ -1926,34 +1966,33 @@
         return;
       }
 
-      // Get canvas dimensions for positioning
+      // Get canvas dimensions for random scatter placement
       const canvasRect = pageCanvas.getBoundingClientRect();
-      const spacing = 80;
-      let col = 0;
-      let row = 0;
-      const cols = Math.floor(canvasRect.width / spacing);
+      const padding = 20;
+      const stickerSize = STICKER_PLACE_SIZE;
+      const maxX = canvasRect.width - stickerSize - padding;
+      const maxY = canvasRect.height - stickerSize - padding;
 
-      // Add selected stickers to page
+      // Add selected stickers with random scatter
       drawer.forEach((sticker, index) => {
         if (drawerSelectedIds.has(sticker.id)) {
+          // Random position with some jitter
+          const randomX = padding + Math.random() * maxX;
+          const randomY = padding + Math.random() * maxY;
+          const randomRotation = (Math.random() - 0.5) * 20; // -10 to +10 degrees
+          
           const newSticker = {
             id: sticker.id + '_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9),
             src: sticker.src,
             displayName: sticker.displayName,
-            x: 20 + (col * spacing),
-            y: 20 + (row * spacing),
-            size: 70,
+            x: randomX,
+            y: randomY,
+            size: stickerSize,
             scale: 1,
-            rotation: 0,
+            rotation: randomRotation,
             zIndex: ++currentZ
           };
           page.stickers.push(newSticker);
-          
-          col++;
-          if (col >= cols) {
-            col = 0;
-            row++;
-          }
         }
       });
 
@@ -1971,6 +2010,26 @@
       renderPageDots();
       closeDrawer();
       showToast('Stickers added!');
+    }
+
+    function deleteSelectedFromDrawer() {
+      if (drawerSelectedIds.size === 0) return;
+      
+      const count = drawerSelectedIds.size;
+      
+      // Remove from drawer (iterate backwards to preserve indices)
+      for (let i = drawer.length - 1; i >= 0; i--) {
+        if (drawerSelectedIds.has(drawer[i].id)) {
+          drawer.splice(i, 1);
+        }
+      }
+
+      drawerSelectedIds.clear();
+      hasUnsavedChanges = true;
+      
+      renderDrawer();
+      updateDrawerSelectionUI();
+      showToast(`${count} sticker${count > 1 ? 's' : ''} deleted`);
     }
 
     function deleteFromDrawer(index) {
@@ -2057,6 +2116,9 @@
 
       // Add button click
       drawerAddBtn.addEventListener('click', addSelectedToPage);
+      
+      // Delete button click
+      drawerDeleteBtn.addEventListener('click', deleteSelectedFromDrawer);
     }
 
     function renderDrawer() {
@@ -2341,17 +2403,18 @@
 
         // Calculate position relative to page canvas
         const canvasRect = pageCanvas.getBoundingClientRect();
-        const dropX = x - canvasRect.left - 35;
-        const dropY = y - canvasRect.top - 35;
+        const halfSize = STICKER_PLACE_SIZE / 2;
+        const dropX = x - canvasRect.left - halfSize;
+        const dropY = y - canvasRect.top - halfSize;
 
         // Create sticker data
         const newSticker = {
           id: dragData.id + '_' + Date.now(),
           src: dragData.src,
           displayName: dragData.displayName,
-          x: Math.max(0, Math.min(dropX, canvasRect.width - 70)),
-          y: Math.max(0, Math.min(dropY, canvasRect.height - 70)),
-          size: 70,
+          x: Math.max(0, Math.min(dropX, canvasRect.width - STICKER_PLACE_SIZE)),
+          y: Math.max(0, Math.min(dropY, canvasRect.height - STICKER_PLACE_SIZE)),
+          size: STICKER_PLACE_SIZE,
           scale: 1,
           rotation: 0,
           zIndex: ++currentZ
