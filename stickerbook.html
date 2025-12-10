@@ -223,20 +223,21 @@
       display: flex;
       align-items: center;
       justify-content: space-around;
-      padding: 12px 20px 24px;
+      padding: 16px 16px 28px;
       flex-shrink: 0;
+      position: relative;
     }
 
     .toolbar-btn {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 4px;
-      padding: 8px 16px;
+      gap: 6px;
+      padding: 6px 8px;
       border: none;
       background: transparent;
       cursor: pointer;
-      transition: transform 0.12s ease;
+      transition: transform 0.12s ease, opacity 0.2s ease;
     }
 
     .toolbar-btn:hover {
@@ -248,64 +249,90 @@
     }
 
     .toolbar-btn-icon {
-      width: 44px;
-      height: 44px;
+      width: 60px;
+      height: 60px;
       border-radius: 50%;
       background: white;
-      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.12);
+      box-shadow: 0 4px 15px rgba(15, 23, 42, 0.12);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 20px;
-      transition: box-shadow 0.15s ease, background 0.15s ease;
+      font-size: 26px;
+      transition: box-shadow 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+      border: 3px solid transparent;
     }
 
     .toolbar-btn:hover .toolbar-btn-icon {
-      box-shadow: 0 6px 16px rgba(15, 23, 42, 0.18);
+      box-shadow: 0 6px 20px rgba(15, 23, 42, 0.18);
     }
 
     .toolbar-btn-label {
-      font-size: 10px;
-      font-weight: 500;
+      font-size: 12px;
+      font-weight: 600;
       color: var(--color-text-muted);
       letter-spacing: 0.02em;
     }
 
-    /* Drawer drop zone active state */
-    .toolbar-btn.drop-active .toolbar-btn-icon {
-      background: var(--color-cyan);
-      box-shadow: 0 0 0 4px rgba(34, 211, 238, 0.3), 0 6px 16px rgba(34, 211, 238, 0.3);
-    }
-
-    /* Trash button - hidden by default */
-    .toolbar-btn-trash {
-      position: absolute;
-      left: 20px;
-      bottom: 24px;
-      opacity: 0;
-      transform: translateY(20px);
+    /* === DRAG MODE STATES === */
+    
+    /* During drag: dim Backgrounds and Shop */
+    .bottom-toolbar.drag-mode #btn-backgrounds,
+    .bottom-toolbar.drag-mode #btn-shop {
+      opacity: 0.25;
       pointer-events: none;
-      transition: opacity 0.2s ease, transform 0.2s ease;
     }
 
-    /* Show trash during sticker drag */
-    .bottom-toolbar.drag-mode .toolbar-btn-trash {
+    /* During drag: highlight Drawer in cyan */
+    .bottom-toolbar.drag-mode #btn-drawer .toolbar-btn-icon {
+      border-color: var(--color-cyan);
+      box-shadow: 0 0 0 4px rgba(34, 211, 238, 0.25), 0 4px 15px rgba(34, 211, 238, 0.2);
+    }
+
+    /* Trash button - hidden by default, in natural flow but invisible */
+    .toolbar-btn-trash {
+      width: 0;
+      padding: 0;
+      opacity: 0;
+      pointer-events: none;
+      overflow: hidden;
+      transition: width 0.25s ease, opacity 0.2s ease, padding 0.25s ease;
+    }
+
+    .toolbar-btn-trash .toolbar-btn-icon {
+      min-width: 60px;
+    }
+
+    /* Show trash when in drop zone */
+    .bottom-toolbar.in-drop-zone .toolbar-btn-trash {
+      width: auto;
+      padding: 6px 8px;
       opacity: 1;
-      transform: translateY(0);
       pointer-events: auto;
     }
 
-    /* Hide other buttons during drag mode */
-    .bottom-toolbar.drag-mode #btn-backgrounds,
-    .bottom-toolbar.drag-mode #btn-shop {
-      opacity: 0.3;
-      pointer-events: none;
+    /* Trash highlighted red when visible */
+    .bottom-toolbar.in-drop-zone .toolbar-btn-trash .toolbar-btn-icon {
+      border-color: #ef4444;
+      box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.25), 0 4px 15px rgba(239, 68, 68, 0.2);
     }
 
-    /* Trash drop zone active state (red) */
+    /* In drop zone: Drawer highlighted green (positive) */
+    .bottom-toolbar.in-drop-zone #btn-drawer .toolbar-btn-icon {
+      border-color: #22c55e;
+      box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.25), 0 4px 15px rgba(34, 197, 94, 0.2);
+    }
+
+    /* Hover states when in drop zone */
     .toolbar-btn-trash.drop-active .toolbar-btn-icon {
-      background: #ef4444;
-      box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.3), 0 6px 16px rgba(239, 68, 68, 0.3);
+      background: #fef2f2;
+      border-color: #ef4444;
+      box-shadow: 0 0 0 6px rgba(239, 68, 68, 0.35), 0 6px 20px rgba(239, 68, 68, 0.3);
+    }
+
+    #btn-drawer.drop-active .toolbar-btn-icon {
+      background: #f0fdf4;
+      border-color: #22c55e;
+      box-shadow: 0 0 0 6px rgba(34, 197, 94, 0.35), 0 6px 20px rgba(34, 197, 94, 0.3);
     }
 
     /* Page dot states for editability */
@@ -741,14 +768,14 @@
         <div class="toolbar-btn-icon">🛒</div>
         <div class="toolbar-btn-label">Shop</div>
       </button>
-      <button class="toolbar-btn" id="btn-drawer" title="Sticker Drawer">
-        <div class="toolbar-btn-icon">📂</div>
-        <div class="toolbar-btn-label">Drawer</div>
-      </button>
-      <!-- Trash button - hidden, slides in during sticker drag -->
+      <!-- Trash button - hidden, slides in to left of drawer when in drop zone -->
       <button class="toolbar-btn toolbar-btn-trash" id="btn-trash" title="Delete">
         <div class="toolbar-btn-icon">🗑️</div>
         <div class="toolbar-btn-label">Delete</div>
+      </button>
+      <button class="toolbar-btn" id="btn-drawer" title="Sticker Drawer">
+        <div class="toolbar-btn-icon">📂</div>
+        <div class="toolbar-btn-label">Drawer</div>
       </button>
     </div>
 
@@ -1166,7 +1193,7 @@
         startMouseY = e.clientY;
         isDragging = true;
         el.classList.add('dragging');
-        enterDragMode();
+        enterDragMode(); // Dim shop/backgrounds, highlight drawer
       });
 
       const handleMouseMove = (e) => {
@@ -1220,7 +1247,7 @@
           startTouchX = t.clientX;
           startTouchY = t.clientY;
           el.classList.add('dragging');
-          enterDragMode();
+          enterDragMode(); // Dim shop/backgrounds, highlight drawer
         } else if (e.touches.length === 2) {
           touchMode = 'transform';
           const t1 = e.touches[0];
@@ -1307,28 +1334,51 @@
     }
 
     // ============ DRAG DROP ZONES (DRAWER & TRASH) ============
+    let isDraggingSticker = false;
+
+    // Check if position is in the "outfield" zone (bottom area near toolbar)
+    function isInDropZone(y) {
+      const pageRect = stickerPage.getBoundingClientRect();
+      // Outfield starts at bottom of page
+      return y > pageRect.bottom;
+    }
+
     function enterDragMode() {
+      if (isDraggingSticker) return;
+      isDraggingSticker = true;
       bottomToolbar.classList.add('drag-mode');
     }
 
     function exitDragMode() {
+      isDraggingSticker = false;
       bottomToolbar.classList.remove('drag-mode');
+      bottomToolbar.classList.remove('in-drop-zone');
       btnDrawer.classList.remove('drop-active');
       btnTrash.classList.remove('drop-active');
     }
 
     function checkDropZones(x, y) {
-      // Check drawer
-      if (isOverDrawer(x, y)) {
-        btnDrawer.classList.add('drop-active');
-      } else {
-        btnDrawer.classList.remove('drop-active');
-      }
+      // Check if in bottom "outfield" zone
+      if (isInDropZone(y)) {
+        bottomToolbar.classList.add('in-drop-zone');
+        
+        // Check drawer
+        if (isOverDrawer(x, y)) {
+          btnDrawer.classList.add('drop-active');
+        } else {
+          btnDrawer.classList.remove('drop-active');
+        }
 
-      // Check trash
-      if (isOverTrash(x, y)) {
-        btnTrash.classList.add('drop-active');
+        // Check trash (only visible when in drop zone)
+        if (isOverTrash(x, y)) {
+          btnTrash.classList.add('drop-active');
+        } else {
+          btnTrash.classList.remove('drop-active');
+        }
       } else {
+        // Not in drop zone - hide trash, remove highlights
+        bottomToolbar.classList.remove('in-drop-zone');
+        btnDrawer.classList.remove('drop-active');
         btnTrash.classList.remove('drop-active');
       }
     }
@@ -1339,6 +1389,8 @@
     }
 
     function isOverTrash(x, y) {
+      // Trash is only visible when in-drop-zone class is applied
+      if (!bottomToolbar.classList.contains('in-drop-zone')) return false;
       const rect = btnTrash.getBoundingClientRect();
       return x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
     }
