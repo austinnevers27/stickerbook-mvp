@@ -113,31 +113,6 @@
       overflow: hidden;
     }
 
-    /* Empty page state */
-    .empty-page-hint {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      color: var(--color-text-subtle);
-      font-size: 12px;
-      text-align: center;
-      padding: 20px;
-      pointer-events: none;
-    }
-
-    .empty-page-hint .hint-icon {
-      font-size: 32px;
-      margin-bottom: 12px;
-      opacity: 0.5;
-    }
-
-    .empty-page-hint .hint-text {
-      line-height: 1.5;
-    }
-
     /* ========== STICKERS ON PAGE ========== */
     .placed-sticker {
       position: absolute;
@@ -1270,32 +1245,42 @@
 
     .bg-footer-toggle {
       display: flex;
+      gap: 8px;
+      padding: 10px 16px;
+      justify-content: center;
     }
 
     .bg-footer-tab {
       flex: 1;
-      padding: 12px 16px;
+      max-width: 140px;
+      padding: 10px 16px;
       background: var(--color-canvas-subtle);
-      border: none;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-pill);
       color: var(--color-text-muted);
       font-size: 11px;
       font-weight: 600;
+      letter-spacing: 0.03em;
       cursor: pointer;
-      transition: background 0.15s ease, color 0.15s ease;
+      transition: all 0.2s ease;
       font-family: var(--font-primary);
-    }
-
-    .bg-footer-tab:first-child {
-      border-right: 1px solid var(--color-border);
     }
 
     .bg-footer-tab:hover {
       background: var(--color-hover-bg);
+      border-color: var(--color-border-strong);
+      color: var(--color-text-secondary);
     }
 
     .bg-footer-tab.active {
-      background: var(--color-canvas-elevated);
-      color: var(--color-text-primary);
+      background: linear-gradient(135deg, #7c3aed 0%, #14b8a6 100%);
+      border-color: transparent;
+      color: white;
+      box-shadow: 0 2px 8px rgba(124, 58, 237, 0.3);
+    }
+
+    .bg-footer-tab.active:hover {
+      box-shadow: 0 4px 12px rgba(124, 58, 237, 0.4);
     }
 
     /* My Backgrounds view */
@@ -1436,10 +1421,6 @@
       <div class="stickerbook-page" id="stickerbook-page">
         <div class="page-canvas" id="page-canvas">
           <!-- Stickers render here -->
-        </div>
-        <div class="empty-page-hint" id="empty-hint">
-          <div class="hint-icon">📖</div>
-          <div class="hint-text">This page is empty.<br>Add stickers from your drawer!</div>
         </div>
       </div>
     </div>
@@ -1806,7 +1787,6 @@
     // ============ DOM ELEMENTS ============
     const stickerPage = document.getElementById('stickerbook-page');
     const pageCanvas = document.getElementById('page-canvas');
-    const emptyHint = document.getElementById('empty-hint');
     const pageDotsContainer = document.getElementById('page-dots');
     const bookTitleEl = document.getElementById('book-title');
     const profileBtn = document.getElementById('profile-btn');
@@ -2577,7 +2557,6 @@
       }
 
       pageCanvas.innerHTML = '';
-      emptyHint.style.display = page.stickers.length === 0 ? 'flex' : 'none';
 
       page.stickers.forEach(sticker => {
         const el = createStickerElement(sticker);
@@ -2870,7 +2849,6 @@
         hasUnsavedChanges = true;
         exitDragMode();
 
-        emptyHint.style.display = page.stickers.length === 0 ? 'flex' : 'none';
         renderPageDots();
         showToast('Moved to drawer');
       }, 300);
@@ -2888,7 +2866,6 @@
         hasUnsavedChanges = true;
         exitDragMode();
 
-        emptyHint.style.display = page.stickers.length === 0 ? 'flex' : 'none';
         renderPageDots();
         showToast('Sticker deleted');
       }, 300);
