@@ -697,10 +697,10 @@
       flex: 1;
       overflow-x: hidden;
       overflow-y: auto;
-      padding: 12px;
+      padding: 12px 14px;
       display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 10px;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
       align-content: start;
       position: relative;
       z-index: 1;
@@ -723,6 +723,8 @@
 
     .drawer-sticker {
       aspect-ratio: 1;
+      width: 100%;
+      max-height: 85px;
       background: var(--drawer-tile-bg);
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
@@ -743,6 +745,7 @@
       position: relative;
       overflow: hidden;
       border-radius: 10px;
+      max-height: 85px;
     }
 
     .drawer-sticker-delete {
@@ -1936,35 +1939,44 @@
     function updateDrawerSelectionUI() {
       const page = pages[currentPageIndex];
       const currentCount = page ? page.stickers.length : 0;
-      const maxSelectable = MAX_STICKERS_PER_PAGE - currentCount;
+      const availableSlots = MAX_STICKERS_PER_PAGE - currentCount;
       
       const selectedCount = drawerSelectedIds.size;
-      drawerSelectionCount.textContent = `${selectedCount} selected (max ${maxSelectable})`;
+      const canAdd = Math.min(selectedCount, availableSlots);
       
-      // Enable/disable both buttons based on selection
-      const hasSelection = selectedCount > 0;
-      drawerAddBtn.disabled = !hasSelection;
-      drawerDeleteBtn.disabled = !hasSelection;
-      
-      if (hasSelection) {
-        drawerAddBtn.textContent = `Add ${selectedCount}`;
-        drawerDeleteBtn.textContent = `Delete ${selectedCount}`;
+      // Update selection count text
+      if (selectedCount === 0) {
+        drawerSelectionCount.textContent = `${availableSlots} slots available`;
       } else {
+        drawerSelectionCount.textContent = `${selectedCount} selected`;
+      }
+      
+      // Delete button - enabled if anything selected
+      drawerDeleteBtn.disabled = selectedCount === 0;
+      drawerDeleteBtn.textContent = selectedCount > 0 ? `Delete ${selectedCount}` : 'Delete';
+      
+      // Add button - enabled if can add at least 1
+      if (selectedCount === 0) {
+        drawerAddBtn.disabled = true;
         drawerAddBtn.textContent = 'Add to Page';
-        drawerDeleteBtn.textContent = 'Delete';
+      } else if (availableSlots === 0) {
+        drawerAddBtn.disabled = true;
+        drawerAddBtn.textContent = 'Page Full';
+      } else if (selectedCount > availableSlots) {
+        drawerAddBtn.disabled = false;
+        drawerAddBtn.textContent = `Add ${availableSlots}`;
+      } else {
+        drawerAddBtn.disabled = false;
+        drawerAddBtn.textContent = `Add ${selectedCount}`;
       }
     }
 
     function addSelectedToPage() {
       const page = pages[currentPageIndex];
       const currentCount = page.stickers.length;
-      const maxSelectable = MAX_STICKERS_PER_PAGE - currentCount;
+      const availableSlots = MAX_STICKERS_PER_PAGE - currentCount;
       
-      if (drawerSelectedIds.size === 0) return;
-      if (drawerSelectedIds.size > maxSelectable) {
-        showToast(`Can only add ${maxSelectable} more stickers`);
-        return;
-      }
+      if (drawerSelectedIds.size === 0 || availableSlots === 0) return;
 
       // Get canvas dimensions for random scatter placement
       const canvasRect = pageCanvas.getBoundingClientRect();
@@ -1973,32 +1985,38 @@
       const maxX = canvasRect.width - stickerSize - padding;
       const maxY = canvasRect.height - stickerSize - padding;
 
-      // Add selected stickers with random scatter
-      drawer.forEach((sticker, index) => {
-        if (drawerSelectedIds.has(sticker.id)) {
-          // Random position with some jitter
-          const randomX = padding + Math.random() * maxX;
-          const randomY = padding + Math.random() * maxY;
-          const randomRotation = (Math.random() - 0.5) * 20; // -10 to +10 degrees
-          
-          const newSticker = {
-            id: sticker.id + '_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9),
-            src: sticker.src,
-            displayName: sticker.displayName,
-            x: randomX,
-            y: randomY,
-            size: stickerSize,
-            scale: 1,
-            rotation: randomRotation,
-            zIndex: ++currentZ
-          };
-          page.stickers.push(newSticker);
-        }
-      });
+      // Only add up to available slots
+      let addedCount = 0;
+      const addedIds = new Set();
+      
+      for (const sticker of drawer) {
+        if (addedCount >= availableSlots) break;
+        if (!drawerSelectedIds.has(sticker.id)) continue;
+        
+        // Random position with some jitter
+        const randomX = padding + Math.random() * maxX;
+        const randomY = padding + Math.random() * maxY;
+        const randomRotation = (Math.random() - 0.5) * 20; // -10 to +10 degrees
+        
+        const newSticker = {
+          id: sticker.id + '_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9),
+          src: sticker.src,
+          displayName: sticker.displayName,
+          x: randomX,
+          y: randomY,
+          size: stickerSize,
+          scale: 1,
+          rotation: randomRotation,
+          zIndex: ++currentZ
+        };
+        page.stickers.push(newSticker);
+        addedIds.add(sticker.id);
+        addedCount++;
+      }
 
-      // Remove from drawer (iterate backwards to preserve indices)
+      // Remove added stickers from drawer (iterate backwards to preserve indices)
       for (let i = drawer.length - 1; i >= 0; i--) {
-        if (drawerSelectedIds.has(drawer[i].id)) {
+        if (addedIds.has(drawer[i].id)) {
           drawer.splice(i, 1);
         }
       }
@@ -2009,7 +2027,7 @@
       renderCurrentPage();
       renderPageDots();
       closeDrawer();
-      showToast('Stickers added!');
+      showToast(`${addedCount} sticker${addedCount > 1 ? 's' : ''} added!`);
     }
 
     function deleteSelectedFromDrawer() {
@@ -2200,20 +2218,12 @@
     // Selection mode (expanded view)
     function setupDrawerStickerSelect(el, sticker) {
       el.addEventListener('click', () => {
-        const page = pages[currentPageIndex];
-        const currentCount = page ? page.stickers.length : 0;
-        const maxSelectable = MAX_STICKERS_PER_PAGE - currentCount;
-
         if (drawerSelectedIds.has(sticker.id)) {
           drawerSelectedIds.delete(sticker.id);
           el.classList.remove('selected');
         } else {
-          if (drawerSelectedIds.size < maxSelectable) {
-            drawerSelectedIds.add(sticker.id);
-            el.classList.add('selected');
-          } else {
-            showToast(`Can only select ${maxSelectable} more`);
-          }
+          drawerSelectedIds.add(sticker.id);
+          el.classList.add('selected');
         }
         updateDrawerSelectionUI();
       });
