@@ -396,14 +396,15 @@
       };
       
       localStorage.setItem('stickerbook_user', JSON.stringify(userData));
+      localStorage.setItem('stickerbook_user_name', userData.name);
       
-      // Navigate to background selection
-      window.location.href = 'background.html';
+      // Navigate to stickerbook hub
+      window.location.href = 'stickerbook.html';
     });
 
     // Skip button (developer tool)
     skipBtn.addEventListener('click', () => {
-      window.location.href = 'background.html';
+      window.location.href = 'stickerbook.html';
     });
   </script>
 </body>
