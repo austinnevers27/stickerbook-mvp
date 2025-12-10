@@ -20,7 +20,7 @@
       height: 100dvh;
       display: flex;
       flex-direction: column;
-      background: var(--gradient-background);
+      background: var(--color-canvas);
       overflow: hidden;
     }
 
@@ -36,18 +36,18 @@
       width: 40px;
       height: 40px;
       border-radius: 50%;
-      border: 2px solid rgba(255, 255, 255, 0.8);
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border: 2px solid var(--color-border);
+      background: var(--gradient-primary);
       cursor: pointer;
       overflow: hidden;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      box-shadow: var(--shadow-md);
       transition: transform 0.15s ease, box-shadow 0.15s ease;
       flex-shrink: 0;
     }
 
     .profile-btn:hover {
       transform: scale(1.05);
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+      box-shadow: var(--shadow-lg);
     }
 
     .profile-btn img {
@@ -62,7 +62,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      color: white;
+      color: var(--color-text-inverse);
       font-size: 16px;
       font-weight: 600;
     }
@@ -101,7 +101,7 @@
       flex: 1;
       border-radius: var(--radius-lg);
       background: #ffffff;
-      box-shadow: 0 12px 40px rgba(15, 23, 42, 0.18), 0 4px 12px rgba(15, 23, 42, 0.1);
+      box-shadow: var(--shadow-xl);
       position: relative;
       overflow: hidden;
       touch-action: none;
@@ -158,7 +158,7 @@
 
     .placed-sticker.active {
       z-index: 1000 !important;
-      box-shadow: 0 0 0 2px var(--color-cyan), 0 8px 20px rgba(15, 23, 42, 0.3);
+      box-shadow: 0 0 0 2px var(--color-accent), var(--shadow-lg);
       border-radius: 4px;
     }
 
@@ -193,23 +193,23 @@
       width: 8px;
       height: 8px;
       border-radius: 50%;
-      background: rgba(148, 163, 184, 0.4);
+      background: var(--color-border-strong);
       transition: background 0.2s ease, transform 0.2s ease;
       cursor: pointer;
     }
 
     .page-dot.active {
-      background: var(--color-cyan);
+      background: var(--color-primary);
       transform: scale(1.2);
     }
 
     .page-dot.filled {
-      background: rgba(148, 163, 184, 0.7);
+      background: var(--color-text-subtle);
     }
 
     .page-dot.locked {
-      background: rgba(148, 163, 184, 0.2);
-      border: 1px dashed rgba(148, 163, 184, 0.4);
+      background: var(--color-border);
+      border: 1px dashed var(--color-border-strong);
     }
 
     .page-number {
@@ -249,25 +249,26 @@
     }
 
     .toolbar-btn-icon {
-      width: 74px;
-      height: 74px;
+      width: 64px;
+      height: 64px;
       border-radius: 50%;
-      background: white;
-      box-shadow: 0 4px 15px rgba(15, 23, 42, 0.12);
+      background: var(--color-canvas-elevated);
+      box-shadow: var(--shadow-md);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 32px;
+      font-size: 28px;
       transition: box-shadow 0.15s ease, background 0.15s ease, border-color 0.15s ease;
-      border: 3px solid transparent;
+      border: 2px solid var(--color-border);
     }
 
     .toolbar-btn:hover .toolbar-btn-icon {
-      box-shadow: 0 6px 20px rgba(15, 23, 42, 0.18);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--color-border-strong);
     }
 
     .toolbar-btn-label {
-      font-size: 14px;
+      font-size: 12px;
       font-weight: 600;
       color: var(--color-text-muted);
       letter-spacing: 0.02em;
@@ -285,7 +286,7 @@
     /* Trash button - absolute positioned, hidden by default */
     .toolbar-btn-trash {
       position: absolute;
-      right: 105px; /* Position to left of drawer */
+      right: 95px;
       bottom: 24px;
       opacity: 0;
       pointer-events: none;
@@ -303,33 +304,33 @@
 
     /* Trash highlighted red when visible */
     .bottom-toolbar.in-drop-zone .toolbar-btn-trash .toolbar-btn-icon {
-      border-color: #ef4444;
-      box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.25), 0 4px 15px rgba(239, 68, 68, 0.2);
+      border-color: var(--color-error);
+      box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.15), var(--shadow-md);
     }
 
-    /* In drop zone: Drawer highlighted green (positive) - ONLY when trash is visible */
+    /* In drop zone: Drawer highlighted turquoise (positive) */
     .bottom-toolbar.in-drop-zone #btn-drawer .toolbar-btn-icon {
-      border-color: #22c55e;
-      box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.25), 0 4px 15px rgba(34, 197, 94, 0.2);
+      border-color: var(--color-accent);
+      box-shadow: 0 0 0 4px rgba(20, 184, 166, 0.15), var(--shadow-md);
     }
 
     /* Hover states when in drop zone - more intense */
     .toolbar-btn-trash.drop-active .toolbar-btn-icon {
       background: #fef2f2;
-      border-color: #ef4444;
-      box-shadow: 0 0 0 6px rgba(239, 68, 68, 0.35), 0 6px 20px rgba(239, 68, 68, 0.3);
+      border-color: var(--color-error);
+      box-shadow: 0 0 0 6px rgba(220, 38, 38, 0.2), var(--shadow-lg);
     }
 
     #btn-drawer.drop-active .toolbar-btn-icon {
-      background: #f0fdf4;
-      border-color: #22c55e;
-      box-shadow: 0 0 0 6px rgba(34, 197, 94, 0.35), 0 6px 20px rgba(34, 197, 94, 0.3);
+      background: var(--color-selected-bg);
+      border-color: var(--color-accent);
+      box-shadow: 0 0 0 6px rgba(20, 184, 166, 0.2), var(--shadow-lg);
     }
 
     /* Page dot states for editability */
     .page-dot.locked-edit {
-      background: rgba(148, 163, 184, 0.15);
-      border: 1px dashed rgba(148, 163, 184, 0.3);
+      background: var(--color-border-subtle);
+      border: 1px dashed var(--color-border);
       cursor: not-allowed;
     }
 
@@ -337,7 +338,7 @@
     .nav-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(15, 23, 42, 0.5);
+      background: rgba(0, 0, 0, 0.5);
       opacity: 0;
       pointer-events: none;
       transition: opacity 0.25s ease;
@@ -356,8 +357,8 @@
       bottom: 0;
       width: 280px;
       max-width: 80vw;
-      background: white;
-      box-shadow: 4px 0 24px rgba(15, 23, 42, 0.2);
+      background: var(--color-canvas-elevated);
+      box-shadow: var(--shadow-xl);
       transform: translateX(-100%);
       transition: transform 0.3s ease;
       z-index: 901;
@@ -371,7 +372,7 @@
 
     .nav-header {
       padding: 24px 20px;
-      border-bottom: 1px solid var(--color-border-light);
+      border-bottom: 1px solid var(--color-border);
     }
 
     .nav-profile {
@@ -384,12 +385,12 @@
       width: 48px;
       height: 48px;
       border-radius: 50%;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: var(--gradient-primary);
       overflow: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: white;
+      color: var(--color-text-inverse);
       font-size: 20px;
       font-weight: 600;
     }
@@ -438,7 +439,7 @@
     }
 
     .nav-item:hover {
-      background: var(--color-field-bg);
+      background: var(--color-hover-bg);
     }
 
     .nav-item-icon {
@@ -449,7 +450,7 @@
 
     .nav-footer {
       padding: 16px 20px;
-      border-top: 1px solid var(--color-border-light);
+      border-top: 1px solid var(--color-border);
     }
 
     .nav-footer-text {
@@ -462,7 +463,7 @@
     .modal-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(15, 23, 42, 0.6);
+      background: rgba(0, 0, 0, 0.6);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -478,12 +479,12 @@
     }
 
     .modal-card {
-      background: white;
+      background: var(--color-canvas-elevated);
       border-radius: var(--radius-lg);
       padding: 24px;
       max-width: 300px;
       width: 90%;
-      box-shadow: 0 20px 50px rgba(15, 23, 42, 0.25);
+      box-shadow: var(--shadow-xl);
     }
 
     .modal-title {
@@ -522,16 +523,24 @@
     }
 
     .modal-btn-secondary {
-      background: var(--color-field-bg);
-      border: 1px solid var(--color-border-medium);
+      background: var(--color-canvas-subtle);
+      border: 1px solid var(--color-border);
       color: var(--color-text-primary);
+    }
+
+    .modal-btn-secondary:hover {
+      background: var(--color-hover-bg);
     }
 
     .modal-btn-primary {
       background: var(--gradient-primary);
       border: none;
-      color: white;
+      color: var(--color-text-inverse);
       box-shadow: var(--shadow-button);
+    }
+
+    .modal-btn-primary:hover {
+      box-shadow: var(--shadow-button-hover);
     }
 
     /* ========== TOAST ========== */
@@ -541,8 +550,8 @@
       left: 50%;
       transform: translateX(-50%) translateY(20px);
       padding: 10px 20px;
-      background: rgba(15, 23, 42, 0.9);
-      color: white;
+      background: var(--color-text-primary);
+      color: var(--color-text-inverse);
       border-radius: var(--radius-pill);
       font-size: 12px;
       font-weight: 500;
@@ -557,19 +566,11 @@
       transform: translateX(-50%) translateY(0);
     }
 
-    /* ========== DRAWER PANEL - MIAMI VICE EDITION ========== */
-    :root {
-      --drawer-bg-start: #ff6b9d;
-      --drawer-bg-end: #00d4ff;
-      --drawer-tile-bg: rgba(255, 255, 255, 0.18);
-      --drawer-tile-border: rgba(255, 255, 255, 0.3);
-      --drawer-tile-glow: rgba(0, 212, 255, 0.4);
-    }
-
+    /* ========== DRAWER PANEL - CLEAN ELEVATED ========== */
     .drawer-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(15, 23, 42, 0.6);
+      background: rgba(0, 0, 0, 0.5);
       opacity: 0;
       pointer-events: none;
       transition: opacity 0.25s ease;
@@ -587,15 +588,16 @@
       right: 0;
       bottom: 0;
       height: 35vh;
-      background: linear-gradient(135deg, var(--drawer-bg-start) 0%, #a855f7 50%, var(--drawer-bg-end) 100%);
-      border-radius: 28px 28px 0 0;
-      box-shadow: 0 -8px 40px rgba(168, 85, 247, 0.4), 0 -2px 20px rgba(0, 212, 255, 0.3);
+      background: var(--color-canvas-elevated);
+      border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+      box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.15);
       transform: translateY(100%);
       transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1), height 0.3s cubic-bezier(0.32, 0.72, 0, 1);
       z-index: 501;
       display: flex;
       flex-direction: column;
       overflow: hidden;
+      border-top: 1px solid var(--color-border);
     }
 
     .drawer-panel.visible {
@@ -606,32 +608,19 @@
       height: 85vh;
     }
 
-    /* Subtle grid overlay for retro feel */
-    .drawer-panel::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background-image: 
-        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
-      background-size: 20px 20px;
-      pointer-events: none;
-      border-radius: 28px 28px 0 0;
-    }
-
     .drawer-handle {
-      width: 48px;
-      height: 5px;
-      background: rgba(255, 255, 255, 0.6);
-      border-radius: 3px;
-      margin: 14px auto 10px;
+      width: 40px;
+      height: 4px;
+      background: var(--color-border-strong);
+      border-radius: 2px;
+      margin: 12px auto 8px;
       flex-shrink: 0;
       cursor: grab;
       transition: background 0.2s ease, transform 0.2s ease;
     }
 
     .drawer-handle:hover {
-      background: rgba(255, 255, 255, 0.9);
+      background: var(--color-text-subtle);
       transform: scaleX(1.1);
     }
 
@@ -640,10 +629,8 @@
       align-items: center;
       justify-content: space-between;
       padding: 4px 16px 12px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      border-bottom: 1px solid var(--color-border);
       flex-shrink: 0;
-      position: relative;
-      z-index: 1;
     }
 
     .drawer-header-left {
@@ -656,28 +643,26 @@
       font-family: var(--font-display);
       font-size: 14px;
       font-weight: 700;
-      letter-spacing: 0.08em;
-      color: white;
-      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+      letter-spacing: 0.06em;
+      color: var(--color-text-primary);
     }
 
     .drawer-expand-btn {
-      background: rgba(255, 255, 255, 0.2);
-      border: none;
-      border-radius: 8px;
+      background: var(--color-canvas-subtle);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-sm);
       padding: 6px 10px;
-      color: white;
-      font-size: 12px;
+      color: var(--color-text-secondary);
+      font-size: 11px;
       font-weight: 600;
       cursor: pointer;
-      transition: background 0.15s ease;
-      display: flex;
-      align-items: center;
-      gap: 4px;
+      transition: background 0.15s ease, border-color 0.15s ease;
+      font-family: var(--font-primary);
     }
 
     .drawer-expand-btn:hover {
-      background: rgba(255, 255, 255, 0.3);
+      background: var(--color-hover-bg);
+      border-color: var(--color-border-strong);
     }
 
     .drawer-header-right {
@@ -689,8 +674,7 @@
     .drawer-count {
       font-size: 11px;
       font-weight: 600;
-      color: rgba(255, 255, 255, 0.85);
-      text-shadow: 0 1px 6px rgba(0, 0, 0, 0.3);
+      color: var(--color-text-muted);
     }
 
     .drawer-grid {
@@ -701,10 +685,8 @@
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       grid-auto-rows: min-content;
-      gap: 12px;
+      gap: 10px;
       align-content: start;
-      position: relative;
-      z-index: 1;
     }
 
     /* Custom scrollbar for drawer */
@@ -713,37 +695,35 @@
     }
 
     .drawer-grid::-webkit-scrollbar-track {
-      background: rgba(255, 255, 255, 0.1);
+      background: var(--color-border-subtle);
       border-radius: 2px;
     }
 
     .drawer-grid::-webkit-scrollbar-thumb {
-      background: rgba(255, 255, 255, 0.4);
+      background: var(--color-border-strong);
       border-radius: 2px;
     }
 
-    /* Swipe delete wrapper - this is the grid item */
+    /* Swipe delete wrapper */
     .drawer-sticker-wrapper {
       position: relative;
       overflow: hidden;
-      border-radius: 10px;
+      border-radius: var(--radius-md);
       aspect-ratio: 1 / 1;
     }
 
     .drawer-sticker {
       position: absolute;
       inset: 0;
-      background: var(--drawer-tile-bg);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      border-radius: 10px;
+      background: var(--color-canvas-subtle);
+      border-radius: var(--radius-md);
       padding: 6px;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
-      border: 1px solid var(--drawer-tile-border);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+      border: 1px solid var(--color-border);
+      box-shadow: var(--shadow-xs);
       touch-action: pan-y;
     }
 
@@ -753,7 +733,7 @@
       top: 0;
       bottom: 0;
       width: 50px;
-      background: #ef4444;
+      background: var(--color-error);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -777,18 +757,18 @@
     }
 
     .drawer-sticker.selected {
-      background: rgba(34, 197, 94, 0.4);
-      border-color: #22c55e;
-      box-shadow: 0 0 12px rgba(34, 197, 94, 0.5);
+      background: var(--color-selected-bg);
+      border-color: var(--color-selected);
+      box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.15);
     }
 
     .drawer-sticker-check {
       position: absolute;
-      top: 2px;
-      right: 2px;
-      width: 16px;
-      height: 16px;
-      background: #22c55e;
+      top: 4px;
+      right: 4px;
+      width: 18px;
+      height: 18px;
+      background: var(--color-accent);
       border-radius: 50%;
       display: none;
       align-items: center;
@@ -796,7 +776,7 @@
       color: white;
       font-size: 10px;
       font-weight: bold;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+      box-shadow: var(--shadow-sm);
     }
 
     .drawer-sticker.selected .drawer-sticker-check {
@@ -813,9 +793,9 @@
     }
 
     .drawer-sticker:hover {
-      background: rgba(255, 255, 255, 0.28);
-      box-shadow: 0 0 16px var(--drawer-tile-glow), 0 4px 12px rgba(0, 0, 0, 0.2);
-      border-color: rgba(255, 255, 255, 0.5);
+      background: var(--color-hover-bg);
+      border-color: var(--color-border-strong);
+      box-shadow: var(--shadow-sm);
     }
 
     .drawer-sticker img {
@@ -823,12 +803,11 @@
       max-height: 100%;
       object-fit: contain;
       pointer-events: none;
-      filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.3));
     }
 
     .drawer-sticker.dragging {
       opacity: 0.5;
-      transform: scale(0.9);
+      transform: scale(0.95);
     }
 
     .drawer-empty {
@@ -839,8 +818,7 @@
       align-items: center;
       justify-content: center;
       text-align: center;
-      color: rgba(255, 255, 255, 0.9);
-      z-index: 1;
+      color: var(--color-text-muted);
     }
 
     .drawer-empty.hidden {
@@ -850,25 +828,22 @@
     .drawer-empty-icon {
       font-size: 36px;
       margin-bottom: 12px;
-      filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3));
+      opacity: 0.5;
     }
 
     .drawer-empty-text {
       font-size: 13px;
       font-weight: 500;
       line-height: 1.6;
-      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
     }
 
     /* Selection footer (full screen mode) */
     .drawer-footer {
       display: none;
       padding: 12px 16px;
-      border-top: 1px solid rgba(255, 255, 255, 0.2);
-      background: rgba(0, 0, 0, 0.2);
+      border-top: 1px solid var(--color-border);
+      background: var(--color-canvas-subtle);
       flex-shrink: 0;
-      position: relative;
-      z-index: 1;
     }
 
     .drawer-panel.expanded .drawer-footer {
@@ -878,10 +853,9 @@
     }
 
     .drawer-selection-count {
-      color: white;
+      color: var(--color-text-secondary);
       font-size: 13px;
       font-weight: 600;
-      text-shadow: 0 1px 6px rgba(0, 0, 0, 0.3);
     }
 
     .drawer-footer-buttons {
@@ -890,49 +864,51 @@
     }
 
     .drawer-delete-btn {
-      background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+      background: var(--color-error);
       border: none;
-      border-radius: 20px;
+      border-radius: var(--radius-pill);
       padding: 10px 16px;
       color: white;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 700;
       cursor: pointer;
-      box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
-      transition: transform 0.12s ease, box-shadow 0.12s ease;
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.12s ease, box-shadow 0.12s ease, opacity 0.15s ease;
+      font-family: var(--font-primary);
     }
 
     .drawer-delete-btn:hover {
       transform: translateY(-1px);
-      box-shadow: 0 6px 20px rgba(239, 68, 68, 0.5);
+      box-shadow: var(--shadow-md);
     }
 
     .drawer-delete-btn:disabled {
-      opacity: 0.5;
+      opacity: 0.4;
       cursor: not-allowed;
       transform: none;
     }
 
     .drawer-add-btn {
-      background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+      background: var(--color-accent);
       border: none;
-      border-radius: 20px;
+      border-radius: var(--radius-pill);
       padding: 10px 16px;
       color: white;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 700;
       cursor: pointer;
-      box-shadow: 0 4px 15px rgba(34, 197, 94, 0.4);
-      transition: transform 0.12s ease, box-shadow 0.12s ease;
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.12s ease, box-shadow 0.12s ease, opacity 0.15s ease;
+      font-family: var(--font-primary);
     }
 
     .drawer-add-btn:hover {
       transform: translateY(-1px);
-      box-shadow: 0 6px 20px rgba(34, 197, 94, 0.5);
+      box-shadow: var(--shadow-md);
     }
 
     .drawer-add-btn:disabled {
-      opacity: 0.5;
+      opacity: 0.4;
       cursor: not-allowed;
       transform: none;
     }
@@ -954,7 +930,7 @@
 
     /* Page highlight when dragging sticker over it */
     .stickerbook-page.drop-target {
-      box-shadow: 0 0 0 3px var(--color-cyan), 0 12px 40px rgba(15, 23, 42, 0.18);
+      box-shadow: 0 0 0 3px var(--color-accent), var(--shadow-xl);
     }
   </style>
 </head>
@@ -1175,17 +1151,16 @@
     // ============ INITIALIZATION ============
     function init() {
       loadDataFromStorage();
-      restorePagePosition(); // Restore to correct page after returning from background/shop
-      seedDrawerForTesting(); // DEV: Add test stickers if drawer is empty
+      restorePagePosition();
+      seedDrawerForTesting();
       loadUserProfile();
       renderPageDots();
       renderCurrentPage();
       setupEventListeners();
-      setupDrawerHandle(); // Enable drawer expand/collapse
+      setupDrawerHandle();
       updatePageNumber();
     }
 
-    // Restore page position if returning from background picker or shop
     function restorePagePosition() {
       const editingPage = localStorage.getItem('stickerbook_editing_page');
       if (editingPage !== null) {
@@ -1193,40 +1168,30 @@
         if (!isNaN(pageIndex) && pageIndex >= 0 && pageIndex < totalPages) {
           currentPageIndex = pageIndex;
         }
-        // Clear it so we don't keep restoring on every load
         localStorage.removeItem('stickerbook_editing_page');
       }
     }
 
     // ============ PAGE EDITABILITY LOGIC ============
-    // Check if a page has content (sticker OR non-default background)
     function pageHasContent(pageIndex) {
       const page = pages[pageIndex];
       if (!page) return false;
-      
-      // Has at least 1 sticker
       if (page.stickers && page.stickers.length > 0) return true;
-      
-      // Has non-default background (user actively selected something)
       if (page.backgroundData && page.backgroundData.baseColor) return true;
-      
       return false;
     }
 
-    // Check if a page has at least 1 sticker (for matching visibility)
     function pageHasSticker(pageIndex) {
       const page = pages[pageIndex];
       return page && page.stickers && page.stickers.length > 0;
     }
 
-    // Check if page is editable (page N editable if page N-1 has content, or if N=0)
     function isPageEditable(pageIndex) {
       if (pageIndex === 0) return true;
       if (pageIndex >= totalPages) return false;
       return pageHasContent(pageIndex - 1);
     }
 
-    // Get highest editable page index
     function getHighestEditablePage() {
       for (let i = 0; i < totalPages; i++) {
         if (!isPageEditable(i)) return i - 1;
@@ -1234,12 +1199,10 @@
       return totalPages - 1;
     }
 
-    // Check if user can access matching (page 1 must have at least 1 sticker)
     function canAccessMatching() {
       return pageHasSticker(0);
     }
 
-    // Get pages visible in matching (only pages with stickers)
     function getPublicPageIndices() {
       const visible = [];
       for (let i = 0; i < totalPages; i++) {
@@ -1261,7 +1224,6 @@
     }
 
     function loadDataFromStorage() {
-      // Load pages
       try {
         const savedPages = localStorage.getItem('stickerbook_all_pages');
         if (savedPages) {
@@ -1271,7 +1233,6 @@
         pages = [];
       }
 
-      // Migrate from old single-page storage if exists
       if (pages.length === 0) {
         try {
           const oldPage1 = localStorage.getItem('stickerbook_page_1');
@@ -1281,7 +1242,6 @@
         } catch (e) {}
       }
 
-      // Initialize empty pages if needed
       while (pages.length < totalPages) {
         pages.push({
           background: '#ffffff',
@@ -1290,7 +1250,6 @@
         });
       }
 
-      // Load drawer
       try {
         const savedDrawer = localStorage.getItem('stickerbook_drawer');
         if (savedDrawer) {
@@ -1300,26 +1259,21 @@
         drawer = [];
       }
 
-      // Migrate from old selected stickers if drawer is empty
       if (drawer.length === 0) {
         try {
           const oldSelected = localStorage.getItem('stickerbookSelectedStickers');
           if (oldSelected) {
             const ids = JSON.parse(oldSelected);
-            // Create drawer entries - we need to reconstruct src from ID
             ids.forEach(id => {
-              // Extract filename from ID pattern (sticker_XXX -> need to look up)
-              // For now, create placeholder entries that the shop will fix
               drawer.push({
                 id: id,
-                src: 'assets/Stickers/' + id.replace('sticker_', '') + '.png', // Rough guess
+                src: 'assets/Stickers/' + id.replace('sticker_', '') + '.png',
                 displayName: id
               });
             });
           }
         } catch (e) {}
         
-        // Also try to get stickers from old page_1 data
         try {
           const oldPage1 = localStorage.getItem('stickerbook_page_1');
           if (oldPage1) {
@@ -1352,20 +1306,15 @@
       const page = pages[currentPageIndex];
       if (!page) return;
 
-      // Apply background
       if (page.backgroundCSS) {
         stickerPage.style.cssText = page.backgroundCSS;
       } else {
         stickerPage.style.background = page.background || '#ffffff';
       }
 
-      // Clear canvas
       pageCanvas.innerHTML = '';
-
-      // Show/hide empty hint
       emptyHint.style.display = page.stickers.length === 0 ? 'flex' : 'none';
 
-      // Render stickers
       page.stickers.forEach(sticker => {
         const el = createStickerElement(sticker);
         pageCanvas.appendChild(el);
@@ -1396,7 +1345,6 @@
       img.draggable = false;
       el.appendChild(img);
 
-      // Setup interactions
       setupStickerInteractions(el, stickerData);
 
       return el;
@@ -1424,7 +1372,6 @@
       if (el) {
         el.classList.add('active');
         el.style.zIndex = ++currentZ;
-        // Update sticker data
         const page = pages[currentPageIndex];
         const sticker = page.stickers.find(s => s.id === el.dataset.id);
         if (sticker) sticker.zIndex = currentZ;
@@ -1446,7 +1393,7 @@
         startMouseY = e.clientY;
         isDragging = true;
         el.classList.add('dragging');
-        enterDragMode(); // Dim shop/backgrounds, highlight drawer
+        enterDragMode();
       });
 
       const handleMouseMove = (e) => {
@@ -1500,7 +1447,7 @@
           startTouchX = t.clientX;
           startTouchY = t.clientY;
           el.classList.add('dragging');
-          enterDragMode(); // Dim shop/backgrounds, highlight drawer
+          enterDragMode();
         } else if (e.touches.length === 2) {
           touchMode = 'transform';
           const t1 = e.touches[0];
@@ -1586,13 +1533,11 @@
       el.addEventListener('touchcancel', handleTouchEnd, { passive: false });
     }
 
-    // ============ DRAG DROP ZONES (DRAWER & TRASH) ============
+    // ============ DRAG DROP ZONES ============
     let isDraggingSticker = false;
 
-    // Check if position is in the "outfield" zone (bottom area near toolbar)
     function isInDropZone(y) {
       const pageRect = stickerPage.getBoundingClientRect();
-      // Outfield starts at bottom of page
       return y > pageRect.bottom;
     }
 
@@ -1611,25 +1556,21 @@
     }
 
     function checkDropZones(x, y) {
-      // Check if in bottom "outfield" zone
       if (isInDropZone(y)) {
         bottomToolbar.classList.add('in-drop-zone');
         
-        // Check drawer
         if (isOverDrawer(x, y)) {
           btnDrawer.classList.add('drop-active');
         } else {
           btnDrawer.classList.remove('drop-active');
         }
 
-        // Check trash (only visible when in drop zone)
         if (isOverTrash(x, y)) {
           btnTrash.classList.add('drop-active');
         } else {
           btnTrash.classList.remove('drop-active');
         }
       } else {
-        // Not in drop zone - hide trash, remove highlights
         bottomToolbar.classList.remove('in-drop-zone');
         btnDrawer.classList.remove('drop-active');
         btnTrash.classList.remove('drop-active');
@@ -1642,7 +1583,6 @@
     }
 
     function isOverTrash(x, y) {
-      // Trash is only visible when in-drop-zone class is applied
       if (!bottomToolbar.classList.contains('in-drop-zone')) return false;
       const rect = btnTrash.getBoundingClientRect();
       return x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
@@ -1667,13 +1607,13 @@
         exitDragMode();
 
         emptyHint.style.display = page.stickers.length === 0 ? 'flex' : 'none';
-        renderPageDots(); // Update dots in case this affects editability
+        renderPageDots();
         showToast('Moved to drawer');
       }, 300);
     }
 
     function deleteSticker(el, stickerData) {
-      el.classList.add('to-drawer'); // Same shrink animation
+      el.classList.add('to-drawer');
 
       setTimeout(() => {
         const page = pages[currentPageIndex];
@@ -1685,7 +1625,7 @@
         exitDragMode();
 
         emptyHint.style.display = page.stickers.length === 0 ? 'flex' : 'none';
-        renderPageDots(); // Update dots in case this affects editability
+        renderPageDots();
         showToast('Sticker deleted');
       }, 300);
     }
@@ -1704,12 +1644,10 @@
           dot.classList.add('filled');
         }
 
-        // Check if page is editable
         if (!isPageEditable(i)) {
           dot.classList.add('locked-edit');
         }
 
-        // Check if page is beyond free tier (pages 9+ need unlock/purchase)
         if (i >= MAX_PAGES_FREE) {
           dot.classList.add('locked');
         }
@@ -1726,7 +1664,6 @@
     function goToPage(index) {
       if (index < 0 || index >= totalPages || index === currentPageIndex) return;
 
-      // Check if page is editable
       if (!isPageEditable(index)) {
         const prevPage = index;
         showToast(`Add a sticker or background to Page ${prevPage} first`);
@@ -1777,7 +1714,6 @@
         }
       }, { passive: true });
 
-      // Desktop
       if (!isTouchDevice) {
         let mouseDown = false;
         let mouseStartX = 0;
@@ -1878,7 +1814,6 @@
 
     // ============ TOOLBAR ACTIONS ============
     function openBackgrounds() {
-      // Store current page index so background picker knows which page to update
       localStorage.setItem('stickerbook_editing_page', currentPageIndex);
 
       if (hasUnsavedChanges) {
@@ -1889,7 +1824,6 @@
     }
 
     function openShop() {
-      // Store current page so we return to it
       localStorage.setItem('stickerbook_editing_page', currentPageIndex);
       
       if (hasUnsavedChanges) {
@@ -1901,10 +1835,10 @@
 
     // ============ DRAWER FUNCTIONS ============
     let drawerExpanded = false;
-    let drawerSelectedIds = new Set(); // Selection mode for expanded view
+    let drawerSelectedIds = new Set();
     let longPressTimer = null;
-    const LONG_PRESS_DURATION = 300; // ms
-    const STICKER_PLACE_SIZE = 120; // 175% of 70px
+    const LONG_PRESS_DURATION = 300;
+    const STICKER_PLACE_SIZE = 120;
 
     function openDrawer() {
       drawerSelectedIds.clear();
@@ -1930,7 +1864,6 @@
       drawerPanel.classList.toggle('expanded', drawerExpanded);
       expandText.textContent = drawerExpanded ? 'Collapse' : 'Expand';
       
-      // Re-render to switch between drag mode and selection mode
       renderDrawer();
       updateDrawerSelectionUI();
     }
@@ -1941,20 +1874,16 @@
       const availableSlots = MAX_STICKERS_PER_PAGE - currentCount;
       
       const selectedCount = drawerSelectedIds.size;
-      const canAdd = Math.min(selectedCount, availableSlots);
       
-      // Update selection count text
       if (selectedCount === 0) {
         drawerSelectionCount.textContent = `${availableSlots} slots available`;
       } else {
         drawerSelectionCount.textContent = `${selectedCount} selected`;
       }
       
-      // Delete button - enabled if anything selected
       drawerDeleteBtn.disabled = selectedCount === 0;
       drawerDeleteBtn.textContent = selectedCount > 0 ? `Delete ${selectedCount}` : 'Delete';
       
-      // Add button - enabled if can add at least 1
       if (selectedCount === 0) {
         drawerAddBtn.disabled = true;
         drawerAddBtn.textContent = 'Add to Page';
@@ -1977,14 +1906,12 @@
       
       if (drawerSelectedIds.size === 0 || availableSlots === 0) return;
 
-      // Get canvas dimensions for random scatter placement
       const canvasRect = pageCanvas.getBoundingClientRect();
       const padding = 20;
       const stickerSize = STICKER_PLACE_SIZE;
       const maxX = canvasRect.width - stickerSize - padding;
       const maxY = canvasRect.height - stickerSize - padding;
 
-      // Only add up to available slots
       let addedCount = 0;
       const addedIds = new Set();
       
@@ -1992,10 +1919,9 @@
         if (addedCount >= availableSlots) break;
         if (!drawerSelectedIds.has(sticker.id)) continue;
         
-        // Random position with some jitter
         const randomX = padding + Math.random() * maxX;
         const randomY = padding + Math.random() * maxY;
-        const randomRotation = (Math.random() - 0.5) * 20; // -10 to +10 degrees
+        const randomRotation = (Math.random() - 0.5) * 20;
         
         const newSticker = {
           id: sticker.id + '_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9),
@@ -2013,7 +1939,6 @@
         addedCount++;
       }
 
-      // Remove added stickers from drawer (iterate backwards to preserve indices)
       for (let i = drawer.length - 1; i >= 0; i--) {
         if (addedIds.has(drawer[i].id)) {
           drawer.splice(i, 1);
@@ -2034,7 +1959,6 @@
       
       const count = drawerSelectedIds.size;
       
-      // Remove from drawer (iterate backwards to preserve indices)
       for (let i = drawer.length - 1; i >= 0; i--) {
         if (drawerSelectedIds.has(drawer[i].id)) {
           drawer.splice(i, 1);
@@ -2093,10 +2017,8 @@
         }
       }, { passive: true });
 
-      // Tap expand button
       drawerExpandBtn.addEventListener('click', toggleDrawerExpand);
 
-      // Mouse drag for desktop
       handle.addEventListener('mousedown', (e) => {
         startY = e.clientY;
         startHeight = drawerPanel.offsetHeight;
@@ -2131,10 +2053,7 @@
         window.addEventListener('mouseup', handleMouseUp);
       });
 
-      // Add button click
       drawerAddBtn.addEventListener('click', addSelectedToPage);
-      
-      // Delete button click
       drawerDeleteBtn.addEventListener('click', deleteSelectedFromDrawer);
     }
 
@@ -2151,7 +2070,6 @@
 
       drawerEmpty.classList.add('hidden');
 
-      // Render newest first (reverse order since we push new items to end)
       const reversedDrawer = [...drawer].reverse();
       
       reversedDrawer.forEach((sticker, reversedIndex) => {
@@ -2163,7 +2081,6 @@
         const el = document.createElement('div');
         el.className = 'drawer-sticker';
         
-        // In expanded mode: selectable. In half mode: draggable
         if (drawerExpanded) {
           el.classList.add('selectable');
           if (drawerSelectedIds.has(sticker.id)) {
@@ -2183,7 +2100,6 @@
         img.draggable = false;
         el.appendChild(img);
 
-        // Checkmark for selection mode
         const check = document.createElement('div');
         check.className = 'drawer-sticker-check';
         check.textContent = '✓';
@@ -2191,7 +2107,6 @@
 
         wrapper.appendChild(el);
         
-        // Delete button for swipe
         const deleteBtn = document.createElement('div');
         deleteBtn.className = 'drawer-sticker-delete';
         deleteBtn.textContent = '🗑️';
@@ -2201,7 +2116,6 @@
         });
         wrapper.appendChild(deleteBtn);
 
-        // Setup interactions
         if (drawerExpanded) {
           setupDrawerStickerSelect(el, sticker);
         } else {
@@ -2214,7 +2128,6 @@
       });
     }
 
-    // Selection mode (expanded view)
     function setupDrawerStickerSelect(el, sticker) {
       el.addEventListener('click', () => {
         if (drawerSelectedIds.has(sticker.id)) {
@@ -2228,7 +2141,6 @@
       });
     }
 
-    // Swipe left to reveal delete
     function setupSwipeToDelete(wrapper, stickerEl) {
       let startX = 0;
       let currentX = 0;
@@ -2255,7 +2167,6 @@
         isSwiping = false;
       }, { passive: true });
 
-      // Click elsewhere to close swipe
       document.addEventListener('click', (e) => {
         if (!wrapper.contains(e.target)) {
           wrapper.classList.remove('swiped');
@@ -2263,7 +2174,6 @@
       });
     }
 
-    // Drag sticker from drawer to page (half-screen mode only)
     let dragGhost = null;
     let dragData = null;
     let dragSourceIndex = null;
@@ -2278,7 +2188,7 @@
 
     function setupDrawerMouseDrag(el, sticker, index) {
       el.addEventListener('mousedown', (e) => {
-        if (drawerExpanded) return; // No drag in expanded mode
+        if (drawerExpanded) return;
         e.preventDefault();
         startDragFromDrawer(e.clientX, e.clientY, sticker, index, el);
 
@@ -2303,25 +2213,22 @@
       let startX, startY;
 
       el.addEventListener('touchstart', (e) => {
-        if (drawerExpanded) return; // No drag in expanded mode
+        if (drawerExpanded) return;
         
         startX = e.touches[0].clientX;
         startY = e.touches[0].clientY;
         longPressTriggered = false;
 
-        // Start long-press timer
         longPressTimer = setTimeout(() => {
           longPressTriggered = true;
           const t = e.touches[0] || { clientX: startX, clientY: startY };
           startDragFromDrawer(t.clientX, t.clientY, sticker, index, el);
           
-          // Haptic feedback if available
           if (navigator.vibrate) navigator.vibrate(50);
         }, LONG_PRESS_DURATION);
       }, { passive: true });
 
       el.addEventListener('touchmove', (e) => {
-        // If moved significantly before long-press, cancel (allow scroll)
         if (!longPressTriggered && longPressTimer) {
           const t = e.touches[0];
           const dx = Math.abs(t.clientX - startX);
@@ -2364,7 +2271,6 @@
       dragSourceIndex = index;
       sourceEl.classList.add('dragging');
 
-      // Create ghost
       dragGhost = document.createElement('div');
       dragGhost.className = 'drag-ghost';
       const img = document.createElement('img');
@@ -2402,7 +2308,6 @@
       const isOverPage = x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
 
       if (isOverPage) {
-        // Check sticker limit
         const page = pages[currentPageIndex];
         if (page.stickers.length >= MAX_STICKERS_PER_PAGE) {
           showToast(`Max ${MAX_STICKERS_PER_PAGE} stickers per page`);
@@ -2410,13 +2315,11 @@
           return;
         }
 
-        // Calculate position relative to page canvas
         const canvasRect = pageCanvas.getBoundingClientRect();
         const halfSize = STICKER_PLACE_SIZE / 2;
         const dropX = x - canvasRect.left - halfSize;
         const dropY = y - canvasRect.top - halfSize;
 
-        // Create sticker data
         const newSticker = {
           id: dragData.id + '_' + Date.now(),
           src: dragData.src,
@@ -2429,15 +2332,11 @@
           zIndex: ++currentZ
         };
 
-        // Add to page
         page.stickers.push(newSticker);
-
-        // Remove from drawer
         drawer.splice(dragSourceIndex, 1);
 
         hasUnsavedChanges = true;
 
-        // Re-render
         renderCurrentPage();
         renderDrawer();
         renderPageDots();
@@ -2457,7 +2356,6 @@
       dragSourceIndex = null;
       stickerPage.classList.remove('drop-target');
 
-      // Remove dragging class from all drawer stickers
       document.querySelectorAll('.drawer-sticker.dragging').forEach(el => {
         el.classList.remove('dragging');
       });
@@ -2477,10 +2375,8 @@
       btnShop.addEventListener('click', openShop);
       btnDrawer.addEventListener('click', openDrawer);
 
-      // Drawer events
       drawerOverlay.addEventListener('click', closeDrawer);
       
-      // Swipe down to close drawer
       let drawerTouchStartY = 0;
       drawerPanel.addEventListener('touchstart', (e) => {
         drawerTouchStartY = e.touches[0].clientY;

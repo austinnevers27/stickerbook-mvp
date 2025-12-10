@@ -1,77 +1,142 @@
 /* ============================================
    STICKERBOOK DESIGN SYSTEM
-   Miami Vice Aesthetic
+   Clean Canvas, Signature Accents
    ============================================ */
 
 /* ========== CSS CUSTOM PROPERTIES ========== */
 :root {
-  /* Primary gradient colors */
-  --color-pink: #ff4f96;
-  --color-orange: #ff7a4e;
-  --color-cyan: #22d3ee;
+  /* === ACCENT COLORS === */
+  /* Purple (Primary - 60% of accent usage) */
+  --color-purple: #6D28D9;
+  --color-purple-dark: #5B21B6;
+  --color-purple-light: #8B5CF6;
   
-  /* Background gradient colors */
-  --color-bg-pink: #ffddee;
-  --color-bg-cyan: #d4f4ff;
-  --color-bg-white: #ffffff;
+  /* Turquoise (Secondary - 30% of accent usage) */
+  --color-turquoise: #14B8A6;
+  --color-turquoise-dark: #0D9488;
+  --color-turquoise-light: #5EEAD4;
   
-  /* Title sticker gradient (pastel) */
-  --color-pastel-pink: #ffb6c1;
-  --color-pastel-peach: #ffd4a3;
-  --color-pastel-cream: #fffacd;
-  --color-pastel-powder: #b0e0e6;
-  --color-pastel-sky: #87ceeb;
+  /* Gold (Tertiary - 10%, special moments only) */
+  --color-gold: #EAB308;
+  --color-gold-dark: #CA8A04;
+  --color-gold-light: #FACC15;
   
-  /* Text colors */
-  --color-text-primary: #111827;
-  --color-text-muted: #6b7280;
-  --color-text-subtle: #9ca3af;
-  --color-text-white: #ffffff;
+  /* === CANVAS (Light Mode Default) === */
+  --color-canvas: #ffffff;
+  --color-canvas-elevated: #ffffff;
+  --color-canvas-subtle: #fafafa;
+  --color-canvas-inset: #f4f4f5;
   
-  /* Field colors */
-  --color-field-bg: #f9fafb;
-  --color-field-border: rgba(148, 163, 184, 0.7);
-  --color-field-border-focus: #0ea5e9;
-  --color-field-placeholder: rgba(148, 163, 184, 0.9);
+  /* === TEXT === */
+  --color-text-primary: #18181b;
+  --color-text-secondary: #3f3f46;
+  --color-text-muted: #71717a;
+  --color-text-subtle: #a1a1aa;
+  --color-text-inverse: #ffffff;
   
-  /* Status colors */
-  --color-error: #f97373;
+  /* === BORDERS === */
+  --color-border: #e4e4e7;
+  --color-border-subtle: #f4f4f5;
+  --color-border-strong: #d4d4d8;
+  
+  /* === SEMANTIC MAPPING === */
+  --color-primary: var(--color-purple);
+  --color-primary-dark: var(--color-purple-dark);
+  --color-primary-light: var(--color-purple-light);
+  
+  --color-accent: var(--color-turquoise);
+  --color-accent-dark: var(--color-turquoise-dark);
+  --color-accent-light: var(--color-turquoise-light);
+  
+  --color-special: var(--color-gold);
+  --color-special-dark: var(--color-gold-dark);
+  --color-special-light: var(--color-gold-light);
+  
+  /* === INTERACTIVE STATES === */
+  --color-selected: var(--color-turquoise);
+  --color-selected-bg: rgba(20, 184, 166, 0.08);
+  --color-selected-border: var(--color-turquoise);
+  
+  --color-hover-bg: rgba(0, 0, 0, 0.04);
+  --color-active-bg: rgba(0, 0, 0, 0.06);
+  
+  --color-focus-ring: var(--color-turquoise-light);
+  
+  /* === STATUS === */
   --color-success: #16a34a;
+  --color-error: #dc2626;
+  --color-warning: var(--color-gold);
   
-  /* Border/UI colors */
-  --color-border-light: rgba(148, 163, 184, 0.2);
-  --color-border-medium: rgba(148, 163, 184, 0.9);
-  --color-sticker-border: #f5f5f0;
+  /* === SHADOWS === */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+  --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.16);
   
-  /* Shadows */
-  --shadow-button: 0 12px 22px rgba(236, 72, 153, 0.35), 0 0 0 1px rgba(248, 250, 252, 0.5);
-  --shadow-button-hover: 0 16px 28px rgba(236, 72, 153, 0.4), 0 0 0 1px rgba(248, 250, 252, 0.7);
-  --shadow-button-active: 0 8px 16px rgba(236, 72, 153, 0.3), 0 0 0 1px rgba(248, 250, 252, 0.5);
-  --shadow-card: 0 18px 40px rgba(15, 23, 42, 0.20), 0 0 0 1px rgba(148, 163, 184, 0.10);
-  --shadow-sticker: 0 3px 10px rgba(0, 0, 0, 0.15), 0 1px 3px rgba(0, 0, 0, 0.1);
+  --shadow-button: 0 4px 14px rgba(109, 40, 217, 0.25);
+  --shadow-button-hover: 0 6px 20px rgba(109, 40, 217, 0.35);
+  --shadow-button-active: 0 2px 8px rgba(109, 40, 217, 0.25);
   
-  /* Gradients */
-  --gradient-primary: linear-gradient(135deg, var(--color-pink), var(--color-orange), var(--color-cyan));
-  --gradient-accent-bar: linear-gradient(90deg, var(--color-pink), var(--color-orange), var(--color-cyan));
-  --gradient-background: linear-gradient(135deg, var(--color-bg-pink) 0%, var(--color-bg-white) 50%, var(--color-bg-cyan) 100%);
-  --gradient-title-sticker: linear-gradient(135deg, var(--color-pastel-pink) 0%, var(--color-pastel-peach) 25%, var(--color-pastel-cream) 50%, var(--color-pastel-powder) 75%, var(--color-pastel-sky) 100%);
+  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.08), 0 0 0 1px var(--color-border-subtle);
   
-  /* Typography */
+  /* === GRADIENTS === */
+  --gradient-primary: linear-gradient(135deg, var(--color-purple) 0%, var(--color-purple-dark) 100%);
+  --gradient-accent: linear-gradient(90deg, var(--color-purple) 0%, var(--color-turquoise) 100%);
+  
+  /* === TYPOGRAPHY === */
   --font-primary: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --font-display: "Poppins", system-ui, sans-serif;
   
-  /* Spacing */
+  /* === SPACING === */
   --spacing-xs: 4px;
   --spacing-sm: 8px;
   --spacing-md: 16px;
   --spacing-lg: 24px;
   --spacing-xl: 32px;
   
-  /* Border radius */
-  --radius-sm: 8px;
-  --radius-md: 18px;
-  --radius-lg: 24px;
+  /* === BORDER RADIUS === */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
   --radius-pill: 999px;
+}
+
+/* === DARK MODE === */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-canvas: #09090b;
+    --color-canvas-elevated: #18181b;
+    --color-canvas-subtle: #1f1f23;
+    --color-canvas-inset: #27272a;
+    
+    --color-text-primary: #fafafa;
+    --color-text-secondary: #d4d4d8;
+    --color-text-muted: #a1a1aa;
+    --color-text-subtle: #71717a;
+    --color-text-inverse: #18181b;
+    
+    --color-border: #27272a;
+    --color-border-subtle: #1f1f23;
+    --color-border-strong: #3f3f46;
+    
+    --color-selected-bg: rgba(20, 184, 166, 0.12);
+    
+    --color-hover-bg: rgba(255, 255, 255, 0.04);
+    --color-active-bg: rgba(255, 255, 255, 0.06);
+    
+    --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.2);
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
+    --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.6);
+    
+    --shadow-button: 0 4px 14px rgba(139, 92, 246, 0.25);
+    --shadow-button-hover: 0 6px 20px rgba(139, 92, 246, 0.35);
+    
+    --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.3), 0 0 0 1px var(--color-border);
+  }
 }
 
 
@@ -90,7 +155,7 @@ html, body {
 /* ========== BASE STYLES ========== */
 body {
   font-family: var(--font-primary);
-  background: var(--gradient-background);
+  background: var(--color-canvas);
   color: var(--color-text-primary);
   min-height: 100vh;
   min-height: 100dvh;
@@ -102,6 +167,10 @@ body {
   color: var(--color-text-primary);
 }
 
+.text-secondary {
+  color: var(--color-text-secondary);
+}
+
 .text-muted {
   color: var(--color-text-muted);
 }
@@ -110,8 +179,8 @@ body {
   color: var(--color-text-subtle);
 }
 
-.text-white {
-  color: var(--color-text-white);
+.text-inverse {
+  color: var(--color-text-inverse);
 }
 
 /* Display title (STICKERBOOK header) */
@@ -163,7 +232,7 @@ body {
 .text-tagline {
   font-weight: 700;
   text-transform: uppercase;
-  background: var(--gradient-accent-bar);
+  background: var(--gradient-accent);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -175,19 +244,19 @@ body {
 .accent-bar {
   height: 3px;
   border-radius: var(--radius-pill);
-  background: var(--gradient-accent-bar);
+  background: var(--gradient-accent);
 }
 
 .accent-bar--sm {
-  width: 80px;
+  width: 60px;
 }
 
 .accent-bar--md {
-  width: 100px;
+  width: 80px;
 }
 
 .accent-bar--lg {
-  width: 120px;
+  width: 100px;
 }
 
 
@@ -199,15 +268,15 @@ body {
   padding: 14px 28px;
   font-size: 12px;
   font-weight: 700;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   cursor: pointer;
-  transition: opacity 0.4s ease-out, transform 0.15s ease, box-shadow 0.15s ease;
+  transition: opacity 0.2s ease, transform 0.15s ease, box-shadow 0.15s ease;
 }
 
 .btn-primary {
   background: var(--gradient-primary);
-  color: var(--color-text-white);
+  color: var(--color-text-inverse);
   box-shadow: var(--shadow-button);
 }
 
@@ -222,60 +291,66 @@ body {
 }
 
 .btn-primary:disabled {
-  opacity: 0.35;
+  opacity: 0.4;
   cursor: not-allowed;
-  box-shadow: 0 0 0 1px rgba(209, 213, 219, 0.8);
-  background: linear-gradient(135deg, #f9fafb, #e5e7eb);
+  box-shadow: none;
+  background: var(--color-border-strong);
   color: var(--color-text-subtle);
   transform: none;
 }
 
-.btn-outline {
-  border-radius: var(--radius-pill);
-  border: 1px solid rgba(248, 250, 252, 0.85);
-  padding: 8px 14px;
-  font-size: 11px;
-  font-weight: 600;
-  cursor: pointer;
-  background: rgba(15, 23, 42, 0.14);
-  color: #f9fafb;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  white-space: nowrap;
-  transition: transform 0.12s ease, box-shadow 0.18s ease, opacity 0.18s ease, background 0.18s ease;
-}
-
-.btn-outline:active {
-  transform: translateY(1px) scale(0.99);
-  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.55);
-}
-
 .btn-secondary {
-  background: var(--color-bg-white);
+  background: var(--color-canvas);
   color: var(--color-text-primary);
-  border: 1px solid var(--color-border-medium);
-  box-shadow: 0 2px 5px rgba(15, 23, 42, 0.06);
+  border: 1px solid var(--color-border-strong);
+  box-shadow: var(--shadow-xs);
 }
 
 .btn-secondary:hover {
-  background: #f9fafb;
+  background: var(--color-canvas-subtle);
+  border-color: var(--color-border-strong);
 }
 
 .btn-secondary:active {
   transform: translateY(1px);
-  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.10);
+  box-shadow: none;
 }
 
-/* Skip button (developer tool) */
+.btn-outline {
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--color-border);
+  padding: 8px 14px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  background: transparent;
+  color: var(--color-text-secondary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  transition: transform 0.12s ease, border-color 0.15s ease, background 0.15s ease;
+}
+
+.btn-outline:hover {
+  background: var(--color-hover-bg);
+  border-color: var(--color-border-strong);
+}
+
+.btn-outline:active {
+  transform: translateY(1px);
+  background: var(--color-active-bg);
+}
+
+/* Skip/Cancel button */
 .btn-skip {
   background: transparent;
-  border: 1px dashed var(--color-text-subtle);
-  color: var(--color-text-subtle);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-muted);
   padding: 6px 12px;
-  font-size: 9px;
+  font-size: 10px;
   font-weight: 600;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   border-radius: var(--radius-pill);
   cursor: pointer;
@@ -283,57 +358,39 @@ body {
 }
 
 .btn-skip:hover {
-  border-color: var(--color-text-muted);
-  color: var(--color-text-muted);
+  border-color: var(--color-border-strong);
+  color: var(--color-text-secondary);
 }
 
 
-/* ========== STICKER STYLES ========== */
-.sticker {
-  position: absolute;
-  pointer-events: none;
-}
-
-.sticker img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-
-/* Die-cut title sticker */
-.title-sticker {
-  background: var(--gradient-title-sticker);
-  border: 5px solid var(--color-sticker-border);
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-sticker);
-  padding: 18px 32px 16px;
+/* ========== LOGO ========== */
+.logo-group {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 6px;
+  align-items: flex-end;
+  gap: 4px;
 }
 
-.title-sticker__text {
+.logo-mark {
   font-family: var(--font-display);
-  font-size: 24px;
+  font-size: 12px;
   font-weight: 700;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.20em;
   text-transform: uppercase;
   color: var(--color-text-primary);
-  white-space: nowrap;
 }
 
-.title-sticker__bar {
-  width: 100px;
-  height: 3px;
-  border-radius: 2px;
-  background: var(--gradient-accent-bar);
+.logo-accent {
+  width: 60px;
+  height: 2px;
+  border-radius: var(--radius-pill);
+  background: var(--gradient-accent);
 }
 
 
 /* ========== CARDS ========== */
 .card {
-  background: var(--color-bg-white);
+  background: var(--color-canvas-elevated);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-card);
   padding: var(--spacing-lg);
@@ -401,7 +458,7 @@ body {
 .back-link {
   border: none;
   background: transparent;
-  color: var(--color-text-subtle);
+  color: var(--color-text-muted);
   font-size: 11px;
   display: inline-flex;
   align-items: center;
@@ -409,38 +466,16 @@ body {
   cursor: pointer;
   padding: 4px 0;
   font-family: var(--font-primary);
+  transition: color 0.15s ease;
 }
 
 .back-link:hover {
-  color: var(--color-text-muted);
+  color: var(--color-text-secondary);
 }
 
 .back-link .icon {
   font-size: 12px;
   transform: translateY(0.5px);
-}
-
-.logo-group {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 4px;
-}
-
-.logo-mark {
-  font-family: var(--font-display);
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.20em;
-  text-transform: uppercase;
-  color: var(--color-text-primary);
-}
-
-.logo-accent {
-  width: 80px;
-  height: 3px;
-  border-radius: var(--radius-pill);
-  background: var(--gradient-accent-bar);
 }
 
 
@@ -461,30 +496,29 @@ body {
 .field-label {
   font-size: 11px;
   text-transform: uppercase;
-  letter-spacing: 0.14em;
-  color: var(--color-text-subtle);
+  letter-spacing: 0.12em;
+  color: var(--color-text-muted);
 }
 
 .field-input {
   border-radius: var(--radius-pill);
-  border: 1px solid var(--color-field-border);
-  padding: 8px 14px;
-  font-size: 12px;
-  background: var(--color-field-bg);
+  border: 1px solid var(--color-border);
+  padding: 10px 16px;
+  font-size: 13px;
+  background: var(--color-canvas);
   color: var(--color-text-primary);
   outline: none;
   font-family: var(--font-primary);
-  transition: border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
 .field-input::placeholder {
-  color: var(--color-field-placeholder);
+  color: var(--color-text-subtle);
 }
 
 .field-input:focus {
-  border-color: var(--color-field-border-focus);
-  box-shadow: 0 0 0 1px rgba(14, 165, 233, 0.35);
-  background: var(--color-bg-white);
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.15);
 }
 
 .field-helper {
@@ -506,7 +540,7 @@ body {
 /* Field row variants */
 .field-row-2 {
   display: flex;
-  gap: 6px;
+  gap: 8px;
 }
 
 .field-row-2 .field-input {
@@ -576,17 +610,18 @@ body {
   align-items: flex-start;
   gap: 8px;
   font-size: 10px;
-  color: var(--color-text-subtle);
+  color: var(--color-text-muted);
   line-height: 1.4;
 }
 
 .terms-row input[type="checkbox"] {
   margin-top: 1px;
   cursor: pointer;
+  accent-color: var(--color-primary);
 }
 
 .terms-row a {
-  color: var(--color-field-border-focus);
+  color: var(--color-accent);
   text-decoration: none;
 }
 
@@ -604,79 +639,16 @@ body {
 }
 
 
-/* ========== BACKGROUND PICKER ========== */
-.background-section {
-  margin-top: 4px;
-}
-
-.background-label {
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.14em;
-  color: var(--color-text-subtle);
-  margin: 4px 0 8px;
-}
-
-.background-grid-wrapper {
-  max-height: 320px;
-  overflow-y: auto;
-  padding-right: 2px;
-}
-
-.background-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 10px;
-  padding-bottom: 6px;
-}
-
-.bg-tile {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  cursor: pointer;
-}
-
-.bg-tile-inner {
-  width: 100%;
-  padding-top: 180%;
-  border-radius: var(--radius-md);
-  background: #f3f4f6;
-  position: relative;
-  box-shadow: 0 6px 12px rgba(15, 23, 42, 0.10), 0 0 0 1px rgba(148, 163, 184, 0.35);
-  transition: box-shadow 0.18s ease, transform 0.12s ease, border-color 0.18s ease;
-}
-
-.bg-tile-inner::after {
-  content: "";
+/* ========== STICKER STYLES ========== */
+.sticker {
   position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  border: 2px solid transparent;
   pointer-events: none;
-  transition: border-color 0.18s ease;
 }
 
-.bg-tile.selected .bg-tile-inner {
-  transform: translateY(-1px);
-  box-shadow: 0 10px 18px rgba(59, 130, 246, 0.25), 0 0 0 1px rgba(248, 250, 252, 0.8);
-}
-
-.bg-tile.selected .bg-tile-inner::after {
-  border-color: var(--color-cyan);
-}
-
-.bg-tile:active .bg-tile-inner {
-  transform: translateY(1px) scale(0.99);
-  box-shadow: 0 4px 8px rgba(15, 23, 42, 0.12);
-}
-
-.bg-label {
-  font-size: 10px;
-  color: var(--color-text-subtle);
-  text-align: center;
-  display: none;
+.sticker img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 
@@ -692,8 +664,8 @@ body {
 .sticker-label {
   font-size: 11px;
   text-transform: uppercase;
-  letter-spacing: 0.14em;
-  color: var(--color-text-subtle);
+  letter-spacing: 0.12em;
+  color: var(--color-text-muted);
   margin: 4px 0 6px;
   flex-shrink: 0;
 }
@@ -708,28 +680,29 @@ body {
 .sticker-tile {
   position: relative;
   border-radius: var(--radius-md);
-  background: #f3f4f6;
-  border: 1px solid rgba(148, 163, 184, 0.5);
+  background: var(--color-canvas-subtle);
+  border: 1px solid var(--color-border);
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 6px;
   cursor: pointer;
   transition: transform 0.12s ease, box-shadow 0.15s ease, background 0.15s ease, border-color 0.15s ease;
-  box-shadow: 0 2px 6px rgba(148, 163, 184, 0.35);
+  box-shadow: var(--shadow-xs);
   flex-shrink: 0;
   min-width: 86px;
 }
 
 .sticker-tile:hover {
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(148, 163, 184, 0.55);
+  box-shadow: var(--shadow-sm);
+  border-color: var(--color-border-strong);
 }
 
 .sticker-tile.selected {
-  background: #fff6fb;
-  border-color: var(--color-field-border-focus);
-  box-shadow: 0 0 0 1px rgba(14, 165, 233, 0.35), 0 8px 16px rgba(248, 113, 165, 0.25);
+  background: var(--color-selected-bg);
+  border-color: var(--color-selected-border);
+  box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.15);
 }
 
 .sticker-visual {
@@ -787,7 +760,7 @@ body {
 }
 
 .row-strip::-webkit-scrollbar-thumb {
-  background: #c3c9ec;
+  background: var(--color-border-strong);
   border-radius: var(--radius-pill);
 }
 
@@ -799,8 +772,8 @@ body {
   min-width: 80px;
   padding: 10px 12px;
   border-radius: var(--radius-md);
-  border: 1px dashed rgba(148, 163, 184, 0.8);
-  background: var(--color-field-bg);
+  border: 1px dashed var(--color-border-strong);
+  background: var(--color-canvas-subtle);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -809,6 +782,12 @@ body {
   color: var(--color-text-muted);
   cursor: pointer;
   flex-shrink: 0;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.see-more-tile:hover {
+  border-color: var(--color-primary);
+  background: var(--color-hover-bg);
 }
 
 .see-more-tile span {
@@ -856,7 +835,7 @@ body {
 .back-link-small {
   border: none;
   background: transparent;
-  color: var(--color-text-subtle);
+  color: var(--color-text-muted);
   font-size: 11px;
   display: inline-flex;
   align-items: center;
@@ -864,10 +843,11 @@ body {
   cursor: pointer;
   padding: 4px 0;
   font-family: var(--font-primary);
+  transition: color 0.15s ease;
 }
 
 .back-link-small:hover {
-  color: var(--color-text-muted);
+  color: var(--color-text-secondary);
 }
 
 .back-link-small .icon {
@@ -891,24 +871,23 @@ body {
 .search-input {
   width: 100%;
   border-radius: var(--radius-pill);
-  border: 1px solid var(--color-field-border);
-  padding: 7px 26px 7px 26px;
-  font-size: 11px;
-  background: var(--color-field-bg);
+  border: 1px solid var(--color-border);
+  padding: 8px 28px;
+  font-size: 12px;
+  background: var(--color-canvas);
   color: var(--color-text-primary);
   outline: none;
   font-family: var(--font-primary);
-  transition: border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
 .search-input::placeholder {
-  color: var(--color-field-placeholder);
+  color: var(--color-text-subtle);
 }
 
 .search-input:focus {
-  border-color: var(--color-field-border-focus);
-  box-shadow: 0 0 0 1px rgba(14, 165, 233, 0.35);
-  background: var(--color-bg-white);
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.15);
 }
 
 .search-icon {
@@ -917,7 +896,7 @@ body {
   top: 50%;
   transform: translateY(-50%);
   font-size: 12px;
-  opacity: 0.7;
+  color: var(--color-text-subtle);
 }
 
 .search-clear {
@@ -926,12 +905,13 @@ body {
   top: 50%;
   transform: translateY(-50%);
   font-size: 11px;
-  opacity: 0.5;
+  color: var(--color-text-subtle);
   cursor: pointer;
+  transition: color 0.15s ease;
 }
 
 .search-clear:hover {
-  opacity: 0.8;
+  color: var(--color-text-secondary);
 }
 
 
@@ -939,7 +919,7 @@ body {
 .selection-footer {
   margin-top: 10px;
   padding-top: 10px;
-  border-top: 1px solid rgba(148, 163, 184, 0.35);
+  border-top: 1px solid var(--color-border);
   display: flex;
   align-items: center;
   gap: 10px;
@@ -978,7 +958,7 @@ body {
 
 .overview-rows::-webkit-scrollbar-thumb,
 .category-detail-grid-wrapper::-webkit-scrollbar-thumb {
-  background: #c3c9ec;
+  background: var(--color-border-strong);
   border-radius: var(--radius-pill);
 }
 
@@ -1039,11 +1019,12 @@ body {
   }
 
   .field-input {
-    font-size: 11px;
+    font-size: 12px;
+    padding: 9px 14px;
   }
 
   .btn {
-    font-size: 10px;
+    font-size: 11px;
     padding: 12px 24px;
   }
 
@@ -1066,23 +1047,13 @@ body {
 }
 
 
-/* ========== CONTAINED SCROLL LAYOUT ==========
-   Add class "layout-contained" to <body> on pages where
-   only an inner container should scroll (not the whole page).
-   
-   This creates a fixed-height flex chain so the scroll
-   constraint flows down to the inner container.
-   ============================================== */
-
-/* Lock the viewport - no page scroll */
+/* ========== CONTAINED SCROLL LAYOUT ========== */
 body.layout-contained {
   overflow: hidden;
   height: 100vh;
   height: 100dvh;
 }
 
-/* Every flex child in the chain needs min-height: 0 
-   so it can shrink below its content size */
 body.layout-contained .app-shell {
   height: 100%;
   min-height: 0;
@@ -1109,7 +1080,6 @@ body.layout-contained .shell-inner {
   min-height: 0;
 }
 
-/* The section containing scrollable content */
 body.layout-contained .sticker-section {
   flex: 1;
   min-height: 0;
@@ -1117,31 +1087,28 @@ body.layout-contained .sticker-section {
   flex-direction: column;
 }
 
-/* The actual scroll container */
 body.layout-contained .sticker-container {
   flex: 1;
   min-height: 0;
-  background: #ffffff;
+  background: var(--color-canvas-elevated);
   border-radius: var(--radius-lg);
-  box-shadow: 0 8px 32px rgba(15, 23, 42, 0.12), 0 2px 8px rgba(15, 23, 42, 0.08);
+  box-shadow: var(--shadow-card);
   overflow-y: auto;
   overflow-x: hidden;
   padding: 16px 12px;
 }
 
-/* Category detail view (when drilling into a category) */
 body.layout-contained .category-detail {
   flex: 1;
   min-height: 0;
-  background: #ffffff;
+  background: var(--color-canvas-elevated);
   border-radius: var(--radius-lg);
-  box-shadow: 0 8px 32px rgba(15, 23, 42, 0.12), 0 2px 8px rgba(15, 23, 42, 0.08);
+  box-shadow: var(--shadow-card);
   overflow-y: auto;
   overflow-x: hidden;
   padding: 16px 12px;
 }
 
-/* Fixed elements that shouldn't scroll */
 body.layout-contained .top-row {
   flex-shrink: 0;
   margin-bottom: 8px;
@@ -1183,7 +1150,6 @@ body.layout-contained .selection-footer {
   padding-top: 0;
 }
 
-/* Center category titles in contained layout */
 body.layout-contained .row-header {
   justify-content: center;
 }
@@ -1196,14 +1162,14 @@ body.layout-contained .row-section {
   margin-bottom: 16px;
 }
 
-/* Miami Vice see-more button styling */
+/* See-more button - accent style */
 body.layout-contained .see-more-tile {
   min-width: 80px;
   min-height: 72px;
   padding: 12px 16px;
   border-radius: var(--radius-md);
   border: none;
-  background: linear-gradient(135deg, var(--color-pink), var(--color-orange), var(--color-cyan));
+  background: var(--gradient-primary);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1211,30 +1177,29 @@ body.layout-contained .see-more-tile {
   font-weight: 600;
   letter-spacing: 0.05em;
   text-transform: uppercase;
-  color: #ffffff;
+  color: var(--color-text-inverse);
   cursor: pointer;
   flex-shrink: 0;
-  box-shadow: 0 4px 12px rgba(236, 72, 153, 0.3);
+  box-shadow: var(--shadow-button);
   transition: transform 0.12s ease, box-shadow 0.15s ease;
 }
 
 body.layout-contained .see-more-tile:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(236, 72, 153, 0.4);
+  box-shadow: var(--shadow-button-hover);
 }
 
 body.layout-contained .see-more-tile:active {
   transform: translateY(0);
-  box-shadow: 0 2px 8px rgba(236, 72, 153, 0.3);
+  box-shadow: var(--shadow-button-active);
 }
 
-/* Overview rows don't need their own scroll in contained layout */
 body.layout-contained .overview-rows {
   overflow: visible;
 }
 
 
-/* ========== BACKGROUND PICKER (Tabs + Netflix Rows) ========== */
+/* ========== BACKGROUND PICKER ========== */
 .bg-picker-section {
   flex: 1;
   min-height: 0;
@@ -1256,9 +1221,9 @@ body.layout-contained .overview-rows {
 .bg-tab {
   flex: 1;
   padding: 8px 0;
-  border: 1px solid var(--color-field-border);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-pill);
-  background: var(--color-field-bg);
+  background: var(--color-canvas);
   color: var(--color-text-muted);
   font-size: 10px;
   font-weight: 600;
@@ -1271,15 +1236,15 @@ body.layout-contained .overview-rows {
 }
 
 .bg-tab:hover {
-  border-color: var(--color-text-subtle);
-  color: var(--color-text-primary);
+  border-color: var(--color-border-strong);
+  color: var(--color-text-secondary);
 }
 
 .bg-tab.active {
   background: var(--gradient-primary);
   border-color: transparent;
-  color: var(--color-text-white);
-  box-shadow: 0 4px 12px rgba(236, 72, 153, 0.3);
+  color: var(--color-text-inverse);
+  box-shadow: var(--shadow-button);
 }
 
 /* Sub-filter buttons */
@@ -1295,7 +1260,7 @@ body.layout-contained .overview-rows {
 .bg-subfilter-btn {
   flex: 1;
   padding: 6px 0;
-  border: 1px solid var(--color-border-light);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-pill);
   background: transparent;
   color: var(--color-text-subtle);
@@ -1309,14 +1274,14 @@ body.layout-contained .overview-rows {
 }
 
 .bg-subfilter-btn:hover {
-  border-color: var(--color-text-subtle);
+  border-color: var(--color-border-strong);
   color: var(--color-text-muted);
 }
 
 .bg-subfilter-btn.active {
   background: var(--color-text-primary);
   border-color: var(--color-text-primary);
-  color: var(--color-text-white);
+  color: var(--color-text-inverse);
 }
 
 /* Scrollable rows container */
@@ -1333,7 +1298,7 @@ body.layout-contained .overview-rows {
 }
 
 .bg-rows-container::-webkit-scrollbar-thumb {
-  background: #c3c9ec;
+  background: var(--color-border-strong);
   border-radius: var(--radius-pill);
 }
 
@@ -1356,7 +1321,7 @@ body.layout-contained .overview-rows {
   padding: 2px 0;
 }
 
-/* Background tiles - 38px rounded squares (7 per row) */
+/* Background tiles */
 .bg-tile-new {
   flex-shrink: 0;
   width: 38px;
@@ -1378,7 +1343,7 @@ body.layout-contained .overview-rows {
   width: 100%;
   height: 100%;
   border-radius: var(--radius-sm);
-  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.12), 0 0 0 1px rgba(148, 163, 184, 0.25);
+  box-shadow: var(--shadow-sm);
   position: relative;
   transition: box-shadow 0.15s ease;
 }
@@ -1394,11 +1359,11 @@ body.layout-contained .overview-rows {
 }
 
 .bg-tile-new.selected .bg-tile-new-inner {
-  box-shadow: 0 4px 12px rgba(34, 211, 238, 0.35), 0 0 0 1px rgba(248, 250, 252, 0.8);
+  box-shadow: 0 4px 12px rgba(20, 184, 166, 0.25);
 }
 
 .bg-tile-new.selected .bg-tile-new-inner::after {
-  border-color: var(--color-cyan);
+  border-color: var(--color-selected);
 }
 
 /* Preview area with swatches */
@@ -1416,7 +1381,7 @@ body.layout-contained .overview-rows {
   width: 72px;
   height: 72px;
   border-radius: var(--radius-md);
-  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15), 0 0 0 1px rgba(148, 163, 184, 0.3);
+  box-shadow: var(--shadow-md);
   flex-shrink: 0;
 }
 
@@ -1434,26 +1399,26 @@ body.layout-contained .overview-rows {
   padding: 8px 12px;
   border-radius: var(--radius-md);
   border: 2px solid transparent;
-  background: var(--color-field-bg);
+  background: var(--color-canvas-subtle);
   cursor: pointer;
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
   font-family: var(--font-primary);
 }
 
 .bg-swatch:hover {
-  border-color: var(--color-text-subtle);
+  border-color: var(--color-border-strong);
 }
 
 .bg-swatch.active {
-  border-color: var(--color-cyan);
-  box-shadow: 0 0 0 2px rgba(34, 211, 238, 0.2);
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.15);
 }
 
 .bg-swatch-color {
   width: 28px;
   height: 28px;
   border-radius: var(--radius-sm);
-  box-shadow: 0 2px 4px rgba(15, 23, 42, 0.1), 0 0 0 1px rgba(148, 163, 184, 0.3);
+  box-shadow: var(--shadow-xs);
   flex-shrink: 0;
 }
 
@@ -1465,7 +1430,6 @@ body.layout-contained .overview-rows {
   color: var(--color-text-muted);
 }
 
-/* Background picker in contained layout */
 body.layout-contained .bg-picker-section {
   flex: 1;
   min-height: 0;
