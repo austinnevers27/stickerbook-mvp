@@ -851,12 +851,26 @@
     // ============ INITIALIZATION ============
     function init() {
       loadDataFromStorage();
+      restorePagePosition(); // Restore to correct page after returning from background/shop
       seedDrawerForTesting(); // DEV: Add test stickers if drawer is empty
       loadUserProfile();
       renderPageDots();
       renderCurrentPage();
       setupEventListeners();
       updatePageNumber();
+    }
+
+    // Restore page position if returning from background picker or shop
+    function restorePagePosition() {
+      const editingPage = localStorage.getItem('stickerbook_editing_page');
+      if (editingPage !== null) {
+        const pageIndex = parseInt(editingPage, 10);
+        if (!isNaN(pageIndex) && pageIndex >= 0 && pageIndex < totalPages) {
+          currentPageIndex = pageIndex;
+        }
+        // Clear it so we don't keep restoring on every load
+        localStorage.removeItem('stickerbook_editing_page');
+      }
     }
 
     function loadUserProfile() {
@@ -1406,6 +1420,9 @@
     }
 
     function openShop() {
+      // Store current page so we return to it
+      localStorage.setItem('stickerbook_editing_page', currentPageIndex);
+      
       if (hasUnsavedChanges) {
         showSaveModal(() => window.location.href = 'sticker-selection.html');
       } else {

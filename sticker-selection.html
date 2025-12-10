@@ -12,16 +12,15 @@
     <div class="phone-frame">
       <div class="phone-inner">
         <div class="shell-inner">
-          <!-- Logo -->
-          <div class="top-row top-row--centered">
-            <div class="logo-group" style="align-items: center;">
-              <div class="logo-mark">STICKERBOOK</div>
+          <!-- Header with back button -->
+          <div class="top-row">
+            <button class="btn-skip" id="back-btn" style="order: -1;">← Back</button>
+            <div class="logo-group" style="align-items: center; flex: 1;">
+              <div class="logo-mark">STICKER SHOP</div>
               <div class="logo-accent"></div>
             </div>
+            <div style="width: 60px;"></div>
           </div>
-
-          <!-- Title -->
-          <h1 class="screen-title text-center">Sticker Shop</h1>
 
           <!-- Sticker section -->
           <div class="sticker-section">
@@ -42,7 +41,7 @@
                 <div>
                   <div id="category-detail-title" class="category-detail-title"></div>
                   <div id="category-detail-subtitle" class="category-detail-subtitle">
-                    Tap to add or remove stickers.
+                    Tap to add stickers to your cart.
                   </div>
                 </div>
               </div>
@@ -69,10 +68,10 @@
             <!-- Footer -->
             <div class="selection-footer">
               <div class="selection-text">
-                Selected: <span id="selected-count">0</span>
+                Cart: <span id="selected-count">0</span> stickers
               </div>
               <button id="continue-button" class="btn btn-primary" style="width: auto; padding: 9px 20px;" disabled>
-                Continue
+                Add to Drawer
               </button>
             </div>
             <div id="selection-error" class="inline-error"></div>
@@ -100,7 +99,8 @@
     ];
 
     let allStickers = [];
-    let selectedIds = new Set();
+    let selectedIds = new Set(); // Cart - stickers selected this session
+    let drawerIds = new Set();   // Already in drawer
     let currentMode = "overview";
     let currentCategoryKey = null;
     let searchTerm = "";
@@ -117,21 +117,21 @@
     const selectionErrorEl = document.getElementById("selection-error");
     const searchInputEl = document.getElementById("search-input");
     const searchClearEl = document.getElementById("search-clear");
+    const backBtn = document.getElementById("back-btn");
 
-    function loadSelections() {
+    // Load what's already in the drawer (to show as "owned")
+    function loadDrawer() {
       try {
-        const raw = localStorage.getItem("stickerbookSelectedStickers");
+        const raw = localStorage.getItem("stickerbook_drawer");
         if (raw) {
           const arr = JSON.parse(raw);
-          if (Array.isArray(arr)) selectedIds = new Set(arr);
+          if (Array.isArray(arr)) {
+            arr.forEach(s => drawerIds.add(s.id));
+          }
         }
       } catch (e) {
-        selectedIds = new Set();
+        drawerIds = new Set();
       }
-    }
-
-    function saveSelections() {
-      localStorage.setItem("stickerbookSelectedStickers", JSON.stringify(Array.from(selectedIds)));
     }
 
     function normalize(str) {
@@ -154,7 +154,15 @@
       const tile = document.createElement("div");
       tile.className = "sticker-tile";
       tile.dataset.stickerId = sticker.id;
-      if (selectedIds.has(sticker.id)) tile.classList.add("selected");
+      
+      const inDrawer = drawerIds.has(sticker.id);
+      const inCart = selectedIds.has(sticker.id);
+      
+      if (inDrawer) {
+        tile.classList.add("owned");
+      } else if (inCart) {
+        tile.classList.add("selected");
+      }
 
       const visual = document.createElement("div");
       visual.className = "sticker-visual";
@@ -168,8 +176,22 @@
       });
 
       visual.appendChild(img);
+      
+      // Show "owned" badge if in drawer
+      if (inDrawer) {
+        const badge = document.createElement("div");
+        badge.className = "sticker-badge";
+        badge.textContent = "✓";
+        visual.appendChild(badge);
+      }
+      
       tile.appendChild(visual);
-      tile.addEventListener("click", () => toggleStickerSelection(sticker.id));
+      
+      // Only allow selection if not already in drawer
+      if (!inDrawer) {
+        tile.addEventListener("click", () => toggleStickerSelection(sticker.id));
+      }
+      
       return tile;
     }
 
@@ -216,7 +238,7 @@
     function renderCategoryDetail() {
       const def = CATEGORY_DEFS.find((c) => c.key === currentCategoryKey);
       categoryDetailTitleEl.textContent = def ? def.label : "Stickers";
-      categoryDetailSubtitleEl.textContent = "Tap to add or remove stickers.";
+      categoryDetailSubtitleEl.textContent = "Tap to add stickers to your cart.";
       categoryDetailGridEl.innerHTML = "";
 
       const stickers = getStickersForCategoryKey(currentCategoryKey);
@@ -237,7 +259,7 @@
 
     function renderSearchResults() {
       categoryDetailTitleEl.textContent = "Search results";
-      categoryDetailSubtitleEl.textContent = "Tap to add or remove stickers.";
+      categoryDetailSubtitleEl.textContent = "Tap to add stickers to your cart.";
       categoryDetailGridEl.innerHTML = "";
 
       const results = getSearchResults();
@@ -260,7 +282,6 @@
       stickerContainer.classList.add("hidden");
       categoryDetailEl.classList.remove("hidden");
       renderCategoryDetail();
-      syncStickerTileClasses();
     }
 
     function showSearchView() {
@@ -269,7 +290,6 @@
       stickerContainer.classList.add("hidden");
       categoryDetailEl.classList.remove("hidden");
       renderSearchResults();
-      syncStickerTileClasses();
     }
 
     function showOverview() {
@@ -278,39 +298,50 @@
       categoryDetailEl.classList.add("hidden");
       stickerContainer.classList.remove("hidden");
       renderOverviewRows();
-      syncStickerTileClasses();
     }
 
     function updateSelectionUI() {
       const count = selectedIds.size;
       selectedCountEl.textContent = String(count);
       continueButtonEl.disabled = count < MIN_SELECTIONS;
-      if (count < MIN_SELECTIONS) {
-        showError("Pick at least one sticker to continue.");
+      
+      // Update button text
+      if (count === 0) {
+        continueButtonEl.textContent = "Add to Drawer";
+      } else if (count === 1) {
+        continueButtonEl.textContent = "Add 1 Sticker";
       } else {
-        clearError();
+        continueButtonEl.textContent = `Add ${count} Stickers`;
       }
+      
+      clearError();
     }
 
     function syncStickerTileClasses() {
       document.querySelectorAll(".sticker-tile").forEach((tile) => {
         const id = tile.dataset.stickerId;
-        if (selectedIds.has(id)) {
-          tile.classList.add("selected");
-        } else {
+        if (drawerIds.has(id)) {
+          tile.classList.add("owned");
           tile.classList.remove("selected");
+        } else if (selectedIds.has(id)) {
+          tile.classList.add("selected");
+          tile.classList.remove("owned");
+        } else {
+          tile.classList.remove("selected", "owned");
         }
       });
     }
 
     function toggleStickerSelection(id) {
+      // Don't allow selecting stickers already in drawer
+      if (drawerIds.has(id)) return;
+      
       clearError();
       if (selectedIds.has(id)) {
         selectedIds.delete(id);
       } else {
         selectedIds.add(id);
       }
-      saveSelections();
       updateSelectionUI();
       syncStickerTileClasses();
     }
@@ -321,42 +352,46 @@
       showOverview();
     });
 
+    // Add to drawer and return to stickerbook
     continueButtonEl.addEventListener("click", () => {
       if (selectedIds.size < MIN_SELECTIONS) {
-        showError("Pick at least one sticker to continue.");
+        showError("Pick at least one sticker to add.");
         return;
       }
 
-      const selectedStickers = allStickers
-        .filter((s) => selectedIds.has(s.id))
-        .map((s) => ({ id: s.id, src: s.image }));
-
-      saveSelections();
-
-      const backgroundColor =
-        localStorage.getItem("stickerbook_page_1_background") ||
-        localStorage.getItem("current_page_background") ||
-        "#ffffff";
-
-      const backgroundCSS =
-        localStorage.getItem("stickerbook_page_1_background_css") || null;
-
-      const page1 = { 
-        background: backgroundColor, 
-        backgroundCSS: backgroundCSS,
-        stickers: selectedStickers 
-      };
-      localStorage.setItem("stickerbook_page_1", JSON.stringify(page1));
-
+      // Load current drawer
+      let drawer = [];
       try {
-        const existing = JSON.parse(localStorage.getItem("stickerbook_pages") || "{}");
-        existing.page_1 = page1;
-        localStorage.setItem("stickerbook_pages", JSON.stringify(existing));
+        const raw = localStorage.getItem("stickerbook_drawer");
+        if (raw) {
+          drawer = JSON.parse(raw);
+        }
       } catch (e) {
-        localStorage.setItem("stickerbook_pages", JSON.stringify({ page_1: page1 }));
+        drawer = [];
       }
 
-      window.location.href = "sticker-placement.html";
+      // Add selected stickers to drawer
+      const newStickers = allStickers
+        .filter((s) => selectedIds.has(s.id))
+        .map((s) => ({
+          id: s.id,
+          src: s.image,
+          displayName: s.displayName || s.label || ""
+        }));
+
+      // Append new stickers (no duplicates since we filtered them out)
+      drawer = drawer.concat(newStickers);
+
+      // Save drawer
+      localStorage.setItem("stickerbook_drawer", JSON.stringify(drawer));
+
+      // Return to stickerbook
+      window.location.href = "stickerbook.html";
+    });
+
+    // Back button - return without adding
+    backBtn.addEventListener("click", () => {
+      window.location.href = "stickerbook.html";
     });
 
     searchInputEl.addEventListener("input", (e) => {
@@ -375,7 +410,7 @@
     });
 
     async function init() {
-      loadSelections();
+      loadDrawer();
 
       try {
         const res = await fetch("stickers.json");
@@ -388,7 +423,6 @@
 
         showOverview();
         updateSelectionUI();
-        syncStickerTileClasses();
       } catch (err) {
         console.error("Error loading stickers.json:", err);
         showError("There was a problem loading stickers. Try refreshing the page.");
@@ -397,5 +431,33 @@
 
     document.addEventListener("DOMContentLoaded", init);
   </script>
+
+  <style>
+    /* Owned sticker badge */
+    .sticker-badge {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      width: 18px;
+      height: 18px;
+      background: #22c55e;
+      border-radius: 50%;
+      color: white;
+      font-size: 10px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .sticker-tile.owned {
+      opacity: 0.6;
+      cursor: default;
+    }
+    
+    .sticker-tile.owned .sticker-visual {
+      position: relative;
+    }
+  </style>
 </body>
 </html>
