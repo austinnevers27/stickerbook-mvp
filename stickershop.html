@@ -1,0 +1,1652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Stickerbook – Sticker Shop</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/stickerbook.css">
+  <style>
+    /* ========== PAGE-SPECIFIC STYLES ========== */
+    html, body {
+      touch-action: pan-y;
+      overflow: hidden;
+      height: 100%;
+    }
+
+    .shop-shell {
+      width: 100%;
+      height: 100vh;
+      height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      background: var(--color-canvas);
+      overflow: hidden;
+    }
+
+    /* ========== HEADER ========== */
+    .shop-header {
+      display: flex;
+      align-items: center;
+      padding: 16px 20px 12px;
+      flex-shrink: 0;
+      gap: 12px;
+    }
+
+    .back-btn {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 8px 12px;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-pill);
+      background: var(--color-canvas);
+      color: var(--color-text-muted);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: border-color 0.15s ease, color 0.15s ease;
+      font-family: var(--font-primary);
+      flex-shrink: 0;
+    }
+
+    .back-btn:hover {
+      border-color: var(--color-border-strong);
+      color: var(--color-text-secondary);
+    }
+
+    .shop-title {
+      flex: 1;
+      text-align: center;
+      font-family: var(--font-display);
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--color-text-primary);
+    }
+
+    .coin-balance {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 12px;
+      background: var(--color-canvas-subtle);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-pill);
+      cursor: pointer;
+      transition: background 0.15s ease, border-color 0.15s ease;
+      flex-shrink: 0;
+    }
+
+    .coin-balance:hover {
+      background: var(--color-hover-bg);
+      border-color: var(--color-border-strong);
+    }
+
+    .coin-icon {
+      font-size: 14px;
+    }
+
+    .coin-amount {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--color-text-primary);
+    }
+
+    /* ========== SEARCH BAR ========== */
+    .search-container {
+      padding: 0 20px 12px;
+      flex-shrink: 0;
+    }
+
+    .search-bar {
+      position: relative;
+      width: 100%;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 12px 44px 12px 44px;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-pill);
+      background: var(--color-canvas-subtle);
+      color: var(--color-text-primary);
+      font-size: 14px;
+      font-family: var(--font-primary);
+      outline: none;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    }
+
+    .search-input::placeholder {
+      color: var(--color-text-subtle);
+    }
+
+    .search-input:focus {
+      background: var(--color-canvas);
+      border-color: var(--color-accent);
+      box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.15);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 16px;
+      color: var(--color-text-subtle);
+      pointer-events: none;
+    }
+
+    .search-clear {
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 14px;
+      color: var(--color-text-subtle);
+      cursor: pointer;
+      padding: 4px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.15s ease, color 0.15s ease;
+    }
+
+    .search-clear.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .search-clear:hover {
+      color: var(--color-text-secondary);
+    }
+
+    /* ========== CONTENT TOGGLE ========== */
+    .toggle-container {
+      display: flex;
+      gap: 8px;
+      padding: 0 20px 16px;
+      flex-shrink: 0;
+    }
+
+    .toggle-btn {
+      flex: 1;
+      padding: 10px 16px;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-pill);
+      background: var(--color-canvas);
+      color: var(--color-text-muted);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: var(--font-primary);
+    }
+
+    .toggle-btn:hover {
+      border-color: var(--color-border-strong);
+      color: var(--color-text-secondary);
+    }
+
+    .toggle-btn.active {
+      background: linear-gradient(135deg, #7c3aed 0%, #14b8a6 100%);
+      border-color: transparent;
+      color: white;
+      box-shadow: 0 2px 8px rgba(124, 58, 237, 0.3);
+    }
+
+    /* ========== MAIN SCROLL AREA ========== */
+    .shop-content {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: 0 16px;
+    }
+
+    .shop-content::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .shop-content::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .shop-content::-webkit-scrollbar-thumb {
+      background: var(--color-border-strong);
+      border-radius: 2px;
+    }
+
+    /* ========== STICKER GRID ========== */
+    .sticker-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    .sticker-tile {
+      aspect-ratio: 1;
+      border-radius: var(--radius-md);
+      background: var(--color-canvas-subtle);
+      border: 1px solid var(--color-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px;
+      cursor: pointer;
+      transition: transform 0.12s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+      position: relative;
+    }
+
+    .sticker-tile:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-sm);
+      border-color: var(--color-border-strong);
+    }
+
+    .sticker-tile:active {
+      transform: translateY(0);
+    }
+
+    .sticker-tile.in-basket {
+      border-color: var(--color-accent);
+      background: var(--color-selected-bg);
+    }
+
+    .sticker-tile.owned {
+      opacity: 0.5;
+    }
+
+    .sticker-tile img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      pointer-events: none;
+    }
+
+    /* Price badge */
+    .price-badge {
+      position: absolute;
+      bottom: 4px;
+      right: 4px;
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      padding: 2px 6px;
+      background: var(--color-canvas);
+      border-radius: var(--radius-sm);
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--color-special);
+      box-shadow: var(--shadow-xs);
+    }
+
+    .price-badge .coin-icon {
+      font-size: 10px;
+    }
+
+    /* Owned badge */
+    .owned-badge {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      width: 18px;
+      height: 18px;
+      background: var(--color-success);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    /* In basket badge */
+    .basket-badge {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      width: 18px;
+      height: 18px;
+      background: var(--color-accent);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    /* ========== SECTION HEADERS ========== */
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 0 12px;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-text-primary);
+    }
+
+    .section-see-all {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--color-accent);
+      cursor: pointer;
+      transition: color 0.15s ease;
+    }
+
+    .section-see-all:hover {
+      color: var(--color-accent-dark);
+    }
+
+    /* ========== PACK CARD ========== */
+    .pack-card {
+      background: var(--color-canvas-elevated);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: 16px;
+      margin: 8px 0 16px;
+      cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+    }
+
+    .pack-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--color-border-strong);
+    }
+
+    .pack-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .pack-card-info {
+      flex: 1;
+    }
+
+    .pack-card-name {
+      font-family: var(--font-display);
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--color-text-primary);
+      margin-bottom: 2px;
+    }
+
+    .pack-card-meta {
+      font-size: 11px;
+      color: var(--color-text-muted);
+    }
+
+    .pack-card-price {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 6px 12px;
+      background: var(--color-canvas-subtle);
+      border-radius: var(--radius-pill);
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--color-special);
+    }
+
+    .pack-card-preview {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+    }
+
+    .pack-preview-sticker {
+      width: 60px;
+      height: 60px;
+      background: var(--color-canvas-subtle);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6px;
+    }
+
+    .pack-preview-sticker img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+
+    /* ========== BASKET FOOTER ========== */
+    .basket-footer {
+      flex-shrink: 0;
+      padding: 12px 20px 24px;
+      background: var(--color-canvas-elevated);
+      border-top: 1px solid var(--color-border);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .basket-summary {
+      flex: 1;
+    }
+
+    .basket-count {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--color-text-primary);
+    }
+
+    .basket-total {
+      font-size: 11px;
+      color: var(--color-text-muted);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .basket-total .coin-icon {
+      font-size: 11px;
+    }
+
+    .view-basket-btn {
+      padding: 12px 24px;
+      background: var(--gradient-primary);
+      border: none;
+      border-radius: var(--radius-pill);
+      color: white;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      cursor: pointer;
+      box-shadow: var(--shadow-button);
+      transition: transform 0.12s ease, box-shadow 0.15s ease;
+      font-family: var(--font-primary);
+    }
+
+    .view-basket-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-button-hover);
+    }
+
+    .view-basket-btn:active {
+      transform: translateY(1px);
+    }
+
+    .view-basket-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    /* ========== BASKET PANEL (SLIDE-UP) ========== */
+    .basket-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+      z-index: 500;
+    }
+
+    .basket-overlay.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .basket-panel {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 85vh;
+      background: var(--color-canvas-elevated);
+      border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+      box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.15);
+      transform: translateY(100%);
+      transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+      z-index: 501;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      border-top: 1px solid var(--color-border);
+    }
+
+    .basket-panel.visible {
+      transform: translateY(0);
+    }
+
+    .basket-handle {
+      width: 40px;
+      height: 4px;
+      background: var(--color-border-strong);
+      border-radius: 2px;
+      margin: 12px auto 8px;
+      flex-shrink: 0;
+    }
+
+    .basket-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 4px 20px 16px;
+      border-bottom: 1px solid var(--color-border);
+      flex-shrink: 0;
+    }
+
+    .basket-title {
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--color-text-primary);
+    }
+
+    .basket-close {
+      padding: 8px;
+      background: transparent;
+      border: none;
+      color: var(--color-text-muted);
+      font-size: 20px;
+      cursor: pointer;
+      transition: color 0.15s ease;
+    }
+
+    .basket-close:hover {
+      color: var(--color-text-primary);
+    }
+
+    .basket-items {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px 20px;
+    }
+
+    .basket-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--color-border-subtle);
+    }
+
+    .basket-item:last-child {
+      border-bottom: none;
+    }
+
+    .basket-item-image {
+      width: 56px;
+      height: 56px;
+      background: var(--color-canvas-subtle);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6px;
+      flex-shrink: 0;
+    }
+
+    .basket-item-image img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+
+    .basket-item-info {
+      flex: 1;
+    }
+
+    .basket-item-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--color-text-primary);
+      margin-bottom: 2px;
+    }
+
+    .basket-item-type {
+      font-size: 11px;
+      color: var(--color-text-muted);
+    }
+
+    .basket-item-price {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--color-special);
+    }
+
+    .basket-item-remove {
+      padding: 8px;
+      background: transparent;
+      border: none;
+      color: var(--color-text-subtle);
+      font-size: 16px;
+      cursor: pointer;
+      transition: color 0.15s ease;
+    }
+
+    .basket-item-remove:hover {
+      color: var(--color-error);
+    }
+
+    .basket-empty {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--color-text-muted);
+    }
+
+    .basket-empty-icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+      opacity: 0.5;
+    }
+
+    .basket-empty-text {
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .basket-checkout {
+      flex-shrink: 0;
+      padding: 16px 20px 24px;
+      border-top: 1px solid var(--color-border);
+      background: var(--color-canvas-subtle);
+    }
+
+    .basket-checkout-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .basket-checkout-label {
+      font-size: 14px;
+      color: var(--color-text-secondary);
+    }
+
+    .basket-checkout-value {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--color-text-primary);
+    }
+
+    .basket-checkout-balance {
+      font-size: 12px;
+      color: var(--color-text-muted);
+      text-align: right;
+      margin-bottom: 16px;
+    }
+
+    .basket-checkout-balance.insufficient {
+      color: var(--color-error);
+    }
+
+    .checkout-btn {
+      width: 100%;
+      padding: 14px 24px;
+      background: var(--gradient-primary);
+      border: none;
+      border-radius: var(--radius-pill);
+      color: white;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      cursor: pointer;
+      box-shadow: var(--shadow-button);
+      transition: transform 0.12s ease, box-shadow 0.15s ease;
+      font-family: var(--font-primary);
+    }
+
+    .checkout-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-button-hover);
+    }
+
+    .checkout-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    /* ========== CONFIRMATION PANEL ========== */
+    .confirmation-panel {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: var(--color-canvas-elevated);
+      border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+      box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.15);
+      transform: translateY(100%);
+      transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+      z-index: 502;
+      padding: 32px 24px 40px;
+      text-align: center;
+    }
+
+    .confirmation-panel.visible {
+      transform: translateY(0);
+    }
+
+    .confirmation-icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+    }
+
+    .confirmation-title {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--color-text-primary);
+      margin-bottom: 8px;
+    }
+
+    .confirmation-text {
+      font-size: 13px;
+      color: var(--color-text-muted);
+      margin-bottom: 24px;
+    }
+
+    .confirmation-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .confirmation-btn-primary {
+      padding: 14px 24px;
+      background: var(--gradient-primary);
+      border: none;
+      border-radius: var(--radius-pill);
+      color: white;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      box-shadow: var(--shadow-button);
+      transition: transform 0.12s ease, box-shadow 0.15s ease;
+      font-family: var(--font-primary);
+    }
+
+    .confirmation-btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-button-hover);
+    }
+
+    .confirmation-btn-secondary {
+      padding: 14px 24px;
+      background: transparent;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-pill);
+      color: var(--color-text-secondary);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s ease, border-color 0.15s ease;
+      font-family: var(--font-primary);
+    }
+
+    .confirmation-btn-secondary:hover {
+      background: var(--color-hover-bg);
+      border-color: var(--color-border-strong);
+    }
+
+    /* ========== LOADING STATE ========== */
+    .loading-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 20px;
+      color: var(--color-text-muted);
+    }
+
+    /* ========== EMPTY STATE ========== */
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--color-text-muted);
+    }
+
+    .empty-state-icon {
+      font-size: 36px;
+      margin-bottom: 12px;
+      opacity: 0.5;
+    }
+
+    .empty-state-text {
+      font-size: 13px;
+    }
+
+    /* ========== TOAST ========== */
+    .toast {
+      position: fixed;
+      bottom: 100px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      padding: 12px 24px;
+      background: var(--color-text-primary);
+      color: var(--color-text-inverse);
+      border-radius: var(--radius-pill);
+      font-size: 13px;
+      font-weight: 500;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      z-index: 600;
+    }
+
+    .toast.visible {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* ========== RESPONSIVE ========== */
+    @media (min-width: 480px) {
+      .sticker-grid {
+        grid-template-columns: repeat(5, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="shop-shell">
+    <!-- Header -->
+    <header class="shop-header">
+      <button class="back-btn" id="back-btn">
+        <span>←</span>
+        <span>Back</span>
+      </button>
+      <div class="shop-title">Sticker Shop</div>
+      <div class="coin-balance" id="coin-balance" title="Get Coins">
+        <span class="coin-icon">🪙</span>
+        <span class="coin-amount" id="coin-amount">500</span>
+      </div>
+    </header>
+
+    <!-- Search -->
+    <div class="search-container">
+      <div class="search-bar">
+        <span class="search-icon">🔍</span>
+        <input 
+          type="text" 
+          class="search-input" 
+          id="search-input"
+          placeholder="Search stickers..."
+          autocomplete="off"
+        />
+        <span class="search-clear" id="search-clear">✕</span>
+      </div>
+    </div>
+
+    <!-- Toggle -->
+    <div class="toggle-container">
+      <button class="toggle-btn active" id="toggle-stickers" data-view="stickers">Stickers</button>
+      <button class="toggle-btn" id="toggle-backgrounds" data-view="backgrounds">Backgrounds</button>
+    </div>
+
+    <!-- Main Content -->
+    <div class="shop-content" id="shop-content">
+      <!-- Content loaded dynamically -->
+      <div class="loading-container" id="loading">
+        Loading...
+      </div>
+    </div>
+
+    <!-- Basket Footer -->
+    <div class="basket-footer" id="basket-footer">
+      <div class="basket-summary">
+        <div class="basket-count">Basket: <span id="basket-count">0</span> items</div>
+        <div class="basket-total">
+          <span class="coin-icon">🪙</span>
+          <span id="basket-total">0</span> total
+        </div>
+      </div>
+      <button class="view-basket-btn" id="view-basket-btn" disabled>
+        View Basket
+      </button>
+    </div>
+
+    <!-- Basket Panel -->
+    <div class="basket-overlay" id="basket-overlay"></div>
+    <div class="basket-panel" id="basket-panel">
+      <div class="basket-handle"></div>
+      <div class="basket-header">
+        <div class="basket-title">Your Basket</div>
+        <button class="basket-close" id="basket-close">✕</button>
+      </div>
+      <div class="basket-items" id="basket-items">
+        <!-- Items loaded dynamically -->
+      </div>
+      <div class="basket-empty hidden" id="basket-empty">
+        <div class="basket-empty-icon">🧺</div>
+        <div class="basket-empty-text">Your basket is empty</div>
+      </div>
+      <div class="basket-checkout" id="basket-checkout">
+        <div class="basket-checkout-row">
+          <span class="basket-checkout-label">Total</span>
+          <span class="basket-checkout-value">
+            <span class="coin-icon">🪙</span>
+            <span id="checkout-total">0</span>
+          </span>
+        </div>
+        <div class="basket-checkout-balance" id="checkout-balance">
+          Your balance: 🪙 <span id="checkout-balance-amount">500</span>
+        </div>
+        <button class="checkout-btn" id="checkout-btn" disabled>
+          Complete Purchase
+        </button>
+      </div>
+    </div>
+
+    <!-- Confirmation Panel -->
+    <div class="basket-overlay" id="confirmation-overlay"></div>
+    <div class="confirmation-panel" id="confirmation-panel">
+      <div class="confirmation-icon">✨</div>
+      <div class="confirmation-title">Added to your sticker drawer!</div>
+      <div class="confirmation-text" id="confirmation-text">3 stickers are ready to use</div>
+      <div class="confirmation-buttons">
+        <button class="confirmation-btn-primary" id="go-to-drawer">Go to Drawer</button>
+        <button class="confirmation-btn-secondary" id="keep-shopping">Keep Shopping</button>
+      </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
+  </div>
+
+  <script>
+    // ============ STATE ============
+    let allStickers = [];
+    let allPacks = [];
+    let allBackgrounds = [];
+    let basket = []; // { type: 'sticker'|'pack'|'background', id: string, data: object }
+    let ownedStickerIds = new Set();
+    let ownedBackgroundIds = new Set();
+    let coinBalance = 500;
+    let currentView = 'stickers'; // 'stickers' | 'backgrounds'
+    let searchTerm = '';
+
+    // ============ DOM ELEMENTS ============
+    const shopContent = document.getElementById('shop-content');
+    const loadingEl = document.getElementById('loading');
+    const searchInput = document.getElementById('search-input');
+    const searchClear = document.getElementById('search-clear');
+    const toggleStickers = document.getElementById('toggle-stickers');
+    const toggleBackgrounds = document.getElementById('toggle-backgrounds');
+    const basketFooter = document.getElementById('basket-footer');
+    const basketCountEl = document.getElementById('basket-count');
+    const basketTotalEl = document.getElementById('basket-total');
+    const viewBasketBtn = document.getElementById('view-basket-btn');
+    const basketOverlay = document.getElementById('basket-overlay');
+    const basketPanel = document.getElementById('basket-panel');
+    const basketClose = document.getElementById('basket-close');
+    const basketItems = document.getElementById('basket-items');
+    const basketEmpty = document.getElementById('basket-empty');
+    const basketCheckout = document.getElementById('basket-checkout');
+    const checkoutTotal = document.getElementById('checkout-total');
+    const checkoutBalanceAmount = document.getElementById('checkout-balance-amount');
+    const checkoutBalance = document.getElementById('checkout-balance');
+    const checkoutBtn = document.getElementById('checkout-btn');
+    const confirmationOverlay = document.getElementById('confirmation-overlay');
+    const confirmationPanel = document.getElementById('confirmation-panel');
+    const confirmationText = document.getElementById('confirmation-text');
+    const goToDrawerBtn = document.getElementById('go-to-drawer');
+    const keepShoppingBtn = document.getElementById('keep-shopping');
+    const coinBalanceEl = document.getElementById('coin-balance');
+    const coinAmountEl = document.getElementById('coin-amount');
+    const backBtn = document.getElementById('back-btn');
+    const toast = document.getElementById('toast');
+
+    // ============ INITIALIZATION ============
+    async function init() {
+      loadUserData();
+      await loadShopData();
+      renderCurrentView();
+      setupEventListeners();
+    }
+
+    function loadUserData() {
+      // Load coin balance
+      try {
+        const saved = localStorage.getItem('stickerbook_coins');
+        if (saved) coinBalance = parseInt(saved, 10);
+      } catch (e) {}
+      coinAmountEl.textContent = coinBalance;
+      checkoutBalanceAmount.textContent = coinBalance;
+
+      // Load owned stickers (from drawer + placed on pages)
+      try {
+        const drawer = JSON.parse(localStorage.getItem('stickerbook_drawer') || '[]');
+        drawer.forEach(s => ownedStickerIds.add(s.id));
+        
+        const pages = JSON.parse(localStorage.getItem('stickerbook_all_pages') || '[]');
+        pages.forEach(page => {
+          if (page.stickers) {
+            page.stickers.forEach(s => {
+              // Extract base ID (before the timestamp suffix)
+              const baseId = s.id.split('_').slice(0, 2).join('_');
+              ownedStickerIds.add(baseId);
+            });
+          }
+        });
+      } catch (e) {}
+
+      // Load owned backgrounds
+      try {
+        const bgs = JSON.parse(localStorage.getItem('stickerbook_my_backgrounds') || '[]');
+        bgs.forEach(b => ownedBackgroundIds.add(b.id));
+      } catch (e) {}
+    }
+
+    async function loadShopData() {
+      try {
+        const [stickersRes, packsRes, backgroundsRes] = await Promise.all([
+          fetch('stickers.json'),
+          fetch('packs.json'),
+          fetch('backgrounds.json')
+        ]);
+
+        allStickers = await stickersRes.json();
+        allPacks = await packsRes.json();
+        allBackgrounds = await backgroundsRes.json();
+
+        loadingEl.classList.add('hidden');
+      } catch (err) {
+        console.error('Error loading shop data:', err);
+        loadingEl.textContent = 'Error loading shop. Please refresh.';
+      }
+    }
+
+    // ============ RENDERING ============
+    function renderCurrentView() {
+      if (searchTerm) {
+        renderSearchResults();
+      } else if (currentView === 'stickers') {
+        renderStickersView();
+      } else {
+        renderBackgroundsView();
+      }
+    }
+
+    function renderStickersView() {
+      let html = '';
+
+      // Featured section
+      const featured = allStickers.filter(s => s.isFeatured);
+      if (featured.length > 0) {
+        html += renderSection('Featured', featured.slice(0, 8), 'featured');
+      }
+
+      // Featured pack
+      const featuredPack = allPacks.find(p => p.isFeatured);
+      if (featuredPack) {
+        html += renderPackCard(featuredPack);
+      }
+
+      // Trending section
+      const trending = allStickers.filter(s => s.isTrending);
+      if (trending.length > 0) {
+        html += renderSection('Trending', trending.slice(0, 8), 'trending');
+      }
+
+      // Another pack
+      const trendingPack = allPacks.find(p => p.isTrending && !p.isFeatured);
+      if (trendingPack) {
+        html += renderPackCard(trendingPack);
+      }
+
+      // Categories
+      const categories = [...new Set(allStickers.map(s => s.category))];
+      categories.forEach(cat => {
+        const catStickers = allStickers.filter(s => s.category === cat);
+        html += renderSection(cat, catStickers.slice(0, 8), cat);
+      });
+
+      shopContent.innerHTML = html;
+      attachStickerListeners();
+      attachPackListeners();
+    }
+
+    function renderBackgroundsView() {
+      let html = '';
+
+      // Featured backgrounds
+      const featured = allBackgrounds.filter(b => b.isFeatured);
+      if (featured.length > 0) {
+        html += renderBackgroundSection('Featured', featured);
+      }
+
+      // Trending backgrounds
+      const trending = allBackgrounds.filter(b => b.isTrending);
+      if (trending.length > 0) {
+        html += renderBackgroundSection('Trending', trending);
+      }
+
+      // By category
+      const categories = [...new Set(allBackgrounds.map(b => b.category))];
+      categories.forEach(cat => {
+        const catBgs = allBackgrounds.filter(b => b.category === cat);
+        html += renderBackgroundSection(cat, catBgs);
+      });
+
+      shopContent.innerHTML = html;
+      attachBackgroundListeners();
+    }
+
+    function renderSearchResults() {
+      const term = searchTerm.toLowerCase();
+      let html = '';
+
+      if (currentView === 'stickers') {
+        const results = allStickers.filter(s => 
+          s.displayName.toLowerCase().includes(term) ||
+          s.tags.some(t => t.toLowerCase().includes(term))
+        );
+
+        if (results.length === 0) {
+          html = `<div class="empty-state">
+            <div class="empty-state-icon">🔍</div>
+            <div class="empty-state-text">No stickers found for "${searchTerm}"</div>
+          </div>`;
+        } else {
+          html = `<div class="section-header"><div class="section-title">Search Results</div></div>`;
+          html += `<div class="sticker-grid">`;
+          results.forEach(s => {
+            html += renderStickerTile(s);
+          });
+          html += `</div>`;
+        }
+      } else {
+        const results = allBackgrounds.filter(b =>
+          b.name.toLowerCase().includes(term) ||
+          b.tags.some(t => t.toLowerCase().includes(term))
+        );
+
+        if (results.length === 0) {
+          html = `<div class="empty-state">
+            <div class="empty-state-icon">🔍</div>
+            <div class="empty-state-text">No backgrounds found for "${searchTerm}"</div>
+          </div>`;
+        } else {
+          html = renderBackgroundSection('Search Results', results);
+        }
+      }
+
+      shopContent.innerHTML = html;
+      if (currentView === 'stickers') {
+        attachStickerListeners();
+      } else {
+        attachBackgroundListeners();
+      }
+    }
+
+    function renderSection(title, stickers, key) {
+      let html = `
+        <div class="section-header">
+          <div class="section-title">${title}</div>
+          ${stickers.length > 8 ? `<div class="section-see-all" data-category="${key}">See All</div>` : ''}
+        </div>
+        <div class="sticker-grid">
+      `;
+
+      stickers.forEach(s => {
+        html += renderStickerTile(s);
+      });
+
+      html += `</div>`;
+      return html;
+    }
+
+    function renderStickerTile(sticker) {
+      const owned = ownedStickerIds.has(sticker.id);
+      const inBasket = basket.some(b => b.type === 'sticker' && b.id === sticker.id);
+      
+      let badgeHtml = '';
+      if (owned) {
+        badgeHtml = `<div class="owned-badge">✓</div>`;
+      } else if (inBasket) {
+        badgeHtml = `<div class="basket-badge">✓</div>`;
+      }
+
+      let priceHtml = '';
+      if (sticker.price > 0 && !owned) {
+        priceHtml = `<div class="price-badge"><span class="coin-icon">🪙</span>${sticker.price}</div>`;
+      }
+
+      return `
+        <div class="sticker-tile ${owned ? 'owned' : ''} ${inBasket ? 'in-basket' : ''}" 
+             data-id="${sticker.id}" 
+             data-type="sticker">
+          <img src="assets/Stickers/${sticker.filename}" alt="${sticker.displayName}" />
+          ${badgeHtml}
+          ${priceHtml}
+        </div>
+      `;
+    }
+
+    function renderPackCard(pack) {
+      const inBasket = basket.some(b => b.type === 'pack' && b.id === pack.id);
+      
+      return `
+        <div class="pack-card ${inBasket ? 'in-basket' : ''}" data-id="${pack.id}" data-type="pack">
+          <div class="pack-card-header">
+            <div class="pack-card-info">
+              <div class="pack-card-name">${pack.name}</div>
+              <div class="pack-card-meta">${pack.stickerCount} stickers • ${pack.description}</div>
+            </div>
+            <div class="pack-card-price">
+              <span class="coin-icon">🪙</span>
+              ${pack.price}
+            </div>
+          </div>
+          <div class="pack-card-preview">
+            ${pack.previewStickers.slice(0, 4).map(sid => {
+              const sticker = allStickers.find(s => s.id === sid);
+              return sticker ? `
+                <div class="pack-preview-sticker">
+                  <img src="assets/Stickers/${sticker.filename}" alt="${sticker.displayName}" />
+                </div>
+              ` : '';
+            }).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    function renderBackgroundSection(title, backgrounds) {
+      let html = `
+        <div class="section-header">
+          <div class="section-title">${title}</div>
+        </div>
+        <div class="sticker-grid">
+      `;
+
+      backgrounds.forEach(bg => {
+        html += renderBackgroundTile(bg);
+      });
+
+      html += `</div>`;
+      return html;
+    }
+
+    function renderBackgroundTile(bg) {
+      const owned = ownedBackgroundIds.has(bg.id);
+      const inBasket = basket.some(b => b.type === 'background' && b.id === bg.id);
+
+      let badgeHtml = '';
+      if (owned) {
+        badgeHtml = `<div class="owned-badge">✓</div>`;
+      } else if (inBasket) {
+        badgeHtml = `<div class="basket-badge">✓</div>`;
+      }
+
+      let priceHtml = '';
+      if (bg.price > 0 && !owned) {
+        priceHtml = `<div class="price-badge"><span class="coin-icon">🪙</span>${bg.price}</div>`;
+      }
+
+      return `
+        <div class="sticker-tile ${owned ? 'owned' : ''} ${inBasket ? 'in-basket' : ''}" 
+             data-id="${bg.id}" 
+             data-type="background"
+             style="${bg.css}">
+          ${badgeHtml}
+          ${priceHtml}
+        </div>
+      `;
+    }
+
+    // ============ EVENT LISTENERS ============
+    function setupEventListeners() {
+      // Back button
+      backBtn.addEventListener('click', () => {
+        window.location.href = 'stickerbook.html';
+      });
+
+      // Search
+      searchInput.addEventListener('input', (e) => {
+        searchTerm = e.target.value.trim();
+        searchClear.classList.toggle('visible', searchTerm.length > 0);
+        renderCurrentView();
+      });
+
+      searchClear.addEventListener('click', () => {
+        searchTerm = '';
+        searchInput.value = '';
+        searchClear.classList.remove('visible');
+        renderCurrentView();
+      });
+
+      // Toggle
+      toggleStickers.addEventListener('click', () => {
+        if (currentView !== 'stickers') {
+          currentView = 'stickers';
+          toggleStickers.classList.add('active');
+          toggleBackgrounds.classList.remove('active');
+          searchInput.placeholder = 'Search stickers...';
+          renderCurrentView();
+        }
+      });
+
+      toggleBackgrounds.addEventListener('click', () => {
+        if (currentView !== 'backgrounds') {
+          currentView = 'backgrounds';
+          toggleBackgrounds.classList.add('active');
+          toggleStickers.classList.remove('active');
+          searchInput.placeholder = 'Search backgrounds...';
+          renderCurrentView();
+        }
+      });
+
+      // Basket footer
+      viewBasketBtn.addEventListener('click', openBasket);
+
+      // Basket panel
+      basketOverlay.addEventListener('click', closeBasket);
+      basketClose.addEventListener('click', closeBasket);
+      checkoutBtn.addEventListener('click', completePurchase);
+
+      // Confirmation panel
+      confirmationOverlay.addEventListener('click', closeConfirmation);
+      goToDrawerBtn.addEventListener('click', () => {
+        localStorage.setItem('stickerbook_open_drawer', 'expanded');
+        window.location.href = 'stickerbook.html';
+      });
+      keepShoppingBtn.addEventListener('click', closeConfirmation);
+
+      // Coin balance click (future: open get coins)
+      coinBalanceEl.addEventListener('click', () => {
+        showToast('Get Coins feature coming soon!');
+      });
+    }
+
+    function attachStickerListeners() {
+      document.querySelectorAll('.sticker-tile[data-type="sticker"]').forEach(tile => {
+        tile.addEventListener('click', () => {
+          const id = tile.dataset.id;
+          toggleBasketItem('sticker', id);
+        });
+      });
+    }
+
+    function attachPackListeners() {
+      document.querySelectorAll('.pack-card').forEach(card => {
+        card.addEventListener('click', () => {
+          const id = card.dataset.id;
+          toggleBasketItem('pack', id);
+        });
+      });
+    }
+
+    function attachBackgroundListeners() {
+      document.querySelectorAll('.sticker-tile[data-type="background"]').forEach(tile => {
+        tile.addEventListener('click', () => {
+          const id = tile.dataset.id;
+          toggleBasketItem('background', id);
+        });
+      });
+    }
+
+    // ============ BASKET LOGIC ============
+    function toggleBasketItem(type, id) {
+      // Check if already owned
+      if (type === 'sticker' && ownedStickerIds.has(id)) {
+        showToast('You already own this sticker');
+        return;
+      }
+      if (type === 'background' && ownedBackgroundIds.has(id)) {
+        showToast('You already own this background');
+        return;
+      }
+
+      const existingIndex = basket.findIndex(b => b.type === type && b.id === id);
+
+      if (existingIndex >= 0) {
+        // Remove from basket
+        basket.splice(existingIndex, 1);
+        showToast('Removed from basket');
+      } else {
+        // Add to basket
+        let data;
+        if (type === 'sticker') {
+          data = allStickers.find(s => s.id === id);
+        } else if (type === 'pack') {
+          data = allPacks.find(p => p.id === id);
+        } else {
+          data = allBackgrounds.find(b => b.id === id);
+        }
+
+        basket.push({ type, id, data });
+        showToast('Added to basket');
+      }
+
+      updateBasketUI();
+      renderCurrentView();
+    }
+
+    function updateBasketUI() {
+      const count = basket.length;
+      const total = basket.reduce((sum, item) => sum + (item.data.price || 0), 0);
+
+      basketCountEl.textContent = count;
+      basketTotalEl.textContent = total;
+      viewBasketBtn.disabled = count === 0;
+
+      checkoutTotal.textContent = total;
+      checkoutBalanceAmount.textContent = coinBalance;
+
+      const canAfford = coinBalance >= total;
+      checkoutBalance.classList.toggle('insufficient', !canAfford && count > 0);
+      checkoutBtn.disabled = count === 0 || !canAfford;
+    }
+
+    function openBasket() {
+      renderBasketItems();
+      basketOverlay.classList.add('visible');
+      basketPanel.classList.add('visible');
+    }
+
+    function closeBasket() {
+      basketOverlay.classList.remove('visible');
+      basketPanel.classList.remove('visible');
+    }
+
+    function renderBasketItems() {
+      if (basket.length === 0) {
+        basketItems.innerHTML = '';
+        basketEmpty.classList.remove('hidden');
+        basketCheckout.style.display = 'none';
+        return;
+      }
+
+      basketEmpty.classList.add('hidden');
+      basketCheckout.style.display = 'block';
+
+      let html = '';
+      basket.forEach((item, index) => {
+        let imageHtml = '';
+        let name = '';
+        let typeLabel = '';
+
+        if (item.type === 'sticker') {
+          imageHtml = `<img src="assets/Stickers/${item.data.filename}" alt="${item.data.displayName}" />`;
+          name = item.data.displayName;
+          typeLabel = 'Sticker';
+        } else if (item.type === 'pack') {
+          const previewSticker = allStickers.find(s => s.id === item.data.previewStickers[0]);
+          if (previewSticker) {
+            imageHtml = `<img src="assets/Stickers/${previewSticker.filename}" alt="${item.data.name}" />`;
+          }
+          name = item.data.name;
+          typeLabel = `Pack • ${item.data.stickerCount} stickers`;
+        } else {
+          imageHtml = `<div style="${item.data.css} width: 100%; height: 100%; border-radius: 6px;"></div>`;
+          name = item.data.name;
+          typeLabel = 'Background';
+        }
+
+        html += `
+          <div class="basket-item" data-index="${index}">
+            <div class="basket-item-image">${imageHtml}</div>
+            <div class="basket-item-info">
+              <div class="basket-item-name">${name}</div>
+              <div class="basket-item-type">${typeLabel}</div>
+            </div>
+            <div class="basket-item-price">
+              ${item.data.price > 0 ? `<span class="coin-icon">🪙</span>${item.data.price}` : 'Free'}
+            </div>
+            <button class="basket-item-remove" data-index="${index}">✕</button>
+          </div>
+        `;
+      });
+
+      basketItems.innerHTML = html;
+
+      // Attach remove listeners
+      basketItems.querySelectorAll('.basket-item-remove').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const index = parseInt(btn.dataset.index, 10);
+          basket.splice(index, 1);
+          updateBasketUI();
+          renderBasketItems();
+          renderCurrentView();
+        });
+      });
+    }
+
+    // ============ CHECKOUT ============
+    function completePurchase() {
+      const total = basket.reduce((sum, item) => sum + (item.data.price || 0), 0);
+
+      if (coinBalance < total) {
+        showToast('Not enough coins');
+        return;
+      }
+
+      // Deduct coins
+      coinBalance -= total;
+      localStorage.setItem('stickerbook_coins', coinBalance);
+      coinAmountEl.textContent = coinBalance;
+
+      // Process items
+      let stickerCount = 0;
+      let backgroundCount = 0;
+
+      // Load current drawer
+      let drawer = [];
+      try {
+        drawer = JSON.parse(localStorage.getItem('stickerbook_drawer') || '[]');
+      } catch (e) {}
+
+      // Load current backgrounds
+      let myBackgrounds = [];
+      try {
+        myBackgrounds = JSON.parse(localStorage.getItem('stickerbook_my_backgrounds') || '[]');
+      } catch (e) {}
+
+      basket.forEach(item => {
+        if (item.type === 'sticker') {
+          drawer.push({
+            id: item.data.id,
+            src: 'assets/Stickers/' + item.data.filename,
+            displayName: item.data.displayName
+          });
+          ownedStickerIds.add(item.data.id);
+          stickerCount++;
+        } else if (item.type === 'pack') {
+          // Add all stickers from pack, grouped together
+          item.data.stickerIds.forEach(sid => {
+            const sticker = allStickers.find(s => s.id === sid);
+            if (sticker && !ownedStickerIds.has(sid)) {
+              drawer.push({
+                id: sticker.id,
+                src: 'assets/Stickers/' + sticker.filename,
+                displayName: sticker.displayName,
+                packId: item.data.id
+              });
+              ownedStickerIds.add(sid);
+              stickerCount++;
+            }
+          });
+        } else if (item.type === 'background') {
+          myBackgrounds.push({
+            id: item.data.id,
+            name: item.data.name,
+            css: item.data.css,
+            type: item.data.type
+          });
+          ownedBackgroundIds.add(item.data.id);
+          backgroundCount++;
+        }
+      });
+
+      // Save
+      localStorage.setItem('stickerbook_drawer', JSON.stringify(drawer));
+      localStorage.setItem('stickerbook_my_backgrounds', JSON.stringify(myBackgrounds));
+
+      // Clear basket
+      basket = [];
+      updateBasketUI();
+
+      // Close basket panel
+      closeBasket();
+
+      // Show confirmation
+      let confirmText = '';
+      if (stickerCount > 0 && backgroundCount > 0) {
+        confirmText = `${stickerCount} sticker${stickerCount > 1 ? 's' : ''} and ${backgroundCount} background${backgroundCount > 1 ? 's' : ''} are ready to use`;
+      } else if (stickerCount > 0) {
+        confirmText = `${stickerCount} sticker${stickerCount > 1 ? 's' : ''} ${stickerCount > 1 ? 'are' : 'is'} ready to use`;
+      } else {
+        confirmText = `${backgroundCount} background${backgroundCount > 1 ? 's' : ''} ${backgroundCount > 1 ? 'are' : 'is'} ready to use`;
+      }
+      confirmationText.textContent = confirmText;
+
+      confirmationOverlay.classList.add('visible');
+      confirmationPanel.classList.add('visible');
+
+      // Re-render to show owned states
+      renderCurrentView();
+    }
+
+    function closeConfirmation() {
+      confirmationOverlay.classList.remove('visible');
+      confirmationPanel.classList.remove('visible');
+    }
+
+    // ============ HELPERS ============
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add('visible');
+      setTimeout(() => toast.classList.remove('visible'), 2000);
+    }
+
+    // ============ START ============
+    document.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>

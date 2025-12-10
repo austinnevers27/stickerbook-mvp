@@ -4,900 +4,549 @@
     "filename": "alhambratheatre0001.png",
     "displayName": "Alhambra Theatre",
     "category": "Places & Travel",
-    "tags": [
-      "nostalgia",
-      "theater",
-      "historic",
-      "sacramento",
-      "movies",
-      "film"
-    ]
+    "tags": ["nostalgia", "theater", "historic", "sacramento", "movies", "film"],
+    "price": 0,
+    "artistId": null,
+    "isTrending": false,
+    "isFeatured": false
   },
   {
     "id": "sticker_002",
     "filename": "ambulance0001.png",
     "displayName": "Ambulance",
     "category": "Objects & Stuff",
-    "tags": [
-      "vehicle",
-      "medic",
-      "first responder",
-      "paramedic",
-      "siren",
-      "sirens",
-      "medical"
-    ]
+    "tags": ["vehicle", "medic", "first responder", "paramedic", "siren", "sirens", "medical"],
+    "price": 0,
+    "artistId": null,
+    "isTrending": false,
+    "isFeatured": false
   },
   {
     "id": "sticker_003",
     "filename": "arches0001.png",
     "displayName": "Arches National Park",
     "category": "Places & Travel",
-    "tags": [
-      "utah",
-      "national park",
-      "moab",
-      "geology",
-      "canyon",
-      "rock",
-      "arches",
-      "arches national park"
-    ]
+    "tags": ["utah", "national park", "moab", "geology", "canyon", "rock", "arches", "arches national park"],
+    "price": 0,
+    "artistId": null,
+    "isTrending": false,
+    "isFeatured": false
   },
   {
     "id": "sticker_004",
     "filename": "berniesanders0001.png",
     "displayName": "Bernie Sanders Meme",
     "category": "Entertainment",
-    "tags": [
-      "politics",
-      "politicians",
-      "liberal",
-      "left wing",
-      "socialist",
-      "democrat",
-      "democratic",
-      "democratic socialist",
-      "president",
-      "senator",
-      "vermont"
-    ]
+    "tags": ["politics", "politicians", "liberal", "left wing", "socialist", "democrat", "democratic", "democratic socialist", "president", "senator", "vermont"],
+    "price": 0,
+    "artistId": null,
+    "isTrending": false,
+    "isFeatured": false
   },
   {
     "id": "sticker_005",
     "filename": "bidet0001.png",
     "displayName": "Bidet 2028",
     "category": "Vibes & Aesthetic",
-    "tags": [
-      "humor",
-      "meme",
-      "2028",
-      "president",
-      "politics",
-      "politician",
-      "bathroom",
-      "toilet",
-      "trump",
-      "white house",
-      "election",
-      "joke",
-      "impeach",
-      "shit",
-      "poop"
-    ]
+    "tags": ["humor", "meme", "2028", "president", "politics", "politician", "bathroom", "toilet", "trump", "white house", "election", "joke", "impeach", "shit", "poop"],
+    "price": 0,
+    "artistId": null,
+    "isTrending": false,
+    "isFeatured": false
   },
   {
     "id": "sticker_006",
     "filename": "blackcat0001.png",
     "displayName": "Black Cat Energy",
     "category": "Animals",
-    "tags": [
-      "cat",
-      "black cat",
-      "void",
-      "witch"
-    ]
+    "tags": ["cat", "black cat", "void", "witch"],
+    "price": 0,
+    "artistId": null,
+    "isTrending": true,
+    "isFeatured": false
   },
   {
     "id": "sticker_007",
     "filename": "brickbybrick0001.png",
     "displayName": "Brick by Brick",
     "category": "Vibes & Aesthetic",
-    "tags": [
-      "meme",
-      "funny",
-      "humor",
-      "fyp",
-      "for you page",
-      "brick",
-      "building",
-      "construction",
-      "helmet"
-    ]
+    "tags": ["meme", "funny", "humor", "fyp", "for you page", "brick", "building", "construction", "helmet"],
+    "price": 0,
+    "artistId": null,
+    "isTrending": false,
+    "isFeatured": false
   },
   {
     "id": "sticker_008",
     "filename": "cityofsneeze0001.png",
     "displayName": "City of Sneeze",
     "category": "Nature & Outdoors",
-    "tags": [
-      "sacramento",
-      "allergy",
-      "allergies",
-      "tree",
-      "flower",
-      "tissue",
-      "kleenex",
-      "pollen"
-    ]
+    "tags": ["sacramento", "allergy", "allergies", "tree", "flower", "tissue", "kleenex", "pollen"],
+    "price": 0,
+    "artistId": null,
+    "isTrending": false,
+    "isFeatured": false
   },
   {
     "id": "sticker_009",
     "filename": "cityoftrees0001.png",
     "displayName": "Sacramento Water Tower",
     "category": "Places & Travel",
-    "tags": [
-      "sacramento",
-      "water tower",
-      "city of trees",
-      "farm to fork"
-    ]
+    "tags": ["sacramento", "water tower", "city of trees", "farm to fork"],
+    "price": 0,
+    "artistId": null,
+    "isTrending": false,
+    "isFeatured": true
   },
   {
     "id": "sticker_010",
     "filename": "clown0001.png",
     "displayName": "Victorian Clown",
     "category": "People & Characters",
-    "tags": [
-      "victorian",
-      "clown",
-      "black and white",
-      "mime"
-    ]
+    "tags": ["victorian", "clown", "black and white", "mime"],
+    "price": 0,
+    "artistId": null,
+    "isTrending": false,
+    "isFeatured": false
   },
   {
     "id": "sticker_011",
     "filename": "cocacola0001.png",
     "displayName": "Coca Cola Clydesdales",
     "category": "Food & Drinks",
-    "tags": [
-      "soda",
-      "coca cola",
-      "clydesdale",
-      "winter",
-      "snow",
-      "americana",
-      "nostalgia",
-      "horse",
-      "horse drawn",
-      "delivery",
-      "thomas kincaid"
-    ]
+    "tags": ["soda", "coca cola", "clydesdale", "winter", "snow", "americana", "nostalgia", "horse", "horse drawn", "delivery", "thomas kincaid"],
+    "price": 0,
+    "artistId": null,
+    "isTrending": false,
+    "isFeatured": false
   },
   {
     "id": "sticker_012",
     "filename": "coexist0001.png",
     "displayName": "Coexist",
     "category": "Vibes & Aesthetic",
-    "tags": [
-      "religion",
-      "peace",
-      "bumper sticker",
-      "christian",
-      "jewish",
-      "islam",
-      "hinduism",
-      "catholic",
-      "church",
-      "equality",
-      "faith",
-      "inclusive"
-    ]
+    "tags": ["religion", "peace", "bumper sticker", "christian", "jewish", "islam", "hinduism", "catholic", "church", "equality", "faith", "inclusive"],
+    "price": 0,
+    "artistId": null,
+    "isTrending": false,
+    "isFeatured": false
   },
   {
     "id": "sticker_013",
     "filename": "coffee0001.png",
     "displayName": "But First, Coffee",
     "category": "Food & Drinks",
-    "tags": [
-      "coffee",
-      "mug",
-      "tea",
-      "morning",
-      "breakfast",
-      "sunshine",
-      "wake up"
-    ]
+    "tags": ["coffee", "mug", "tea", "morning", "breakfast", "sunshine", "wake up"],
+    "price": 0,
+    "artistId": null,
+    "isTrending": true,
+    "isFeatured": false
   },
   {
     "id": "sticker_014",
     "filename": "crockerartmuseum0001.png",
     "displayName": "Crocker Art Museum",
     "category": "Places & Travel",
-    "tags": [
-      "art",
-      "museum",
-      "sacramento",
-      "crocker",
-      "paint",
-      "painting",
-      "paintings",
-      "sculpture",
-      "historic",
-      "fine art"
-    ]
+    "tags": ["art", "museum", "sacramento", "crocker", "paint", "painting", "paintings", "sculpture", "historic", "fine art"],
+    "price": 0,
+    "artistId": null,
+    "isTrending": false,
+    "isFeatured": false
   },
   {
     "id": "sticker_015",
     "filename": "cubansandwich0001.png",
     "displayName": "Cuban Sandwich",
     "category": "Food & Drinks",
-    "tags": [
-      "cuba",
-      "havana",
-      "miami",
-      "tampa",
-      "little havana",
-      "cubano",
-      "sandwich",
-      "pork",
-      "ham",
-      "mustard",
-      "cheese",
-      "swiss cheese",
-      "pickle"
-    ]
+    "tags": ["cuba", "havana", "miami", "tampa", "little havana", "cubano", "sandwich", "pork", "ham", "mustard", "cheese", "swiss cheese", "pickle"],
+    "price": 0,
+    "artistId": null,
+    "isTrending": false,
+    "isFeatured": false
   },
   {
     "id": "sticker_016",
     "filename": "firetruck0001.png",
     "displayName": "Fire Truck",
     "category": "Objects & Stuff",
-    "tags": [
-      "car",
-      "truck",
-      "vehicle",
-      "first aid",
-      "fire fighter",
-      "fire hydrant",
-      "siren",
-      "sirens",
-      "fire",
-      "fireman",
-      "firemen",
-      "hose",
-      "water hose"
-    ]
+    "tags": ["car", "truck", "vehicle", "first aid", "fire fighter", "fire hydrant", "siren", "sirens", "fire", "fireman", "firemen", "hose", "water hose"],
+    "price": 0,
+    "artistId": null,
+    "isTrending": false,
+    "isFeatured": false
   },
   {
     "id": "sticker_017",
     "filename": "fleabag0001.png",
     "displayName": "Fleabag",
     "category": "Entertainment",
-    "tags": [
-      "fleabag",
-      "statue",
-      "feminism",
-      "lesbian",
-      "martini",
-      "tv",
-      "tv show",
-      "television",
-      "television shows",
-      "bbc",
-      "england",
-      "british",
-      "phoebe waller bridge"
-    ]
+    "tags": ["fleabag", "statue", "feminism", "lesbian", "martini", "tv", "tv show", "television", "television shows", "bbc", "england", "british", "phoebe waller bridge"],
+    "price": 0,
+    "artistId": null,
+    "isTrending": false,
+    "isFeatured": false
   },
   {
     "id": "sticker_018",
     "filename": "germanshepherd0001.png",
     "displayName": "German Shepherd",
     "category": "Animals",
-    "tags": [
-      "dog",
-      "german shepherd",
-      "bark",
-      "police dog"
-    ]
+    "tags": ["dog", "german shepherd", "bark", "police dog"],
+    "price": 0,
+    "artistId": null,
+    "isTrending": false,
+    "isFeatured": false
   },
   {
     "id": "sticker_019",
     "filename": "gunthers0001.png",
-    "displayName": "Gunther\u2019s Ice Cream",
+    "displayName": "Gunther's Ice Cream",
     "category": "Places & Travel",
-    "tags": [
-      "ice cream",
-      "dessert",
-      "sacramento",
-      "historic",
-      "curtis park",
-      "parlor",
-      "parlour"
-    ]
+    "tags": ["ice cream", "dessert", "sacramento", "historic", "curtis park", "parlor", "parlour"],
+    "price": 0,
+    "artistId": null,
+    "isTrending": false,
+    "isFeatured": false
   },
   {
     "id": "sticker_020",
     "filename": "heatcoldmisers0001.png",
     "displayName": "Heat Miser & Cold Miser",
     "category": "Entertainment",
-    "tags": [
-      "winter",
-      "movie",
-      "santa claus",
-      "miser",
-      "frosty",
-      "frosty the snowman"
-    ]
+    "tags": ["winter", "movie", "santa claus", "miser", "frosty", "frosty the snowman"],
+    "price": 0,
+    "artistId": null,
+    "isTrending": false,
+    "isFeatured": false
   },
   {
     "id": "sticker_021",
     "filename": "homewardbound0001.png",
     "displayName": "Homeward Bound",
     "category": "Entertainment",
-    "tags": [
-      "animal",
-      "dog",
-      "cat",
-      "lost",
-      "movie",
-      "kids movie",
-      "children\u2019s movie",
-      "1990\u2019s",
-      "the 90\u2019s",
-      "san francisco",
-      "wholesome",
-      "family",
-      "feel good"
-    ]
+    "tags": ["animal", "dog", "cat", "lost", "movie", "kids movie", "children's movie", "1990's", "the 90's", "san francisco", "wholesome", "family", "feel good"],
+    "price": 0,
+    "artistId": null,
+    "isTrending": false,
+    "isFeatured": false
   },
   {
     "id": "sticker_022",
     "filename": "jesus0001.png",
     "displayName": "Jesus",
     "category": "People & Characters",
-    "tags": [
-      "jesus",
-      "christ",
-      "christian",
-      "angel",
-      "saint",
-      "messiah",
-      "bible",
-      "church",
-      "pastor",
-      "priest",
-      "jewish",
-      "judaism"
-    ]
+    "tags": ["jesus", "christ", "christian", "angel", "saint", "messiah", "bible", "church", "pastor", "priest", "jewish", "judaism"],
+    "price": 0,
+    "artistId": null,
+    "isTrending": false,
+    "isFeatured": false
   },
   {
     "id": "sticker_023",
     "filename": "keeptahoeblue0001.png",
     "displayName": "Keep Tahoe Blue",
     "category": "Vibes & Aesthetic",
-    "tags": [
-      "campaign",
-      "bumper sticker",
-      "tahoe",
-      "lake tahoe",
-      "conservation",
-      "advocacy",
-      "environment",
-      "environmentalism",
-      "water",
-      "boat",
-      "boating",
-      "fishing",
-      "tourism",
-      "california",
-      "nevada",
-      "outdoors"
-    ]
+    "tags": ["campaign", "bumper sticker", "tahoe", "lake tahoe", "conservation", "advocacy", "environment", "environmentalism", "water", "boat", "boating", "fishing", "tourism", "california", "nevada", "outdoors"],
+    "price": 0,
+    "artistId": null,
+    "isTrending": false,
+    "isFeatured": false
   },
   {
     "id": "sticker_024",
     "filename": "leavetheleaves0001.png",
     "displayName": "Leave the Leaves",
     "category": "Vibes & Aesthetic",
-    "tags": [
-      "leaves",
-      "fall",
-      "rake",
-      "leaf blower",
-      "lawn",
-      "grass",
-      "grassroots",
-      "campaign"
-    ]
+    "tags": ["leaves", "fall", "rake", "leaf blower", "lawn", "grass", "grassroots", "campaign"],
+    "price": 0,
+    "artistId": null,
+    "isTrending": false,
+    "isFeatured": false
   },
   {
     "id": "sticker_025",
     "filename": "lightthebeam0001.png",
     "displayName": "Light the Beam",
     "category": "Sports",
-    "tags": [
-      "kings",
-      "sacramento",
-      "sacramento kings",
-      "purple",
-      "laser",
-      "light the beam",
-      "skyline",
-      "california",
-      "bridge",
-      "tower bridge",
-      "night",
-      "sports",
-      "doco",
-      "basketball"
-    ]
+    "tags": ["kings", "sacramento", "sacramento kings", "purple", "laser", "light the beam", "skyline", "california", "bridge", "tower bridge", "night", "sports", "doco", "basketball"],
+    "price": 0,
+    "artistId": null,
+    "isTrending": true,
+    "isFeatured": true
   },
   {
     "id": "sticker_026",
     "filename": "lukesdiner0001.png",
-    "displayName": "Luke\u2019s Diner",
+    "displayName": "Luke's Diner",
     "category": "Entertainment",
-    "tags": [
-      "gilmore girls",
-      "luke danes",
-      "lorelei gilmore",
-      "rory gilmore",
-      "stars hollow",
-      "connecticut",
-      "tv",
-      "tv show",
-      "tv shows",
-      "television",
-      "television shows",
-      "television show",
-      "diner",
-      "coffee",
-      "coffee mug",
-      "small business",
-      "luke"
-    ]
+    "tags": ["gilmore girls", "luke danes", "lorelei gilmore", "rory gilmore", "stars hollow", "connecticut", "tv", "tv show", "tv shows", "television", "television shows", "television show", "diner", "coffee", "coffee mug", "small business", "luke"],
+    "price": 0,
+    "artistId": null,
+    "isTrending": false,
+    "isFeatured": false
   },
   {
     "id": "sticker_027",
     "filename": "mammamiamovie0001.png",
     "displayName": "Donna & The Dynamos",
     "category": "Entertainment",
-    "tags": [
-      "mamma mia",
-      "mamma mia 2",
-      "here we go again",
-      "meryl streep",
-      "donna sheridan",
-      "donna and the dynamos",
-      "movie",
-      "movies",
-      "musical",
-      "greece",
-      "denim",
-      "trio",
-      "dancing queen",
-      "super trouper",
-      "fernando",
-      "abba",
-      "lily james"
-    ]
+    "tags": ["mamma mia", "mamma mia 2", "here we go again", "meryl streep", "donna sheridan", "donna and the dynamos", "movie", "movies", "musical", "greece", "denim", "trio", "dancing queen", "super trouper", "fernando", "abba", "lily james"],
+    "price": 0,
+    "artistId": null,
+    "isTrending": false,
+    "isFeatured": false
   },
   {
     "id": "sticker_028",
     "filename": "mushroom0001.png",
     "displayName": "Mushrooms",
     "category": "Nature & Outdoors",
-    "tags": [
-      "fungi",
-      "mushroom",
-      "mushrooms",
-      "whimsy",
-      "whimsical",
-      "mycology",
-      "cottage core",
-      "fantasy",
-      "fairy",
-      "nature",
-      "fungus",
-      "outdoors"
-    ]
+    "tags": ["fungi", "mushroom", "mushrooms", "whimsy", "whimsical", "mycology", "cottage core", "fantasy", "fairy", "nature", "fungus", "outdoors"],
+    "price": 0,
+    "artistId": null,
+    "isTrending": true,
+    "isFeatured": false
   },
   {
     "id": "sticker_029",
     "filename": "noevilanimals0001.png",
     "displayName": "Speak No Evil See No Evil Hear No Evil",
     "category": "Animals",
-    "tags": [
-      "raccoon",
-      "possum",
-      "opossum",
-      "skunk",
-      "street cats",
-      "nocturnal"
-    ]
+    "tags": ["raccoon", "possum", "opossum", "skunk", "street cats", "nocturnal"],
+    "price": 0,
+    "artistId": null,
+    "isTrending": false,
+    "isFeatured": false
   },
   {
     "id": "sticker_030",
     "filename": "orangecat0001.png",
     "displayName": "Smoking Orange Cat",
     "category": "Animals",
-    "tags": [
-      "cat",
-      "orange cat",
-      "smoking",
-      "cigarette",
-      "cool"
-    ]
+    "tags": ["cat", "orange cat", "smoking", "cigarette", "cool"],
+    "price": 0,
+    "artistId": null,
+    "isTrending": true,
+    "isFeatured": false
   },
   {
     "id": "sticker_031",
     "filename": "orca0001.png",
     "displayName": "Orca",
     "category": "Animals",
-    "tags": [
-      "orca",
-      "whale",
-      "ocean",
-      "free willy",
-      "pacific",
-      "killer whale",
-      "dolphin",
-      "apex",
-      "apex predator"
-    ]
+    "tags": ["orca", "whale", "ocean", "free willy", "pacific", "killer whale", "dolphin", "apex", "apex predator"],
+    "price": 0,
+    "artistId": null,
+    "isTrending": false,
+    "isFeatured": false
   },
   {
     "id": "sticker_032",
     "filename": "prideflag0001.png",
     "displayName": "Moon Pride",
     "category": "Vibes & Aesthetic",
-    "tags": [
-      "space",
-      "pride",
-      "pride flag",
-      "rainbow",
-      "moon",
-      "astronaut",
-      "flag",
-      "apollo",
-      "space shuttle",
-      "lgbt",
-      "lgbtq"
-    ]
+    "tags": ["space", "pride", "pride flag", "rainbow", "moon", "astronaut", "flag", "apollo", "space shuttle", "lgbt", "lgbtq"],
+    "price": 0,
+    "artistId": null,
+    "isTrending": false,
+    "isFeatured": false
   },
   {
     "id": "sticker_033",
     "filename": "prideflag0002.png",
     "displayName": "Alien Pride",
     "category": "Vibes & Aesthetic",
-    "tags": [
-      "alien",
-      "space",
-      "pride",
-      "pride flag",
-      "rainbow",
-      "moon",
-      "astronaut",
-      "flag",
-      "apollo",
-      "space shuttle",
-      "lgbt",
-      "lgbtq"
-    ]
+    "tags": ["alien", "space", "pride", "pride flag", "rainbow", "moon", "astronaut", "flag", "apollo", "space shuttle", "lgbt", "lgbtq"],
+    "price": 0,
+    "artistId": null,
+    "isTrending": false,
+    "isFeatured": false
   },
   {
     "id": "sticker_034",
     "filename": "raccoon0001.png",
     "displayName": "Raccoon Nap",
     "category": "Animals",
-    "tags": [
-      "raccoon",
-      "stump",
-      "tree",
-      "tree stump",
-      "nap",
-      "sleep",
-      "sleeping",
-      "street cat",
-      "street cats",
-      "trash panda"
-    ]
+    "tags": ["raccoon", "stump", "tree", "tree stump", "nap", "sleep", "sleeping", "street cat", "street cats", "trash panda"],
+    "price": 0,
+    "artistId": null,
+    "isTrending": true,
+    "isFeatured": true
   },
   {
     "id": "sticker_035",
     "filename": "redkettle0001.png",
     "displayName": "Red Kettle",
     "category": "Objects & Stuff",
-    "tags": [
-      "kettle",
-      "red kettle",
-      "bell",
-      "bell ringer",
-      "salvation",
-      "salvation army",
-      "christmas",
-      "holidays",
-      "shield",
-      "charity",
-      "donation",
-      "nonprofit"
-    ]
+    "tags": ["kettle", "red kettle", "bell", "bell ringer", "salvation", "salvation army", "christmas", "holidays", "shield", "charity", "donation", "nonprofit"],
+    "price": 0,
+    "artistId": null,
+    "isTrending": false,
+    "isFeatured": false
   },
   {
     "id": "sticker_036",
     "filename": "renosign0001.png",
     "displayName": "Biggest Little City",
     "category": "Places & Travel",
-    "tags": [
-      "reno",
-      "sign",
-      "nevada",
-      "landmark",
-      "casino",
-      "gambling",
-      "tourist",
-      "tourism"
-    ]
+    "tags": ["reno", "sign", "nevada", "landmark", "casino", "gambling", "tourist", "tourism"],
+    "price": 0,
+    "artistId": null,
+    "isTrending": false,
+    "isFeatured": false
   },
   {
     "id": "sticker_037",
     "filename": "rolex0001.png",
     "displayName": "Rolex Watch",
     "category": "Objects & Stuff",
-    "tags": [
-      "rolex",
-      "watch",
-      "gold watch",
-      "wealth",
-      "jewelry",
-      "time piece",
-      "wrist watch",
-      "clock",
-      "brand"
-    ]
+    "tags": ["rolex", "watch", "gold watch", "wealth", "jewelry", "time piece", "wrist watch", "clock", "brand"],
+    "price": 0,
+    "artistId": null,
+    "isTrending": false,
+    "isFeatured": false
   },
   {
     "id": "sticker_038",
     "filename": "rubixcube0001.png",
-    "displayName": "Rubik\u2019s Cube",
+    "displayName": "Rubik's Cube",
     "category": "Objects & Stuff",
-    "tags": [
-      "toy",
-      "toys",
-      "games",
-      "puzzles",
-      "80\u2019s",
-      "1980\u2019s",
-      "nostalgia",
-      "nostalgic",
-      "classic",
-      "children",
-      "children\u2019s toys"
-    ]
+    "tags": ["toy", "toys", "games", "puzzles", "80's", "1980's", "nostalgia", "nostalgic", "classic", "children", "children's toys"],
+    "price": 0,
+    "artistId": null,
+    "isTrending": false,
+    "isFeatured": false
   },
   {
     "id": "sticker_039",
     "filename": "sebastianmaniscalco0001.png",
     "displayName": "Sebastian Maniscalco",
     "category": "People & Characters",
-    "tags": [
-      "comedy",
-      "comedian",
-      "stand up",
-      "stand up comic",
-      "comic",
-      "italian"
-    ]
+    "tags": ["comedy", "comedian", "stand up", "stand up comic", "comic", "italian"],
+    "price": 0,
+    "artistId": null,
+    "isTrending": false,
+    "isFeatured": false
   },
   {
     "id": "sticker_040",
     "filename": "seinfeld0001.png",
     "displayName": "Seinfeld",
     "category": "Entertainment",
-    "tags": [
-      "tv",
-      "tv show",
-      "television",
-      "jerry seinfeld",
-      "cosmo kramer",
-      "george costanza",
-      "elaine benes",
-      "show about nothing",
-      "coffee shop",
-      "diner",
-      "ny",
-      "new york",
-      "new york city",
-      "manhattan",
-      "central park",
-      "east side",
-      "upper east side"
-    ]
+    "tags": ["tv", "tv show", "television", "jerry seinfeld", "cosmo kramer", "george costanza", "elaine benes", "show about nothing", "coffee shop", "diner", "ny", "new york", "new york city", "manhattan", "central park", "east side", "upper east side"],
+    "price": 0,
+    "artistId": null,
+    "isTrending": false,
+    "isFeatured": false
   },
   {
     "id": "sticker_041",
     "filename": "slinky0001.png",
     "displayName": "Slinky",
     "category": "Objects & Stuff",
-    "tags": [
-      "toy",
-      "toys",
-      "games",
-      "puzzles",
-      "nostalgia",
-      "nostalgic",
-      "classic",
-      "children",
-      "children\u2019s toys"
-    ]
+    "tags": ["toy", "toys", "games", "puzzles", "nostalgia", "nostalgic", "classic", "children", "children's toys"],
+    "price": 0,
+    "artistId": null,
+    "isTrending": false,
+    "isFeatured": false
   },
   {
     "id": "sticker_042",
     "filename": "strangerthings0001.png",
     "displayName": "Stranger Things",
     "category": "Entertainment",
-    "tags": [
-      "stranger things",
-      "eleven",
-      "11",
-      "dustin henderson",
-      "mike wheeler",
-      "lucas sinclair",
-      "caleb mclaughlin",
-      "millie bobbie brown",
-      "gaten matarazzo",
-      "winona ryder",
-      "david harbour",
-      "finn wolfhard",
-      "hawkins",
-      "hawkins indiana",
-      "upside down",
-      "tv",
-      "tv show",
-      "television",
-      "television show",
-      "streaming",
-      "netflix"
-    ]
+    "tags": ["stranger things", "eleven", "11", "dustin henderson", "mike wheeler", "lucas sinclair", "caleb mclaughlin", "millie bobbie brown", "gaten matarazzo", "winona ryder", "david harbour", "finn wolfhard", "hawkins", "hawkins indiana", "upside down", "tv", "tv show", "television", "television show", "streaming", "netflix"],
+    "price": 0,
+    "artistId": null,
+    "isTrending": false,
+    "isFeatured": false
   },
   {
     "id": "sticker_043",
     "filename": "towerbridgesacramento0001.png",
     "displayName": "Tower Bridge Sacramento",
     "category": "Places & Travel",
-    "tags": [
-      "sacramento",
-      "old sacramento",
-      "west sacramento",
-      "tower",
-      "tower bridge",
-      "bridge",
-      "architecture"
-    ]
+    "tags": ["sacramento", "old sacramento", "west sacramento", "tower", "tower bridge", "bridge", "architecture"],
+    "price": 0,
+    "artistId": null,
+    "isTrending": false,
+    "isFeatured": true
   },
   {
     "id": "sticker_044",
     "filename": "trenchcoatanimals0001.png",
     "displayName": "Trenchcoat Street Cats",
     "category": "Animals",
-    "tags": [
-      "raccoon",
-      "possum",
-      "opossum",
-      "skunk",
-      "street cats",
-      "nocturnal",
-      "trash panda"
-    ]
+    "tags": ["raccoon", "possum", "opossum", "skunk", "street cats", "nocturnal", "trash panda"],
+    "price": 0,
+    "artistId": null,
+    "isTrending": false,
+    "isFeatured": false
   },
   {
     "id": "sticker_045",
     "filename": "triviawizard0001.png",
     "displayName": "Trivia Wizard",
     "category": "People & Characters",
-    "tags": [
-      "trivia",
-      "wizard",
-      "magic",
-      "brain",
-      "smart"
-    ]
+    "tags": ["trivia", "wizard", "magic", "brain", "smart"],
+    "price": 0,
+    "artistId": null,
+    "isTrending": false,
+    "isFeatured": false
   },
   {
     "id": "sticker_046",
     "filename": "veryhungrycaterpillar0001.png",
     "displayName": "Very Hungry Caterpillar",
     "category": "Entertainment",
-    "tags": [
-      "book",
-      "children\u2019s book",
-      "eric carle",
-      "caterpillar",
-      "butterfly",
-      "nostalgia",
-      "classic",
-      "literature",
-      "book fair",
-      "scholastic"
-    ]
+    "tags": ["book", "children's book", "eric carle", "caterpillar", "butterfly", "nostalgia", "classic", "literature", "book fair", "scholastic"],
+    "price": 0,
+    "artistId": null,
+    "isTrending": false,
+    "isFeatured": false
   },
   {
     "id": "sticker_047",
     "filename": "virginmary0001.png",
     "displayName": "Virgin Mary",
     "category": "People & Characters",
-    "tags": [
-      "religion",
-      "jesus",
-      "christian",
-      "catholic",
-      "church",
-      "saint",
-      "divine",
-      "spiritual",
-      "immaculate",
-      "mother"
-    ]
+    "tags": ["religion", "jesus", "christian", "catholic", "church", "saint", "divine", "spiritual", "immaculate", "mother"],
+    "price": 0,
+    "artistId": null,
+    "isTrending": false,
+    "isFeatured": false
   },
   {
     "id": "sticker_048",
     "filename": "wicked0001.png",
     "displayName": "Wicked",
     "category": "Entertainment",
-    "tags": [
-      "wicked",
-      "wizard",
-      "wizard of oz",
-      "oz",
-      "yellow brick road",
-      "galinda",
-      "glinda the good",
-      "glinda upland",
-      "wicked witch",
-      "witch",
-      "wicked witch of the west",
-      "elphaba",
-      "elphaba thrupp",
-      "movie",
-      "musical",
-      "broadway",
-      "book"
-    ]
+    "tags": ["wicked", "wizard", "wizard of oz", "oz", "yellow brick road", "galinda", "glinda the good", "glinda upland", "wicked witch", "witch", "wicked witch of the west", "elphaba", "elphaba thrupp", "movie", "musical", "broadway", "book"],
+    "price": 0,
+    "artistId": null,
+    "isTrending": true,
+    "isFeatured": true
   },
   {
     "id": "sticker_049",
     "filename": "williambooth0001.png",
     "displayName": "William Booth",
     "category": "People & Characters",
-    "tags": [
-      "william booth",
-      "salvation army",
-      "charity",
-      "london",
-      "east end",
-      "victorian",
-      "church",
-      "jesus",
-      "christian",
-      "founder",
-      "catherine booth",
-      "social service"
-    ]
+    "tags": ["william booth", "salvation army", "charity", "london", "east end", "victorian", "church", "jesus", "christian", "founder", "catherine booth", "social service"],
+    "price": 0,
+    "artistId": null,
+    "isTrending": false,
+    "isFeatured": false
   },
   {
     "id": "sticker_050",
     "filename": "yorkie0001.png",
     "displayName": "Yorkie",
     "category": "Animals",
-    "tags": [
-      "dog",
-      "puppy",
-      "animal",
-      "yorkshire",
-      "yorkshire terrier",
-      "terrier"
-    ]
+    "tags": ["dog", "puppy", "animal", "yorkshire", "yorkshire terrier", "terrier"],
+    "price": 0,
+    "artistId": null,
+    "isTrending": false,
+    "isFeatured": false
   }
 ]

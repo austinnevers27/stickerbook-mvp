@@ -1,0 +1,67 @@
+[
+  {
+    "id": "pack_001",
+    "name": "Street Cats",
+    "description": "The nocturnal crew - raccoons, possums, and skunks doing their thing",
+    "artistId": null,
+    "price": 60,
+    "stickerIds": ["sticker_029", "sticker_034", "sticker_044"],
+    "previewStickers": ["sticker_034", "sticker_029", "sticker_044"],
+    "stickerCount": 3,
+    "isExclusive": false,
+    "isTrending": true,
+    "isFeatured": true
+  },
+  {
+    "id": "pack_002",
+    "name": "Sacramento Pride",
+    "description": "Show your love for the City of Trees",
+    "artistId": null,
+    "price": 80,
+    "stickerIds": ["sticker_001", "sticker_009", "sticker_014", "sticker_019", "sticker_025", "sticker_043"],
+    "previewStickers": ["sticker_025", "sticker_043", "sticker_009", "sticker_019"],
+    "stickerCount": 6,
+    "isExclusive": false,
+    "isTrending": true,
+    "isFeatured": true
+  },
+  {
+    "id": "pack_003",
+    "name": "Cozy Vibes",
+    "description": "Coffee, comfort, and chill energy",
+    "artistId": null,
+    "price": 50,
+    "stickerIds": ["sticker_013", "sticker_028", "sticker_026"],
+    "previewStickers": ["sticker_013", "sticker_028", "sticker_026"],
+    "stickerCount": 3,
+    "isExclusive": false,
+    "isTrending": false,
+    "isFeatured": false
+  },
+  {
+    "id": "pack_004",
+    "name": "Cat Club",
+    "description": "For the cat lovers - from void to orange brain cell",
+    "artistId": null,
+    "price": 40,
+    "stickerIds": ["sticker_006", "sticker_030"],
+    "previewStickers": ["sticker_006", "sticker_030"],
+    "stickerCount": 2,
+    "isExclusive": false,
+    "isTrending": true,
+    "isFeatured": false
+  },
+  {
+    "id": "pack_005",
+    "name": "Binge Watch",
+    "description": "Your favorite comfort shows in sticker form",
+    "artistId": null,
+    "price": 100,
+    "stickerIds": ["sticker_017", "sticker_026", "sticker_027", "sticker_040", "sticker_042", "sticker_048"],
+    "previewStickers": ["sticker_048", "sticker_042", "sticker_040", "sticker_017"],
+    "stickerCount": 6,
+    "isExclusive": false,
+    "isTrending": false,
+    "isFeatured": true
+  }
+]
