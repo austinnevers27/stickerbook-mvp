@@ -1116,7 +1116,7 @@
     /* Pattern swatch selector */
     .bg-swatch-row {
       display: none;
-      gap: 8px;
+      gap: 6px;
       padding: 0 16px 10px;
       flex-shrink: 0;
       justify-content: center;
@@ -1129,41 +1129,52 @@
     .bg-swatch {
       display: flex;
       align-items: center;
+      justify-content: center;
       gap: 6px;
-      padding: 6px 10px;
-      border-radius: var(--radius-md);
+      padding: 8px 16px;
       border: 1px solid var(--color-border);
-      background: var(--color-canvas-subtle);
+      border-radius: var(--radius-pill);
+      background: var(--color-canvas);
+      color: var(--color-text-muted);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
       cursor: pointer;
-      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+      transition: all 0.15s ease;
       font-family: var(--font-primary);
-      max-width: fit-content;
     }
 
     .bg-swatch:hover {
       border-color: var(--color-border-strong);
+      color: var(--color-text-secondary);
     }
 
     .bg-swatch.active {
-      border-color: var(--color-accent);
-      box-shadow: 0 0 0 2px rgba(20, 184, 166, 0.15);
+      background: var(--gradient-primary);
+      border-color: transparent;
+      color: var(--color-text-inverse);
+      box-shadow: var(--shadow-button);
     }
 
     .bg-swatch-color {
-      width: 20px;
-      height: 20px;
-      border-radius: var(--radius-sm);
+      width: 14px;
+      height: 14px;
+      border-radius: 3px;
       box-shadow: var(--shadow-xs);
       flex-shrink: 0;
-      border: 1px solid var(--color-border);
+      border: 1px solid rgba(0,0,0,0.1);
+    }
+
+    .bg-swatch.active .bg-swatch-color {
+      border-color: rgba(255,255,255,0.3);
     }
 
     .bg-swatch-label {
-      font-size: 9px;
+      font-size: 10px;
       font-weight: 600;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.05em;
       text-transform: uppercase;
-      color: var(--color-text-muted);
     }
 
     /* Color grid */
