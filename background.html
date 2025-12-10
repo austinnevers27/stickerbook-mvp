@@ -18,10 +18,11 @@
               <div class="logo-mark">STICKERBOOK</div>
               <div class="logo-accent"></div>
             </div>
-            <button class="btn-skip" id="skip-btn">Skip</button>
+            <button class="btn-skip" id="skip-btn">Cancel</button>
           </div>
 
           <h1 class="screen-title text-center">Pick your background</h1>
+          <p class="screen-subtitle text-center" id="page-indicator">Page 1</p>
 
           <!-- Background picker section -->
           <div class="bg-picker-section">
@@ -74,7 +75,7 @@
           <!-- CTA -->
           <div class="cta-row">
             <button id="choose-stickers-btn" class="btn btn-primary" type="button" disabled>
-              Choose stickers
+              Apply Background
             </button>
           </div>
         </div>
@@ -84,6 +85,12 @@
 
   <script>
     (function () {
+      // === WHICH PAGE ARE WE EDITING? ===
+      const editingPageIndex = parseInt(localStorage.getItem('stickerbook_editing_page') || '0', 10);
+      
+      // Update page indicator
+      document.getElementById('page-indicator').textContent = `Page ${editingPageIndex + 1}`;
+
       // === COLOR DATA ===
       // Order: Pinks → Reds → Oranges → Yellows → Greens → Blues → Purples → Browns → Neutrals
       // Each row: dark/bold first → pastel/light last (7 shades)
@@ -472,68 +479,95 @@
           patternColor: selectedPatternColor || null
         };
 
-        // Store selection
-        localStorage.setItem('current_page_index', '1');
-        localStorage.setItem('current_page_background', selectedBaseColor);
-        localStorage.setItem('stickerbook_page_1_background', selectedBaseColor);
-        localStorage.setItem('stickerbook_page_1_background_css', finalCSS);
-        localStorage.setItem('stickerbook_page_1_background_data', JSON.stringify(backgroundData));
+        // Load existing pages array
+        let pages = [];
+        try {
+          const savedPages = localStorage.getItem('stickerbook_all_pages');
+          if (savedPages) {
+            pages = JSON.parse(savedPages);
+          }
+        } catch (e) {
+          pages = [];
+        }
 
-        window.location.href = 'sticker-selection.html';
+        // Ensure pages array is big enough
+        while (pages.length <= editingPageIndex) {
+          pages.push({
+            background: '#ffffff',
+            backgroundCSS: 'background-color: #ffffff;',
+            stickers: []
+          });
+        }
+
+        // Update the specific page
+        pages[editingPageIndex].background = selectedBaseColor;
+        pages[editingPageIndex].backgroundCSS = finalCSS;
+        pages[editingPageIndex].backgroundData = backgroundData;
+
+        // Save back to localStorage
+        localStorage.setItem('stickerbook_all_pages', JSON.stringify(pages));
+
+        // Return to stickerbook hub
+        window.location.href = 'stickerbook.html';
       });
 
-      // === SKIP (dev tool) ===
+      // === CANCEL - return without saving ===
       skipBtn.addEventListener('click', () => {
-        window.location.href = 'sticker-selection.html';
+        window.location.href = 'stickerbook.html';
       });
 
-      // === LOAD SAVED STATE ===
+      // === LOAD SAVED STATE FROM CURRENT PAGE ===
       function loadSavedState() {
         try {
-          const saved = localStorage.getItem('stickerbook_page_1_background_data');
-          if (saved) {
-            const data = JSON.parse(saved);
+          const savedPages = localStorage.getItem('stickerbook_all_pages');
+          if (savedPages) {
+            const pages = JSON.parse(savedPages);
+            const page = pages[editingPageIndex];
+            
+            if (page && page.backgroundData) {
+              const data = page.backgroundData;
 
-            currentPattern = data.pattern || 'solid';
-            selectedBaseColor = data.baseColor || null;
-            selectedPatternColor = data.patternColor || null;
+              currentPattern = data.pattern || 'solid';
+              selectedBaseColor = data.baseColor || null;
+              selectedPatternColor = data.patternColor || null;
 
-            if (data.subfilter) {
-              if (currentPattern === 'stripes') {
-                currentSubfilter.stripes = data.subfilter;
-              } else if (currentPattern === 'checkered') {
-                currentSubfilter.checkered = data.subfilter;
-              } else if (currentPattern === 'dots') {
-                currentSubfilter.dots = data.subfilter;
+              if (data.subfilter) {
+                if (currentPattern === 'stripes') {
+                  currentSubfilter.stripes = data.subfilter;
+                } else if (currentPattern === 'checkered') {
+                  currentSubfilter.checkered = data.subfilter;
+                } else if (currentPattern === 'dots') {
+                  currentSubfilter.dots = data.subfilter;
+                }
               }
-            }
 
-            // Set tab
-            tabs.forEach(t => {
-              t.classList.toggle('active', t.dataset.pattern === currentPattern);
-            });
+              // Set tab
+              tabs.forEach(t => {
+                t.classList.toggle('active', t.dataset.pattern === currentPattern);
+              });
 
-            // Set subfilter buttons
-            if (currentPattern === 'stripes') {
-              stripesFilter.classList.remove('hidden');
-              stripesFilter.querySelectorAll('.bg-subfilter-btn').forEach(b => {
-                b.classList.toggle('active', b.dataset.value === currentSubfilter.stripes);
-              });
-            } else if (currentPattern === 'checkered') {
-              checkeredFilter.classList.remove('hidden');
-              checkeredFilter.querySelectorAll('.bg-subfilter-btn').forEach(b => {
-                b.classList.toggle('active', b.dataset.value === currentSubfilter.checkered);
-              });
-            } else if (currentPattern === 'dots') {
-              dotsFilter.classList.remove('hidden');
-              dotsFilter.querySelectorAll('.bg-subfilter-btn').forEach(b => {
-                b.classList.toggle('active', b.dataset.value === currentSubfilter.dots);
-              });
-            }
+              // Set subfilter buttons
+              if (currentPattern === 'stripes') {
+                stripesFilter.classList.remove('hidden');
+                stripesFilter.querySelectorAll('.bg-subfilter-btn').forEach(b => {
+                  b.classList.toggle('active', b.dataset.value === currentSubfilter.stripes);
+                });
+              } else if (currentPattern === 'checkered') {
+                checkeredFilter.classList.remove('hidden');
+                checkeredFilter.querySelectorAll('.bg-subfilter-btn').forEach(b => {
+                  b.classList.toggle('active', b.dataset.value === currentSubfilter.checkered);
+                });
+              } else if (currentPattern === 'dots') {
+                dotsFilter.classList.remove('hidden');
+                dotsFilter.querySelectorAll('.bg-subfilter-btn').forEach(b => {
+                  b.classList.toggle('active', b.dataset.value === currentSubfilter.dots);
+                });
+              }
 
-            // Set editing target based on what's selected
-            if (currentPattern !== 'solid' && selectedBaseColor && !selectedPatternColor) {
-              editingTarget = 'pattern';
+              // Set editing target based on what's selected
+              if (currentPattern !== 'solid' && selectedBaseColor && !selectedPatternColor) {
+                editingTarget = 'pattern';
+              }
             }
           }
         } catch (e) {
