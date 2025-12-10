@@ -277,6 +277,44 @@
       box-shadow: 0 0 0 4px rgba(34, 211, 238, 0.3), 0 6px 16px rgba(34, 211, 238, 0.3);
     }
 
+    /* Trash button - hidden by default */
+    .toolbar-btn-trash {
+      position: absolute;
+      left: 20px;
+      bottom: 24px;
+      opacity: 0;
+      transform: translateY(20px);
+      pointer-events: none;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    /* Show trash during sticker drag */
+    .bottom-toolbar.drag-mode .toolbar-btn-trash {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    /* Hide other buttons during drag mode */
+    .bottom-toolbar.drag-mode #btn-backgrounds,
+    .bottom-toolbar.drag-mode #btn-shop {
+      opacity: 0.3;
+      pointer-events: none;
+    }
+
+    /* Trash drop zone active state (red) */
+    .toolbar-btn-trash.drop-active .toolbar-btn-icon {
+      background: #ef4444;
+      box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.3), 0 6px 16px rgba(239, 68, 68, 0.3);
+    }
+
+    /* Page dot states for editability */
+    .page-dot.locked-edit {
+      background: rgba(148, 163, 184, 0.15);
+      border: 1px dashed rgba(148, 163, 184, 0.3);
+      cursor: not-allowed;
+    }
+
     /* ========== SLIDE-OUT NAV MENU ========== */
     .nav-overlay {
       position: fixed;
@@ -707,6 +745,11 @@
         <div class="toolbar-btn-icon">📂</div>
         <div class="toolbar-btn-label">Drawer</div>
       </button>
+      <!-- Trash button - hidden, slides in during sticker drag -->
+      <button class="toolbar-btn toolbar-btn-trash" id="btn-trash" title="Delete">
+        <div class="toolbar-btn-icon">🗑️</div>
+        <div class="toolbar-btn-label">Delete</div>
+      </button>
     </div>
 
     <!-- Slide-out Nav Menu -->
@@ -814,6 +857,8 @@
     const btnBackgrounds = document.getElementById('btn-backgrounds');
     const btnShop = document.getElementById('btn-shop');
     const btnDrawer = document.getElementById('btn-drawer');
+    const btnTrash = document.getElementById('btn-trash');
+    const bottomToolbar = document.querySelector('.bottom-toolbar');
     const drawerOverlay = document.getElementById('drawer-overlay');
     const drawerPanel = document.getElementById('drawer-panel');
     const drawerGrid = document.getElementById('drawer-grid');
@@ -871,6 +916,56 @@
         // Clear it so we don't keep restoring on every load
         localStorage.removeItem('stickerbook_editing_page');
       }
+    }
+
+    // ============ PAGE EDITABILITY LOGIC ============
+    // Check if a page has content (sticker OR non-default background)
+    function pageHasContent(pageIndex) {
+      const page = pages[pageIndex];
+      if (!page) return false;
+      
+      // Has at least 1 sticker
+      if (page.stickers && page.stickers.length > 0) return true;
+      
+      // Has non-default background (user actively selected something)
+      if (page.backgroundData && page.backgroundData.baseColor) return true;
+      
+      return false;
+    }
+
+    // Check if a page has at least 1 sticker (for matching visibility)
+    function pageHasSticker(pageIndex) {
+      const page = pages[pageIndex];
+      return page && page.stickers && page.stickers.length > 0;
+    }
+
+    // Check if page is editable (page N editable if page N-1 has content, or if N=0)
+    function isPageEditable(pageIndex) {
+      if (pageIndex === 0) return true;
+      if (pageIndex >= totalPages) return false;
+      return pageHasContent(pageIndex - 1);
+    }
+
+    // Get highest editable page index
+    function getHighestEditablePage() {
+      for (let i = 0; i < totalPages; i++) {
+        if (!isPageEditable(i)) return i - 1;
+      }
+      return totalPages - 1;
+    }
+
+    // Check if user can access matching (page 1 must have at least 1 sticker)
+    function canAccessMatching() {
+      return pageHasSticker(0);
+    }
+
+    // Get pages visible in matching (only pages with stickers)
+    function getPublicPageIndices() {
+      const visible = [];
+      for (let i = 0; i < totalPages; i++) {
+        if (pageHasSticker(i)) visible.push(i);
+      }
+      return visible;
     }
 
     function loadUserProfile() {
@@ -1071,6 +1166,7 @@
         startMouseY = e.clientY;
         isDragging = true;
         el.classList.add('dragging');
+        enterDragMode();
       });
 
       const handleMouseMove = (e) => {
@@ -1086,7 +1182,7 @@
         el.style.top = `${stickerData.y}px`;
 
         hasUnsavedChanges = true;
-        checkDrawerDropZone(e.clientX, e.clientY);
+        checkDropZones(e.clientX, e.clientY);
       };
 
       const handleMouseUp = (e) => {
@@ -1094,11 +1190,13 @@
         isDragging = false;
         el.classList.remove('dragging');
 
-        if (isOverDrawer(e.clientX, e.clientY)) {
+        if (isOverTrash(e.clientX, e.clientY)) {
+          deleteSticker(el, stickerData);
+        } else if (isOverDrawer(e.clientX, e.clientY)) {
           moveToDrawer(el, stickerData);
+        } else {
+          exitDragMode();
         }
-
-        btnDrawer.classList.remove('drop-active');
       };
 
       window.addEventListener('mousemove', handleMouseMove);
@@ -1122,6 +1220,7 @@
           startTouchX = t.clientX;
           startTouchY = t.clientY;
           el.classList.add('dragging');
+          enterDragMode();
         } else if (e.touches.length === 2) {
           touchMode = 'transform';
           const t1 = e.touches[0];
@@ -1150,7 +1249,7 @@
           el.style.top = `${stickerData.y}px`;
 
           hasUnsavedChanges = true;
-          checkDrawerDropZone(t.clientX, t.clientY);
+          checkDropZones(t.clientX, t.clientY);
 
         } else if (touchMode === 'transform' && e.touches.length >= 2) {
           const t1 = e.touches[0];
@@ -1181,13 +1280,18 @@
 
           if (touchMode === 'pan') {
             const lastTouch = e.changedTouches[0];
-            if (isOverDrawer(lastTouch.clientX, lastTouch.clientY)) {
+            if (isOverTrash(lastTouch.clientX, lastTouch.clientY)) {
+              deleteSticker(el, stickerData);
+            } else if (isOverDrawer(lastTouch.clientX, lastTouch.clientY)) {
               moveToDrawer(el, stickerData);
+            } else {
+              exitDragMode();
             }
+          } else {
+            exitDragMode();
           }
 
           touchMode = null;
-          btnDrawer.classList.remove('drop-active');
         } else if (e.touches.length === 1 && touchMode === 'transform') {
           touchMode = 'pan';
           const t = e.touches[0];
@@ -1202,17 +1306,40 @@
       el.addEventListener('touchcancel', handleTouchEnd, { passive: false });
     }
 
-    // ============ DRAWER DROP ZONE ============
-    function checkDrawerDropZone(x, y) {
+    // ============ DRAG DROP ZONES (DRAWER & TRASH) ============
+    function enterDragMode() {
+      bottomToolbar.classList.add('drag-mode');
+    }
+
+    function exitDragMode() {
+      bottomToolbar.classList.remove('drag-mode');
+      btnDrawer.classList.remove('drop-active');
+      btnTrash.classList.remove('drop-active');
+    }
+
+    function checkDropZones(x, y) {
+      // Check drawer
       if (isOverDrawer(x, y)) {
         btnDrawer.classList.add('drop-active');
       } else {
         btnDrawer.classList.remove('drop-active');
       }
+
+      // Check trash
+      if (isOverTrash(x, y)) {
+        btnTrash.classList.add('drop-active');
+      } else {
+        btnTrash.classList.remove('drop-active');
+      }
     }
 
     function isOverDrawer(x, y) {
       const rect = btnDrawer.getBoundingClientRect();
+      return x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
+    }
+
+    function isOverTrash(x, y) {
+      const rect = btnTrash.getBoundingClientRect();
       return x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
     }
 
@@ -1232,9 +1359,29 @@
         el.remove();
         activeSticker = null;
         hasUnsavedChanges = true;
+        exitDragMode();
 
         emptyHint.style.display = page.stickers.length === 0 ? 'flex' : 'none';
+        renderPageDots(); // Update dots in case this affects editability
         showToast('Moved to drawer');
+      }, 300);
+    }
+
+    function deleteSticker(el, stickerData) {
+      el.classList.add('to-drawer'); // Same shrink animation
+
+      setTimeout(() => {
+        const page = pages[currentPageIndex];
+        page.stickers = page.stickers.filter(s => s.id !== stickerData.id);
+
+        el.remove();
+        activeSticker = null;
+        hasUnsavedChanges = true;
+        exitDragMode();
+
+        emptyHint.style.display = page.stickers.length === 0 ? 'flex' : 'none';
+        renderPageDots(); // Update dots in case this affects editability
+        showToast('Sticker deleted');
       }, 300);
     }
 
@@ -1252,6 +1399,12 @@
           dot.classList.add('filled');
         }
 
+        // Check if page is editable
+        if (!isPageEditable(i)) {
+          dot.classList.add('locked-edit');
+        }
+
+        // Check if page is beyond free tier (pages 9+ need unlock/purchase)
         if (i >= MAX_PAGES_FREE) {
           dot.classList.add('locked');
         }
@@ -1267,6 +1420,13 @@
 
     function goToPage(index) {
       if (index < 0 || index >= totalPages || index === currentPageIndex) return;
+
+      // Check if page is editable
+      if (!isPageEditable(index)) {
+        const prevPage = index;
+        showToast(`Add a sticker or background to Page ${prevPage} first`);
+        return;
+      }
 
       currentPageIndex = index;
       renderCurrentPage();
@@ -1363,6 +1523,10 @@
     function navigateTo(destination) {
       switch (destination) {
         case 'matching':
+          if (!canAccessMatching()) {
+            showToast('Add at least 1 sticker to Page 1 first!');
+            return;
+          }
           window.location.href = 'matching.html';
           break;
         case 'messages':
