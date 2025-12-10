@@ -500,6 +500,165 @@
       opacity: 1;
       transform: translateX(-50%) translateY(0);
     }
+
+    /* ========== DRAWER PANEL ========== */
+    .drawer-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.5);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+      z-index: 500;
+    }
+
+    .drawer-overlay.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .drawer-panel {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 55vh;
+      background: white;
+      border-radius: 24px 24px 0 0;
+      box-shadow: 0 -8px 32px rgba(15, 23, 42, 0.2);
+      transform: translateY(100%);
+      transition: transform 0.3s ease;
+      z-index: 501;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .drawer-panel.visible {
+      transform: translateY(0);
+    }
+
+    .drawer-handle {
+      width: 40px;
+      height: 4px;
+      background: rgba(148, 163, 184, 0.4);
+      border-radius: 2px;
+      margin: 12px auto 8px;
+      flex-shrink: 0;
+    }
+
+    .drawer-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 20px 12px;
+      border-bottom: 1px solid var(--color-border-light);
+      flex-shrink: 0;
+    }
+
+    .drawer-title {
+      font-family: var(--font-display);
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      color: var(--color-text-primary);
+    }
+
+    .drawer-count {
+      font-size: 11px;
+      color: var(--color-text-muted);
+    }
+
+    .drawer-grid {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      align-content: start;
+    }
+
+    .drawer-sticker {
+      aspect-ratio: 1;
+      background: var(--color-field-bg);
+      border-radius: var(--radius-md);
+      padding: 8px;
+      cursor: grab;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.12s ease, box-shadow 0.12s ease;
+      border: 1px solid rgba(148, 163, 184, 0.3);
+    }
+
+    .drawer-sticker:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);
+    }
+
+    .drawer-sticker:active {
+      cursor: grabbing;
+      transform: scale(0.98);
+    }
+
+    .drawer-sticker img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      pointer-events: none;
+    }
+
+    .drawer-sticker.dragging {
+      opacity: 0.5;
+      transform: scale(0.95);
+    }
+
+    .drawer-empty {
+      position: absolute;
+      inset: 60px 20px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: var(--color-text-subtle);
+    }
+
+    .drawer-empty.hidden {
+      display: none;
+    }
+
+    .drawer-empty-icon {
+      font-size: 40px;
+      margin-bottom: 12px;
+      opacity: 0.5;
+    }
+
+    .drawer-empty-text {
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    /* Sticker being dragged from drawer */
+    .drag-ghost {
+      position: fixed;
+      pointer-events: none;
+      z-index: 1000;
+      opacity: 0.9;
+      transform: translate(-50%, -50%) scale(1.1);
+    }
+
+    .drag-ghost img {
+      width: 70px;
+      height: 70px;
+      object-fit: contain;
+    }
+
+    /* Page highlight when dragging sticker over it */
+    .stickerbook-page.drop-target {
+      box-shadow: 0 0 0 3px var(--color-cyan), 0 12px 40px rgba(15, 23, 42, 0.18);
+    }
   </style>
 </head>
 <body>
@@ -599,6 +758,23 @@
 
     <!-- Toast -->
     <div class="toast" id="toast">Saved!</div>
+
+    <!-- Drawer Panel -->
+    <div class="drawer-overlay" id="drawer-overlay"></div>
+    <div class="drawer-panel" id="drawer-panel">
+      <div class="drawer-handle"></div>
+      <div class="drawer-header">
+        <div class="drawer-title">Sticker Drawer</div>
+        <div class="drawer-count" id="drawer-count">0 stickers</div>
+      </div>
+      <div class="drawer-grid" id="drawer-grid">
+        <!-- Stickers injected by JS -->
+      </div>
+      <div class="drawer-empty" id="drawer-empty">
+        <div class="drawer-empty-icon">📂</div>
+        <div class="drawer-empty-text">Your drawer is empty.<br>Visit the shop to get stickers!</div>
+      </div>
+    </div>
   </div>
 
   <script>
@@ -638,12 +814,44 @@
     const btnBackgrounds = document.getElementById('btn-backgrounds');
     const btnShop = document.getElementById('btn-shop');
     const btnDrawer = document.getElementById('btn-drawer');
+    const drawerOverlay = document.getElementById('drawer-overlay');
+    const drawerPanel = document.getElementById('drawer-panel');
+    const drawerGrid = document.getElementById('drawer-grid');
+    const drawerCount = document.getElementById('drawer-count');
+    const drawerEmpty = document.getElementById('drawer-empty');
 
     const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
+    // ============ DEV HELPER: Seed drawer with test stickers ============
+    function seedDrawerForTesting() {
+      if (drawer.length > 0) return; // Already has stickers
+      
+      const testStickers = [
+        { id: 'sticker_006', filename: 'blackcat0001.png', displayName: 'Black Cat Energy' },
+        { id: 'sticker_018', filename: 'germanshepherd0001.png', displayName: 'German Shepherd' },
+        { id: 'sticker_028', filename: 'mushroom0001.png', displayName: 'Mushrooms' },
+        { id: 'sticker_015', filename: 'cubansandwich0001.png', displayName: 'Cuban Sandwich' },
+        { id: 'sticker_003', filename: 'arches0001.png', displayName: 'Arches National Park' },
+        { id: 'sticker_013', filename: 'coffee0001.png', displayName: 'But First, Coffee' },
+        { id: 'sticker_034', filename: 'raccoon0001.png', displayName: 'Raccoon Nap' },
+        { id: 'sticker_025', filename: 'lightthebeam0001.png', displayName: 'Light the Beam' }
+      ];
+
+      testStickers.forEach(s => {
+        drawer.push({
+          id: s.id,
+          src: 'assets/Stickers/' + s.filename,
+          displayName: s.displayName
+        });
+      });
+
+      localStorage.setItem('stickerbook_drawer', JSON.stringify(drawer));
+    }
 
     // ============ INITIALIZATION ============
     function init() {
       loadDataFromStorage();
+      seedDrawerForTesting(); // DEV: Add test stickers if drawer is empty
       loadUserProfile();
       renderPageDots();
       renderCurrentPage();
@@ -709,8 +917,35 @@
           const oldSelected = localStorage.getItem('stickerbookSelectedStickers');
           if (oldSelected) {
             const ids = JSON.parse(oldSelected);
-            // We'd need sticker data to populate - for now just track IDs
-            // This will be fixed when we build the shop with proper flow
+            // Create drawer entries - we need to reconstruct src from ID
+            ids.forEach(id => {
+              // Extract filename from ID pattern (sticker_XXX -> need to look up)
+              // For now, create placeholder entries that the shop will fix
+              drawer.push({
+                id: id,
+                src: 'assets/Stickers/' + id.replace('sticker_', '') + '.png', // Rough guess
+                displayName: id
+              });
+            });
+          }
+        } catch (e) {}
+        
+        // Also try to get stickers from old page_1 data
+        try {
+          const oldPage1 = localStorage.getItem('stickerbook_page_1');
+          if (oldPage1) {
+            const pageData = JSON.parse(oldPage1);
+            if (pageData.stickers && Array.isArray(pageData.stickers)) {
+              pageData.stickers.forEach(s => {
+                if (s.src && !drawer.find(d => d.src === s.src)) {
+                  drawer.push({
+                    id: s.id || 'sticker_' + Date.now(),
+                    src: s.src,
+                    displayName: s.displayName || ''
+                  });
+                }
+              });
+            }
           }
         } catch (e) {}
       }
@@ -1179,9 +1414,206 @@
     }
 
     function openDrawer() {
+      renderDrawer();
+      drawerOverlay.classList.add('visible');
+      drawerPanel.classList.add('visible');
+    }
+
+    function closeDrawer() {
+      drawerOverlay.classList.remove('visible');
+      drawerPanel.classList.remove('visible');
+    }
+
+    function renderDrawer() {
       const drawerCapacity = Math.floor(totalPages * MAX_STICKERS_PER_PAGE * DRAWER_CAPACITY_MULTIPLIER);
-      showToast(`Drawer: ${drawer.length}/${drawerCapacity} stickers`);
-      // TODO: Open drawer.html or slide-up panel
+      drawerCount.textContent = `${drawer.length}/${drawerCapacity} stickers`;
+
+      drawerGrid.innerHTML = '';
+
+      if (drawer.length === 0) {
+        drawerEmpty.classList.remove('hidden');
+        return;
+      }
+
+      drawerEmpty.classList.add('hidden');
+
+      drawer.forEach((sticker, index) => {
+        const el = document.createElement('div');
+        el.className = 'drawer-sticker';
+        el.dataset.index = index;
+        el.dataset.id = sticker.id;
+        el.dataset.src = sticker.src;
+
+        const img = document.createElement('img');
+        img.src = sticker.src;
+        img.alt = sticker.displayName || '';
+        img.draggable = false;
+        el.appendChild(img);
+
+        setupDrawerStickerDrag(el, sticker, index);
+        drawerGrid.appendChild(el);
+      });
+    }
+
+    // Drag sticker from drawer to page
+    let dragGhost = null;
+    let dragData = null;
+    let dragSourceIndex = null;
+
+    function setupDrawerStickerDrag(el, sticker, index) {
+      if (isTouchDevice) {
+        setupDrawerTouchDrag(el, sticker, index);
+      } else {
+        setupDrawerMouseDrag(el, sticker, index);
+      }
+    }
+
+    function setupDrawerMouseDrag(el, sticker, index) {
+      el.addEventListener('mousedown', (e) => {
+        e.preventDefault();
+        startDragFromDrawer(e.clientX, e.clientY, sticker, index, el);
+
+        const handleMove = (ev) => {
+          moveDragGhost(ev.clientX, ev.clientY);
+          checkPageDropZone(ev.clientX, ev.clientY);
+        };
+
+        const handleUp = (ev) => {
+          window.removeEventListener('mousemove', handleMove);
+          window.removeEventListener('mouseup', handleUp);
+          endDragFromDrawer(ev.clientX, ev.clientY);
+        };
+
+        window.addEventListener('mousemove', handleMove);
+        window.addEventListener('mouseup', handleUp);
+      });
+    }
+
+    function setupDrawerTouchDrag(el, sticker, index) {
+      el.addEventListener('touchstart', (e) => {
+        const t = e.touches[0];
+        startDragFromDrawer(t.clientX, t.clientY, sticker, index, el);
+      }, { passive: true });
+
+      el.addEventListener('touchmove', (e) => {
+        if (!dragGhost) return;
+        e.preventDefault();
+        const t = e.touches[0];
+        moveDragGhost(t.clientX, t.clientY);
+        checkPageDropZone(t.clientX, t.clientY);
+      }, { passive: false });
+
+      el.addEventListener('touchend', (e) => {
+        if (!dragGhost) return;
+        const t = e.changedTouches[0];
+        endDragFromDrawer(t.clientX, t.clientY);
+      }, { passive: true });
+
+      el.addEventListener('touchcancel', () => {
+        cancelDragFromDrawer();
+      }, { passive: true });
+    }
+
+    function startDragFromDrawer(x, y, sticker, index, sourceEl) {
+      dragData = sticker;
+      dragSourceIndex = index;
+      sourceEl.classList.add('dragging');
+
+      // Create ghost
+      dragGhost = document.createElement('div');
+      dragGhost.className = 'drag-ghost';
+      const img = document.createElement('img');
+      img.src = sticker.src;
+      dragGhost.appendChild(img);
+      document.body.appendChild(dragGhost);
+
+      moveDragGhost(x, y);
+    }
+
+    function moveDragGhost(x, y) {
+      if (!dragGhost) return;
+      dragGhost.style.left = x + 'px';
+      dragGhost.style.top = y + 'px';
+    }
+
+    function checkPageDropZone(x, y) {
+      const rect = stickerPage.getBoundingClientRect();
+      const isOver = x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
+      
+      if (isOver) {
+        stickerPage.classList.add('drop-target');
+      } else {
+        stickerPage.classList.remove('drop-target');
+      }
+    }
+
+    function endDragFromDrawer(x, y) {
+      if (!dragGhost || !dragData) {
+        cancelDragFromDrawer();
+        return;
+      }
+
+      const rect = stickerPage.getBoundingClientRect();
+      const isOverPage = x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
+
+      if (isOverPage) {
+        // Check sticker limit
+        const page = pages[currentPageIndex];
+        if (page.stickers.length >= MAX_STICKERS_PER_PAGE) {
+          showToast(`Max ${MAX_STICKERS_PER_PAGE} stickers per page`);
+          cancelDragFromDrawer();
+          return;
+        }
+
+        // Calculate position relative to page canvas
+        const canvasRect = pageCanvas.getBoundingClientRect();
+        const dropX = x - canvasRect.left - 35; // Center the 70px sticker
+        const dropY = y - canvasRect.top - 35;
+
+        // Create sticker data
+        const newSticker = {
+          id: dragData.id + '_' + Date.now(), // Unique ID for this placement
+          src: dragData.src,
+          displayName: dragData.displayName,
+          x: Math.max(0, Math.min(dropX, canvasRect.width - 70)),
+          y: Math.max(0, Math.min(dropY, canvasRect.height - 70)),
+          size: 70,
+          scale: 1,
+          rotation: 0,
+          zIndex: ++currentZ
+        };
+
+        // Add to page
+        page.stickers.push(newSticker);
+
+        // Remove from drawer
+        drawer.splice(dragSourceIndex, 1);
+
+        hasUnsavedChanges = true;
+
+        // Re-render
+        renderCurrentPage();
+        renderDrawer();
+
+        showToast('Sticker placed!');
+      }
+
+      cancelDragFromDrawer();
+    }
+
+    function cancelDragFromDrawer() {
+      if (dragGhost) {
+        dragGhost.remove();
+        dragGhost = null;
+      }
+      dragData = null;
+      dragSourceIndex = null;
+      stickerPage.classList.remove('drop-target');
+
+      // Remove dragging class from all drawer stickers
+      document.querySelectorAll('.drawer-sticker.dragging').forEach(el => {
+        el.classList.remove('dragging');
+      });
     }
 
     // ============ EVENT LISTENERS ============
@@ -1197,6 +1629,22 @@
       btnBackgrounds.addEventListener('click', openBackgrounds);
       btnShop.addEventListener('click', openShop);
       btnDrawer.addEventListener('click', openDrawer);
+
+      // Drawer events
+      drawerOverlay.addEventListener('click', closeDrawer);
+      
+      // Swipe down to close drawer
+      let drawerTouchStartY = 0;
+      drawerPanel.addEventListener('touchstart', (e) => {
+        drawerTouchStartY = e.touches[0].clientY;
+      }, { passive: true });
+
+      drawerPanel.addEventListener('touchend', (e) => {
+        const dy = e.changedTouches[0].clientY - drawerTouchStartY;
+        if (dy > 80) {
+          closeDrawer();
+        }
+      }, { passive: true });
 
       pageCanvas.addEventListener('click', (e) => {
         if (e.target === pageCanvas) setActiveSticker(null);
@@ -1218,6 +1666,7 @@
         if (e.key === 'Escape') {
           setActiveSticker(null);
           closeNav();
+          closeDrawer();
           saveModal.classList.remove('visible');
         }
         if ((e.metaKey || e.ctrlKey) && e.key === 's') {
