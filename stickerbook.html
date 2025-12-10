@@ -932,6 +932,289 @@
     .stickerbook-page.drop-target {
       box-shadow: 0 0 0 3px var(--color-accent), var(--shadow-xl);
     }
+
+    /* ========== BACKGROUND PANEL ========== */
+    .bg-panel {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 50vh;
+      background: var(--color-canvas-elevated);
+      border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+      box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.15);
+      transform: translateY(100%);
+      transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1), height 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+      z-index: 501;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      border-top: 1px solid var(--color-border);
+    }
+
+    .bg-panel.visible {
+      transform: translateY(0);
+    }
+
+    .bg-panel.expanded {
+      height: 85vh;
+    }
+
+    .bg-panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--color-border);
+      flex-shrink: 0;
+    }
+
+    .bg-panel-header-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .bg-panel-title {
+      font-family: var(--font-display);
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      color: var(--color-text-primary);
+    }
+
+    .bg-panel-expand-btn {
+      background: var(--color-canvas-subtle);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-sm);
+      padding: 6px 10px;
+      color: var(--color-text-secondary);
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s ease, border-color 0.15s ease;
+      font-family: var(--font-primary);
+    }
+
+    .bg-panel-expand-btn:hover {
+      background: var(--color-hover-bg);
+      border-color: var(--color-border-strong);
+    }
+
+    .bg-panel-close {
+      background: transparent;
+      border: none;
+      color: var(--color-text-muted);
+      font-size: 20px;
+      cursor: pointer;
+      padding: 4px 8px;
+      transition: color 0.15s ease;
+    }
+
+    .bg-panel-close:hover {
+      color: var(--color-text-primary);
+    }
+
+    /* Pattern tabs */
+    .bg-pattern-tabs {
+      display: flex;
+      gap: 6px;
+      padding: 12px 16px;
+      flex-shrink: 0;
+    }
+
+    .bg-pattern-tab {
+      flex: 1;
+      padding: 8px 0;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-pill);
+      background: var(--color-canvas);
+      color: var(--color-text-muted);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      font-family: var(--font-primary);
+    }
+
+    .bg-pattern-tab:hover {
+      border-color: var(--color-border-strong);
+      color: var(--color-text-secondary);
+    }
+
+    .bg-pattern-tab.active {
+      background: var(--gradient-primary);
+      border-color: transparent;
+      color: var(--color-text-inverse);
+      box-shadow: var(--shadow-button);
+    }
+
+    /* Sub-filter buttons */
+    .bg-subfilter {
+      display: none;
+      gap: 6px;
+      justify-content: center;
+      padding: 0 16px 10px;
+      flex-shrink: 0;
+    }
+
+    .bg-subfilter.visible {
+      display: flex;
+    }
+
+    .bg-subfilter-btn {
+      padding: 6px 12px;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-pill);
+      background: transparent;
+      color: var(--color-text-subtle);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      font-family: var(--font-primary);
+    }
+
+    .bg-subfilter-btn:hover {
+      border-color: var(--color-border-strong);
+      color: var(--color-text-muted);
+    }
+
+    .bg-subfilter-btn.active {
+      background: var(--color-text-primary);
+      border-color: var(--color-text-primary);
+      color: var(--color-text-inverse);
+    }
+
+    /* Pattern swatch selector */
+    .bg-swatch-row {
+      display: none;
+      gap: 8px;
+      padding: 0 16px 12px;
+      flex-shrink: 0;
+    }
+
+    .bg-swatch-row.visible {
+      display: flex;
+    }
+
+    .bg-swatch {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: var(--radius-md);
+      border: 2px solid transparent;
+      background: var(--color-canvas-subtle);
+      cursor: pointer;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+      font-family: var(--font-primary);
+    }
+
+    .bg-swatch:hover {
+      border-color: var(--color-border-strong);
+    }
+
+    .bg-swatch.active {
+      border-color: var(--color-accent);
+      box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.15);
+    }
+
+    .bg-swatch-color {
+      width: 28px;
+      height: 28px;
+      border-radius: var(--radius-sm);
+      box-shadow: var(--shadow-xs);
+      flex-shrink: 0;
+      border: 1px solid var(--color-border);
+    }
+
+    .bg-swatch-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+    }
+
+    /* Color grid */
+    .bg-color-grid {
+      flex: 1;
+      overflow-y: auto;
+      padding: 0 16px 16px;
+    }
+
+    .bg-color-grid::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .bg-color-grid::-webkit-scrollbar-track {
+      background: var(--color-border-subtle);
+      border-radius: 2px;
+    }
+
+    .bg-color-grid::-webkit-scrollbar-thumb {
+      background: var(--color-border-strong);
+      border-radius: 2px;
+    }
+
+    .bg-color-row {
+      display: flex;
+      gap: 5px;
+      margin-bottom: 5px;
+      justify-content: center;
+    }
+
+    .bg-color-tile {
+      width: 38px;
+      height: 38px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: transform 0.12s ease;
+      box-shadow: var(--shadow-xs);
+      border: 2px solid transparent;
+    }
+
+    .bg-color-tile:hover {
+      transform: scale(1.08);
+    }
+
+    .bg-color-tile:active {
+      transform: scale(0.98);
+    }
+
+    .bg-color-tile.selected {
+      border-color: var(--color-accent);
+      box-shadow: 0 0 0 2px rgba(20, 184, 166, 0.3), var(--shadow-sm);
+    }
+
+    /* Shop link in background panel */
+    .bg-shop-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 12px 16px;
+      border-top: 1px solid var(--color-border);
+      background: var(--color-canvas-subtle);
+      color: var(--color-text-muted);
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s ease, color 0.15s ease;
+      flex-shrink: 0;
+    }
+
+    .bg-shop-link:hover {
+      background: var(--color-hover-bg);
+      color: var(--color-text-secondary);
+    }
   </style>
 </head>
 <body>
@@ -1067,6 +1350,67 @@
         </div>
       </div>
     </div>
+
+    <!-- Background Panel -->
+    <div class="drawer-overlay" id="bg-overlay"></div>
+    <div class="bg-panel" id="bg-panel">
+      <div class="bg-panel-header">
+        <div class="bg-panel-header-left">
+          <div class="bg-panel-title">Backgrounds</div>
+          <button class="bg-panel-expand-btn" id="bg-expand-btn">
+            <span id="bg-expand-text">Expand</span>
+          </button>
+        </div>
+        <button class="bg-panel-close" id="bg-close-btn">✕</button>
+      </div>
+
+      <!-- Pattern type tabs -->
+      <div class="bg-pattern-tabs">
+        <button class="bg-pattern-tab active" data-pattern="solid">Solid</button>
+        <button class="bg-pattern-tab" data-pattern="stripes">Stripes</button>
+        <button class="bg-pattern-tab" data-pattern="checkered">Checkered</button>
+        <button class="bg-pattern-tab" data-pattern="dots">Dots</button>
+      </div>
+
+      <!-- Sub-filters -->
+      <div class="bg-subfilter" id="stripes-filter">
+        <button class="bg-subfilter-btn active" data-value="diagonal">Diagonal</button>
+        <button class="bg-subfilter-btn" data-value="horizontal">Horizontal</button>
+        <button class="bg-subfilter-btn" data-value="vertical">Vertical</button>
+      </div>
+
+      <div class="bg-subfilter" id="checkered-filter">
+        <button class="bg-subfilter-btn active" data-value="small">Small</button>
+        <button class="bg-subfilter-btn" data-value="large">Large</button>
+      </div>
+
+      <div class="bg-subfilter" id="dots-filter">
+        <button class="bg-subfilter-btn active" data-value="small">Small</button>
+        <button class="bg-subfilter-btn" data-value="large">Large</button>
+      </div>
+
+      <!-- Pattern swatches (for selecting base vs pattern color) -->
+      <div class="bg-swatch-row" id="bg-swatch-row">
+        <div class="bg-swatch active" id="swatch-base" data-target="base">
+          <div class="bg-swatch-color" id="swatch-base-color"></div>
+          <div class="bg-swatch-label">Base</div>
+        </div>
+        <div class="bg-swatch" id="swatch-pattern" data-target="pattern">
+          <div class="bg-swatch-color" id="swatch-pattern-color"></div>
+          <div class="bg-swatch-label" id="swatch-pattern-label">Pattern</div>
+        </div>
+      </div>
+
+      <!-- Color grid -->
+      <div class="bg-color-grid" id="bg-color-grid">
+        <!-- Color rows injected by JS -->
+      </div>
+
+      <!-- Shop link -->
+      <div class="bg-shop-link" id="bg-shop-link">
+        🛒 <span>Get more backgrounds in the Shop</span>
+      </div>
+    </div>
   </div>
 
   <script>
@@ -1078,6 +1422,109 @@
     const MIN_SCALE = 0.5;
     const MAX_SCALE = 3;
 
+    // ============ COLOR DATA ============
+    const COLOR_FAMILIES = [
+      {
+        colors: [
+          { name: 'Magenta', hex: '#a21caf' },
+          { name: 'Dark Pink', hex: '#db2777' },
+          { name: 'Hot Pink', hex: '#ec4899' },
+          { name: 'Pink', hex: '#f472b6' },
+          { name: 'Rose', hex: '#fda4af' },
+          { name: 'Light Pink', hex: '#f9a8d4' },
+          { name: 'Pale Pink', hex: '#fce7f3' },
+        ]
+      },
+      {
+        colors: [
+          { name: 'Maroon', hex: '#7f1d1d' },
+          { name: 'Dark Red', hex: '#b91c1c' },
+          { name: 'True Red', hex: '#dc2626' },
+          { name: 'Red', hex: '#ef4444' },
+          { name: 'Light Red', hex: '#f87171' },
+          { name: 'Salmon', hex: '#fca5a5' },
+          { name: 'Blush', hex: '#fecaca' },
+        ]
+      },
+      {
+        colors: [
+          { name: 'Burnt Orange', hex: '#9a3412' },
+          { name: 'Dark Orange', hex: '#ea580c' },
+          { name: 'True Orange', hex: '#f97316' },
+          { name: 'Orange', hex: '#fb923c' },
+          { name: 'Light Orange', hex: '#fdba74' },
+          { name: 'Peach', hex: '#fed7aa' },
+          { name: 'Pale Peach', hex: '#ffedd5' },
+        ]
+      },
+      {
+        colors: [
+          { name: 'Mustard', hex: '#a16207' },
+          { name: 'Dark Gold', hex: '#ca8a04' },
+          { name: 'Gold', hex: '#eab308' },
+          { name: 'Yellow', hex: '#facc15' },
+          { name: 'Light Yellow', hex: '#fde047' },
+          { name: 'Pale Yellow', hex: '#fef08a' },
+          { name: 'Lemon', hex: '#fef9c3' },
+        ]
+      },
+      {
+        colors: [
+          { name: 'Forest', hex: '#14532d' },
+          { name: 'Dark Green', hex: '#15803d' },
+          { name: 'True Green', hex: '#16a34a' },
+          { name: 'Green', hex: '#22c55e' },
+          { name: 'Light Green', hex: '#4ade80' },
+          { name: 'Pale Green', hex: '#86efac' },
+          { name: 'Mint', hex: '#bbf7d0' },
+        ]
+      },
+      {
+        colors: [
+          { name: 'Navy', hex: '#1e3a8a' },
+          { name: 'Dark Blue', hex: '#1d4ed8' },
+          { name: 'Blue', hex: '#3b82f6' },
+          { name: 'Sky', hex: '#0ea5e9' },
+          { name: 'Light Blue', hex: '#38bdf8' },
+          { name: 'Pale Blue', hex: '#7dd3fc' },
+          { name: 'Ice', hex: '#bfdbfe' },
+        ]
+      },
+      {
+        colors: [
+          { name: 'Deep Purple', hex: '#581c87' },
+          { name: 'Dark Purple', hex: '#7e22ce' },
+          { name: 'True Purple', hex: '#9333ea' },
+          { name: 'Purple', hex: '#a855f7' },
+          { name: 'Light Purple', hex: '#c084fc' },
+          { name: 'Pale Purple', hex: '#d8b4fe' },
+          { name: 'Lavender', hex: '#e9d5ff' },
+        ]
+      },
+      {
+        colors: [
+          { name: 'Espresso', hex: '#3d1f0d' },
+          { name: 'Chocolate', hex: '#6b3410' },
+          { name: 'Brown', hex: '#92400e' },
+          { name: 'Camel', hex: '#b8860b' },
+          { name: 'Tan', hex: '#d4a574' },
+          { name: 'Sand', hex: '#e7c9a9' },
+          { name: 'Cream', hex: '#fef3c7' },
+        ]
+      },
+      {
+        colors: [
+          { name: 'Black', hex: '#030712' },
+          { name: 'Charcoal', hex: '#1f2937' },
+          { name: 'Dark Gray', hex: '#4b5563' },
+          { name: 'Gray', hex: '#6b7280' },
+          { name: 'Medium Gray', hex: '#9ca3af' },
+          { name: 'Light Gray', hex: '#e5e7eb' },
+          { name: 'White', hex: '#ffffff' },
+        ]
+      }
+    ];
+
     // ============ STATE ============
     let currentPageIndex = 0;
     let totalPages = MAX_PAGES_FREE;
@@ -1086,6 +1533,18 @@
     let hasUnsavedChanges = false;
     let activeSticker = null;
     let currentZ = 10;
+
+    // Background panel state
+    let bgCurrentPattern = 'solid';
+    let bgSubfilter = {
+      stripes: 'diagonal',
+      checkered: 'small',
+      dots: 'small'
+    };
+    let bgSelectedBaseColor = null;
+    let bgSelectedPatternColor = null;
+    let bgEditingTarget = 'base';
+    let bgPanelExpanded = false;
 
     // ============ DOM ELEMENTS ============
     const stickerPage = document.getElementById('stickerbook-page');
@@ -1120,11 +1579,331 @@
     const drawerDeleteBtn = document.getElementById('drawer-delete-btn');
     const drawerAddBtn = document.getElementById('drawer-add-btn');
 
+    // Background panel elements
+    const bgOverlay = document.getElementById('bg-overlay');
+    const bgPanel = document.getElementById('bg-panel');
+    const bgExpandBtn = document.getElementById('bg-expand-btn');
+    const bgExpandText = document.getElementById('bg-expand-text');
+    const bgCloseBtn = document.getElementById('bg-close-btn');
+    const bgPatternTabs = document.querySelectorAll('.bg-pattern-tab');
+    const bgStripesFilter = document.getElementById('stripes-filter');
+    const bgCheckeredFilter = document.getElementById('checkered-filter');
+    const bgDotsFilter = document.getElementById('dots-filter');
+    const bgSwatchRow = document.getElementById('bg-swatch-row');
+    const bgSwatchBase = document.getElementById('swatch-base');
+    const bgSwatchPattern = document.getElementById('swatch-pattern');
+    const bgSwatchBaseColor = document.getElementById('swatch-base-color');
+    const bgSwatchPatternColor = document.getElementById('swatch-pattern-color');
+    const bgSwatchPatternLabel = document.getElementById('swatch-pattern-label');
+    const bgColorGrid = document.getElementById('bg-color-grid');
+    const bgShopLink = document.getElementById('bg-shop-link');
+
     const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
+    // ============ PATTERN CSS GENERATOR ============
+    function getPatternCSS(pattern, subfilter, baseHex, patternHex) {
+      const base = baseHex || '#e5e7eb';
+      const pat = patternHex || '#ffffff';
+
+      switch (pattern) {
+        case 'solid':
+          return `background-color: ${base};`;
+
+        case 'stripes':
+          const stripeSize = '10px';
+          if (subfilter === 'diagonal') {
+            return `background: repeating-linear-gradient(135deg, ${base}, ${base} ${stripeSize}, ${pat} ${stripeSize}, ${pat} calc(${stripeSize} * 2));`;
+          } else if (subfilter === 'horizontal') {
+            return `background: repeating-linear-gradient(0deg, ${base}, ${base} ${stripeSize}, ${pat} ${stripeSize}, ${pat} calc(${stripeSize} * 2));`;
+          } else if (subfilter === 'vertical') {
+            return `background: repeating-linear-gradient(90deg, ${base}, ${base} ${stripeSize}, ${pat} ${stripeSize}, ${pat} calc(${stripeSize} * 2));`;
+          }
+          break;
+
+        case 'checkered':
+          const checkSize = subfilter === 'small' ? '16px' : '24px';
+          return `
+            background-color: ${base};
+            background-image:
+              linear-gradient(45deg, ${pat} 25%, transparent 25%),
+              linear-gradient(-45deg, ${pat} 25%, transparent 25%),
+              linear-gradient(45deg, transparent 75%, ${pat} 75%),
+              linear-gradient(-45deg, transparent 75%, ${pat} 75%);
+            background-size: ${checkSize} ${checkSize};
+            background-position: 0 0, 0 calc(${checkSize}/2), calc(${checkSize}/2) calc(-${checkSize}/2), calc(-${checkSize}/2) 0;
+          `;
+
+        case 'dots':
+          let dotSize, gap;
+          if (subfilter === 'small') {
+            dotSize = '6px';
+            gap = '16px';
+          } else {
+            dotSize = '10px';
+            gap = '24px';
+          }
+          return `background-color: ${base}; background-image: radial-gradient(${pat} ${dotSize}, transparent ${dotSize}); background-size: ${gap} ${gap};`;
+      }
+
+      return `background-color: ${base};`;
+    }
+
+    // ============ BACKGROUND PANEL FUNCTIONS ============
+    function openBackgroundPanel() {
+      // Load current page's background state
+      const page = pages[currentPageIndex];
+      if (page && page.backgroundData) {
+        const data = page.backgroundData;
+        bgCurrentPattern = data.pattern || 'solid';
+        bgSelectedBaseColor = data.baseColor || null;
+        bgSelectedPatternColor = data.patternColor || null;
+
+        if (data.subfilter) {
+          bgSubfilter[bgCurrentPattern] = data.subfilter;
+        }
+      } else {
+        bgCurrentPattern = 'solid';
+        bgSelectedBaseColor = null;
+        bgSelectedPatternColor = null;
+      }
+
+      bgEditingTarget = 'base';
+      updateBgPanelUI();
+      renderBgColorGrid();
+
+      bgOverlay.classList.add('visible');
+      bgPanel.classList.add('visible');
+    }
+
+    function closeBackgroundPanel() {
+      bgOverlay.classList.remove('visible');
+      bgPanel.classList.remove('visible');
+      bgPanelExpanded = false;
+      bgPanel.classList.remove('expanded');
+    }
+
+    function toggleBgPanelExpand() {
+      bgPanelExpanded = !bgPanelExpanded;
+      bgPanel.classList.toggle('expanded', bgPanelExpanded);
+      bgExpandText.textContent = bgPanelExpanded ? 'Collapse' : 'Expand';
+    }
+
+    function updateBgPanelUI() {
+      // Update tabs
+      bgPatternTabs.forEach(tab => {
+        tab.classList.toggle('active', tab.dataset.pattern === bgCurrentPattern);
+      });
+
+      // Hide all subfilters
+      bgStripesFilter.classList.remove('visible');
+      bgCheckeredFilter.classList.remove('visible');
+      bgDotsFilter.classList.remove('visible');
+
+      // Show appropriate subfilter
+      if (bgCurrentPattern === 'stripes') {
+        bgStripesFilter.classList.add('visible');
+        bgStripesFilter.querySelectorAll('.bg-subfilter-btn').forEach(btn => {
+          btn.classList.toggle('active', btn.dataset.value === bgSubfilter.stripes);
+        });
+      } else if (bgCurrentPattern === 'checkered') {
+        bgCheckeredFilter.classList.add('visible');
+        bgCheckeredFilter.querySelectorAll('.bg-subfilter-btn').forEach(btn => {
+          btn.classList.toggle('active', btn.dataset.value === bgSubfilter.checkered);
+        });
+      } else if (bgCurrentPattern === 'dots') {
+        bgDotsFilter.classList.add('visible');
+        bgDotsFilter.querySelectorAll('.bg-subfilter-btn').forEach(btn => {
+          btn.classList.toggle('active', btn.dataset.value === bgSubfilter.dots);
+        });
+      }
+
+      // Show/hide swatch row
+      if (bgCurrentPattern === 'solid') {
+        bgSwatchRow.classList.remove('visible');
+      } else {
+        bgSwatchRow.classList.add('visible');
+
+        // Update swatch label
+        if (bgCurrentPattern === 'stripes') {
+          bgSwatchPatternLabel.textContent = 'Stripe';
+        } else if (bgCurrentPattern === 'checkered') {
+          bgSwatchPatternLabel.textContent = 'Check';
+        } else if (bgCurrentPattern === 'dots') {
+          bgSwatchPatternLabel.textContent = 'Dot';
+        }
+
+        // Update swatch colors
+        bgSwatchBaseColor.style.backgroundColor = bgSelectedBaseColor || '#e5e7eb';
+        bgSwatchPatternColor.style.backgroundColor = bgSelectedPatternColor || '#ffffff';
+
+        // Update active swatch
+        bgSwatchBase.classList.toggle('active', bgEditingTarget === 'base');
+        bgSwatchPattern.classList.toggle('active', bgEditingTarget === 'pattern');
+      }
+    }
+
+    function renderBgColorGrid() {
+      bgColorGrid.innerHTML = '';
+
+      COLOR_FAMILIES.forEach(family => {
+        const row = document.createElement('div');
+        row.className = 'bg-color-row';
+
+        family.colors.forEach(color => {
+          const tile = document.createElement('div');
+          tile.className = 'bg-color-tile';
+          tile.style.backgroundColor = color.hex;
+          tile.dataset.hex = color.hex;
+
+          // Mark selected
+          if (bgCurrentPattern === 'solid') {
+            if (bgSelectedBaseColor === color.hex) {
+              tile.classList.add('selected');
+            }
+          } else {
+            if (bgEditingTarget === 'base' && bgSelectedBaseColor === color.hex) {
+              tile.classList.add('selected');
+            } else if (bgEditingTarget === 'pattern' && bgSelectedPatternColor === color.hex) {
+              tile.classList.add('selected');
+            }
+          }
+
+          tile.addEventListener('click', () => handleBgColorClick(color.hex));
+          row.appendChild(tile);
+        });
+
+        bgColorGrid.appendChild(row);
+      });
+    }
+
+    function handleBgColorClick(hex) {
+      if (bgCurrentPattern === 'solid') {
+        bgSelectedBaseColor = hex;
+      } else {
+        if (bgEditingTarget === 'base') {
+          bgSelectedBaseColor = hex;
+          bgEditingTarget = 'pattern';
+        } else {
+          bgSelectedPatternColor = hex;
+        }
+      }
+
+      // Apply immediately to page (live preview!)
+      applyBackgroundToPage();
+
+      updateBgPanelUI();
+      renderBgColorGrid();
+    }
+
+    function applyBackgroundToPage() {
+      if (!bgSelectedBaseColor) return;
+      if (bgCurrentPattern !== 'solid' && !bgSelectedPatternColor) return;
+
+      const subfilter = bgSubfilter[bgCurrentPattern] || '';
+      const finalCSS = getPatternCSS(bgCurrentPattern, subfilter, bgSelectedBaseColor, bgSelectedPatternColor);
+
+      // Apply to visual page
+      stickerPage.style.cssText = finalCSS;
+
+      // Save to page data
+      const page = pages[currentPageIndex];
+      page.background = bgSelectedBaseColor;
+      page.backgroundCSS = finalCSS;
+      page.backgroundData = {
+        pattern: bgCurrentPattern,
+        subfilter: subfilter,
+        baseColor: bgSelectedBaseColor,
+        patternColor: bgSelectedPatternColor || null
+      };
+
+      hasUnsavedChanges = true;
+      renderPageDots();
+    }
+
+    // Setup background panel event listeners
+    function setupBackgroundPanel() {
+      bgCloseBtn.addEventListener('click', closeBackgroundPanel);
+      bgOverlay.addEventListener('click', closeBackgroundPanel);
+      bgExpandBtn.addEventListener('click', toggleBgPanelExpand);
+
+      // Tab switching
+      bgPatternTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          const newPattern = tab.dataset.pattern;
+
+          if (newPattern !== bgCurrentPattern) {
+            bgSelectedPatternColor = null;
+            bgEditingTarget = 'base';
+          }
+
+          bgCurrentPattern = newPattern;
+          updateBgPanelUI();
+          renderBgColorGrid();
+
+          // If we have a base color, apply immediately
+          if (bgSelectedBaseColor && (bgCurrentPattern === 'solid' || bgSelectedPatternColor)) {
+            applyBackgroundToPage();
+          }
+        });
+      });
+
+      // Subfilter switching
+      bgStripesFilter.querySelectorAll('.bg-subfilter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          bgStripesFilter.querySelectorAll('.bg-subfilter-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          bgSubfilter.stripes = btn.dataset.value;
+          if (bgSelectedBaseColor && bgSelectedPatternColor) {
+            applyBackgroundToPage();
+          }
+        });
+      });
+
+      bgCheckeredFilter.querySelectorAll('.bg-subfilter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          bgCheckeredFilter.querySelectorAll('.bg-subfilter-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          bgSubfilter.checkered = btn.dataset.value;
+          if (bgSelectedBaseColor && bgSelectedPatternColor) {
+            applyBackgroundToPage();
+          }
+        });
+      });
+
+      bgDotsFilter.querySelectorAll('.bg-subfilter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          bgDotsFilter.querySelectorAll('.bg-subfilter-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          bgSubfilter.dots = btn.dataset.value;
+          if (bgSelectedBaseColor && bgSelectedPatternColor) {
+            applyBackgroundToPage();
+          }
+        });
+      });
+
+      // Swatch clicking
+      bgSwatchBase.addEventListener('click', () => {
+        bgEditingTarget = 'base';
+        updateBgPanelUI();
+        renderBgColorGrid();
+      });
+
+      bgSwatchPattern.addEventListener('click', () => {
+        bgEditingTarget = 'pattern';
+        updateBgPanelUI();
+        renderBgColorGrid();
+      });
+
+      // Shop link
+      bgShopLink.addEventListener('click', () => {
+        closeBackgroundPanel();
+        openShop();
+      });
+    }
 
     // ============ DEV HELPER: Seed drawer with test stickers ============
     function seedDrawerForTesting() {
-      if (drawer.length > 0) return; // Already has stickers
+      if (drawer.length > 0) return;
       
       const testStickers = [
         { id: 'sticker_006', filename: 'blackcat0001.png', displayName: 'Black Cat Energy' },
@@ -1158,6 +1937,7 @@
       renderCurrentPage();
       setupEventListeners();
       setupDrawerHandle();
+      setupBackgroundPanel();
       updatePageNumber();
     }
 
@@ -1814,13 +2594,7 @@
 
     // ============ TOOLBAR ACTIONS ============
     function openBackgrounds() {
-      localStorage.setItem('stickerbook_editing_page', currentPageIndex);
-
-      if (hasUnsavedChanges) {
-        showSaveModal(() => window.location.href = 'background.html');
-      } else {
-        window.location.href = 'background.html';
-      }
+      openBackgroundPanel();
     }
 
     function openShop() {
@@ -2410,6 +3184,7 @@
           setActiveSticker(null);
           closeNav();
           closeDrawer();
+          closeBackgroundPanel();
           saveModal.classList.remove('visible');
         }
         if ((e.metaKey || e.ctrlKey) && e.key === 's') {
