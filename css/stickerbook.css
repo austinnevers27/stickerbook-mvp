@@ -240,6 +240,35 @@ body {
 }
 
 
+/* ========== TITLE STICKER (Splash) ========== */
+.title-sticker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 24px 40px;
+  background: var(--color-canvas);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+}
+
+.title-sticker__text {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-primary);
+}
+
+.title-sticker__bar {
+  width: 100px;
+  height: 4px;
+  border-radius: var(--radius-pill);
+  background: var(--gradient-accent);
+}
+
+
 /* ========== ACCENT BAR ========== */
 .accent-bar {
   height: 3px;
