@@ -193,7 +193,7 @@
 
     .page-dots {
       display: flex;
-      gap: 6px;
+      gap: 10px;
     }
 
     .page-dot {
@@ -218,57 +218,37 @@
     .bottom-toolbar {
       display: flex;
       align-items: center;
-      justify-content: space-around;
-      padding: 8px 16px;
-      padding-bottom: calc(16px + env(safe-area-inset-bottom, 0));
-      flex-shrink: 0;
-      position: relative;
-    }
-
-    .toolbar-btn {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 6px;
-      padding: 4px 8px;
-      border: none;
-      background: transparent;
-      cursor: pointer;
-      transition: transform 0.12s ease, opacity 0.2s ease;
-    }
-
-    .toolbar-btn:hover {
-      transform: translateY(-2px);
-    }
-
-    .toolbar-btn:active {
-      transform: translateY(0);
-    }
-
-    .toolbar-btn-icon {
-      width: 56px;
-      height: 56px;
-      border-radius: 50%;
-      background: var(--color-canvas-elevated);
-      box-shadow: var(--shadow-md);
-      display: flex;
-      align-items: center;
       justify-content: center;
-      font-size: 24px;
-      transition: box-shadow 0.15s ease, background 0.15s ease, border-color 0.15s ease;
-      border: 2px solid var(--color-border);
+      gap: 12px;
+      padding: 12px 16px;
+      padding-bottom: calc(12px + env(safe-area-inset-bottom, 0));
+      flex-shrink: 0;
     }
 
-    .toolbar-btn:hover .toolbar-btn-icon {
-      box-shadow: var(--shadow-lg);
+    .toolbar-pill {
+      padding: 10px 20px;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-pill);
+      background: var(--color-canvas-elevated);
+      color: var(--color-text-secondary);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      cursor: pointer;
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.12s ease, box-shadow 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+      font-family: var(--font-primary);
+    }
+
+    .toolbar-pill:hover {
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
       border-color: var(--color-border-strong);
     }
 
-    .toolbar-btn-label {
-      font-size: 11px;
-      font-weight: 600;
-      color: var(--color-text-muted);
-      letter-spacing: 0.02em;
+    .toolbar-pill:active {
+      transform: translateY(0);
+      box-shadow: var(--shadow-xs);
     }
 
     /* === DRAG MODE STATES === */
@@ -280,48 +260,17 @@
       pointer-events: none;
     }
 
-    /* Trash button - absolute positioned, hidden by default */
-    .toolbar-btn-trash {
-      position: absolute;
-      right: 85px;
-      bottom: 16px;
-      opacity: 0;
-      pointer-events: none;
-      transform: translateX(20px);
-      transition: opacity 0.2s ease, transform 0.2s ease;
-      z-index: 10;
-    }
-
-    /* Show trash when in drop zone */
-    .bottom-toolbar.in-drop-zone .toolbar-btn-trash {
-      opacity: 1;
-      pointer-events: auto;
-      transform: translateX(0);
-    }
-
-    /* Trash highlighted red when visible */
-    .bottom-toolbar.in-drop-zone .toolbar-btn-trash .toolbar-btn-icon {
-      border-color: var(--color-error);
-      box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.15), var(--shadow-md);
-    }
-
-    /* In drop zone: Drawer highlighted turquoise (positive) */
-    .bottom-toolbar.in-drop-zone #btn-drawer .toolbar-btn-icon {
+    /* In drop zone: Drawer highlighted turquoise */
+    .bottom-toolbar.in-drop-zone #btn-drawer {
       border-color: var(--color-accent);
-      box-shadow: 0 0 0 4px rgba(20, 184, 166, 0.15), var(--shadow-md);
+      background: var(--color-selected-bg);
+      box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.15), var(--shadow-md);
     }
 
-    /* Hover states when in drop zone - more intense */
-    .toolbar-btn-trash.drop-active .toolbar-btn-icon {
-      background: #fef2f2;
-      border-color: var(--color-error);
-      box-shadow: 0 0 0 6px rgba(220, 38, 38, 0.2), var(--shadow-lg);
-    }
-
-    #btn-drawer.drop-active .toolbar-btn-icon {
+    #btn-drawer.drop-active {
       background: var(--color-selected-bg);
       border-color: var(--color-accent);
-      box-shadow: 0 0 0 6px rgba(20, 184, 166, 0.2), var(--shadow-lg);
+      box-shadow: 0 0 0 4px rgba(20, 184, 166, 0.2), var(--shadow-lg);
     }
 
     /* Page dot states for editability */
@@ -1510,23 +1459,9 @@
 
     <!-- Bottom Toolbar -->
     <div class="bottom-toolbar">
-      <button class="toolbar-btn" id="btn-backgrounds" title="Backgrounds">
-        <div class="toolbar-btn-icon">🎨</div>
-        <div class="toolbar-btn-label">Backgrounds</div>
-      </button>
-      <button class="toolbar-btn" id="btn-shop" title="Sticker Shop">
-        <div class="toolbar-btn-icon">🛒</div>
-        <div class="toolbar-btn-label">Shop</div>
-      </button>
-      <button class="toolbar-btn" id="btn-drawer" title="Sticker Drawer">
-        <div class="toolbar-btn-icon">📂</div>
-        <div class="toolbar-btn-label">Drawer</div>
-      </button>
-      <!-- Trash button - absolutely positioned, slides in next to drawer when in drop zone -->
-      <button class="toolbar-btn toolbar-btn-trash" id="btn-trash" title="Delete">
-        <div class="toolbar-btn-icon">🗑️</div>
-        <div class="toolbar-btn-label">Delete</div>
-      </button>
+      <button class="toolbar-pill" id="btn-backgrounds">Backgrounds</button>
+      <button class="toolbar-pill" id="btn-shop">Shop</button>
+      <button class="toolbar-pill" id="btn-drawer">Drawer</button>
     </div>
 
     <!-- Slide-out Nav Menu -->
@@ -1882,7 +1817,6 @@
     const btnBackgrounds = document.getElementById('btn-backgrounds');
     const btnShop = document.getElementById('btn-shop');
     const btnDrawer = document.getElementById('btn-drawer');
-    const btnTrash = document.getElementById('btn-trash');
     const bottomToolbar = document.querySelector('.bottom-toolbar');
     const drawerOverlay = document.getElementById('drawer-overlay');
     const drawerPanel = document.getElementById('drawer-panel');
@@ -2815,9 +2749,7 @@
         isDragging = false;
         el.classList.remove('dragging');
 
-        if (isOverTrash(e.clientX, e.clientY)) {
-          deleteSticker(el, stickerData);
-        } else if (isOverDrawer(e.clientX, e.clientY)) {
+        if (isOverDrawer(e.clientX, e.clientY)) {
           moveToDrawer(el, stickerData);
         } else {
           exitDragMode();
@@ -2905,9 +2837,7 @@
 
           if (touchMode === 'pan') {
             const lastTouch = e.changedTouches[0];
-            if (isOverTrash(lastTouch.clientX, lastTouch.clientY)) {
-              deleteSticker(el, stickerData);
-            } else if (isOverDrawer(lastTouch.clientX, lastTouch.clientY)) {
+            if (isOverDrawer(lastTouch.clientX, lastTouch.clientY)) {
               moveToDrawer(el, stickerData);
             } else {
               exitDragMode();
@@ -2950,7 +2880,6 @@
       bottomToolbar.classList.remove('drag-mode');
       bottomToolbar.classList.remove('in-drop-zone');
       btnDrawer.classList.remove('drop-active');
-      btnTrash.classList.remove('drop-active');
     }
 
     function checkDropZones(x, y) {
@@ -2962,27 +2891,14 @@
         } else {
           btnDrawer.classList.remove('drop-active');
         }
-
-        if (isOverTrash(x, y)) {
-          btnTrash.classList.add('drop-active');
-        } else {
-          btnTrash.classList.remove('drop-active');
-        }
       } else {
         bottomToolbar.classList.remove('in-drop-zone');
         btnDrawer.classList.remove('drop-active');
-        btnTrash.classList.remove('drop-active');
       }
     }
 
     function isOverDrawer(x, y) {
       const rect = btnDrawer.getBoundingClientRect();
-      return x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
-    }
-
-    function isOverTrash(x, y) {
-      if (!bottomToolbar.classList.contains('in-drop-zone')) return false;
-      const rect = btnTrash.getBoundingClientRect();
       return x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
     }
 
@@ -3006,23 +2922,6 @@
 
         renderPageDots();
         showToast('Moved to drawer');
-      }, 300);
-    }
-
-    function deleteSticker(el, stickerData) {
-      el.classList.add('to-drawer');
-
-      setTimeout(() => {
-        const page = pages[currentPageIndex];
-        page.stickers = page.stickers.filter(s => s.id !== stickerData.id);
-
-        el.remove();
-        activeSticker = null;
-        hasUnsavedChanges = true;
-        exitDragMode();
-
-        renderPageDots();
-        showToast('Sticker deleted');
       }, 300);
     }
 
