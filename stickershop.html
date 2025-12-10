@@ -1373,11 +1373,6 @@
       confirmationOverlay.addEventListener('click', closeConfirmation);
       
       goToDrawerBtn.addEventListener('click', () => {
-        if (goToDrawerBtn.dataset.destination === 'backgrounds') {
-          localStorage.setItem('stickerbook_open_backgrounds', 'true');
-        } else {
-          localStorage.setItem('stickerbook_open_drawer', 'expanded');
-        }
         window.location.href = 'stickerbook.html';
       });
       
@@ -1613,6 +1608,14 @@
       // Save
       localStorage.setItem('stickerbook_drawer', JSON.stringify(drawer));
       localStorage.setItem('stickerbook_my_backgrounds', JSON.stringify(myBackgrounds));
+
+      // Store counts for toast notification on return
+      if (stickerCount > 0) {
+        localStorage.setItem('stickerbook_new_sticker_count', stickerCount);
+      }
+      if (backgroundCount > 0) {
+        localStorage.setItem('stickerbook_new_background_count', backgroundCount);
+      }
 
       // Clear basket
       basket = [];

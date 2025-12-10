@@ -2398,7 +2398,7 @@
     function init() {
       loadDataFromStorage();
       restorePagePosition();
-      checkDrawerOpen();
+      checkNewPurchases();
       seedDrawerForTesting();
       seedPremiumBackgrounds();
       loadUserProfile();
@@ -2421,14 +2421,27 @@
       }
     }
 
-    function checkDrawerOpen() {
-      const shouldOpen = localStorage.getItem('stickerbook_open_drawer');
-      if (shouldOpen === 'expanded') {
-        localStorage.removeItem('stickerbook_open_drawer');
-        setTimeout(() => {
-          openDrawer();
-          toggleDrawerExpand();
-        }, 100);
+    function checkNewPurchases() {
+      const newStickers = localStorage.getItem('stickerbook_new_sticker_count');
+      const newBackgrounds = localStorage.getItem('stickerbook_new_background_count');
+      
+      // Clear flags
+      localStorage.removeItem('stickerbook_new_sticker_count');
+      localStorage.removeItem('stickerbook_new_background_count');
+      
+      // Build toast message
+      let messages = [];
+      if (newStickers && parseInt(newStickers) > 0) {
+        const count = parseInt(newStickers);
+        messages.push(`${count} sticker${count > 1 ? 's' : ''} added to drawer`);
+      }
+      if (newBackgrounds && parseInt(newBackgrounds) > 0) {
+        const count = parseInt(newBackgrounds);
+        messages.push(`${count} background${count > 1 ? 's' : ''} added`);
+      }
+      
+      if (messages.length > 0) {
+        setTimeout(() => showToast(messages.join(' • ')), 300);
       }
     }
     // ============ PAGE EDITABILITY LOGIC ============
