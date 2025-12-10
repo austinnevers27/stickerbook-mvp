@@ -557,11 +557,19 @@
       transform: translateX(-50%) translateY(0);
     }
 
-    /* ========== DRAWER PANEL ========== */
+    /* ========== DRAWER PANEL - MIAMI VICE EDITION ========== */
+    :root {
+      --drawer-bg-start: #ff6b9d;
+      --drawer-bg-end: #00d4ff;
+      --drawer-tile-bg: rgba(255, 255, 255, 0.18);
+      --drawer-tile-border: rgba(255, 255, 255, 0.3);
+      --drawer-tile-glow: rgba(0, 212, 255, 0.4);
+    }
+
     .drawer-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(15, 23, 42, 0.5);
+      background: rgba(15, 23, 42, 0.6);
       opacity: 0;
       pointer-events: none;
       transition: opacity 0.25s ease;
@@ -578,12 +586,12 @@
       left: 0;
       right: 0;
       bottom: 0;
-      height: 55vh;
-      background: white;
-      border-radius: 24px 24px 0 0;
-      box-shadow: 0 -8px 32px rgba(15, 23, 42, 0.2);
+      height: 35vh;
+      background: linear-gradient(135deg, var(--drawer-bg-start) 0%, #a855f7 50%, var(--drawer-bg-end) 100%);
+      border-radius: 28px 28px 0 0;
+      box-shadow: 0 -8px 40px rgba(168, 85, 247, 0.4), 0 -2px 20px rgba(0, 212, 255, 0.3);
       transform: translateY(100%);
-      transition: transform 0.3s ease;
+      transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1), height 0.3s cubic-bezier(0.32, 0.72, 0, 1);
       z-index: 501;
       display: flex;
       flex-direction: column;
@@ -594,68 +602,119 @@
       transform: translateY(0);
     }
 
+    .drawer-panel.expanded {
+      height: 85vh;
+    }
+
+    /* Subtle grid overlay for retro feel */
+    .drawer-panel::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: 
+        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 20px 20px;
+      pointer-events: none;
+      border-radius: 28px 28px 0 0;
+    }
+
     .drawer-handle {
-      width: 40px;
-      height: 4px;
-      background: rgba(148, 163, 184, 0.4);
-      border-radius: 2px;
-      margin: 12px auto 8px;
+      width: 48px;
+      height: 5px;
+      background: rgba(255, 255, 255, 0.6);
+      border-radius: 3px;
+      margin: 14px auto 10px;
       flex-shrink: 0;
+      cursor: grab;
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+
+    .drawer-handle:hover {
+      background: rgba(255, 255, 255, 0.9);
+      transform: scaleX(1.1);
     }
 
     .drawer-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 8px 20px 12px;
-      border-bottom: 1px solid var(--color-border-light);
+      padding: 4px 20px 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
       flex-shrink: 0;
+      position: relative;
+      z-index: 1;
     }
 
     .drawer-title {
       font-family: var(--font-display);
-      font-size: 14px;
-      font-weight: 600;
-      letter-spacing: 0.05em;
-      color: var(--color-text-primary);
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: white;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
     }
 
     .drawer-count {
-      font-size: 11px;
-      color: var(--color-text-muted);
+      font-size: 12px;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.85);
+      text-shadow: 0 1px 6px rgba(0, 0, 0, 0.3);
     }
 
     .drawer-grid {
       flex: 1;
       overflow-y: auto;
-      padding: 16px;
+      padding: 14px;
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 12px;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
       align-content: start;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Custom scrollbar for drawer */
+    .drawer-grid::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .drawer-grid::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 3px;
+    }
+
+    .drawer-grid::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.4);
+      border-radius: 3px;
     }
 
     .drawer-sticker {
       aspect-ratio: 1;
-      background: var(--color-field-bg);
-      border-radius: var(--radius-md);
-      padding: 8px;
+      background: var(--drawer-tile-bg);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-radius: 12px;
+      padding: 6px;
       cursor: grab;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: transform 0.12s ease, box-shadow 0.12s ease;
-      border: 1px solid rgba(148, 163, 184, 0.3);
+      transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+      border: 1px solid var(--drawer-tile-border);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
     }
 
     .drawer-sticker:hover {
-      transform: scale(1.05);
-      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);
+      transform: scale(1.08);
+      background: rgba(255, 255, 255, 0.28);
+      box-shadow: 0 0 20px var(--drawer-tile-glow), 0 4px 16px rgba(0, 0, 0, 0.2);
+      border-color: rgba(255, 255, 255, 0.5);
     }
 
     .drawer-sticker:active {
       cursor: grabbing;
-      transform: scale(0.98);
+      transform: scale(0.95);
     }
 
     .drawer-sticker img {
@@ -663,22 +722,24 @@
       max-height: 100%;
       object-fit: contain;
       pointer-events: none;
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
     }
 
     .drawer-sticker.dragging {
       opacity: 0.5;
-      transform: scale(0.95);
+      transform: scale(0.9);
     }
 
     .drawer-empty {
       position: absolute;
-      inset: 60px 20px 20px;
+      inset: 70px 20px 20px;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       text-align: center;
-      color: var(--color-text-subtle);
+      color: rgba(255, 255, 255, 0.9);
+      z-index: 1;
     }
 
     .drawer-empty.hidden {
@@ -686,14 +747,16 @@
     }
 
     .drawer-empty-icon {
-      font-size: 40px;
-      margin-bottom: 12px;
-      opacity: 0.5;
+      font-size: 44px;
+      margin-bottom: 14px;
+      filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3));
     }
 
     .drawer-empty-text {
-      font-size: 13px;
-      line-height: 1.5;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 1.6;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
     }
 
     /* Sticker being dragged from drawer */
@@ -920,6 +983,7 @@
       renderPageDots();
       renderCurrentPage();
       setupEventListeners();
+      setupDrawerHandle(); // Enable drawer expand/collapse
       updatePageNumber();
     }
 
@@ -1637,15 +1701,118 @@
       }
     }
 
+    // ============ DRAWER FUNCTIONS ============
+    let drawerExpanded = false;
+
     function openDrawer() {
       renderDrawer();
       drawerOverlay.classList.add('visible');
       drawerPanel.classList.add('visible');
+      drawerExpanded = false;
+      drawerPanel.classList.remove('expanded');
     }
 
     function closeDrawer() {
       drawerOverlay.classList.remove('visible');
       drawerPanel.classList.remove('visible');
+      drawerExpanded = false;
+      drawerPanel.classList.remove('expanded');
+    }
+
+    function toggleDrawerExpand() {
+      drawerExpanded = !drawerExpanded;
+      drawerPanel.classList.toggle('expanded', drawerExpanded);
+    }
+
+    function setupDrawerHandle() {
+      const handle = drawerPanel.querySelector('.drawer-handle');
+      let startY = 0;
+      let startHeight = 0;
+      let isDragging = false;
+
+      handle.addEventListener('touchstart', (e) => {
+        startY = e.touches[0].clientY;
+        startHeight = drawerPanel.offsetHeight;
+        isDragging = true;
+      }, { passive: true });
+
+      handle.addEventListener('touchmove', (e) => {
+        if (!isDragging) return;
+        const dy = startY - e.touches[0].clientY;
+        const newHeight = startHeight + dy;
+        const vh = window.innerHeight;
+        
+        // Clamp between 30% and 90% of viewport
+        const clampedHeight = Math.max(vh * 0.3, Math.min(vh * 0.9, newHeight));
+        drawerPanel.style.height = `${clampedHeight}px`;
+      }, { passive: true });
+
+      handle.addEventListener('touchend', (e) => {
+        if (!isDragging) return;
+        isDragging = false;
+        
+        const vh = window.innerHeight;
+        const currentHeight = drawerPanel.offsetHeight;
+        
+        // Snap to half or full
+        if (currentHeight > vh * 0.55) {
+          drawerPanel.style.height = '';
+          drawerPanel.classList.add('expanded');
+          drawerExpanded = true;
+        } else {
+          drawerPanel.style.height = '';
+          drawerPanel.classList.remove('expanded');
+          drawerExpanded = false;
+        }
+      }, { passive: true });
+
+      // Double-tap to toggle
+      let lastTap = 0;
+      handle.addEventListener('click', () => {
+        const now = Date.now();
+        if (now - lastTap < 300) {
+          toggleDrawerExpand();
+        }
+        lastTap = now;
+      });
+
+      // Mouse drag for desktop
+      handle.addEventListener('mousedown', (e) => {
+        startY = e.clientY;
+        startHeight = drawerPanel.offsetHeight;
+        isDragging = true;
+        
+        const handleMouseMove = (ev) => {
+          if (!isDragging) return;
+          const dy = startY - ev.clientY;
+          const newHeight = startHeight + dy;
+          const vh = window.innerHeight;
+          const clampedHeight = Math.max(vh * 0.3, Math.min(vh * 0.9, newHeight));
+          drawerPanel.style.height = `${clampedHeight}px`;
+        };
+
+        const handleMouseUp = () => {
+          isDragging = false;
+          window.removeEventListener('mousemove', handleMouseMove);
+          window.removeEventListener('mouseup', handleMouseUp);
+          
+          const vh = window.innerHeight;
+          const currentHeight = drawerPanel.offsetHeight;
+          
+          if (currentHeight > vh * 0.55) {
+            drawerPanel.style.height = '';
+            drawerPanel.classList.add('expanded');
+            drawerExpanded = true;
+          } else {
+            drawerPanel.style.height = '';
+            drawerPanel.classList.remove('expanded');
+            drawerExpanded = false;
+          }
+        };
+
+        window.addEventListener('mousemove', handleMouseMove);
+        window.addEventListener('mouseup', handleMouseUp);
+      });
     }
 
     function renderDrawer() {
