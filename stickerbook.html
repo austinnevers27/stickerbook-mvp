@@ -1852,9 +1852,10 @@
       if (bgCurrentPattern === 'solid') {
         bgSelectedBaseColor = hex;
       } else {
+        // For patterns, update whichever swatch is currently being edited
+        // Don't auto-switch - let user play with base color while pattern stays white
         if (bgEditingTarget === 'base') {
           bgSelectedBaseColor = hex;
-          bgEditingTarget = 'pattern';
         } else {
           bgSelectedPatternColor = hex;
         }
@@ -1869,10 +1870,13 @@
 
     function applyBackgroundToPage() {
       if (!bgSelectedBaseColor) return;
-      if (bgCurrentPattern !== 'solid' && !bgSelectedPatternColor) return;
+      // For patterns, use white as default if no pattern color selected
+      const patternColor = bgCurrentPattern !== 'solid' 
+        ? (bgSelectedPatternColor || '#ffffff') 
+        : null;
 
       const subfilter = bgSubfilter[bgCurrentPattern] || '';
-      const finalCSS = getPatternCSS(bgCurrentPattern, subfilter, bgSelectedBaseColor, bgSelectedPatternColor);
+      const finalCSS = getPatternCSS(bgCurrentPattern, subfilter, bgSelectedBaseColor, patternColor);
 
       // Apply to visual page
       stickerPage.style.cssText = finalCSS;
@@ -1885,7 +1889,7 @@
         pattern: bgCurrentPattern,
         subfilter: subfilter,
         baseColor: bgSelectedBaseColor,
-        patternColor: bgSelectedPatternColor || null
+        patternColor: patternColor
       };
 
       hasUnsavedChanges = true;
@@ -1903,7 +1907,10 @@
           const newPattern = tab.dataset.pattern;
 
           if (newPattern !== bgCurrentPattern) {
-            bgSelectedPatternColor = null;
+            // When switching to a pattern type, default pattern color to white
+            if (newPattern !== 'solid') {
+              bgSelectedPatternColor = '#ffffff';
+            }
             bgEditingTarget = 'base';
           }
 
@@ -1911,8 +1918,8 @@
           updateBgPanelUI();
           renderBgColorGrid();
 
-          // If we have a base color, apply immediately
-          if (bgSelectedBaseColor && (bgCurrentPattern === 'solid' || bgSelectedPatternColor)) {
+          // Apply immediately if we have a base color
+          if (bgSelectedBaseColor) {
             applyBackgroundToPage();
           }
         });
@@ -1924,7 +1931,7 @@
           bgStripesFilter.querySelectorAll('.bg-subfilter-btn').forEach(b => b.classList.remove('active'));
           btn.classList.add('active');
           bgSubfilter.stripes = btn.dataset.value;
-          if (bgSelectedBaseColor && bgSelectedPatternColor) {
+          if (bgSelectedBaseColor) {
             applyBackgroundToPage();
           }
         });
@@ -1935,7 +1942,7 @@
           bgCheckeredFilter.querySelectorAll('.bg-subfilter-btn').forEach(b => b.classList.remove('active'));
           btn.classList.add('active');
           bgSubfilter.checkered = btn.dataset.value;
-          if (bgSelectedBaseColor && bgSelectedPatternColor) {
+          if (bgSelectedBaseColor) {
             applyBackgroundToPage();
           }
         });
@@ -1946,7 +1953,7 @@
           bgDotsFilter.querySelectorAll('.bg-subfilter-btn').forEach(b => b.classList.remove('active'));
           btn.classList.add('active');
           bgSubfilter.dots = btn.dataset.value;
-          if (bgSelectedBaseColor && bgSelectedPatternColor) {
+          if (bgSelectedBaseColor) {
             applyBackgroundToPage();
           }
         });
