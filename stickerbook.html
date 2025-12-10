@@ -1890,47 +1890,32 @@
 
     // ============ BACKGROUND PANEL FUNCTIONS ============
     function openBackgroundPanel() {
-      // Load current page's background state
+      // Load current page's background state for Create view
       const page = pages[currentPageIndex];
-      if (page && page.backgroundData) {
+      if (page && page.backgroundData && page.backgroundData.pattern !== 'premium') {
         const data = page.backgroundData;
-        
-        // Check if it's a premium background
-        if (data.pattern === 'premium') {
-          bgViewMode = 'my';
-          bgCurrentPattern = 'solid';
-          bgSelectedBaseColor = null;
-          bgSelectedPatternColor = null;
-        } else {
-          bgViewMode = 'default';
-          bgCurrentPattern = data.pattern || 'solid';
-          bgSelectedBaseColor = data.baseColor || null;
-          bgSelectedPatternColor = data.patternColor || null;
+        bgCurrentPattern = data.pattern || 'solid';
+        bgSelectedBaseColor = data.baseColor || null;
+        bgSelectedPatternColor = data.patternColor || null;
 
-          if (data.subfilter) {
-            bgSubfilter[bgCurrentPattern] = data.subfilter;
-          }
+        if (data.subfilter) {
+          bgSubfilter[bgCurrentPattern] = data.subfilter;
         }
       } else {
-        bgViewMode = 'default';
         bgCurrentPattern = 'solid';
         bgSelectedBaseColor = null;
         bgSelectedPatternColor = null;
       }
 
+      // Always open to Create view
+      bgViewMode = 'default';
       bgEditingTarget = 'base';
       
       // Update footer based on whether user has premium backgrounds
       updateBgFooter();
       
-      // Update view mode (shows correct view)
+      // Update view mode and render
       updateBgViewMode();
-      
-      // For default view, also render the color grid
-      if (bgViewMode === 'default') {
-        updateBgPanelUI();
-        renderBgColorGrid();
-      }
 
       bgOverlay.classList.add('visible');
       bgPanel.classList.add('visible');
@@ -2222,6 +2207,7 @@
         // Show pattern tabs and swatches for default view
         document.querySelector('.bg-pattern-tabs').style.display = 'flex';
         updateBgPanelUI(); // This handles subfilter and swatch visibility
+        renderBgColorGrid(); // Render the color picker
       } else {
         bgDefaultView.classList.add('hidden');
         bgMyView.classList.add('visible');
