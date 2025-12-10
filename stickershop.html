@@ -1371,14 +1371,16 @@
 
       // Confirmation panel
       confirmationOverlay.addEventListener('click', closeConfirmation);
-     goToDrawerBtn.addEventListener('click', () => {
-  if (goToDrawerBtn.dataset.destination === 'backgrounds') {
-    localStorage.setItem('stickerbook_open_backgrounds', 'true');
-  } else {
-    localStorage.setItem('stickerbook_open_drawer', 'expanded');
-  }
-  window.location.href = 'stickerbook.html';
-});
+      
+      goToDrawerBtn.addEventListener('click', () => {
+        if (goToDrawerBtn.dataset.destination === 'backgrounds') {
+          localStorage.setItem('stickerbook_open_backgrounds', 'true');
+        } else {
+          localStorage.setItem('stickerbook_open_drawer', 'expanded');
+        }
+        window.location.href = 'stickerbook.html';
+      });
+      
       keepShoppingBtn.addEventListener('click', closeConfirmation);
 
       // Coin balance click (future: open get coins)
@@ -1574,11 +1576,11 @@
 
       basket.forEach(item => {
         if (item.type === 'sticker') {
-  drawer.unshift({
-    id: item.data.id,
-    src: 'assets/Stickers/' + item.data.filename,
-    displayName: item.data.displayName
-  });
+          drawer.unshift({
+            id: item.data.id,
+            src: 'assets/Stickers/' + item.data.filename,
+            displayName: item.data.displayName
+          });
           ownedStickerIds.add(item.data.id);
           stickerCount++;
         } else if (item.type === 'pack') {
@@ -1586,7 +1588,7 @@
           item.data.stickerIds.forEach(sid => {
             const sticker = allStickers.find(s => s.id === sid);
             if (sticker && !ownedStickerIds.has(sid)) {
-              drawer.shift({
+              drawer.unshift({
                 id: sticker.id,
                 src: 'assets/Stickers/' + sticker.filename,
                 displayName: sticker.displayName,
@@ -1619,6 +1621,9 @@
       // Close basket panel
       closeBasket();
 
+      // Update confirmation button based on what was purchased
+      updateConfirmationButton(stickerCount, backgroundCount);
+
       // Show confirmation
       let confirmText = '';
       if (stickerCount > 0 && backgroundCount > 0) {
@@ -1628,7 +1633,6 @@
       } else {
         confirmText = `${backgroundCount} background${backgroundCount > 1 ? 's' : ''} ${backgroundCount > 1 ? 'are' : 'is'} ready to use`;
       }
-      updateConfirmationButton(stickerCount, backgroundCount);
       confirmationText.textContent = confirmText;
 
       confirmationOverlay.classList.add('visible');
@@ -1638,18 +1642,20 @@
       renderCurrentView();
     }
 
+    // Update confirmation button text based on what was purchased
+    function updateConfirmationButton(stickerCount, backgroundCount) {
+      if (backgroundCount > 0 && stickerCount === 0) {
+        // Only backgrounds purchased
+        goToDrawerBtn.textContent = 'Go to Backgrounds';
+        goToDrawerBtn.dataset.destination = 'backgrounds';
+      } else {
+        // Stickers only, or mixed - default to drawer
+        goToDrawerBtn.textContent = 'Go to Drawer';
+        goToDrawerBtn.dataset.destination = 'drawer';
+      }
+    }
+
     function closeConfirmation() {
-        function updateConfirmationButton(stickerCount, backgroundCount) {
-  if (backgroundCount > 0 && stickerCount === 0) {
-    // Only backgrounds purchased
-    goToDrawerBtn.textContent = 'Go to Backgrounds';
-    goToDrawerBtn.dataset.destination = 'backgrounds';
-  } else {
-    // Stickers only, or mixed - default to drawer
-    goToDrawerBtn.textContent = 'Go to Drawer';
-    goToDrawerBtn.dataset.destination = 'drawer';
-  }
-}
       confirmationOverlay.classList.remove('visible');
       confirmationPanel.classList.remove('visible');
     }
