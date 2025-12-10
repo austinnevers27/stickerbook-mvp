@@ -22,64 +22,19 @@
       flex-direction: column;
       background: var(--color-canvas);
       overflow: hidden;
+      padding-top: env(safe-area-inset-top, 0);
     }
 
-    /* ========== HEADER ========== */
-    .stickerbook-header {
-      display: flex;
-      align-items: center;
-      padding: 16px 20px 12px;
-      flex-shrink: 0;
-    }
-
-    .profile-btn {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      border: 2px solid var(--color-border);
-      background: var(--gradient-primary);
-      cursor: pointer;
-      overflow: hidden;
-      box-shadow: var(--shadow-md);
-      transition: transform 0.15s ease, box-shadow 0.15s ease;
-      flex-shrink: 0;
-    }
-
-    .profile-btn:hover {
-      transform: scale(1.05);
-      box-shadow: var(--shadow-lg);
-    }
-
-    .profile-btn img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .profile-btn-placeholder {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--color-text-inverse);
-      font-size: 16px;
-      font-weight: 600;
-    }
-
-    .book-title {
-      flex: 1;
+    /* ========== BRAND TITLE ========== */
+    .brand-title {
       text-align: center;
       font-family: var(--font-display);
-      font-size: 14px;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      color: var(--color-text-primary);
-      padding: 0 12px;
-    }
-
-    .header-spacer {
-      width: 40px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+      padding: 8px 0 4px;
       flex-shrink: 0;
     }
 
@@ -89,15 +44,15 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 0 20px;
+      padding: 0 10px;
       min-height: 0;
       overflow: hidden;
     }
 
     /* ========== STICKERBOOK PAGE ========== */
     .stickerbook-page {
-      width: 100%;
-      max-width: 340px;
+      width: 95%;
+      max-width: 380px;
       flex: 1;
       border-radius: var(--radius-lg);
       background: #ffffff;
@@ -111,6 +66,84 @@
       position: absolute;
       inset: 0;
       overflow: hidden;
+    }
+
+    /* ========== ON-CANVAS ELEMENTS ========== */
+    .canvas-header {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      align-items: center;
+      padding: 12px;
+      z-index: 2000;
+      pointer-events: none;
+    }
+
+    .canvas-profile-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 2px solid rgba(255, 255, 255, 0.8);
+      background: var(--gradient-primary);
+      cursor: pointer;
+      overflow: hidden;
+      box-shadow: var(--shadow-md);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      flex-shrink: 0;
+      pointer-events: auto;
+    }
+
+    .canvas-profile-btn:hover {
+      transform: scale(1.05);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .canvas-profile-btn img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .canvas-profile-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-text-inverse);
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .canvas-book-title {
+      flex: 1;
+      text-align: center;
+      font-family: var(--font-display);
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      color: white;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+      padding: 0 8px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Dynamic sizing for long names */
+    .canvas-book-title.long-name {
+      font-size: 12px;
+    }
+
+    .canvas-book-title.very-long-name {
+      font-size: 10px;
+    }
+
+    .canvas-header-spacer {
+      width: 36px;
+      flex-shrink: 0;
     }
 
     /* ========== STICKERS ON PAGE ========== */
@@ -154,7 +187,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 12px 0;
+      padding: 10px 0;
       flex-shrink: 0;
     }
 
@@ -186,7 +219,8 @@
       display: flex;
       align-items: center;
       justify-content: space-around;
-      padding: 12px 16px 24px;
+      padding: 8px 16px;
+      padding-bottom: calc(16px + env(safe-area-inset-bottom, 0));
       flex-shrink: 0;
       position: relative;
     }
@@ -212,15 +246,15 @@
     }
 
     .toolbar-btn-icon {
-      width: 64px;
-      height: 64px;
+      width: 56px;
+      height: 56px;
       border-radius: 50%;
       background: var(--color-canvas-elevated);
       box-shadow: var(--shadow-md);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 28px;
+      font-size: 24px;
       transition: box-shadow 0.15s ease, background 0.15s ease, border-color 0.15s ease;
       border: 2px solid var(--color-border);
     }
@@ -231,7 +265,7 @@
     }
 
     .toolbar-btn-label {
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 600;
       color: var(--color-text-muted);
       letter-spacing: 0.02em;
@@ -249,8 +283,8 @@
     /* Trash button - absolute positioned, hidden by default */
     .toolbar-btn-trash {
       position: absolute;
-      right: 95px;
-      bottom: 24px;
+      right: 85px;
+      bottom: 16px;
       opacity: 0;
       pointer-events: none;
       transform: translateX(20px);
@@ -637,12 +671,12 @@
       left: 0;
       right: 0;
       bottom: 0;
-      height: 35vh;
+      height: 52vh;
       background: var(--color-canvas-elevated);
       border-radius: var(--radius-xl) var(--radius-xl) 0 0;
       box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.15);
       transform: translateY(100%);
-      transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1), height 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+      transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1);
       z-index: 501;
       display: flex;
       flex-direction: column;
@@ -652,10 +686,6 @@
 
     .drawer-panel.visible {
       transform: translateY(0);
-    }
-
-    .drawer-panel.expanded {
-      height: 85vh;
     }
 
     .drawer-handle {
@@ -681,6 +711,7 @@
       padding: 4px 16px 12px;
       border-bottom: 1px solid var(--color-border);
       flex-shrink: 0;
+      gap: 12px;
     }
 
     .drawer-header-tabs {
@@ -688,7 +719,13 @@
       gap: 8px;
       flex: 1;
       justify-content: center;
-      padding-right: 28px; /* Balance for X button */
+    }
+
+    .drawer-count {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--color-text-muted);
+      flex-shrink: 0;
     }
 
     .drawer-header-tab {
@@ -731,38 +768,6 @@
 
     .drawer-close-btn:hover {
       color: var(--color-text-primary);
-    }
-
-    .drawer-subheader {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 8px 16px;
-      flex-shrink: 0;
-    }
-
-    .drawer-expand-btn {
-      background: var(--color-canvas-subtle);
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius-sm);
-      padding: 6px 10px;
-      color: var(--color-text-secondary);
-      font-size: 11px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background 0.15s ease, border-color 0.15s ease;
-      font-family: var(--font-primary);
-    }
-
-    .drawer-expand-btn:hover {
-      background: var(--color-hover-bg);
-      border-color: var(--color-border-strong);
-    }
-
-    .drawer-count {
-      font-size: 11px;
-      font-weight: 600;
-      color: var(--color-text-muted);
     }
 
     .drawer-archived-view {
@@ -948,28 +953,15 @@
       line-height: 1.6;
     }
 
-    /* Selection footer (full screen mode) */
+    /* Selection footer - always visible */
     .drawer-footer {
-      display: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       padding: 12px 16px;
       border-top: 1px solid var(--color-border);
       background: var(--color-canvas-subtle);
       flex-shrink: 0;
-    }
-
-    .drawer-panel.expanded .drawer-footer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    /* Shop footer - shown in collapsed mode, hidden in expanded */
-    .drawer-shop-footer {
-      flex-shrink: 0;
-    }
-
-    .drawer-panel.expanded .drawer-shop-footer {
-      display: none;
     }
 
     .drawer-selection-count {
@@ -1059,7 +1051,7 @@
       left: 0;
       right: 0;
       bottom: 0;
-      height: 62vh;
+      height: 52vh;
       background: var(--color-canvas-elevated);
       border-radius: var(--radius-xl) var(--radius-xl) 0 0;
       box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.15);
@@ -1489,18 +1481,20 @@
 </head>
 <body>
   <div class="stickerbook-shell">
-    <!-- Header -->
-    <header class="stickerbook-header">
-      <button class="profile-btn" id="profile-btn" title="Menu">
-        <div class="profile-btn-placeholder" id="profile-initial">A</div>
-      </button>
-      <div class="book-title" id="book-title">Austin's Stickerbook</div>
-      <div class="header-spacer"></div>
-    </header>
+    <!-- Brand Title -->
+    <div class="brand-title">STICKERBOOK</div>
 
     <!-- Page Container -->
     <div class="page-container">
       <div class="stickerbook-page" id="stickerbook-page">
+        <!-- On-canvas header (profile + title) -->
+        <div class="canvas-header">
+          <button class="canvas-profile-btn" id="profile-btn" title="Menu">
+            <div class="canvas-profile-placeholder" id="profile-initial">A</div>
+          </button>
+          <div class="canvas-book-title" id="book-title">Name's Stickerbook</div>
+          <div class="canvas-header-spacer"></div>
+        </div>
         <div class="page-canvas" id="page-canvas">
           <!-- Stickers render here -->
         </div>
@@ -1631,13 +1625,8 @@
           <button class="drawer-header-tab active" id="drawer-tab-stickers">My Stickers</button>
           <button class="drawer-header-tab" id="drawer-tab-archived">Archived Pages</button>
         </div>
+        <div class="drawer-count" id="drawer-count">0/150</div>
         <button class="drawer-close-btn" id="drawer-close-btn">✕</button>
-      </div>
-      <div class="drawer-subheader" id="drawer-subheader">
-        <button class="drawer-expand-btn" id="drawer-expand-btn">
-          <span id="expand-text">Expand</span>
-        </button>
-        <div class="drawer-count" id="drawer-count">0 stickers</div>
       </div>
       <div class="drawer-grid" id="drawer-grid">
         <!-- Stickers injected by JS -->
@@ -1880,7 +1869,7 @@
     const stickerPage = document.getElementById('stickerbook-page');
     const pageCanvas = document.getElementById('page-canvas');
     const pageDotsContainer = document.getElementById('page-dots');
-    const bookTitleEl = document.getElementById('book-title');
+    const bookTitle = document.getElementById('book-title');
     const profileBtn = document.getElementById('profile-btn');
     const profileInitial = document.getElementById('profile-initial');
     const navOverlay = document.getElementById('nav-overlay');
@@ -1900,8 +1889,6 @@
     const drawerGrid = document.getElementById('drawer-grid');
     const drawerCount = document.getElementById('drawer-count');
     const drawerEmpty = document.getElementById('drawer-empty');
-    const drawerExpandBtn = document.getElementById('drawer-expand-btn');
-    const expandText = document.getElementById('expand-text');
     const drawerFooter = document.getElementById('drawer-footer');
     const drawerSelectionCount = document.getElementById('drawer-selection-count');
     const drawerDeleteBtn = document.getElementById('drawer-delete-btn');
@@ -1911,7 +1898,6 @@
     const drawerTabArchived = document.getElementById('drawer-tab-archived');
     const drawerArchivedView = document.getElementById('drawer-archived-view');
     const drawerShopBtn = document.getElementById('drawer-shop-btn');
-    const drawerSubheader = document.getElementById('drawer-subheader');
     const drawerShopFooter = document.getElementById('drawer-shop-footer');
 
     // Background panel elements
@@ -2573,11 +2559,21 @@
     }
 
     function loadUserProfile() {
-      const userName = localStorage.getItem('stickerbook_user_name') || 'You';
+      const userName = localStorage.getItem('stickerbook_user_name') || 'Name';
       const userHandle = localStorage.getItem('stickerbook_user_handle') || '@user';
       const userInitial = userName.charAt(0).toUpperCase();
 
-      bookTitleEl.textContent = `${userName}'s Stickerbook`;
+      const titleText = `${userName}'s Stickerbook`;
+      bookTitle.textContent = titleText;
+      
+      // Dynamic sizing based on name length
+      bookTitle.classList.remove('long-name', 'very-long-name');
+      if (titleText.length > 22) {
+        bookTitle.classList.add('very-long-name');
+      } else if (titleText.length > 16) {
+        bookTitle.classList.add('long-name');
+      }
+      
       profileInitial.textContent = userInitial;
       navProfilePhoto.textContent = userInitial;
       navProfileName.textContent = userName;
@@ -3289,7 +3285,6 @@
     }
 
     // ============ DRAWER FUNCTIONS ============
-    let drawerExpanded = false;
     let drawerSelectedIds = new Set();
     let longPressTimer = null;
     let drawerViewMode = 'stickers'; // 'stickers' | 'archived'
@@ -3298,10 +3293,7 @@
 
     function openDrawer() {
       drawerSelectedIds.clear();
-      drawerExpanded = false;
       drawerViewMode = 'stickers';
-      drawerPanel.classList.remove('expanded');
-      expandText.textContent = 'Expand';
       updateDrawerViewMode();
       drawerOverlay.classList.add('visible');
       drawerPanel.classList.add('visible');
@@ -3311,8 +3303,6 @@
     function closeDrawer() {
       drawerOverlay.classList.remove('visible');
       drawerPanel.classList.remove('visible');
-      drawerExpanded = false;
-      drawerPanel.classList.remove('expanded');
       drawerSelectedIds.clear();
     }
 
@@ -3325,24 +3315,16 @@
       if (drawerViewMode === 'stickers') {
         drawerGrid.style.display = 'grid';
         drawerArchivedView.classList.remove('visible');
-        drawerSubheader.style.display = 'flex';
+        drawerFooter.style.display = 'flex';
+        drawerShopFooter.style.display = 'block';
         renderDrawer();
       } else {
         drawerGrid.style.display = 'none';
         drawerEmpty.classList.add('hidden');
         drawerArchivedView.classList.add('visible');
-        drawerSubheader.style.display = 'none';
         drawerFooter.style.display = 'none';
+        drawerShopFooter.style.display = 'none';
       }
-    }
-
-    function toggleDrawerExpand() {
-      drawerExpanded = !drawerExpanded;
-      drawerPanel.classList.toggle('expanded', drawerExpanded);
-      expandText.textContent = drawerExpanded ? 'Collapse' : 'Expand';
-      
-      renderDrawer();
-      updateDrawerSelectionUI();
     }
 
     function updateDrawerSelectionUI() {
@@ -3460,73 +3442,35 @@
     function setupDrawerHandle() {
       const handle = drawerPanel.querySelector('.drawer-handle');
       let startY = 0;
-      let startHeight = 0;
       let isDragging = false;
 
       handle.addEventListener('touchstart', (e) => {
         startY = e.touches[0].clientY;
-        startHeight = drawerPanel.offsetHeight;
         isDragging = true;
-      }, { passive: true });
-
-      handle.addEventListener('touchmove', (e) => {
-        if (!isDragging) return;
-        const dy = startY - e.touches[0].clientY;
-        const newHeight = startHeight + dy;
-        const vh = window.innerHeight;
-        
-        const clampedHeight = Math.max(vh * 0.3, Math.min(vh * 0.9, newHeight));
-        drawerPanel.style.height = `${clampedHeight}px`;
       }, { passive: true });
 
       handle.addEventListener('touchend', (e) => {
         if (!isDragging) return;
         isDragging = false;
-        
-        const vh = window.innerHeight;
-        const currentHeight = drawerPanel.offsetHeight;
-        
-        drawerPanel.style.height = '';
-        if (currentHeight > vh * 0.55) {
-          if (!drawerExpanded) toggleDrawerExpand();
-        } else {
-          if (drawerExpanded) toggleDrawerExpand();
+        const dy = e.changedTouches[0].clientY - startY;
+        if (dy > 50) {
+          closeDrawer();
         }
       }, { passive: true });
 
-      drawerExpandBtn.addEventListener('click', toggleDrawerExpand);
-
       handle.addEventListener('mousedown', (e) => {
         startY = e.clientY;
-        startHeight = drawerPanel.offsetHeight;
         isDragging = true;
         
-        const handleMouseMove = (ev) => {
-          if (!isDragging) return;
-          const dy = startY - ev.clientY;
-          const newHeight = startHeight + dy;
-          const vh = window.innerHeight;
-          const clampedHeight = Math.max(vh * 0.3, Math.min(vh * 0.9, newHeight));
-          drawerPanel.style.height = `${clampedHeight}px`;
-        };
-
-        const handleMouseUp = () => {
+        const handleMouseUp = (ev) => {
           isDragging = false;
-          window.removeEventListener('mousemove', handleMouseMove);
           window.removeEventListener('mouseup', handleMouseUp);
-          
-          const vh = window.innerHeight;
-          const currentHeight = drawerPanel.offsetHeight;
-          
-          drawerPanel.style.height = '';
-          if (currentHeight > vh * 0.55) {
-            if (!drawerExpanded) toggleDrawerExpand();
-          } else {
-            if (drawerExpanded) toggleDrawerExpand();
+          const dy = ev.clientY - startY;
+          if (dy > 50) {
+            closeDrawer();
           }
         };
 
-        window.addEventListener('mousemove', handleMouseMove);
         window.addEventListener('mouseup', handleMouseUp);
       });
 
@@ -3556,15 +3500,10 @@
         wrapper.className = 'drawer-sticker-wrapper';
         
         const el = document.createElement('div');
-        el.className = 'drawer-sticker';
+        el.className = 'drawer-sticker draggable selectable';
         
-        if (drawerExpanded) {
-          el.classList.add('selectable');
-          if (drawerSelectedIds.has(sticker.id)) {
-            el.classList.add('selected');
-          }
-        } else {
-          el.classList.add('draggable');
+        if (drawerSelectedIds.has(sticker.id)) {
+          el.classList.add('selected');
         }
         
         el.dataset.index = actualIndex;
@@ -3593,11 +3532,9 @@
         });
         wrapper.appendChild(deleteBtn);
 
-        if (drawerExpanded) {
-          setupDrawerStickerSelect(el, sticker);
-        } else {
-          setupDrawerStickerDrag(el, sticker, actualIndex);
-        }
+        // Setup both drag and select behaviors
+        setupDrawerStickerDrag(el, sticker, actualIndex);
+        setupDrawerStickerSelect(el, sticker);
         
         setupSwipeToDelete(wrapper, el);
 
@@ -3665,7 +3602,6 @@
 
     function setupDrawerMouseDrag(el, sticker, index) {
       el.addEventListener('mousedown', (e) => {
-        if (drawerExpanded) return;
         e.preventDefault();
         startDragFromDrawer(e.clientX, e.clientY, sticker, index, el);
 
@@ -3690,8 +3626,6 @@
       let startX, startY;
 
       el.addEventListener('touchstart', (e) => {
-        if (drawerExpanded) return;
-        
         startX = e.touches[0].clientX;
         startY = e.touches[0].clientY;
         longPressTriggered = false;
