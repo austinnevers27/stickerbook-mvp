@@ -1127,33 +1127,33 @@
     }
 
     .bg-swatch {
+      padding: 6px 12px;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-pill);
+      background: transparent;
+      color: var(--color-text-subtle);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      font-family: var(--font-primary);
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      padding: 8px 14px;
-      border: 1px solid #d4d4d8;
-      border-radius: 999px;
-      background: #ffffff;
-      color: #71717a;
-      font-size: 10px;
-      font-weight: 600;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      cursor: pointer;
-      font-family: var(--font-primary);
-      flex-grow: 0;
-      flex-shrink: 0;
     }
 
     .bg-swatch:hover {
-      border-color: #a1a1aa;
-      color: #52525b;
+      border-color: var(--color-border-strong);
+      color: var(--color-text-muted);
     }
 
     .bg-swatch.active {
-      background: linear-gradient(135deg, #7c3aed 0%, #14b8a6 100%);
-      border-color: transparent;
-      color: #ffffff;
+      background: var(--color-text-primary);
+      border-color: var(--color-text-primary);
+      color: var(--color-text-inverse);
     }
 
     .bg-swatch-color {
