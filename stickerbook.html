@@ -1117,7 +1117,7 @@
     .bg-swatch-row {
       display: none;
       gap: 8px;
-      padding: 0 16px 12px;
+      padding: 0 16px 10px;
       flex-shrink: 0;
       justify-content: center;
     }
@@ -1129,14 +1129,15 @@
     .bg-swatch {
       display: flex;
       align-items: center;
-      gap: 8px;
-      padding: 8px 12px;
+      gap: 6px;
+      padding: 6px 10px;
       border-radius: var(--radius-md);
-      border: 2px solid transparent;
+      border: 1px solid var(--color-border);
       background: var(--color-canvas-subtle);
       cursor: pointer;
       transition: border-color 0.15s ease, box-shadow 0.15s ease;
       font-family: var(--font-primary);
+      max-width: fit-content;
     }
 
     .bg-swatch:hover {
@@ -1145,12 +1146,12 @@
 
     .bg-swatch.active {
       border-color: var(--color-accent);
-      box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.15);
+      box-shadow: 0 0 0 2px rgba(20, 184, 166, 0.15);
     }
 
     .bg-swatch-color {
-      width: 24px;
-      height: 24px;
+      width: 20px;
+      height: 20px;
       border-radius: var(--radius-sm);
       box-shadow: var(--shadow-xs);
       flex-shrink: 0;
@@ -1158,7 +1159,7 @@
     }
 
     .bg-swatch-label {
-      font-size: 10px;
+      font-size: 9px;
       font-weight: 600;
       letter-spacing: 0.08em;
       text-transform: uppercase;
