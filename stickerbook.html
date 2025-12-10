@@ -1015,12 +1015,40 @@
       flex-shrink: 0;
     }
 
-    .bg-panel-title {
-      font-family: var(--font-display);
-      font-size: 14px;
-      font-weight: 700;
-      letter-spacing: 0.06em;
-      color: var(--color-text-primary);
+    .bg-header-tabs {
+      display: flex;
+      gap: 8px;
+    }
+
+    .bg-header-tab {
+      padding: 8px 16px;
+      background: var(--color-canvas-subtle);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-pill);
+      color: var(--color-text-muted);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: var(--font-primary);
+    }
+
+    .bg-header-tab:hover {
+      background: var(--color-hover-bg);
+      border-color: var(--color-border-strong);
+      color: var(--color-text-secondary);
+    }
+
+    .bg-header-tab.active {
+      background: linear-gradient(135deg, #7c3aed 0%, #14b8a6 100%);
+      border-color: transparent;
+      color: white;
+      box-shadow: 0 2px 8px rgba(124, 58, 237, 0.3);
+    }
+
+    .bg-header-tab.active:hover {
+      box-shadow: 0 4px 12px rgba(124, 58, 237, 0.4);
     }
 
     .bg-panel-close {
@@ -1249,46 +1277,6 @@
     .bg-footer-shop:hover {
       background: var(--color-hover-bg);
       color: var(--color-text-secondary);
-    }
-
-    .bg-footer-toggle {
-      display: flex;
-      gap: 8px;
-      padding: 10px 16px;
-      justify-content: center;
-    }
-
-    .bg-footer-tab {
-      flex: 1;
-      max-width: 140px;
-      padding: 10px 16px;
-      background: var(--color-canvas-subtle);
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius-pill);
-      color: var(--color-text-muted);
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.03em;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      font-family: var(--font-primary);
-    }
-
-    .bg-footer-tab:hover {
-      background: var(--color-hover-bg);
-      border-color: var(--color-border-strong);
-      color: var(--color-text-secondary);
-    }
-
-    .bg-footer-tab.active {
-      background: linear-gradient(135deg, #7c3aed 0%, #14b8a6 100%);
-      border-color: transparent;
-      color: white;
-      box-shadow: 0 2px 8px rgba(124, 58, 237, 0.3);
-    }
-
-    .bg-footer-tab.active:hover {
-      box-shadow: 0 4px 12px rgba(124, 58, 237, 0.4);
     }
 
     /* My Backgrounds view */
@@ -1583,7 +1571,10 @@
     <div class="drawer-overlay" id="bg-overlay"></div>
     <div class="bg-panel" id="bg-panel">
       <div class="bg-panel-header">
-        <div class="bg-panel-title">Backgrounds</div>
+        <div class="bg-header-tabs" id="bg-header-tabs">
+          <button class="bg-header-tab active" id="bg-tab-default">Create</button>
+          <button class="bg-header-tab" id="bg-tab-my">My Backgrounds</button>
+        </div>
         <button class="bg-panel-close" id="bg-close-btn">✕</button>
       </div>
 
@@ -1643,16 +1634,10 @@
         </div>
       </div>
 
-      <!-- Footer (shop link or toggle) -->
+      <!-- Footer (shop link) -->
       <div class="bg-footer" id="bg-footer">
-        <!-- Shop link (shown when no premium backgrounds) -->
         <div class="bg-footer-shop" id="bg-footer-shop">
           🛒 <span>Get more backgrounds in the Shop</span>
-        </div>
-        <!-- Toggle tabs (shown when has premium backgrounds) -->
-        <div class="bg-footer-toggle" id="bg-footer-toggle" style="display: none;">
-          <button class="bg-footer-tab active" id="bg-tab-default">Default</button>
-          <button class="bg-footer-tab" id="bg-tab-my">My Backgrounds</button>
         </div>
       </div>
     </div>
@@ -1844,7 +1829,6 @@
     const bgMyEmpty = document.getElementById('bg-my-empty');
     const bgFooter = document.getElementById('bg-footer');
     const bgFooterShop = document.getElementById('bg-footer-shop');
-    const bgFooterToggle = document.getElementById('bg-footer-toggle');
     const bgTabDefault = document.getElementById('bg-tab-default');
     const bgTabMy = document.getElementById('bg-tab-my');
 
@@ -2169,13 +2153,19 @@
         renderBgColorGrid();
       });
 
-      // Footer shop link
+      // Footer shop link - opens shop with backgrounds filter
       bgFooterShop.addEventListener('click', () => {
         closeBackgroundPanel();
-        openShop();
+        localStorage.setItem('stickerbook_editing_page', currentPageIndex);
+        const shopUrl = 'stickershop.html?filter=backgrounds';
+        if (hasUnsavedChanges) {
+          showSaveModal(() => window.location.href = shopUrl);
+        } else {
+          window.location.href = shopUrl;
+        }
       });
 
-      // Footer toggle tabs
+      // Header toggle tabs
       bgTabDefault.addEventListener('click', () => {
         if (bgViewMode !== 'default') {
           bgViewMode = 'default';
@@ -2204,22 +2194,20 @@
 
       // Seed with rainbow solid examples to show thumbnail size
       myBackgrounds = [
-        { id: 'bg_red', name: 'Ruby Red', css: 'background-color: #dc2626;', type: 'solid' },
-        { id: 'bg_orange', name: 'Sunset Orange', css: 'background-color: #ea580c;', type: 'solid' },
-        { id: 'bg_yellow', name: 'Golden Sun', css: 'background-color: #eab308;', type: 'solid' },
-        { id: 'bg_green', name: 'Forest Green', css: 'background-color: #16a34a;', type: 'solid' },
-        { id: 'bg_blue', name: 'Ocean Blue', css: 'background-color: #2563eb;', type: 'solid' },
-        { id: 'bg_indigo', name: 'Deep Indigo', css: 'background-color: #4f46e5;', type: 'solid' },
-        { id: 'bg_violet', name: 'Royal Violet', css: 'background-color: #7c3aed;', type: 'solid' },
+        { id: 'bg_red', name: 'Ruby Red', css: 'background-color: #dc2626;', type: 'solid', source: 'shop' },
+        { id: 'bg_orange', name: 'Sunset Orange', css: 'background-color: #ea580c;', type: 'solid', source: 'shop' },
+        { id: 'bg_yellow', name: 'Golden Sun', css: 'background-color: #eab308;', type: 'solid', source: 'shop' },
+        { id: 'bg_green', name: 'Forest Green', css: 'background-color: #16a34a;', type: 'solid', source: 'shop' },
+        { id: 'bg_blue', name: 'Ocean Blue', css: 'background-color: #2563eb;', type: 'solid', source: 'shop' },
+        { id: 'bg_indigo', name: 'Deep Indigo', css: 'background-color: #4f46e5;', type: 'solid', source: 'shop' },
+        { id: 'bg_violet', name: 'Royal Violet', css: 'background-color: #7c3aed;', type: 'solid', source: 'shop' },
       ];
       localStorage.setItem('stickerbook_my_backgrounds', JSON.stringify(myBackgrounds));
     }
 
     function updateBgFooter() {
-      // Always show shop link as reminder
+      // Shop link is always visible in footer
       bgFooterShop.style.display = 'flex';
-      // Show toggle only if user has premium backgrounds
-      bgFooterToggle.style.display = myBackgrounds.length > 0 ? 'flex' : 'none';
     }
 
     function updateBgViewMode() {
@@ -2257,7 +2245,17 @@
 
       bgMyEmpty.style.display = 'none';
 
-      myBackgrounds.forEach((bg, index) => {
+      // Sort: purchased first, created after
+      const sorted = [...myBackgrounds].sort((a, b) => {
+        const aCreated = a.source === 'created' ? 1 : 0;
+        const bCreated = b.source === 'created' ? 1 : 0;
+        return aCreated - bCreated;
+      });
+
+      sorted.forEach((bg) => {
+        // Find original index for deletion
+        const originalIndex = myBackgrounds.indexOf(bg);
+        
         const wrapper = document.createElement('div');
         wrapper.className = 'bg-my-item-wrapper';
 
@@ -2265,7 +2263,7 @@
         item.className = 'bg-my-item';
         item.style.cssText = bg.css;
         item.dataset.id = bg.id;
-        item.dataset.index = index;
+        item.dataset.index = originalIndex;
 
         // Check if this is the currently applied background
         const page = pages[currentPageIndex];
@@ -2283,7 +2281,7 @@
         deleteBtn.textContent = '🗑️';
         deleteBtn.addEventListener('click', (e) => {
           e.stopPropagation();
-          deletePremiumBackground(index);
+          deletePremiumBackground(originalIndex);
         });
         wrapper.appendChild(deleteBtn);
 
@@ -2568,8 +2566,50 @@
     function saveDataToStorage() {
       localStorage.setItem('stickerbook_all_pages', JSON.stringify(pages));
       localStorage.setItem('stickerbook_drawer', JSON.stringify(drawer));
+      
+      // Auto-save any created backgrounds to My Backgrounds
+      saveCreatedBackgrounds();
+      
       hasUnsavedChanges = false;
       showToast('Saved!');
+    }
+
+    function saveCreatedBackgrounds() {
+      let addedCount = 0;
+      
+      pages.forEach(page => {
+        if (!page.backgroundData) return;
+        if (page.backgroundData.pattern === 'premium') return; // Skip purchased
+        if (!page.backgroundData.baseColor) return; // Skip empty/default
+        
+        const data = page.backgroundData;
+        
+        // Check for duplicate
+        const isDupe = myBackgrounds.some(bg => {
+          if (bg.source !== 'created') return false;
+          return bg.pattern === data.pattern &&
+                 bg.subfilter === data.subfilter &&
+                 bg.baseColor === data.baseColor &&
+                 bg.patternColor === data.patternColor;
+        });
+        
+        if (!isDupe) {
+          myBackgrounds.push({
+            id: 'created_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5),
+            css: page.backgroundCSS,
+            source: 'created',
+            pattern: data.pattern,
+            subfilter: data.subfilter,
+            baseColor: data.baseColor,
+            patternColor: data.patternColor
+          });
+          addedCount++;
+        }
+      });
+      
+      if (addedCount > 0) {
+        localStorage.setItem('stickerbook_my_backgrounds', JSON.stringify(myBackgrounds));
+      }
     }
 
     // ============ PAGE RENDERING ============

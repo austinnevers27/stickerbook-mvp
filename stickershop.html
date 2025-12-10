@@ -1024,6 +1024,17 @@
     async function init() {
       loadUserData();
       await loadShopData();
+      
+      // Check URL param for filter
+      const urlParams = new URLSearchParams(window.location.search);
+      const filterParam = urlParams.get('filter');
+      if (filterParam === 'backgrounds') {
+        currentView = 'backgrounds';
+        toggleBackgrounds.classList.add('active');
+        toggleStickers.classList.remove('active');
+        searchInput.placeholder = 'Search backgrounds...';
+      }
+      
       renderCurrentView();
       setupEventListeners();
     }
@@ -1594,11 +1605,12 @@
             }
           });
         } else if (item.type === 'background') {
-          myBackgrounds.push({
+          myBackgrounds.unshift({
             id: item.data.id,
             name: item.data.name,
             css: item.data.css,
-            type: item.data.type
+            type: item.data.type,
+            source: 'shop'
           });
           ownedBackgroundIds.add(item.data.id);
           backgroundCount++;
