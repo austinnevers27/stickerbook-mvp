@@ -1414,27 +1414,6 @@ body.layout-contained .overview-rows {
   flex-shrink: 0;
 }
 
-.bg-swatch-row {
-  display: flex;
-  gap: 8px;
-  flex: 1;
-}
-
-.bg-swatch {
-  flex: none;
-  width: fit-content;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 12px;
-  border-radius: var(--radius-md);
-  border: 2px solid transparent;
-  background: var(--color-canvas-subtle);
-  cursor: pointer;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
-  font-family: var(--font-primary);
-}
-
 .bg-swatch:hover {
   border-color: var(--color-border-strong);
 }
