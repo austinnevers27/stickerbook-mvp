@@ -1,0 +1,1234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Stickerbook</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/stickerbook.css">
+  <style>
+    /* ========== PAGE-SPECIFIC STYLES ========== */
+    html, body {
+      touch-action: none;
+      overflow: hidden;
+      height: 100%;
+    }
+
+    .stickerbook-shell {
+      width: 100%;
+      height: 100vh;
+      height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      background: var(--gradient-background);
+      overflow: hidden;
+    }
+
+    /* ========== HEADER ========== */
+    .stickerbook-header {
+      display: flex;
+      align-items: center;
+      padding: 16px 20px 12px;
+      flex-shrink: 0;
+    }
+
+    .profile-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 2px solid rgba(255, 255, 255, 0.8);
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      cursor: pointer;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      flex-shrink: 0;
+    }
+
+    .profile-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .profile-btn img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .profile-btn-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .book-title {
+      flex: 1;
+      text-align: center;
+      font-family: var(--font-display);
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      color: var(--color-text-primary);
+      padding: 0 12px;
+    }
+
+    .header-spacer {
+      width: 40px;
+      flex-shrink: 0;
+    }
+
+    /* ========== PAGE CONTAINER ========== */
+    .page-container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0 20px;
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    /* ========== STICKERBOOK PAGE ========== */
+    .stickerbook-page {
+      width: 100%;
+      max-width: 340px;
+      flex: 1;
+      border-radius: var(--radius-lg);
+      background: #ffffff;
+      box-shadow: 0 12px 40px rgba(15, 23, 42, 0.18), 0 4px 12px rgba(15, 23, 42, 0.1);
+      position: relative;
+      overflow: hidden;
+      touch-action: none;
+    }
+
+    .page-canvas {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+    }
+
+    /* Empty page state */
+    .empty-page-hint {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-text-subtle);
+      font-size: 12px;
+      text-align: center;
+      padding: 20px;
+      pointer-events: none;
+    }
+
+    .empty-page-hint .hint-icon {
+      font-size: 32px;
+      margin-bottom: 12px;
+      opacity: 0.5;
+    }
+
+    .empty-page-hint .hint-text {
+      line-height: 1.5;
+    }
+
+    /* ========== STICKERS ON PAGE ========== */
+    .placed-sticker {
+      position: absolute;
+      touch-action: none;
+      user-select: none;
+      transform-origin: center center;
+      cursor: grab;
+    }
+
+    .placed-sticker img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      pointer-events: none;
+      user-select: none;
+      display: block;
+    }
+
+    .placed-sticker.active {
+      z-index: 1000 !important;
+      box-shadow: 0 0 0 2px var(--color-cyan), 0 8px 20px rgba(15, 23, 42, 0.3);
+      border-radius: 4px;
+    }
+
+    .placed-sticker.dragging {
+      cursor: grabbing;
+      opacity: 0.9;
+    }
+
+    /* Sticker being dragged to drawer */
+    .placed-sticker.to-drawer {
+      transition: transform 0.3s ease, opacity 0.3s ease;
+      transform: scale(0.3) !important;
+      opacity: 0;
+    }
+
+    /* ========== PAGE INDICATOR ========== */
+    .page-indicator {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 12px 0;
+      flex-shrink: 0;
+    }
+
+    .page-dots {
+      display: flex;
+      gap: 6px;
+    }
+
+    .page-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(148, 163, 184, 0.4);
+      transition: background 0.2s ease, transform 0.2s ease;
+      cursor: pointer;
+    }
+
+    .page-dot.active {
+      background: var(--color-cyan);
+      transform: scale(1.2);
+    }
+
+    .page-dot.filled {
+      background: rgba(148, 163, 184, 0.7);
+    }
+
+    .page-dot.locked {
+      background: rgba(148, 163, 184, 0.2);
+      border: 1px dashed rgba(148, 163, 184, 0.4);
+    }
+
+    .page-number {
+      font-size: 11px;
+      color: var(--color-text-muted);
+      font-weight: 500;
+    }
+
+    /* ========== BOTTOM TOOLBAR ========== */
+    .bottom-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      padding: 12px 20px 24px;
+      flex-shrink: 0;
+    }
+
+    .toolbar-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      padding: 8px 16px;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      transition: transform 0.12s ease;
+    }
+
+    .toolbar-btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .toolbar-btn:active {
+      transform: translateY(0);
+    }
+
+    .toolbar-btn-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: white;
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      transition: box-shadow 0.15s ease, background 0.15s ease;
+    }
+
+    .toolbar-btn:hover .toolbar-btn-icon {
+      box-shadow: 0 6px 16px rgba(15, 23, 42, 0.18);
+    }
+
+    .toolbar-btn-label {
+      font-size: 10px;
+      font-weight: 500;
+      color: var(--color-text-muted);
+      letter-spacing: 0.02em;
+    }
+
+    /* Drawer drop zone active state */
+    .toolbar-btn.drop-active .toolbar-btn-icon {
+      background: var(--color-cyan);
+      box-shadow: 0 0 0 4px rgba(34, 211, 238, 0.3), 0 6px 16px rgba(34, 211, 238, 0.3);
+    }
+
+    /* ========== SLIDE-OUT NAV MENU ========== */
+    .nav-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.5);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+      z-index: 900;
+    }
+
+    .nav-overlay.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .nav-menu {
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 280px;
+      max-width: 80vw;
+      background: white;
+      box-shadow: 4px 0 24px rgba(15, 23, 42, 0.2);
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
+      z-index: 901;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .nav-menu.visible {
+      transform: translateX(0);
+    }
+
+    .nav-header {
+      padding: 24px 20px;
+      border-bottom: 1px solid var(--color-border-light);
+    }
+
+    .nav-profile {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .nav-profile-photo {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 20px;
+      font-weight: 600;
+    }
+
+    .nav-profile-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .nav-profile-info {
+      flex: 1;
+    }
+
+    .nav-profile-name {
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--color-text-primary);
+    }
+
+    .nav-profile-handle {
+      font-size: 11px;
+      color: var(--color-text-muted);
+    }
+
+    .nav-items {
+      flex: 1;
+      padding: 12px 0;
+      overflow-y: auto;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 20px;
+      font-size: 14px;
+      color: var(--color-text-primary);
+      cursor: pointer;
+      transition: background 0.15s ease;
+      border: none;
+      background: transparent;
+      width: 100%;
+      text-align: left;
+      font-family: var(--font-primary);
+    }
+
+    .nav-item:hover {
+      background: var(--color-field-bg);
+    }
+
+    .nav-item-icon {
+      font-size: 18px;
+      width: 24px;
+      text-align: center;
+    }
+
+    .nav-footer {
+      padding: 16px 20px;
+      border-top: 1px solid var(--color-border-light);
+    }
+
+    .nav-footer-text {
+      font-size: 10px;
+      color: var(--color-text-subtle);
+      text-align: center;
+    }
+
+    /* ========== SAVE/DISCARD MODAL ========== */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+      z-index: 1000;
+    }
+
+    .modal-overlay.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-card {
+      background: white;
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      max-width: 300px;
+      width: 90%;
+      box-shadow: 0 20px 50px rgba(15, 23, 42, 0.25);
+    }
+
+    .modal-title {
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--color-text-primary);
+      margin-bottom: 8px;
+    }
+
+    .modal-text {
+      font-size: 13px;
+      color: var(--color-text-muted);
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+
+    .modal-buttons {
+      display: flex;
+      gap: 10px;
+    }
+
+    .modal-btn {
+      flex: 1;
+      padding: 10px 16px;
+      border-radius: var(--radius-pill);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.12s ease, box-shadow 0.12s ease;
+      font-family: var(--font-primary);
+    }
+
+    .modal-btn:active {
+      transform: scale(0.98);
+    }
+
+    .modal-btn-secondary {
+      background: var(--color-field-bg);
+      border: 1px solid var(--color-border-medium);
+      color: var(--color-text-primary);
+    }
+
+    .modal-btn-primary {
+      background: var(--gradient-primary);
+      border: none;
+      color: white;
+      box-shadow: var(--shadow-button);
+    }
+
+    /* ========== TOAST ========== */
+    .toast {
+      position: fixed;
+      bottom: 100px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      padding: 10px 20px;
+      background: rgba(15, 23, 42, 0.9);
+      color: white;
+      border-radius: var(--radius-pill);
+      font-size: 12px;
+      font-weight: 500;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      z-index: 800;
+    }
+
+    .toast.visible {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+  </style>
+</head>
+<body>
+  <div class="stickerbook-shell">
+    <!-- Header -->
+    <header class="stickerbook-header">
+      <button class="profile-btn" id="profile-btn" title="Menu">
+        <div class="profile-btn-placeholder" id="profile-initial">A</div>
+      </button>
+      <div class="book-title" id="book-title">Austin's Stickerbook</div>
+      <div class="header-spacer"></div>
+    </header>
+
+    <!-- Page Container -->
+    <div class="page-container">
+      <div class="stickerbook-page" id="stickerbook-page">
+        <div class="page-canvas" id="page-canvas">
+          <!-- Stickers render here -->
+        </div>
+        <div class="empty-page-hint" id="empty-hint">
+          <div class="hint-icon">📖</div>
+          <div class="hint-text">This page is empty.<br>Add stickers from your drawer!</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Page Indicator -->
+    <div class="page-indicator">
+      <div class="page-dots" id="page-dots">
+        <!-- Dots generated by JS -->
+      </div>
+      <div class="page-number" id="page-number">Page 1 of 8</div>
+    </div>
+
+    <!-- Bottom Toolbar -->
+    <div class="bottom-toolbar">
+      <button class="toolbar-btn" id="btn-backgrounds" title="Backgrounds">
+        <div class="toolbar-btn-icon">🎨</div>
+        <div class="toolbar-btn-label">Backgrounds</div>
+      </button>
+      <button class="toolbar-btn" id="btn-shop" title="Sticker Shop">
+        <div class="toolbar-btn-icon">🛒</div>
+        <div class="toolbar-btn-label">Shop</div>
+      </button>
+      <button class="toolbar-btn" id="btn-drawer" title="Sticker Drawer">
+        <div class="toolbar-btn-icon">📂</div>
+        <div class="toolbar-btn-label">Drawer</div>
+      </button>
+    </div>
+
+    <!-- Slide-out Nav Menu -->
+    <div class="nav-overlay" id="nav-overlay"></div>
+    <nav class="nav-menu" id="nav-menu">
+      <div class="nav-header">
+        <div class="nav-profile">
+          <div class="nav-profile-photo" id="nav-profile-photo">A</div>
+          <div class="nav-profile-info">
+            <div class="nav-profile-name" id="nav-profile-name">Austin</div>
+            <div class="nav-profile-handle" id="nav-profile-handle">@austin</div>
+          </div>
+        </div>
+      </div>
+      <div class="nav-items">
+        <button class="nav-item" id="nav-matching">
+          <span class="nav-item-icon">💜</span>
+          <span>Find Friends</span>
+        </button>
+        <button class="nav-item" id="nav-messages">
+          <span class="nav-item-icon">💬</span>
+          <span>Messages</span>
+        </button>
+        <button class="nav-item" id="nav-stickerbook">
+          <span class="nav-item-icon">📖</span>
+          <span>My Stickerbook</span>
+        </button>
+        <button class="nav-item" id="nav-settings">
+          <span class="nav-item-icon">⚙️</span>
+          <span>Settings</span>
+        </button>
+      </div>
+      <div class="nav-footer">
+        <div class="nav-footer-text">Stickerbook v1.0</div>
+      </div>
+    </nav>
+
+    <!-- Save/Discard Modal -->
+    <div class="modal-overlay" id="save-modal">
+      <div class="modal-card">
+        <div class="modal-title">Save changes?</div>
+        <div class="modal-text">You have unsaved changes to your stickerbook.</div>
+        <div class="modal-buttons">
+          <button class="modal-btn modal-btn-secondary" id="modal-discard">Discard</button>
+          <button class="modal-btn modal-btn-primary" id="modal-save">Save</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast">Saved!</div>
+  </div>
+
+  <script>
+    // ============ CONSTANTS ============
+    const MAX_PAGES_FREE = 8;
+    const MAX_PAGES_TOTAL = 20;
+    const MAX_STICKERS_PER_PAGE = 15;
+    const DRAWER_CAPACITY_MULTIPLIER = 1.25;
+    const MIN_SCALE = 0.5;
+    const MAX_SCALE = 3;
+
+    // ============ STATE ============
+    let currentPageIndex = 0;
+    let totalPages = MAX_PAGES_FREE;
+    let pages = [];
+    let drawer = [];
+    let hasUnsavedChanges = false;
+    let activeSticker = null;
+    let currentZ = 10;
+
+    // ============ DOM ELEMENTS ============
+    const stickerPage = document.getElementById('stickerbook-page');
+    const pageCanvas = document.getElementById('page-canvas');
+    const emptyHint = document.getElementById('empty-hint');
+    const pageDotsContainer = document.getElementById('page-dots');
+    const pageNumberEl = document.getElementById('page-number');
+    const bookTitleEl = document.getElementById('book-title');
+    const profileBtn = document.getElementById('profile-btn');
+    const profileInitial = document.getElementById('profile-initial');
+    const navOverlay = document.getElementById('nav-overlay');
+    const navMenu = document.getElementById('nav-menu');
+    const navProfilePhoto = document.getElementById('nav-profile-photo');
+    const navProfileName = document.getElementById('nav-profile-name');
+    const navProfileHandle = document.getElementById('nav-profile-handle');
+    const saveModal = document.getElementById('save-modal');
+    const toast = document.getElementById('toast');
+    const btnBackgrounds = document.getElementById('btn-backgrounds');
+    const btnShop = document.getElementById('btn-shop');
+    const btnDrawer = document.getElementById('btn-drawer');
+
+    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
+    // ============ INITIALIZATION ============
+    function init() {
+      loadDataFromStorage();
+      loadUserProfile();
+      renderPageDots();
+      renderCurrentPage();
+      setupEventListeners();
+      updatePageNumber();
+    }
+
+    function loadUserProfile() {
+      const userName = localStorage.getItem('stickerbook_user_name') || 'You';
+      const userHandle = localStorage.getItem('stickerbook_user_handle') || '@user';
+      const userInitial = userName.charAt(0).toUpperCase();
+
+      bookTitleEl.textContent = `${userName}'s Stickerbook`;
+      profileInitial.textContent = userInitial;
+      navProfilePhoto.textContent = userInitial;
+      navProfileName.textContent = userName;
+      navProfileHandle.textContent = userHandle;
+    }
+
+    function loadDataFromStorage() {
+      // Load pages
+      try {
+        const savedPages = localStorage.getItem('stickerbook_all_pages');
+        if (savedPages) {
+          pages = JSON.parse(savedPages);
+        }
+      } catch (e) {
+        pages = [];
+      }
+
+      // Migrate from old single-page storage if exists
+      if (pages.length === 0) {
+        try {
+          const oldPage1 = localStorage.getItem('stickerbook_page_1');
+          if (oldPage1) {
+            pages[0] = JSON.parse(oldPage1);
+          }
+        } catch (e) {}
+      }
+
+      // Initialize empty pages if needed
+      while (pages.length < totalPages) {
+        pages.push({
+          background: '#ffffff',
+          backgroundCSS: 'background-color: #ffffff;',
+          stickers: []
+        });
+      }
+
+      // Load drawer
+      try {
+        const savedDrawer = localStorage.getItem('stickerbook_drawer');
+        if (savedDrawer) {
+          drawer = JSON.parse(savedDrawer);
+        }
+      } catch (e) {
+        drawer = [];
+      }
+
+      // Migrate from old selected stickers if drawer is empty
+      if (drawer.length === 0) {
+        try {
+          const oldSelected = localStorage.getItem('stickerbookSelectedStickers');
+          if (oldSelected) {
+            const ids = JSON.parse(oldSelected);
+            // We'd need sticker data to populate - for now just track IDs
+            // This will be fixed when we build the shop with proper flow
+          }
+        } catch (e) {}
+      }
+    }
+
+    function saveDataToStorage() {
+      localStorage.setItem('stickerbook_all_pages', JSON.stringify(pages));
+      localStorage.setItem('stickerbook_drawer', JSON.stringify(drawer));
+      hasUnsavedChanges = false;
+      showToast('Saved!');
+    }
+
+    // ============ PAGE RENDERING ============
+    function renderCurrentPage() {
+      const page = pages[currentPageIndex];
+      if (!page) return;
+
+      // Apply background
+      if (page.backgroundCSS) {
+        stickerPage.style.cssText = page.backgroundCSS;
+      } else {
+        stickerPage.style.background = page.background || '#ffffff';
+      }
+
+      // Clear canvas
+      pageCanvas.innerHTML = '';
+
+      // Show/hide empty hint
+      emptyHint.style.display = page.stickers.length === 0 ? 'flex' : 'none';
+
+      // Render stickers
+      page.stickers.forEach(sticker => {
+        const el = createStickerElement(sticker);
+        pageCanvas.appendChild(el);
+      });
+
+      activeSticker = null;
+    }
+
+    function createStickerElement(stickerData) {
+      const el = document.createElement('div');
+      el.className = 'placed-sticker';
+      el.dataset.id = stickerData.id;
+
+      const size = stickerData.size || 70;
+      const scale = stickerData.scale || 1;
+      const rotation = stickerData.rotation || 0;
+
+      el.style.width = `${stickerData.width || size}px`;
+      el.style.height = `${stickerData.height || size}px`;
+      el.style.left = `${stickerData.x || 50}px`;
+      el.style.top = `${stickerData.y || 50}px`;
+      el.style.transform = `scale(${scale}) rotate(${rotation}deg)`;
+      el.style.zIndex = stickerData.zIndex || ++currentZ;
+
+      const img = document.createElement('img');
+      img.src = stickerData.src;
+      img.alt = stickerData.displayName || '';
+      img.draggable = false;
+      el.appendChild(img);
+
+      // Setup interactions
+      setupStickerInteractions(el, stickerData);
+
+      return el;
+    }
+
+    // ============ STICKER INTERACTIONS ============
+    function setupStickerInteractions(el, stickerData) {
+      if (isTouchDevice) {
+        setupTouchGestures(el, stickerData);
+      } else {
+        setupMouseDrag(el, stickerData);
+      }
+
+      el.addEventListener('click', (e) => {
+        e.stopPropagation();
+        setActiveSticker(el);
+      });
+    }
+
+    function setActiveSticker(el) {
+      if (activeSticker) {
+        activeSticker.classList.remove('active');
+      }
+      activeSticker = el;
+      if (el) {
+        el.classList.add('active');
+        el.style.zIndex = ++currentZ;
+        // Update sticker data
+        const page = pages[currentPageIndex];
+        const sticker = page.stickers.find(s => s.id === el.dataset.id);
+        if (sticker) sticker.zIndex = currentZ;
+      }
+    }
+
+    function setupMouseDrag(el, stickerData) {
+      let startX, startY, startMouseX, startMouseY;
+      let isDragging = false;
+
+      el.addEventListener('mousedown', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setActiveSticker(el);
+
+        startX = stickerData.x || parseFloat(el.style.left);
+        startY = stickerData.y || parseFloat(el.style.top);
+        startMouseX = e.clientX;
+        startMouseY = e.clientY;
+        isDragging = true;
+        el.classList.add('dragging');
+      });
+
+      const handleMouseMove = (e) => {
+        if (!isDragging) return;
+
+        const dx = e.clientX - startMouseX;
+        const dy = e.clientY - startMouseY;
+
+        stickerData.x = startX + dx;
+        stickerData.y = startY + dy;
+
+        el.style.left = `${stickerData.x}px`;
+        el.style.top = `${stickerData.y}px`;
+
+        hasUnsavedChanges = true;
+        checkDrawerDropZone(e.clientX, e.clientY);
+      };
+
+      const handleMouseUp = (e) => {
+        if (!isDragging) return;
+        isDragging = false;
+        el.classList.remove('dragging');
+
+        if (isOverDrawer(e.clientX, e.clientY)) {
+          moveToDrawer(el, stickerData);
+        }
+
+        btnDrawer.classList.remove('drop-active');
+      };
+
+      window.addEventListener('mousemove', handleMouseMove);
+      window.addEventListener('mouseup', handleMouseUp);
+    }
+
+    function setupTouchGestures(el, stickerData) {
+      let touchMode = null;
+      let startX, startY, startTouchX, startTouchY;
+      let initialDistance, initialAngle, startScale, startRotation;
+
+      el.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        setActiveSticker(el);
+
+        if (e.touches.length === 1) {
+          touchMode = 'pan';
+          const t = e.touches[0];
+          startX = stickerData.x || parseFloat(el.style.left);
+          startY = stickerData.y || parseFloat(el.style.top);
+          startTouchX = t.clientX;
+          startTouchY = t.clientY;
+          el.classList.add('dragging');
+        } else if (e.touches.length === 2) {
+          touchMode = 'transform';
+          const t1 = e.touches[0];
+          const t2 = e.touches[1];
+          const dx = t2.clientX - t1.clientX;
+          const dy = t2.clientY - t1.clientY;
+          initialDistance = Math.hypot(dx, dy) || 1;
+          initialAngle = Math.atan2(dy, dx);
+          startScale = stickerData.scale || 1;
+          startRotation = stickerData.rotation || 0;
+        }
+      }, { passive: false });
+
+      el.addEventListener('touchmove', (e) => {
+        e.preventDefault();
+
+        if (touchMode === 'pan' && e.touches.length === 1) {
+          const t = e.touches[0];
+          const dx = t.clientX - startTouchX;
+          const dy = t.clientY - startTouchY;
+
+          stickerData.x = startX + dx;
+          stickerData.y = startY + dy;
+
+          el.style.left = `${stickerData.x}px`;
+          el.style.top = `${stickerData.y}px`;
+
+          hasUnsavedChanges = true;
+          checkDrawerDropZone(t.clientX, t.clientY);
+
+        } else if (touchMode === 'transform' && e.touches.length >= 2) {
+          const t1 = e.touches[0];
+          const t2 = e.touches[1];
+          const dx = t2.clientX - t1.clientX;
+          const dy = t2.clientY - t1.clientY;
+
+          const distance = Math.hypot(dx, dy);
+          const angle = Math.atan2(dy, dx);
+
+          let newScale = startScale * (distance / initialDistance);
+          newScale = Math.max(MIN_SCALE, Math.min(MAX_SCALE, newScale));
+
+          const rotationDelta = (angle - initialAngle) * (180 / Math.PI);
+          const newRotation = startRotation + rotationDelta;
+
+          stickerData.scale = newScale;
+          stickerData.rotation = newRotation;
+
+          el.style.transform = `scale(${newScale}) rotate(${newRotation}deg)`;
+          hasUnsavedChanges = true;
+        }
+      }, { passive: false });
+
+      const handleTouchEnd = (e) => {
+        if (e.touches.length === 0) {
+          el.classList.remove('dragging');
+
+          if (touchMode === 'pan') {
+            const lastTouch = e.changedTouches[0];
+            if (isOverDrawer(lastTouch.clientX, lastTouch.clientY)) {
+              moveToDrawer(el, stickerData);
+            }
+          }
+
+          touchMode = null;
+          btnDrawer.classList.remove('drop-active');
+        } else if (e.touches.length === 1 && touchMode === 'transform') {
+          touchMode = 'pan';
+          const t = e.touches[0];
+          startX = stickerData.x;
+          startY = stickerData.y;
+          startTouchX = t.clientX;
+          startTouchY = t.clientY;
+        }
+      };
+
+      el.addEventListener('touchend', handleTouchEnd, { passive: false });
+      el.addEventListener('touchcancel', handleTouchEnd, { passive: false });
+    }
+
+    // ============ DRAWER DROP ZONE ============
+    function checkDrawerDropZone(x, y) {
+      if (isOverDrawer(x, y)) {
+        btnDrawer.classList.add('drop-active');
+      } else {
+        btnDrawer.classList.remove('drop-active');
+      }
+    }
+
+    function isOverDrawer(x, y) {
+      const rect = btnDrawer.getBoundingClientRect();
+      return x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
+    }
+
+    function moveToDrawer(el, stickerData) {
+      el.classList.add('to-drawer');
+
+      setTimeout(() => {
+        const page = pages[currentPageIndex];
+        page.stickers = page.stickers.filter(s => s.id !== stickerData.id);
+
+        drawer.push({
+          id: stickerData.id,
+          src: stickerData.src,
+          displayName: stickerData.displayName
+        });
+
+        el.remove();
+        activeSticker = null;
+        hasUnsavedChanges = true;
+
+        emptyHint.style.display = page.stickers.length === 0 ? 'flex' : 'none';
+        showToast('Moved to drawer');
+      }, 300);
+    }
+
+    // ============ PAGE NAVIGATION ============
+    function renderPageDots() {
+      pageDotsContainer.innerHTML = '';
+
+      for (let i = 0; i < totalPages; i++) {
+        const dot = document.createElement('div');
+        dot.className = 'page-dot';
+
+        if (i === currentPageIndex) {
+          dot.classList.add('active');
+        } else if (pages[i] && pages[i].stickers && pages[i].stickers.length > 0) {
+          dot.classList.add('filled');
+        }
+
+        if (i >= MAX_PAGES_FREE) {
+          dot.classList.add('locked');
+        }
+
+        dot.addEventListener('click', () => goToPage(i));
+        pageDotsContainer.appendChild(dot);
+      }
+    }
+
+    function updatePageNumber() {
+      pageNumberEl.textContent = `Page ${currentPageIndex + 1} of ${totalPages}`;
+    }
+
+    function goToPage(index) {
+      if (index < 0 || index >= totalPages || index === currentPageIndex) return;
+
+      currentPageIndex = index;
+      renderCurrentPage();
+      renderPageDots();
+      updatePageNumber();
+    }
+
+    function flipPage(direction) {
+      const newIndex = currentPageIndex + direction;
+      if (newIndex >= 0 && newIndex < totalPages) {
+        goToPage(newIndex);
+      }
+    }
+
+    // ============ SWIPE GESTURE FOR PAGE FLIP ============
+    function setupPageSwipe() {
+      let startX = 0;
+      let startY = 0;
+      let tracking = false;
+
+      stickerPage.addEventListener('touchstart', (e) => {
+        if (e.target.closest('.placed-sticker')) return;
+        startX = e.touches[0].clientX;
+        startY = e.touches[0].clientY;
+        tracking = true;
+      }, { passive: true });
+
+      stickerPage.addEventListener('touchend', (e) => {
+        if (!tracking) return;
+        tracking = false;
+
+        const endX = e.changedTouches[0].clientX;
+        const endY = e.changedTouches[0].clientY;
+        const dx = endX - startX;
+        const dy = endY - startY;
+
+        if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) {
+          if (dx > 0) {
+            flipPage(-1);
+          } else {
+            flipPage(1);
+          }
+        }
+      }, { passive: true });
+
+      // Desktop
+      if (!isTouchDevice) {
+        let mouseDown = false;
+        let mouseStartX = 0;
+
+        stickerPage.addEventListener('mousedown', (e) => {
+          if (e.target.closest('.placed-sticker')) return;
+          mouseDown = true;
+          mouseStartX = e.clientX;
+        });
+
+        window.addEventListener('mouseup', (e) => {
+          if (!mouseDown) return;
+          mouseDown = false;
+
+          const dx = e.clientX - mouseStartX;
+          if (Math.abs(dx) > 50) {
+            if (dx > 0) {
+              flipPage(-1);
+            } else {
+              flipPage(1);
+            }
+          }
+        });
+      }
+    }
+
+    // ============ NAV MENU ============
+    function openNav() {
+      navOverlay.classList.add('visible');
+      navMenu.classList.add('visible');
+    }
+
+    function closeNav() {
+      navOverlay.classList.remove('visible');
+      navMenu.classList.remove('visible');
+    }
+
+    function handleNavAction(destination) {
+      closeNav();
+
+      if (hasUnsavedChanges) {
+        showSaveModal(() => navigateTo(destination));
+      } else {
+        navigateTo(destination);
+      }
+    }
+
+    function navigateTo(destination) {
+      switch (destination) {
+        case 'matching':
+          window.location.href = 'matching.html';
+          break;
+        case 'messages':
+          showToast('Messages coming soon!');
+          break;
+        case 'settings':
+          showToast('Settings coming soon!');
+          break;
+      }
+    }
+
+    // ============ MODAL ============
+    function showSaveModal(onComplete) {
+      saveModal.classList.add('visible');
+
+      const handleSave = () => {
+        saveDataToStorage();
+        cleanup();
+        if (onComplete) onComplete();
+      };
+
+      const handleDiscard = () => {
+        hasUnsavedChanges = false;
+        cleanup();
+        if (onComplete) onComplete();
+      };
+
+      const cleanup = () => {
+        saveModal.classList.remove('visible');
+        document.getElementById('modal-save').removeEventListener('click', handleSave);
+        document.getElementById('modal-discard').removeEventListener('click', handleDiscard);
+      };
+
+      document.getElementById('modal-save').addEventListener('click', handleSave);
+      document.getElementById('modal-discard').addEventListener('click', handleDiscard);
+    }
+
+    // ============ TOAST ============
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add('visible');
+      setTimeout(() => toast.classList.remove('visible'), 2000);
+    }
+
+    // ============ TOOLBAR ACTIONS ============
+    function openBackgrounds() {
+      // Store current page index so background picker knows which page to update
+      localStorage.setItem('stickerbook_editing_page', currentPageIndex);
+
+      if (hasUnsavedChanges) {
+        showSaveModal(() => window.location.href = 'background.html');
+      } else {
+        window.location.href = 'background.html';
+      }
+    }
+
+    function openShop() {
+      if (hasUnsavedChanges) {
+        showSaveModal(() => window.location.href = 'sticker-selection.html');
+      } else {
+        window.location.href = 'sticker-selection.html';
+      }
+    }
+
+    function openDrawer() {
+      const drawerCapacity = Math.floor(totalPages * MAX_STICKERS_PER_PAGE * DRAWER_CAPACITY_MULTIPLIER);
+      showToast(`Drawer: ${drawer.length}/${drawerCapacity} stickers`);
+      // TODO: Open drawer.html or slide-up panel
+    }
+
+    // ============ EVENT LISTENERS ============
+    function setupEventListeners() {
+      profileBtn.addEventListener('click', openNav);
+      navOverlay.addEventListener('click', closeNav);
+
+      document.getElementById('nav-matching').addEventListener('click', () => handleNavAction('matching'));
+      document.getElementById('nav-messages').addEventListener('click', () => handleNavAction('messages'));
+      document.getElementById('nav-stickerbook').addEventListener('click', closeNav);
+      document.getElementById('nav-settings').addEventListener('click', () => handleNavAction('settings'));
+
+      btnBackgrounds.addEventListener('click', openBackgrounds);
+      btnShop.addEventListener('click', openShop);
+      btnDrawer.addEventListener('click', openDrawer);
+
+      pageCanvas.addEventListener('click', (e) => {
+        if (e.target === pageCanvas) setActiveSticker(null);
+      });
+
+      stickerPage.addEventListener('click', (e) => {
+        if (e.target === stickerPage) setActiveSticker(null);
+      });
+
+      setupPageSwipe();
+
+      window.addEventListener('beforeunload', () => {
+        if (hasUnsavedChanges) saveDataToStorage();
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') flipPage(-1);
+        if (e.key === 'ArrowRight') flipPage(1);
+        if (e.key === 'Escape') {
+          setActiveSticker(null);
+          closeNav();
+          saveModal.classList.remove('visible');
+        }
+        if ((e.metaKey || e.ctrlKey) && e.key === 's') {
+          e.preventDefault();
+          saveDataToStorage();
+        }
+      });
+    }
+
+    // ============ START ============
+    document.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>
