@@ -1127,54 +1127,49 @@
     }
 
     .bg-swatch {
-      display: flex;
+      display: inline-flex;
       align-items: center;
-      justify-content: center;
       gap: 6px;
-      padding: 8px 16px;
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius-pill);
-      background: var(--color-canvas);
-      color: var(--color-text-muted);
+      padding: 8px 14px;
+      border: 1px solid #d4d4d8;
+      border-radius: 999px;
+      background: #ffffff;
+      color: #71717a;
       font-size: 10px;
       font-weight: 600;
       letter-spacing: 0.05em;
       text-transform: uppercase;
       cursor: pointer;
-      transition: all 0.15s ease;
       font-family: var(--font-primary);
+      flex-grow: 0;
+      flex-shrink: 0;
     }
 
     .bg-swatch:hover {
-      border-color: var(--color-border-strong);
-      color: var(--color-text-secondary);
+      border-color: #a1a1aa;
+      color: #52525b;
     }
 
     .bg-swatch.active {
-      background: var(--gradient-primary);
+      background: linear-gradient(135deg, #7c3aed 0%, #14b8a6 100%);
       border-color: transparent;
-      color: var(--color-text-inverse);
-      box-shadow: var(--shadow-button);
+      color: #ffffff;
     }
 
     .bg-swatch-color {
-      width: 14px;
-      height: 14px;
-      border-radius: 3px;
-      box-shadow: var(--shadow-xs);
+      width: 12px;
+      height: 12px;
+      border-radius: 2px;
       flex-shrink: 0;
-      border: 1px solid rgba(0,0,0,0.1);
+      border: 1px solid rgba(0,0,0,0.15);
     }
 
     .bg-swatch.active .bg-swatch-color {
-      border-color: rgba(255,255,255,0.3);
+      border-color: rgba(255,255,255,0.4);
     }
 
     .bg-swatch-label {
-      font-size: 10px;
-      font-weight: 600;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
+      line-height: 1;
     }
 
     /* Color grid */
