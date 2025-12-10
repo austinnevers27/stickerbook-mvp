@@ -3384,7 +3384,7 @@
 
       drawerEmpty.classList.add('hidden');
 
-      const reversedDrawer = [...drawer].reverse();
+      const reversedDrawer = [...drawer];
       
       reversedDrawer.forEach((sticker, reversedIndex) => {
         const actualIndex = drawer.length - 1 - reversedIndex;
