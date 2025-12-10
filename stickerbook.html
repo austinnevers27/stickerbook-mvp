@@ -2216,14 +2216,10 @@
     }
 
     function updateBgFooter() {
-      // Show toggle if user has premium backgrounds, otherwise show shop link
-      if (myBackgrounds.length > 0) {
-        bgFooterShop.style.display = 'none';
-        bgFooterToggle.style.display = 'flex';
-      } else {
-        bgFooterShop.style.display = 'flex';
-        bgFooterToggle.style.display = 'none';
-      }
+      // Always show shop link as reminder
+      bgFooterShop.style.display = 'flex';
+      // Show toggle only if user has premium backgrounds
+      bgFooterToggle.style.display = myBackgrounds.length > 0 ? 'flex' : 'none';
     }
 
     function updateBgViewMode() {
