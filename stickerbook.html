@@ -683,18 +683,62 @@
       flex-shrink: 0;
     }
 
-    .drawer-header-left {
+    .drawer-header-tabs {
       display: flex;
-      align-items: center;
-      gap: 10px;
+      gap: 8px;
+      flex: 1;
+      justify-content: center;
+      padding-right: 28px; /* Balance for X button */
     }
 
-    .drawer-title {
-      font-family: var(--font-display);
-      font-size: 14px;
-      font-weight: 700;
-      letter-spacing: 0.06em;
+    .drawer-header-tab {
+      padding: 8px 16px;
+      background: var(--color-canvas-subtle);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-pill);
+      color: var(--color-text-muted);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: var(--font-primary);
+    }
+
+    .drawer-header-tab:hover {
+      background: var(--color-hover-bg);
+      border-color: var(--color-border-strong);
+      color: var(--color-text-secondary);
+    }
+
+    .drawer-header-tab.active {
+      background: linear-gradient(135deg, #7c3aed 0%, #14b8a6 100%);
+      border-color: transparent;
+      color: white;
+      box-shadow: 0 2px 8px rgba(124, 58, 237, 0.3);
+    }
+
+    .drawer-close-btn {
+      background: transparent;
+      border: none;
+      color: var(--color-text-muted);
+      font-size: 20px;
+      cursor: pointer;
+      padding: 4px 8px;
+      transition: color 0.15s ease;
+      flex-shrink: 0;
+    }
+
+    .drawer-close-btn:hover {
       color: var(--color-text-primary);
+    }
+
+    .drawer-subheader {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 16px;
+      flex-shrink: 0;
     }
 
     .drawer-expand-btn {
@@ -715,16 +759,33 @@
       border-color: var(--color-border-strong);
     }
 
-    .drawer-header-right {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
     .drawer-count {
       font-size: 11px;
       font-weight: 600;
       color: var(--color-text-muted);
+    }
+
+    .drawer-archived-view {
+      display: none;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    .drawer-archived-view.visible {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .drawer-archived-empty {
+      text-align: center;
+      color: var(--color-text-muted);
+    }
+
+    .drawer-shop-footer {
+      flex-shrink: 0;
+      padding: 12px 16px;
+      border-top: 1px solid var(--color-border);
     }
 
     .drawer-grid {
@@ -902,6 +963,15 @@
       justify-content: space-between;
     }
 
+    /* Shop footer - shown in collapsed mode, hidden in expanded */
+    .drawer-shop-footer {
+      flex-shrink: 0;
+    }
+
+    .drawer-panel.expanded .drawer-shop-footer {
+      display: none;
+    }
+
     .drawer-selection-count {
       color: var(--color-text-secondary);
       font-size: 13px;
@@ -1018,6 +1088,9 @@
     .bg-header-tabs {
       display: flex;
       gap: 8px;
+      flex: 1;
+      justify-content: center;
+      padding-right: 28px; /* Balance for X button */
     }
 
     .bg-header-tab {
@@ -1256,27 +1329,40 @@
     /* Background panel footer */
     .bg-footer {
       flex-shrink: 0;
+      padding: 12px 16px;
       border-top: 1px solid var(--color-border);
       background: var(--color-canvas-elevated);
     }
 
-    .bg-footer-shop {
+    /* Shared shop button style for both panels */
+    .panel-shop-btn {
+      width: 100%;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 6px;
-      padding: 12px 16px;
-      background: var(--color-canvas-subtle);
-      color: var(--color-text-muted);
-      font-size: 11px;
+      gap: 8px;
+      padding: 12px 20px;
+      background: linear-gradient(135deg, #7c3aed 0%, #14b8a6 100%);
+      border: none;
+      border-radius: var(--radius-pill);
+      color: white;
+      font-size: 12px;
       font-weight: 600;
+      letter-spacing: 0.03em;
       cursor: pointer;
-      transition: background 0.15s ease, color 0.15s ease;
+      box-shadow: 0 2px 8px rgba(124, 58, 237, 0.3);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      font-family: var(--font-primary);
     }
 
-    .bg-footer-shop:hover {
-      background: var(--color-hover-bg);
-      color: var(--color-text-secondary);
+    .panel-shop-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(124, 58, 237, 0.4);
+    }
+
+    .panel-shop-btn:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 6px rgba(124, 58, 237, 0.3);
     }
 
     /* My Backgrounds view */
@@ -1541,15 +1627,17 @@
     <div class="drawer-panel" id="drawer-panel">
       <div class="drawer-handle"></div>
       <div class="drawer-header">
-        <div class="drawer-header-left">
-          <div class="drawer-title">Sticker Drawer</div>
-          <button class="drawer-expand-btn" id="drawer-expand-btn">
-            <span id="expand-text">Expand</span>
-          </button>
+        <div class="drawer-header-tabs">
+          <button class="drawer-header-tab active" id="drawer-tab-stickers">My Stickers</button>
+          <button class="drawer-header-tab" id="drawer-tab-archived">Archived Pages</button>
         </div>
-        <div class="drawer-header-right">
-          <div class="drawer-count" id="drawer-count">0 stickers</div>
-        </div>
+        <button class="drawer-close-btn" id="drawer-close-btn">✕</button>
+      </div>
+      <div class="drawer-subheader" id="drawer-subheader">
+        <button class="drawer-expand-btn" id="drawer-expand-btn">
+          <span id="expand-text">Expand</span>
+        </button>
+        <div class="drawer-count" id="drawer-count">0 stickers</div>
       </div>
       <div class="drawer-grid" id="drawer-grid">
         <!-- Stickers injected by JS -->
@@ -1558,12 +1646,23 @@
         <div class="drawer-empty-icon">📂</div>
         <div class="drawer-empty-text">Your drawer is empty.<br>Visit the shop to get stickers!</div>
       </div>
+      <div class="drawer-archived-view" id="drawer-archived-view">
+        <div class="drawer-archived-empty">
+          <div class="drawer-empty-icon">📚</div>
+          <div class="drawer-empty-text">No archived pages yet.<br>Archive pages to save them here.</div>
+        </div>
+      </div>
       <div class="drawer-footer" id="drawer-footer">
         <div class="drawer-selection-count" id="drawer-selection-count">0 selected</div>
         <div class="drawer-footer-buttons">
           <button class="drawer-delete-btn" id="drawer-delete-btn" disabled>Delete</button>
           <button class="drawer-add-btn" id="drawer-add-btn" disabled>Add to Page</button>
         </div>
+      </div>
+      <div class="drawer-shop-footer" id="drawer-shop-footer">
+        <button class="panel-shop-btn" id="drawer-shop-btn">
+          🛒 <span>Get more stickers in the Shop</span>
+        </button>
       </div>
     </div>
 
@@ -1636,9 +1735,9 @@
 
       <!-- Footer (shop link) -->
       <div class="bg-footer" id="bg-footer">
-        <div class="bg-footer-shop" id="bg-footer-shop">
+        <button class="panel-shop-btn" id="bg-footer-shop">
           🛒 <span>Get more backgrounds in the Shop</span>
-        </div>
+        </button>
       </div>
     </div>
   </div>
@@ -1807,6 +1906,13 @@
     const drawerSelectionCount = document.getElementById('drawer-selection-count');
     const drawerDeleteBtn = document.getElementById('drawer-delete-btn');
     const drawerAddBtn = document.getElementById('drawer-add-btn');
+    const drawerCloseBtn = document.getElementById('drawer-close-btn');
+    const drawerTabStickers = document.getElementById('drawer-tab-stickers');
+    const drawerTabArchived = document.getElementById('drawer-tab-archived');
+    const drawerArchivedView = document.getElementById('drawer-archived-view');
+    const drawerShopBtn = document.getElementById('drawer-shop-btn');
+    const drawerSubheader = document.getElementById('drawer-subheader');
+    const drawerShopFooter = document.getElementById('drawer-shop-footer');
 
     // Background panel elements
     const bgOverlay = document.getElementById('bg-overlay');
@@ -3186,15 +3292,17 @@
     let drawerExpanded = false;
     let drawerSelectedIds = new Set();
     let longPressTimer = null;
+    let drawerViewMode = 'stickers'; // 'stickers' | 'archived'
     const LONG_PRESS_DURATION = 300;
     const STICKER_PLACE_SIZE = 120;
 
     function openDrawer() {
       drawerSelectedIds.clear();
       drawerExpanded = false;
+      drawerViewMode = 'stickers';
       drawerPanel.classList.remove('expanded');
       expandText.textContent = 'Expand';
-      renderDrawer();
+      updateDrawerViewMode();
       drawerOverlay.classList.add('visible');
       drawerPanel.classList.add('visible');
       updateDrawerSelectionUI();
@@ -3206,6 +3314,26 @@
       drawerExpanded = false;
       drawerPanel.classList.remove('expanded');
       drawerSelectedIds.clear();
+    }
+
+    function updateDrawerViewMode() {
+      // Update tab active states
+      drawerTabStickers.classList.toggle('active', drawerViewMode === 'stickers');
+      drawerTabArchived.classList.toggle('active', drawerViewMode === 'archived');
+
+      // Show/hide views
+      if (drawerViewMode === 'stickers') {
+        drawerGrid.style.display = 'grid';
+        drawerArchivedView.classList.remove('visible');
+        drawerSubheader.style.display = 'flex';
+        renderDrawer();
+      } else {
+        drawerGrid.style.display = 'none';
+        drawerEmpty.classList.add('hidden');
+        drawerArchivedView.classList.add('visible');
+        drawerSubheader.style.display = 'none';
+        drawerFooter.style.display = 'none';
+      }
     }
 
     function toggleDrawerExpand() {
@@ -3724,7 +3852,30 @@
       btnShop.addEventListener('click', openShop);
       btnDrawer.addEventListener('click', openDrawer);
 
+      // Drawer close handlers
       drawerOverlay.addEventListener('click', closeDrawer);
+      drawerCloseBtn.addEventListener('click', closeDrawer);
+
+      // Drawer tab switching
+      drawerTabStickers.addEventListener('click', () => {
+        if (drawerViewMode !== 'stickers') {
+          drawerViewMode = 'stickers';
+          updateDrawerViewMode();
+        }
+      });
+
+      drawerTabArchived.addEventListener('click', () => {
+        if (drawerViewMode !== 'archived') {
+          drawerViewMode = 'archived';
+          updateDrawerViewMode();
+        }
+      });
+
+      // Drawer shop button
+      drawerShopBtn.addEventListener('click', () => {
+        closeDrawer();
+        openShop();
+      });
       
       let drawerTouchStartY = 0;
       drawerPanel.addEventListener('touchstart', (e) => {
