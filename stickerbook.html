@@ -2394,11 +2394,11 @@
 
       localStorage.setItem('stickerbook_drawer', JSON.stringify(drawer));
     }
-
-    // ============ INITIALIZATION ============
+// ============ INITIALIZATION ============
     function init() {
       loadDataFromStorage();
       restorePagePosition();
+      checkDrawerOpen();
       seedDrawerForTesting();
       seedPremiumBackgrounds();
       loadUserProfile();
@@ -2421,6 +2421,16 @@
       }
     }
 
+    function checkDrawerOpen() {
+      const shouldOpen = localStorage.getItem('stickerbook_open_drawer');
+      if (shouldOpen === 'expanded') {
+        localStorage.removeItem('stickerbook_open_drawer');
+        setTimeout(() => {
+          openDrawer();
+          toggleDrawerExpand();
+        }, 100);
+      }
+    }
     // ============ PAGE EDITABILITY LOGIC ============
     function pageHasContent(pageIndex) {
       const page = pages[pageIndex];
