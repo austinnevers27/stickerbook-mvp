@@ -164,15 +164,14 @@
       display: block;
     }
 
-    /* Pending selection - subtle pulse while holding */
+    /* Pending selection - subtle glow while holding */
     .placed-sticker.pending-select {
-      animation: pendingPulse 0.3s ease-out;
+      animation: pendingGlow 0.15s ease-out forwards;
     }
 
-    @keyframes pendingPulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.03); }
-      100% { transform: scale(1); }
+    @keyframes pendingGlow {
+      0% { filter: drop-shadow(0 0 0 transparent); }
+      100% { filter: drop-shadow(0 0 6px rgba(20, 184, 166, 0.5)); }
     }
 
     .placed-sticker.active {
@@ -682,13 +681,6 @@
       justify-content: center;
     }
 
-    .drawer-count {
-      font-size: 11px;
-      font-weight: 600;
-      color: var(--color-text-muted);
-      flex-shrink: 0;
-    }
-
     .drawer-header-tab {
       padding: 8px 16px;
       background: var(--color-canvas-subtle);
@@ -758,11 +750,11 @@
       flex: 1;
       overflow-x: hidden;
       overflow-y: auto;
-      padding: 12px 14px;
+      padding: 12px 16px;
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(7, 1fr);
       grid-auto-rows: min-content;
-      gap: 10px;
+      gap: 8px;
       align-content: start;
     }
 
@@ -1249,15 +1241,15 @@
     }
 
     .bg-color-row {
-      display: flex;
-      gap: 5px;
-      margin-bottom: 5px;
-      justify-content: center;
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 8px;
+      margin-bottom: 8px;
     }
 
     .bg-color-tile {
-      width: 38px;
-      height: 38px;
+      aspect-ratio: 1;
+      width: 100%;
       border-radius: var(--radius-sm);
       cursor: pointer;
       transition: transform 0.12s ease;
@@ -1572,7 +1564,6 @@
           <button class="drawer-header-tab active" id="drawer-tab-stickers">My Stickers</button>
           <button class="drawer-header-tab" id="drawer-tab-archived">Archived Pages</button>
         </div>
-        <div class="drawer-count" id="drawer-count">0/150</div>
         <button class="drawer-close-btn" id="drawer-close-btn">✕</button>
       </div>
       <div class="drawer-grid" id="drawer-grid">
@@ -1833,7 +1824,6 @@
     const drawerOverlay = document.getElementById('drawer-overlay');
     const drawerPanel = document.getElementById('drawer-panel');
     const drawerGrid = document.getElementById('drawer-grid');
-    const drawerCount = document.getElementById('drawer-count');
     const drawerEmpty = document.getElementById('drawer-empty');
     const drawerFooter = document.getElementById('drawer-footer');
     const drawerSelectionCount = document.getElementById('drawer-selection-count');
@@ -3350,13 +3340,13 @@
       const selectedCount = drawerSelectedIds.size;
       
       if (selectedCount === 0) {
-        drawerSelectionCount.textContent = `${availableSlots} slots available`;
+        drawerSelectionCount.textContent = 'Tap to select';
       } else {
         drawerSelectionCount.textContent = `${selectedCount} selected`;
       }
       
       drawerDeleteBtn.disabled = selectedCount === 0;
-      drawerDeleteBtn.textContent = selectedCount > 0 ? `Delete ${selectedCount}` : 'Delete';
+      drawerDeleteBtn.textContent = selectedCount > 0 ? `Delete` : 'Delete';
       
       if (selectedCount === 0) {
         drawerAddBtn.disabled = true;
@@ -3494,9 +3484,6 @@
     }
 
     function renderDrawer() {
-      const drawerCapacity = Math.floor(totalPages * MAX_STICKERS_PER_PAGE * DRAWER_CAPACITY_MULTIPLIER);
-      drawerCount.textContent = `${drawer.length}/${drawerCapacity}`;
-
       drawerGrid.innerHTML = '';
 
       if (drawer.length === 0) {
@@ -3827,13 +3814,18 @@
       });
       
       let drawerTouchStartY = 0;
+      let drawerWasAtTop = false;
+      
       drawerPanel.addEventListener('touchstart', (e) => {
         drawerTouchStartY = e.touches[0].clientY;
+        // Only allow swipe-to-close if content is scrolled to top
+        drawerWasAtTop = drawerGrid.scrollTop <= 5;
       }, { passive: true });
 
       drawerPanel.addEventListener('touchend', (e) => {
         const dy = e.changedTouches[0].clientY - drawerTouchStartY;
-        if (dy > 80) {
+        // Only close if swiping down AND was at top of scroll
+        if (dy > 80 && drawerWasAtTop && drawerGrid.scrollTop <= 5) {
           closeDrawer();
         }
       }, { passive: true });
