@@ -36,7 +36,7 @@
       font-weight: 700;
       letter-spacing: 0.18em;
       text-transform: uppercase;
-      color: var(--color-purple);
+      color: var(--color-text-primary);
       margin-bottom: 12px;
     }
 
@@ -72,13 +72,14 @@
       text-transform: uppercase;
       color: var(--color-text-muted);
       margin-bottom: 12px;
-      padding-left: 4px;
+      text-align: center;
     }
 
     /* ========== CATEGORY PILLS ========== */
     .category-pills {
       display: flex;
       flex-wrap: wrap;
+      justify-content: center;
       gap: 10px;
       margin-bottom: 24px;
     }
@@ -134,10 +135,10 @@
 
     .subcategory-header {
       display: flex;
+      flex-direction: column;
       align-items: center;
-      justify-content: space-between;
+      gap: 4px;
       margin-bottom: 12px;
-      padding: 0 4px;
     }
 
     .subcategory-title {
@@ -155,6 +156,7 @@
     .subcategory-pills {
       display: flex;
       flex-wrap: wrap;
+      justify-content: center;
       gap: 8px;
     }
 
@@ -194,6 +196,7 @@
     .selected-pills {
       display: flex;
       flex-wrap: wrap;
+      justify-content: center;
       gap: 8px;
     }
 
@@ -314,13 +317,13 @@
     <div class="interests-header">
       <div class="brand-title">Stickerbook</div>
       <div class="interests-title">What are you into?</div>
-      <div class="interests-subtitle">Pick at least 5 to get started</div>
+      <div class="interests-subtitle">Choose at least 5 to get started</div>
     </div>
 
     <!-- Content -->
     <div class="interests-content" id="interests-content">
-      <!-- Categories -->
-      <div class="section-label">Categories</div>
+      <!-- Interests -->
+      <div class="section-label">Interests</div>
       <div class="category-pills" id="category-pills"></div>
 
       <!-- Subcategories (appears when category selected) -->
@@ -334,7 +337,7 @@
 
       <!-- Selected interests summary -->
       <div class="selected-section" id="selected-section">
-        <div class="section-label">Your picks</div>
+        <div class="section-label">Your choices</div>
         <div class="selected-pills" id="selected-pills"></div>
       </div>
     </div>
@@ -357,16 +360,36 @@
         subs: ["Rock", "Pop", "Hip Hop / Rap", "Country", "Electronic / EDM", "R&B / Soul", "Jazz", "Classical", "Metal", "Indie / Alternative", "Latin", "K-Pop", "Folk / Americana", "Punk", "Reggae"]
       },
       {
-        name: "TV & Film",
-        subs: ["Comedy", "Drama", "Sci-Fi", "Horror", "Reality TV", "Documentaries", "Animation / Cartoons", "Anime", "True Crime", "Superhero / Marvel / DC", "Fantasy", "Romance", "Classic Films", "Musicals"]
+        name: "Humor & Personality",
+        subs: ["Memes", "Dad Jokes / Puns", "Sarcasm", "Dark Humor", "Wholesome Vibes", "Chaotic Energy", "Introvert Life", "Nerd / Geek", "Night Owl", "Overthinker", "Chill Vibes"]
       },
       {
         name: "Gaming",
         subs: ["Console Gaming", "PC Gaming", "Mobile Gaming", "Retro Gaming", "RPGs", "Shooters / FPS", "Sports Games", "Racing", "Puzzle / Strategy", "Indie Games", "MMOs", "Fighting Games", "Simulation"]
       },
       {
+        name: "Nature & Outdoors",
+        subs: ["Hiking", "Gardening", "Fishing", "Hunting", "Stargazing", "Flowers / Plants", "Forest / Woods", "Ocean / Water", "Seasons", "Sustainability", "Weather"]
+      },
+      {
         name: "Sports",
         subs: ["Basketball", "Football", "Soccer", "Baseball", "Hockey", "Tennis", "Golf", "MMA / Boxing", "Wrestling", "Motorsports", "Extreme Sports", "Running / Fitness", "Swimming", "Cycling"]
+      },
+      {
+        name: "Community & Values",
+        subs: ["LGBTQ+", "Faith / Spirituality", "Mental Health", "Environmentalism", "Social Justice", "Body Positivity", "Sobriety", "Neurodiversity", "Veterans / Military", "First Responders", "Parenting / Family", "Educators"]
+      },
+      {
+        name: "TV & Film",
+        subs: ["Comedy", "Drama", "Sci-Fi", "Horror", "Reality TV", "Documentaries", "Animation / Cartoons", "Anime", "True Crime", "Superhero / Marvel / DC", "Fantasy", "Romance", "Classic Films", "Musicals"]
+      },
+      {
+        name: "Animals & Pets",
+        subs: ["Dogs", "Cats", "Birds", "Fish / Aquariums", "Reptiles", "Horses", "Small Pets", "Exotic Pets", "Wildlife", "Marine Life", "Farm Animals"]
+      },
+      {
+        name: "Art & Style",
+        subs: ["Fashion", "Tattoos", "Makeup / Beauty", "Photography", "Painting / Drawing", "Vintage / Retro", "Streetwear", "Cottagecore", "Y2K Aesthetic", "Minimalism", "Goth / Alt"]
       },
       {
         name: "Food & Drink",
@@ -375,26 +398,6 @@
       {
         name: "Places & Travel",
         subs: ["Local Pride", "Road Trips", "Beach / Coastal", "Mountains", "International Travel", "Theme Parks", "Camping", "National Parks", "Historic Sites", "Landmarks", "Urban Exploration"]
-      },
-      {
-        name: "Animals & Pets",
-        subs: ["Dogs", "Cats", "Birds", "Fish / Aquariums", "Reptiles", "Horses", "Small Pets", "Exotic Pets", "Wildlife", "Marine Life", "Farm Animals"]
-      },
-      {
-        name: "Nature & Outdoors",
-        subs: ["Hiking", "Gardening", "Fishing", "Hunting", "Stargazing", "Flowers / Plants", "Forest / Woods", "Ocean / Water", "Seasons", "Sustainability", "Weather"]
-      },
-      {
-        name: "Art & Style",
-        subs: ["Fashion", "Tattoos", "Makeup / Beauty", "Photography", "Painting / Drawing", "Vintage / Retro", "Streetwear", "Cottagecore", "Y2K Aesthetic", "Minimalism", "Goth / Alt"]
-      },
-      {
-        name: "Humor & Personality",
-        subs: ["Memes", "Dad Jokes / Puns", "Sarcasm", "Dark Humor", "Wholesome Vibes", "Chaotic Energy", "Introvert Life", "Nerd / Geek", "Night Owl", "Overthinker", "Chill Vibes"]
-      },
-      {
-        name: "Community & Values",
-        subs: ["LGBTQ+", "Faith / Spirituality", "Mental Health", "Environmentalism", "Social Justice", "Body Positivity", "Sobriety", "Neurodiversity", "Veterans / Military", "First Responders", "Parenting / Family", "Educators"]
       }
     ];
 
