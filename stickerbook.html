@@ -31,14 +31,11 @@
       font-family: var(--font-display);
       font-size: 12px;
       font-weight: 700;
-      letter-spacing: 0.2em;
+      letter-spacing: 0.15em;
       text-transform: uppercase;
       padding: 10px 0 6px;
       flex-shrink: 0;
-      background: linear-gradient(135deg, #7c3aed 0%, #14b8a6 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      color: var(--color-text-primary);
     }
 
     /* ========== PAGE CONTAINER ========== */
@@ -247,13 +244,13 @@
       padding: 8px 14px;
       border: none;
       border-radius: var(--radius-pill);
-      background: #7c3aed;
+      background: var(--color-purple);
       color: white;
       font-size: 11px;
       font-weight: 600;
       letter-spacing: 0.02em;
       cursor: pointer;
-      box-shadow: 0 2px 8px rgba(124, 58, 237, 0.3);
+      box-shadow: 0 4px 14px rgba(109, 40, 217, 0.25);
       transition: transform 0.12s ease, box-shadow 0.15s ease;
       font-family: var(--font-primary);
       min-height: 44px;
@@ -266,26 +263,26 @@
 
     .toolbar-pill:hover {
       transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(124, 58, 237, 0.4);
+      box-shadow: 0 6px 20px rgba(109, 40, 217, 0.35);
     }
 
     .toolbar-pill:active {
       transform: translateY(0);
-      box-shadow: 0 2px 6px rgba(124, 58, 237, 0.25);
+      box-shadow: 0 2px 8px rgba(109, 40, 217, 0.25);
     }
 
     /* Shop button - turquoise with purple frame to draw attention */
     #btn-shop {
-      background: #14b8a6;
-      box-shadow: 0 0 0 2px #7c3aed, 0 2px 8px rgba(20, 184, 166, 0.3);
+      background: var(--color-turquoise);
+      box-shadow: 0 0 0 2px var(--color-purple), 0 4px 14px rgba(20, 184, 166, 0.25);
     }
 
     #btn-shop:hover {
-      box-shadow: 0 0 0 2px #7c3aed, 0 4px 12px rgba(20, 184, 166, 0.4);
+      box-shadow: 0 0 0 2px var(--color-purple), 0 6px 20px rgba(20, 184, 166, 0.35);
     }
 
     #btn-shop:active {
-      box-shadow: 0 0 0 2px #7c3aed, 0 2px 6px rgba(20, 184, 166, 0.25);
+      box-shadow: 0 0 0 2px var(--color-purple), 0 2px 8px rgba(20, 184, 166, 0.25);
     }
 
     /* === DRAG MODE STATES === */
@@ -299,11 +296,11 @@
 
     /* In drop zone: Drawer highlighted */
     .bottom-toolbar.in-drop-zone #btn-drawer {
-      box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.4), 0 4px 12px rgba(124, 58, 237, 0.4);
+      box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.4), 0 4px 12px rgba(109, 40, 217, 0.4);
     }
 
     #btn-drawer.drop-active {
-      box-shadow: 0 0 0 4px rgba(20, 184, 166, 0.5), 0 6px 16px rgba(124, 58, 237, 0.5);
+      box-shadow: 0 0 0 4px rgba(20, 184, 166, 0.5), 0 6px 16px rgba(109, 40, 217, 0.5);
     }
 
     /* Page dot states for editability */
@@ -542,7 +539,7 @@
       font-family: var(--font-display);
       font-size: 18px;
       font-weight: 700;
-      background: linear-gradient(135deg, #7c3aed 0%, #14b8a6 100%);
+      background: linear-gradient(135deg, #6D28D9 0%, #14b8a6 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -567,14 +564,14 @@
       font-family: var(--font-primary);
       margin-bottom: 10px;
       border: none;
-      background: linear-gradient(135deg, #7c3aed 0%, #14b8a6 100%);
+      background: linear-gradient(135deg, #6D28D9 0%, #14b8a6 100%);
       color: white;
-      box-shadow: 0 4px 14px rgba(124, 58, 237, 0.3);
+      box-shadow: 0 4px 14px rgba(109, 40, 217, 0.3);
     }
 
     .unlock-btn:hover {
       transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(124, 58, 237, 0.4);
+      box-shadow: 0 6px 20px rgba(109, 40, 217, 0.4);
     }
 
     .unlock-btn:active {
@@ -727,10 +724,10 @@
     }
 
     .drawer-header-tab.active {
-      background: linear-gradient(135deg, #7c3aed 0%, #14b8a6 100%);
+      background: linear-gradient(135deg, #6D28D9 0%, #14b8a6 100%);
       border-color: transparent;
       color: white;
-      box-shadow: 0 2px 8px rgba(124, 58, 237, 0.3);
+      box-shadow: 0 2px 8px rgba(109, 40, 217, 0.3);
     }
 
     .drawer-close-btn {
@@ -1087,14 +1084,14 @@
     }
 
     .bg-header-tab.active {
-      background: linear-gradient(135deg, #7c3aed 0%, #14b8a6 100%);
+      background: linear-gradient(135deg, #6D28D9 0%, #14b8a6 100%);
       border-color: transparent;
       color: white;
-      box-shadow: 0 2px 8px rgba(124, 58, 237, 0.3);
+      box-shadow: 0 2px 8px rgba(109, 40, 217, 0.3);
     }
 
     .bg-header-tab.active:hover {
-      box-shadow: 0 4px 12px rgba(124, 58, 237, 0.4);
+      box-shadow: 0 4px 12px rgba(109, 40, 217, 0.4);
     }
 
     .bg-panel-close {
@@ -1315,7 +1312,7 @@
       justify-content: center;
       gap: 8px;
       padding: 12px 20px;
-      background: linear-gradient(135deg, #7c3aed 0%, #14b8a6 100%);
+      background: linear-gradient(135deg, #6D28D9 0%, #14b8a6 100%);
       border: none;
       border-radius: var(--radius-pill);
       color: white;
@@ -1323,19 +1320,19 @@
       font-weight: 600;
       letter-spacing: 0.03em;
       cursor: pointer;
-      box-shadow: 0 2px 8px rgba(124, 58, 237, 0.3);
+      box-shadow: 0 2px 8px rgba(109, 40, 217, 0.3);
       transition: transform 0.15s ease, box-shadow 0.15s ease;
       font-family: var(--font-primary);
     }
 
     .panel-shop-btn:hover {
       transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(124, 58, 237, 0.4);
+      box-shadow: 0 4px 12px rgba(109, 40, 217, 0.4);
     }
 
     .panel-shop-btn:active {
       transform: translateY(0);
-      box-shadow: 0 2px 6px rgba(124, 58, 237, 0.3);
+      box-shadow: 0 2px 6px rgba(109, 40, 217, 0.3);
     }
 
     /* My Backgrounds view */
@@ -2242,7 +2239,7 @@
         { id: 'bg_green', name: 'Forest Green', css: 'background-color: #16a34a;', type: 'solid', source: 'shop' },
         { id: 'bg_blue', name: 'Ocean Blue', css: 'background-color: #2563eb;', type: 'solid', source: 'shop' },
         { id: 'bg_indigo', name: 'Deep Indigo', css: 'background-color: #4f46e5;', type: 'solid', source: 'shop' },
-        { id: 'bg_violet', name: 'Royal Violet', css: 'background-color: #7c3aed;', type: 'solid', source: 'shop' },
+        { id: 'bg_violet', name: 'Royal Violet', css: 'background-color: #6D28D9;', type: 'solid', source: 'shop' },
       ];
       localStorage.setItem('stickerbook_my_backgrounds', JSON.stringify(myBackgrounds));
     }
@@ -2497,7 +2494,7 @@
 
     // Get gradient color for page dot (purple → turquoise)
     function getDotGradientColor(index, total) {
-      // Purple: rgb(124, 58, 237) - #7c3aed
+      // Purple: rgb(124, 58, 237) - #6D28D9
       // Turquoise: rgb(20, 184, 166) - #14b8a6
       const purple = { r: 124, g: 58, b: 237 };
       const turquoise = { r: 20, g: 184, b: 166 };
