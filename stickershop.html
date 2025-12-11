@@ -24,11 +24,24 @@
       overflow: hidden;
     }
 
+    /* ========== BRAND TITLE ========== */
+    .brand-title {
+      text-align: center;
+      font-family: var(--font-display);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 10px 0 2px;
+      flex-shrink: 0;
+      color: var(--color-text-primary);
+    }
+
     /* ========== HEADER ========== */
     .shop-header {
       display: flex;
       align-items: center;
-      padding: 16px 20px 12px;
+      padding: 8px 20px 12px;
       flex-shrink: 0;
       gap: 12px;
     }
@@ -190,10 +203,10 @@
     }
 
     .toggle-btn.active {
-      background: linear-gradient(135deg, #7c3aed 0%, #14b8a6 100%);
+      background: linear-gradient(135deg, #6D28D9 0%, #14b8a6 100%);
       border-color: transparent;
       color: white;
-      box-shadow: 0 2px 8px rgba(124, 58, 237, 0.3);
+      box-shadow: 0 2px 8px rgba(109, 40, 217, 0.3);
     }
 
     /* ========== MAIN SCROLL AREA ========== */
@@ -873,6 +886,9 @@
 </head>
 <body>
   <div class="shop-shell">
+    <!-- Brand Title -->
+    <div class="brand-title">STICKERBOOK</div>
+
     <!-- Header -->
     <header class="shop-header">
       <button class="back-btn" id="back-btn">
