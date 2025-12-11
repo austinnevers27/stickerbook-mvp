@@ -2913,16 +2913,21 @@
       const MIN_HIT_RADIUS = 25; // minimum 25px hit radius
 
       el.addEventListener('mousedown', (e) => {
-        // Circular hit test for initial selection
-        const rect = el.getBoundingClientRect();
-        const centerX = rect.left + rect.width / 2;
-        const centerY = rect.top + rect.height / 2;
-        const clickDist = Math.hypot(e.clientX - centerX, e.clientY - centerY);
-        const maxRadius = Math.max(MIN_HIT_RADIUS, (Math.min(rect.width, rect.height) / 2) * HIT_RADIUS_PERCENT);
+        // Check if this sticker is already active
+        const alreadyActive = el.classList.contains('active');
         
-        // If click is outside the circle, let it pass through
-        if (clickDist > maxRadius) {
-          return; // Don't prevent default, let event bubble to stickers below
+        // Circular hit test for initial selection (skip if already active - use full bounds)
+        if (!alreadyActive) {
+          const rect = el.getBoundingClientRect();
+          const centerX = rect.left + rect.width / 2;
+          const centerY = rect.top + rect.height / 2;
+          const clickDist = Math.hypot(e.clientX - centerX, e.clientY - centerY);
+          const maxRadius = Math.max(MIN_HIT_RADIUS, (Math.min(rect.width, rect.height) / 2) * HIT_RADIUS_PERCENT);
+          
+          // If click is outside the circle, let it pass through
+          if (clickDist > maxRadius) {
+            return; // Don't prevent default, let event bubble to stickers below
+          }
         }
         
         e.preventDefault();
@@ -2933,19 +2938,27 @@
         startX = stickerData.x || parseFloat(el.style.left);
         startY = stickerData.y || parseFloat(el.style.top);
 
-        // Start pending state
-        el.classList.add('pending-select');
-
-        // Start hold timer
-        holdTimer = setTimeout(() => {
-          // Hold completed - select the sticker
-          el.classList.remove('pending-select');
+        // If already active, skip hold timer and go straight to manipulation
+        if (alreadyActive) {
           isSelected = true;
           isDragging = true;
-          setActiveSticker(el);
           el.classList.add('dragging');
           enterDragMode();
-        }, HOLD_DURATION);
+        } else {
+          // Start pending state
+          el.classList.add('pending-select');
+
+          // Start hold timer
+          holdTimer = setTimeout(() => {
+            // Hold completed - select the sticker
+            el.classList.remove('pending-select');
+            isSelected = true;
+            isDragging = true;
+            setActiveSticker(el);
+            el.classList.add('dragging');
+            enterDragMode();
+          }, HOLD_DURATION);
+        }
       });
 
       const handleMouseMove = (e) => {
@@ -3025,16 +3038,21 @@
         if (e.touches.length === 1) {
           const t = e.touches[0];
           
-          // Circular hit test for initial selection
-          const rect = el.getBoundingClientRect();
-          const centerX = rect.left + rect.width / 2;
-          const centerY = rect.top + rect.height / 2;
-          const touchDist = Math.hypot(t.clientX - centerX, t.clientY - centerY);
-          const maxRadius = Math.max(MIN_HIT_RADIUS, (Math.min(rect.width, rect.height) / 2) * HIT_RADIUS_PERCENT);
+          // Check if this sticker is already active
+          const alreadyActive = el.classList.contains('active');
           
-          // If touch is outside the circle, let it pass through
-          if (touchDist > maxRadius) {
-            return; // Don't prevent default, let event bubble to stickers below
+          // Circular hit test for initial selection (skip if already active - use full bounds)
+          if (!alreadyActive) {
+            const rect = el.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            const touchDist = Math.hypot(t.clientX - centerX, t.clientY - centerY);
+            const maxRadius = Math.max(MIN_HIT_RADIUS, (Math.min(rect.width, rect.height) / 2) * HIT_RADIUS_PERCENT);
+            
+            // If touch is outside the circle, let it pass through
+            if (touchDist > maxRadius) {
+              return; // Don't prevent default, let event bubble to stickers below
+            }
           }
           
           e.preventDefault();
@@ -3043,19 +3061,27 @@
           startX = stickerData.x || parseFloat(el.style.left);
           startY = stickerData.y || parseFloat(el.style.top);
 
-          // Start pending state
-          el.classList.add('pending-select');
-
-          // Start hold timer
-          holdTimer = setTimeout(() => {
-            // Hold completed - select the sticker
-            el.classList.remove('pending-select');
+          // If already active, skip hold timer and go straight to manipulation
+          if (alreadyActive) {
             isSelected = true;
             touchMode = 'pan';
-            setActiveSticker(el);
             el.classList.add('dragging');
             enterDragMode();
-          }, HOLD_DURATION);
+          } else {
+            // Start pending state
+            el.classList.add('pending-select');
+
+            // Start hold timer
+            holdTimer = setTimeout(() => {
+              // Hold completed - select the sticker
+              el.classList.remove('pending-select');
+              isSelected = true;
+              touchMode = 'pan';
+              setActiveSticker(el);
+              el.classList.add('dragging');
+              enterDragMode();
+            }, HOLD_DURATION);
+          }
 
         } else if (e.touches.length === 2 && isSelected) {
           // Two-finger gesture only if already selected
