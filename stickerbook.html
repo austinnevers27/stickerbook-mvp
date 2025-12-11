@@ -173,13 +173,6 @@
       transform-origin: center center;
       cursor: pointer;
     }
-    
-    /* On touch devices, let canvas handle hit testing */
-    @media (pointer: coarse) {
-      .placed-sticker {
-        pointer-events: none;
-      }
-    }
 
     .placed-sticker img {
       width: 100%;
@@ -2747,51 +2740,72 @@
     }
 
     // ============ PIXEL HIT TESTING ============
+    let pixelTestingEnabled = true; // Will disable if CORS fails
+    
     function loadImageForHitTest(src) {
       if (imageCache.has(src)) {
         return Promise.resolve(imageCache.get(src));
       }
       return new Promise((resolve) => {
         const img = new Image();
-        img.crossOrigin = 'anonymous';
+        img.crossOrigin = 'anonymous'; // Required for pixel reading
         img.onload = () => {
           imageCache.set(src, img);
           resolve(img);
         };
-        img.onerror = () => resolve(null);
+        img.onerror = () => {
+          // Try again without crossOrigin
+          const img2 = new Image();
+          img2.onload = () => {
+            imageCache.set(src, img2);
+            pixelTestingEnabled = false; // Can't do pixel testing without CORS
+            resolve(img2);
+          };
+          img2.onerror = () => resolve(null);
+          img2.src = src;
+        };
         img.src = src;
       });
     }
 
     function checkPixelHit(sticker, touchX, touchY, canvasRect) {
-      // Get sticker bounds
+      const baseSize = sticker.size || sticker.width || 80;
       const scale = sticker.scale || 1;
-      const size = (sticker.size || 80) * scale;
-      const stickerX = sticker.x;
-      const stickerY = sticker.y;
+      
+      // Account for transform-origin: center - scaling shifts the visual position
+      const visualSize = baseSize * scale;
+      const offset = baseSize * (1 - scale) / 2;
+      const visualX = sticker.x + offset;
+      const visualY = sticker.y + offset;
       
       // Convert touch to page-relative coordinates
       const pageX = touchX - canvasRect.left;
       const pageY = touchY - canvasRect.top;
       
-      // Check if touch is within sticker bounding box
-      if (pageX < stickerX || pageX > stickerX + size ||
-          pageY < stickerY || pageY > stickerY + size) {
+      // Check if touch is within visual bounding box
+      if (pageX < visualX || pageX > visualX + visualSize ||
+          pageY < visualY || pageY > visualY + visualSize) {
         return false;
+      }
+      
+      // If pixel testing disabled, use bounding box
+      if (!pixelTestingEnabled) {
+        return true;
       }
       
       // Get cached image
       const img = imageCache.get(sticker.src);
-      if (!img) return true; // If image not cached, assume hit (fallback)
+      if (!img || !img.naturalWidth) {
+        return true; // No image - use bounding box
+      }
       
       // Calculate position within sticker (0-1)
-      let localX = (pageX - stickerX) / size;
-      let localY = (pageY - stickerY) / size;
+      let localX = (pageX - visualX) / visualSize;
+      let localY = (pageY - visualY) / visualSize;
       
       // Handle rotation
       const rotation = (sticker.rotation || 0) * Math.PI / 180;
       if (rotation !== 0) {
-        // Rotate point around center
         const cx = 0.5, cy = 0.5;
         const dx = localX - cx;
         const dy = localY - cy;
@@ -2806,18 +2820,24 @@
         return false;
       }
       
-      // Sample the pixel
-      const sampleX = Math.floor(localX * img.naturalWidth);
-      const sampleY = Math.floor(localY * img.naturalHeight);
-      
-      // Draw to hit canvas and sample
-      hitCanvas.width = 1;
-      hitCanvas.height = 1;
-      hitCtx.clearRect(0, 0, 1, 1);
-      hitCtx.drawImage(img, sampleX, sampleY, 1, 1, 0, 0, 1, 1);
-      
-      const pixel = hitCtx.getImageData(0, 0, 1, 1).data;
-      return pixel[3] > HIT_TEST_ALPHA_THRESHOLD; // Check alpha
+      // Try pixel sampling
+      try {
+        const sampleX = Math.floor(localX * img.naturalWidth);
+        const sampleY = Math.floor(localY * img.naturalHeight);
+        
+        hitCanvas.width = 1;
+        hitCanvas.height = 1;
+        hitCtx.clearRect(0, 0, 1, 1);
+        hitCtx.drawImage(img, sampleX, sampleY, 1, 1, 0, 0, 1, 1);
+        
+        const pixel = hitCtx.getImageData(0, 0, 1, 1).data;
+        return pixel[3] > HIT_TEST_ALPHA_THRESHOLD;
+      } catch (e) {
+        // Canvas tainted - disable pixel testing and fall back
+        console.log('Pixel testing disabled (CORS)');
+        pixelTestingEnabled = false;
+        return true;
+      }
     }
 
     function findStickerAtPoint(touchX, touchY) {
@@ -3302,224 +3322,46 @@
       }
     }
 
-    // ============ CENTRALIZED TOUCH HANDLING ============
+    // ============ SWIPE GESTURE FOR PAGE FLIP ============
     function setupPageSwipe() {
-      // Centralized touch state
-      let touchState = {
-        tracking: false,         // Tracking for page swipe
-        startX: 0,
-        startY: 0,
-        activeSticker: null,     // Sticker data being manipulated
-        activeElement: null,     // DOM element
-        touchMode: null,         // 'pan', 'transform', or null
-        holdTimer: null,
-        isSelected: false,
-        initialDistance: 0,
-        initialAngle: 0,
-        startScale: 1,
-        startRotation: 0,
-        startStickerX: 0,
-        startStickerY: 0
-      };
-      
-      const HOLD_DURATION = 150;
-      const MOVE_THRESHOLD = 10;
-      
+      let startX = 0;
+      let startY = 0;
+      let tracking = false;
+
       stickerPage.addEventListener('touchstart', (e) => {
-        const t = e.touches[0];
-        touchState.startX = t.clientX;
-        touchState.startY = t.clientY;
-        
-        // Check if we hit a sticker using pixel hit testing
-        const hitSticker = findStickerAtPoint(t.clientX, t.clientY);
-        
-        if (hitSticker) {
-          // Hit a sticker - start sticker interaction
-          e.preventDefault();
-          touchState.activeSticker = hitSticker;
-          touchState.activeElement = getStickerElement(hitSticker.id);
-          touchState.startStickerX = hitSticker.x;
-          touchState.startStickerY = hitSticker.y;
-          touchState.isSelected = false;
-          touchState.tracking = false;
-          touchState.touchMode = null;
-          
-          // Start pending state
-          if (touchState.activeElement) {
-            touchState.activeElement.classList.add('pending-select');
-          }
-          
-          // Start hold timer
-          touchState.holdTimer = setTimeout(() => {
-            touchState.isSelected = true;
-            touchState.touchMode = 'pan';
-            if (touchState.activeElement) {
-              touchState.activeElement.classList.remove('pending-select');
-              touchState.activeElement.classList.add('dragging');
-              setActiveSticker(touchState.activeElement);
-              enterDragMode();
-              if (navigator.vibrate) navigator.vibrate(30);
-            }
-          }, HOLD_DURATION);
-          
-        } else {
-          // Hit background - track for page swipe
-          touchState.tracking = true;
-          touchState.activeSticker = null;
-          touchState.activeElement = null;
-          clearTimeout(touchState.holdTimer);
-          touchState.holdTimer = null;
-        }
-      }, { passive: false });
-      
-      stickerPage.addEventListener('touchmove', (e) => {
-        const t = e.touches[0];
-        
-        // Handle sticker manipulation
-        if (touchState.activeSticker && touchState.activeElement) {
-          
-          // Check if we should cancel the hold (user is swiping)
-          if (touchState.holdTimer && !touchState.isSelected) {
-            const dx = Math.abs(t.clientX - touchState.startX);
-            const dy = Math.abs(t.clientY - touchState.startY);
-            if (dx > MOVE_THRESHOLD || dy > MOVE_THRESHOLD) {
-              clearTimeout(touchState.holdTimer);
-              touchState.holdTimer = null;
-              touchState.activeElement.classList.remove('pending-select');
-              touchState.touchMode = null;
-              // Convert to page swipe
-              touchState.tracking = true;
-              touchState.activeSticker = null;
-              touchState.activeElement = null;
-              return;
-            }
-          }
-          
-          // Pan mode - move sticker
-          if (touchState.touchMode === 'pan' && e.touches.length === 1) {
-            e.preventDefault();
-            const dx = t.clientX - touchState.startX;
-            const dy = t.clientY - touchState.startY;
-            
-            touchState.activeSticker.x = touchState.startStickerX + dx;
-            touchState.activeSticker.y = touchState.startStickerY + dy;
-            
-            // Constrain to keep 25% visible
-            constrainStickerPosition(touchState.activeElement, touchState.activeSticker);
-            
-            touchState.activeElement.style.left = `${touchState.activeSticker.x}px`;
-            touchState.activeElement.style.top = `${touchState.activeSticker.y}px`;
-            
-            hasUnsavedChanges = true;
-            checkDropZones(t.clientX, t.clientY);
-          }
-          
-          // Transform mode - scale and rotate
-          if (touchState.touchMode === 'transform' && e.touches.length === 2) {
-            e.preventDefault();
-            const t1 = e.touches[0];
-            const t2 = e.touches[1];
-            const dx = t2.clientX - t1.clientX;
-            const dy = t2.clientY - t1.clientY;
-            const currentDistance = Math.hypot(dx, dy) || 1;
-            const currentAngle = Math.atan2(dy, dx);
-            
-            const scaleDelta = currentDistance / touchState.initialDistance;
-            const newScale = Math.max(MIN_SCALE, Math.min(MAX_SCALE, touchState.startScale * scaleDelta));
-            
-            const angleDelta = (currentAngle - touchState.initialAngle) * (180 / Math.PI);
-            let newRotation = touchState.startRotation + angleDelta;
-            while (newRotation < 0) newRotation += 360;
-            while (newRotation >= 360) newRotation -= 360;
-            
-            touchState.activeSticker.scale = newScale;
-            touchState.activeSticker.rotation = newRotation;
-            
-            touchState.activeElement.style.transform = `scale(${newScale}) rotate(${newRotation}deg)`;
-            touchState.activeElement.style.width = `${(touchState.activeSticker.size || 80)}px`;
-            touchState.activeElement.style.height = `${(touchState.activeSticker.size || 80)}px`;
-            
-            hasUnsavedChanges = true;
-          }
-          
-          return;
-        }
-        
-        // Page swipe tracking continues (no action needed during move)
-      }, { passive: false });
-      
+        // Only track if touching background, not a sticker
+        if (e.target.closest('.placed-sticker')) return;
+        startX = e.touches[0].clientX;
+        startY = e.touches[0].clientY;
+        tracking = true;
+      }, { passive: true });
+
       stickerPage.addEventListener('touchend', (e) => {
-        // Handle sticker manipulation end
-        if (touchState.activeSticker && touchState.activeElement) {
-          clearTimeout(touchState.holdTimer);
-          touchState.holdTimer = null;
-          
-          touchState.activeElement.classList.remove('pending-select');
-          touchState.activeElement.classList.remove('dragging');
-          
-          // Check for drop zones
-          if (touchState.isSelected) {
-            const t = e.changedTouches[0];
-            handleDropZoneRelease(t.clientX, t.clientY, touchState.activeSticker, touchState.activeElement);
-            exitDragMode();
-          }
-          
-          touchState.activeSticker = null;
-          touchState.activeElement = null;
-          touchState.isSelected = false;
-          touchState.touchMode = null;
-          return;
-        }
-        
-        // Handle page swipe
-        if (touchState.tracking) {
-          touchState.tracking = false;
-          
-          const endX = e.changedTouches[0].clientX;
-          const endY = e.changedTouches[0].clientY;
-          const dx = endX - touchState.startX;
-          const dy = endY - touchState.startY;
-          
-          if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) {
-            if (dx > 0) {
-              flipPage(-1);
-            } else {
-              flipPage(1);
-            }
+        if (!tracking) return;
+        tracking = false;
+
+        const endX = e.changedTouches[0].clientX;
+        const endY = e.changedTouches[0].clientY;
+        const dx = endX - startX;
+        const dy = endY - startY;
+
+        if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) {
+          if (dx > 0) {
+            flipPage(-1);
+          } else {
+            flipPage(1);
           }
         }
       }, { passive: true });
-      
-      // Handle second finger for transform (pinch/rotate)
-      stickerPage.addEventListener('touchstart', (e) => {
-        if (e.touches.length === 2 && touchState.isSelected && touchState.activeSticker) {
-          clearTimeout(touchState.holdTimer);
-          touchState.holdTimer = null;
-          touchState.activeElement?.classList.remove('pending-select');
-          touchState.touchMode = 'transform';
-          
-          const t1 = e.touches[0];
-          const t2 = e.touches[1];
-          const dx = t2.clientX - t1.clientX;
-          const dy = t2.clientY - t1.clientY;
-          touchState.initialDistance = Math.hypot(dx, dy) || 1;
-          touchState.initialAngle = Math.atan2(dy, dx);
-          touchState.startScale = touchState.activeSticker.scale || 1;
-          touchState.startRotation = touchState.activeSticker.rotation || 0;
-        }
-      }, { passive: false });
-      
-      // Mouse handling for desktop (stickers handle their own clicks)
+
       if (!isTouchDevice) {
         let mouseDown = false;
         let mouseStartX = 0;
 
         stickerPage.addEventListener('mousedown', (e) => {
-          // Only track for page swipe if clicking background
-          if (e.target === stickerPage || e.target === pageCanvas) {
-            mouseDown = true;
-            mouseStartX = e.clientX;
-          }
+          if (e.target.closest('.placed-sticker')) return;
+          mouseDown = true;
+          mouseStartX = e.clientX;
         });
 
         window.addEventListener('mouseup', (e) => {
