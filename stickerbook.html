@@ -190,12 +190,12 @@
 
     @keyframes pendingGlow {
       0% { filter: drop-shadow(0 0 0 transparent); }
-      100% { filter: drop-shadow(0 0 6px rgba(20, 184, 166, 0.5)); }
+      100% { filter: drop-shadow(0 0 6px rgba(37, 99, 235, 0.5)); }
     }
 
     .placed-sticker.active {
       z-index: 1000 !important;
-      box-shadow: 0 0 0 2px var(--color-accent), var(--shadow-lg);
+      box-shadow: 0 0 0 2px #2563EB, var(--shadow-lg);
       border-radius: 4px;
       cursor: grab;
     }
@@ -2909,8 +2909,22 @@
       let holdTimer = null;
       const HOLD_DURATION = 150; // ms to hold before selecting
       const MOVE_THRESHOLD = 8; // pixels of movement that cancels selection
+      const HIT_RADIUS_PERCENT = 0.65; // 65% of sticker radius is tappable
+      const MIN_HIT_RADIUS = 25; // minimum 25px hit radius
 
       el.addEventListener('mousedown', (e) => {
+        // Circular hit test for initial selection
+        const rect = el.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        const clickDist = Math.hypot(e.clientX - centerX, e.clientY - centerY);
+        const maxRadius = Math.max(MIN_HIT_RADIUS, (Math.min(rect.width, rect.height) / 2) * HIT_RADIUS_PERCENT);
+        
+        // If click is outside the circle, let it pass through
+        if (clickDist > maxRadius) {
+          return; // Don't prevent default, let event bubble to stickers below
+        }
+        
         e.preventDefault();
         e.stopPropagation();
 
@@ -3004,12 +3018,26 @@
       let isSelected = false;
       const HOLD_DURATION = 150; // ms to hold before selecting
       const MOVE_THRESHOLD = 10; // pixels of movement that cancels selection
+      const HIT_RADIUS_PERCENT = 0.65; // 65% of sticker radius is tappable
+      const MIN_HIT_RADIUS = 25; // minimum 25px hit radius
 
       el.addEventListener('touchstart', (e) => {
-        e.preventDefault();
-
         if (e.touches.length === 1) {
           const t = e.touches[0];
+          
+          // Circular hit test for initial selection
+          const rect = el.getBoundingClientRect();
+          const centerX = rect.left + rect.width / 2;
+          const centerY = rect.top + rect.height / 2;
+          const touchDist = Math.hypot(t.clientX - centerX, t.clientY - centerY);
+          const maxRadius = Math.max(MIN_HIT_RADIUS, (Math.min(rect.width, rect.height) / 2) * HIT_RADIUS_PERCENT);
+          
+          // If touch is outside the circle, let it pass through
+          if (touchDist > maxRadius) {
+            return; // Don't prevent default, let event bubble to stickers below
+          }
+          
+          e.preventDefault();
           startTouchX = t.clientX;
           startTouchY = t.clientY;
           startX = stickerData.x || parseFloat(el.style.left);
@@ -3031,6 +3059,7 @@
 
         } else if (e.touches.length === 2 && isSelected) {
           // Two-finger gesture only if already selected
+          e.preventDefault();
           clearTimeout(holdTimer);
           holdTimer = null;
           el.classList.remove('pending-select');
