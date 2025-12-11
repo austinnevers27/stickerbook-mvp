@@ -380,32 +380,70 @@
     }
 
     .pack-card.active {
-      border-color: #2563EB;
-      box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+      border-color: var(--color-purple);
+      box-shadow: 0 0 0 2px rgba(109, 40, 217, 0.3);
+    }
+
+    /* Pack action overlay */
+    .pack-action-overlay {
+      display: none;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: var(--color-canvas-elevated);
+      border: 1px solid var(--color-purple);
+      border-radius: var(--radius-lg);
+      padding: 16px 20px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+      z-index: 10;
+      min-width: 200px;
+    }
+
+    .pack-card.active .pack-action-overlay {
+      display: block;
+    }
+
+    .pack-action-close {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      width: 24px;
+      height: 24px;
+      border: none;
+      background: var(--color-canvas-subtle);
+      border-radius: 50%;
+      color: var(--color-text-muted);
+      font-size: 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s ease, color 0.15s ease;
+    }
+
+    .pack-action-close:hover {
+      background: var(--color-hover-bg);
+      color: var(--color-text-primary);
     }
 
     .pack-action-buttons {
-      display: none;
-      position: absolute;
-      bottom: 12px;
-      right: 12px;
-      gap: 8px;
-      z-index: 10;
-    }
-
-    .pack-card.active .pack-action-buttons {
       display: flex;
+      gap: 12px;
+      margin-top: 8px;
     }
 
     .pack-action-btn {
-      padding: 8px 16px;
+      flex: 1;
+      padding: 12px 16px;
       border-radius: var(--radius-pill);
-      font-size: 12px;
+      font-size: 13px;
       font-weight: 700;
       font-family: var(--font-primary);
       cursor: pointer;
       transition: transform 0.1s ease, opacity 0.1s ease;
       border: none;
+      text-align: center;
     }
 
     .pack-action-btn:active {
@@ -417,22 +455,18 @@
       color: white;
     }
 
+    .pack-action-btn.add:hover {
+      opacity: 0.9;
+    }
+
     .pack-action-btn.view {
-      background: var(--color-canvas-subtle);
-      border: 1px solid var(--color-border);
-      color: var(--color-text-secondary);
+      background: transparent;
+      border: 1px solid var(--color-turquoise);
+      color: var(--color-turquoise);
     }
 
     .pack-action-btn.view:hover {
-      border-color: var(--color-border-strong);
-    }
-
-    .pack-action-btn.dismiss {
-      padding: 6px 10px;
-      background: var(--color-canvas-subtle);
-      border: 1px solid var(--color-border);
-      color: var(--color-text-muted);
-      font-size: 10px;
+      background: rgba(20, 184, 166, 0.1);
     }
 
     /* Pack Expand View */
@@ -462,6 +496,7 @@
       max-height: 80vh;
       background: var(--color-canvas);
       border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+      border-top: 2px solid var(--color-purple);
       z-index: 1001;
       transform: translateY(100%);
       transition: transform 0.3s ease;
@@ -569,14 +604,18 @@
       transition: transform 0.1s ease, opacity 0.1s ease;
     }
 
+    .pack-expand-add-btn:hover {
+      opacity: 0.9;
+    }
+
     .pack-expand-add-btn:active {
       transform: scale(0.97);
     }
 
     .pack-expand-add-btn.in-basket {
-      background: var(--color-canvas-subtle);
-      color: var(--color-text-muted);
-      border: 1px solid var(--color-border);
+      background: transparent;
+      color: var(--color-turquoise);
+      border: 1px solid var(--color-turquoise);
     }
 
     .pack-card-header {
@@ -1319,15 +1358,20 @@
 
     async function loadShopData() {
       try {
+        console.log('Loading shop data...');
         const [stickersRes, packsRes, backgroundsRes] = await Promise.all([
           fetch('stickers.json'),
           fetch('packs.json'),
           fetch('backgrounds.json')
         ]);
 
+        console.log('Fetch responses:', stickersRes.ok, packsRes.ok, backgroundsRes.ok);
+
         allStickers = await stickersRes.json();
         allPacks = await packsRes.json();
         allBackgrounds = await backgroundsRes.json();
+
+        console.log('Loaded:', allStickers.length, 'stickers,', allPacks.length, 'packs,', allBackgrounds.length, 'backgrounds');
 
         loadingEl.classList.add('hidden');
       } catch (err) {
@@ -1528,10 +1572,12 @@
               ` : '';
             }).join('')}
           </div>
-          <div class="pack-action-buttons">
-            <button class="pack-action-btn dismiss" data-action="dismiss">✕</button>
-            <button class="pack-action-btn view" data-action="view">View</button>
-            <button class="pack-action-btn add" data-action="add">${inBasket ? 'Added' : 'Add'}</button>
+          <div class="pack-action-overlay">
+            <button class="pack-action-close" data-action="dismiss">✕</button>
+            <div class="pack-action-buttons">
+              <button class="pack-action-btn view" data-action="view">View</button>
+              <button class="pack-action-btn add" data-action="add">${inBasket ? 'Added' : 'Add'}</button>
+            </div>
           </div>
         </div>
       `;
@@ -1674,24 +1720,36 @@
 
     function attachPackListeners() {
       document.querySelectorAll('.pack-card').forEach(card => {
-        // Click on pack card to show action buttons
+        // Click on pack card to show action overlay
         card.addEventListener('click', (e) => {
-          // Check if clicking on action button
+          // Check if clicking on action button or close
           const actionBtn = e.target.closest('.pack-action-btn');
+          const closeBtn = e.target.closest('.pack-action-close');
+          
+          if (closeBtn) {
+            e.stopPropagation();
+            deactivatePackCard();
+            return;
+          }
+          
           if (actionBtn) {
             e.stopPropagation();
             const action = actionBtn.dataset.action;
             const id = card.dataset.id;
             
-            if (action === 'dismiss') {
-              deactivatePackCard();
-            } else if (action === 'add') {
+            if (action === 'add') {
               toggleBasketItem('pack', id);
               deactivatePackCard();
             } else if (action === 'view') {
               openPackExpand(id);
               deactivatePackCard();
             }
+            return;
+          }
+          
+          // Check if clicking inside the overlay (but not on buttons)
+          if (e.target.closest('.pack-action-overlay')) {
+            e.stopPropagation();
             return;
           }
           
