@@ -225,6 +225,136 @@
       opacity: 0.7;
     }
 
+    /* ========== CREATOR LINK ========== */
+    .creator-link-section {
+      margin-top: 32px;
+      padding: 20px;
+      text-align: center;
+      border-top: 1px solid var(--color-border);
+    }
+
+    .creator-link-text {
+      font-size: 13px;
+      color: var(--color-text-muted);
+      margin-bottom: 8px;
+    }
+
+    .creator-link-btn {
+      background: none;
+      border: none;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--color-turquoise);
+      cursor: pointer;
+      font-family: var(--font-primary);
+      padding: 4px 8px;
+      transition: opacity 0.15s ease;
+    }
+
+    .creator-link-btn:hover {
+      opacity: 0.8;
+    }
+
+    /* ========== CREATOR TYPE MODAL ========== */
+    .creator-modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .creator-modal-overlay.visible {
+      display: flex;
+    }
+
+    .creator-modal {
+      background: var(--color-canvas-elevated);
+      border-radius: var(--radius-xl);
+      padding: 24px;
+      width: 100%;
+      max-width: 340px;
+      position: relative;
+    }
+
+    .creator-modal-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 28px;
+      height: 28px;
+      border: none;
+      background: var(--color-canvas-subtle);
+      border-radius: 50%;
+      color: var(--color-text-muted);
+      font-size: 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s ease;
+    }
+
+    .creator-modal-close:hover {
+      background: var(--color-hover-bg);
+    }
+
+    .creator-modal-title {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--color-text-primary);
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .creator-type-btn {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      padding: 20px;
+      background: var(--color-canvas-subtle);
+      border: 1.5px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      cursor: pointer;
+      transition: all 0.15s ease;
+      margin-bottom: 12px;
+    }
+
+    .creator-type-btn:last-child {
+      margin-bottom: 0;
+    }
+
+    .creator-type-btn:hover {
+      border-color: var(--color-purple);
+      background: var(--color-canvas-elevated);
+    }
+
+    .creator-type-icon {
+      font-size: 28px;
+      margin-bottom: 4px;
+    }
+
+    .creator-type-label {
+      font-family: var(--font-display);
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--color-text-primary);
+    }
+
+    .creator-type-desc {
+      font-size: 12px;
+      color: var(--color-text-muted);
+    }
+
     /* ========== FOOTER ========== */
     .interests-footer {
       position: fixed;
@@ -340,6 +470,32 @@
         <div class="section-label">Your choices</div>
         <div class="selected-pills" id="selected-pills"></div>
       </div>
+
+      <!-- Creator/Brand conversion link -->
+      <div class="creator-link-section">
+        <p class="creator-link-text">Here to share your art or represent a brand?</p>
+        <button class="creator-link-btn" id="creator-link-btn">Set up a creator account →</button>
+      </div>
+    </div>
+
+    <!-- Creator Type Modal -->
+    <div class="creator-modal-overlay" id="creator-modal-overlay">
+      <div class="creator-modal">
+        <button class="creator-modal-close" id="creator-modal-close">✕</button>
+        <h3 class="creator-modal-title">What best describes you?</h3>
+        
+        <button class="creator-type-btn" id="type-creator">
+          <span class="creator-type-icon">🎨</span>
+          <span class="creator-type-label">Artist / Creator</span>
+          <span class="creator-type-desc">I make stickers, designs, or art</span>
+        </button>
+        
+        <button class="creator-type-btn" id="type-brand">
+          <span class="creator-type-icon">🏢</span>
+          <span class="creator-type-label">Brand / Business</span>
+          <span class="creator-type-desc">I represent a company or organization</span>
+        </button>
+      </div>
     </div>
 
     <!-- Footer -->
@@ -433,6 +589,14 @@
         const saved = JSON.parse(localStorage.getItem('stickerbook_interests') || '[]');
         saved.forEach(i => selectedInterests.add(i));
       } catch (e) {}
+
+      // Check if already marked as creator
+      const accountType = localStorage.getItem('stickerbook_account_type');
+      if (accountType === 'creator') {
+        const linkBtn = document.getElementById('creator-link-btn');
+        linkBtn.textContent = '✓ Creator account selected';
+        linkBtn.style.color = 'var(--color-turquoise)';
+      }
 
       renderCategoryPills();
       renderSelectedPills();
@@ -560,6 +724,40 @@
         saveInterests();
         navigateNext();
       });
+
+      // Creator link - show modal
+      const creatorModal = document.getElementById('creator-modal-overlay');
+      
+      document.getElementById('creator-link-btn').addEventListener('click', () => {
+        creatorModal.classList.add('visible');
+      });
+
+      document.getElementById('creator-modal-close').addEventListener('click', () => {
+        creatorModal.classList.remove('visible');
+      });
+
+      // Click outside modal to close
+      creatorModal.addEventListener('click', (e) => {
+        if (e.target === creatorModal) {
+          creatorModal.classList.remove('visible');
+        }
+      });
+
+      // Artist/Creator - they're people, finish interests first, then creator onboarding
+      document.getElementById('type-creator').addEventListener('click', () => {
+        localStorage.setItem('stickerbook_account_type', 'creator');
+        creatorModal.classList.remove('visible');
+        // Update the link to show they've selected creator
+        const linkBtn = document.getElementById('creator-link-btn');
+        linkBtn.textContent = '✓ Creator account selected';
+        linkBtn.style.color = 'var(--color-turquoise)';
+      });
+
+      // Brand - skip interests, go straight to brand portal
+      document.getElementById('type-brand').addEventListener('click', () => {
+        localStorage.setItem('stickerbook_account_type', 'brand');
+        window.location.href = 'brand-signup.html';
+      });
     }
 
     // ============ SAVE & NAVIGATE ============
@@ -568,8 +766,13 @@
     }
 
     function navigateNext() {
+      const accountType = localStorage.getItem('stickerbook_account_type');
+      
       if (source === 'settings') {
         window.location.href = 'settings.html';
+      } else if (accountType === 'creator') {
+        // Creators finish interests, then go to creator onboarding
+        window.location.href = 'creator-onboarding.html';
       } else {
         window.location.href = 'stickerbook.html';
       }
