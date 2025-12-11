@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Stickerbook – Your Interests</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/stickerbook.css">
+  <style>
+    html, body {
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .interests-shell {
+      width: 100%;
+      height: 100vh;
+      height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      background: var(--color-canvas);
+      overflow: hidden;
+    }
+
+    /* ========== HEADER ========== */
+    .interests-header {
+      padding: 20px 20px 16px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+
+    .brand-title {
+      font-family: var(--font-display);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--color-text-primary);
+      margin-bottom: 16px;
+    }
+
+    .interests-title {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--color-text-primary);
+      margin-bottom: 8px;
+    }
+
+    .interests-subtitle {
+      font-size: 14px;
+      color: var(--color-text-muted);
+      line-height: 1.4;
+    }
+
+    /* ========== CONTENT ========== */
+    .interests-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 0 16px 120px;
+    }
+
+    .interests-content::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* ========== CATEGORY ========== */
+    .category {
+      margin-bottom: 8px;
+    }
+
+    .category-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 16px;
+      background: var(--color-canvas-elevated);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      cursor: pointer;
+      transition: border-color 0.15s ease, background 0.15s ease;
+    }
+
+    .category-header:hover {
+      border-color: var(--color-border-strong);
+    }
+
+    .category.expanded .category-header {
+      border-color: var(--color-purple);
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+
+    .category-name {
+      font-family: var(--font-display);
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--color-text-primary);
+    }
+
+    .category-chevron {
+      font-size: 12px;
+      color: var(--color-text-muted);
+      transition: transform 0.2s ease;
+    }
+
+    .category.expanded .category-chevron {
+      transform: rotate(180deg);
+      color: var(--color-purple);
+    }
+
+    .category-count {
+      font-size: 11px;
+      color: var(--color-turquoise);
+      font-weight: 600;
+      margin-right: 8px;
+    }
+
+    /* ========== SUBCATEGORIES ========== */
+    .subcategories {
+      display: none;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 12px;
+      background: var(--color-canvas-subtle);
+      border: 1px solid var(--color-purple);
+      border-top: none;
+      border-bottom-left-radius: var(--radius-lg);
+      border-bottom-right-radius: var(--radius-lg);
+    }
+
+    .category.expanded .subcategories {
+      display: flex;
+    }
+
+    .subcategory {
+      padding: 8px 14px;
+      background: var(--color-canvas-elevated);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-pill);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--color-text-secondary);
+      cursor: pointer;
+      transition: all 0.15s ease;
+      font-family: var(--font-primary);
+    }
+
+    .subcategory:hover {
+      border-color: var(--color-border-strong);
+    }
+
+    .subcategory.selected {
+      background: var(--color-purple);
+      border-color: var(--color-purple);
+      color: white;
+    }
+
+    /* ========== FOOTER ========== */
+    .interests-footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 16px 20px;
+      padding-bottom: max(16px, env(safe-area-inset-bottom));
+      background: var(--color-canvas);
+      border-top: 1px solid var(--color-border);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .selection-status {
+      text-align: center;
+      font-size: 13px;
+      color: var(--color-text-muted);
+    }
+
+    .selection-status.ready {
+      color: var(--color-turquoise);
+      font-weight: 600;
+    }
+
+    .footer-buttons {
+      display: flex;
+      gap: 12px;
+    }
+
+    .btn-skip {
+      flex: 1;
+      padding: 14px 20px;
+      background: transparent;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-pill);
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--color-text-muted);
+      cursor: pointer;
+      font-family: var(--font-primary);
+      transition: border-color 0.15s ease, color 0.15s ease;
+    }
+
+    .btn-skip:hover {
+      border-color: var(--color-border-strong);
+      color: var(--color-text-secondary);
+    }
+
+    .btn-skip.hidden {
+      display: none;
+    }
+
+    .btn-continue {
+      flex: 2;
+      padding: 14px 20px;
+      background: var(--color-purple);
+      border: none;
+      border-radius: var(--radius-pill);
+      font-size: 14px;
+      font-weight: 700;
+      color: white;
+      cursor: pointer;
+      font-family: var(--font-primary);
+      transition: opacity 0.15s ease, transform 0.1s ease;
+    }
+
+    .btn-continue:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .btn-continue:not(:disabled):hover {
+      opacity: 0.9;
+    }
+
+    .btn-continue:not(:disabled):active {
+      transform: scale(0.98);
+    }
+
+    .btn-continue.full-width {
+      flex: 1;
+    }
+  </style>
+</head>
+<body>
+  <div class="interests-shell">
+    <!-- Header -->
+    <div class="interests-header">
+      <div class="brand-title">Stickerbook</div>
+      <div class="interests-title">What are you into?</div>
+      <div class="interests-subtitle">Pick at least 5 to help us find stickers you'll love</div>
+    </div>
+
+    <!-- Content -->
+    <div class="interests-content" id="interests-content">
+      <!-- Categories injected by JS -->
+    </div>
+
+    <!-- Footer -->
+    <div class="interests-footer">
+      <div class="selection-status" id="selection-status">Select at least 5 interests</div>
+      <div class="footer-buttons">
+        <button class="btn-skip hidden" id="btn-skip">Skip</button>
+        <button class="btn-continue full-width" id="btn-continue" disabled>Continue</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ============ INTEREST DATA ============
+    const categories = [
+      {
+        name: "Music",
+        subs: ["Rock", "Pop", "Hip Hop / Rap", "Country", "Electronic / EDM", "R&B / Soul", "Jazz", "Classical", "Metal", "Indie / Alternative", "Latin", "K-Pop", "Folk / Americana", "Punk", "Reggae"]
+      },
+      {
+        name: "TV & Film",
+        subs: ["Comedy", "Drama", "Sci-Fi", "Horror", "Reality TV", "Documentaries", "Animation / Cartoons", "Anime", "True Crime", "Superhero / Marvel / DC", "Fantasy", "Romance", "Classic Films", "Musicals"]
+      },
+      {
+        name: "Gaming",
+        subs: ["Console Gaming", "PC Gaming", "Mobile Gaming", "Retro Gaming", "RPGs", "Shooters / FPS", "Sports Games", "Racing", "Puzzle / Strategy", "Indie Games", "MMOs", "Fighting Games", "Simulation"]
+      },
+      {
+        name: "Sports",
+        subs: ["Basketball", "Football", "Soccer", "Baseball", "Hockey", "Tennis", "Golf", "MMA / Boxing", "Wrestling", "Motorsports", "Extreme Sports", "Running / Fitness", "Swimming", "Cycling"]
+      },
+      {
+        name: "Food & Drink",
+        subs: ["Coffee", "Cocktails", "Wine", "Beer / Craft Beer", "Cooking", "Baking", "BBQ / Grilling", "Vegetarian / Vegan", "Fast Food", "Fine Dining", "Street Food", "Comfort Food", "International Cuisine", "Desserts"]
+      },
+      {
+        name: "Places & Travel",
+        subs: ["Local Pride", "Road Trips", "Beach / Coastal", "Mountains", "International Travel", "Theme Parks", "Camping", "National Parks", "Historic Sites", "Landmarks", "Urban Exploration"]
+      },
+      {
+        name: "Animals & Pets",
+        subs: ["Dogs", "Cats", "Birds", "Fish / Aquariums", "Reptiles", "Horses", "Small Pets", "Exotic Pets", "Wildlife", "Marine Life", "Farm Animals"]
+      },
+      {
+        name: "Nature & Outdoors",
+        subs: ["Hiking", "Gardening", "Fishing", "Hunting", "Stargazing", "Flowers / Plants", "Forest / Woods", "Ocean / Water", "Seasons", "Sustainability", "Weather"]
+      },
+      {
+        name: "Art & Style",
+        subs: ["Fashion", "Tattoos", "Makeup / Beauty", "Photography", "Painting / Drawing", "Vintage / Retro", "Streetwear", "Cottagecore", "Y2K Aesthetic", "Minimalism", "Goth / Alt"]
+      },
+      {
+        name: "Humor & Personality",
+        subs: ["Memes", "Dad Jokes / Puns", "Sarcasm", "Dark Humor", "Wholesome Vibes", "Chaotic Energy", "Introvert Life", "Nerd / Geek", "Night Owl", "Overthinker", "Chill Vibes"]
+      },
+      {
+        name: "Community & Values",
+        subs: ["LGBTQ+", "Faith / Spirituality", "Mental Health", "Environmentalism", "Social Justice", "Body Positivity", "Sobriety", "Neurodiversity", "Veterans / Military", "First Responders", "Parenting / Family", "Educators"]
+      }
+    ];
+
+    // ============ STATE ============
+    const MIN_SELECTIONS = 5;
+    let selectedInterests = new Set();
+    let source = 'account'; // default
+
+    // ============ DOM ============
+    const contentEl = document.getElementById('interests-content');
+    const statusEl = document.getElementById('selection-status');
+    const skipBtn = document.getElementById('btn-skip');
+    const continueBtn = document.getElementById('btn-continue');
+
+    // ============ INIT ============
+    function init() {
+      // Check URL params
+      const params = new URLSearchParams(window.location.search);
+      source = params.get('source') || 'account';
+
+      // Show skip button if not from account creation
+      if (source !== 'account') {
+        skipBtn.classList.remove('hidden');
+        continueBtn.classList.remove('full-width');
+      }
+
+      // Load any existing interests
+      try {
+        const saved = JSON.parse(localStorage.getItem('stickerbook_interests') || '[]');
+        saved.forEach(i => selectedInterests.add(i));
+      } catch (e) {}
+
+      renderCategories();
+      updateStatus();
+      setupListeners();
+    }
+
+    // ============ RENDER ============
+    function renderCategories() {
+      contentEl.innerHTML = categories.map((cat, idx) => {
+        const selectedInCat = cat.subs.filter(s => selectedInterests.has(s)).length;
+        return `
+          <div class="category" data-index="${idx}">
+            <div class="category-header">
+              <div class="category-name">${cat.name}</div>
+              <div style="display: flex; align-items: center;">
+                ${selectedInCat > 0 ? `<span class="category-count">${selectedInCat} selected</span>` : ''}
+                <span class="category-chevron">▼</span>
+              </div>
+            </div>
+            <div class="subcategories">
+              ${cat.subs.map(sub => `
+                <div class="subcategory ${selectedInterests.has(sub) ? 'selected' : ''}" data-name="${sub}">
+                  ${sub}
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // ============ STATUS ============
+    function updateStatus() {
+      const count = selectedInterests.size;
+      const needed = MIN_SELECTIONS - count;
+
+      if (count >= MIN_SELECTIONS) {
+        statusEl.textContent = `${count} interests selected ✓`;
+        statusEl.classList.add('ready');
+        continueBtn.disabled = false;
+      } else {
+        statusEl.textContent = `Select ${needed} more interest${needed === 1 ? '' : 's'}`;
+        statusEl.classList.remove('ready');
+        continueBtn.disabled = true;
+      }
+    }
+
+    // ============ LISTENERS ============
+    function setupListeners() {
+      // Category expand/collapse
+      contentEl.addEventListener('click', (e) => {
+        const header = e.target.closest('.category-header');
+        if (header) {
+          const category = header.closest('.category');
+          category.classList.toggle('expanded');
+          return;
+        }
+
+        const sub = e.target.closest('.subcategory');
+        if (sub) {
+          const name = sub.dataset.name;
+          if (selectedInterests.has(name)) {
+            selectedInterests.delete(name);
+            sub.classList.remove('selected');
+          } else {
+            selectedInterests.add(name);
+            sub.classList.add('selected');
+          }
+          updateCategoryCount(sub.closest('.category'));
+          updateStatus();
+        }
+      });
+
+      // Skip button
+      skipBtn.addEventListener('click', () => {
+        navigateNext();
+      });
+
+      // Continue button
+      continueBtn.addEventListener('click', () => {
+        saveInterests();
+        navigateNext();
+      });
+    }
+
+    function updateCategoryCount(categoryEl) {
+      const idx = parseInt(categoryEl.dataset.index);
+      const cat = categories[idx];
+      const selectedInCat = cat.subs.filter(s => selectedInterests.has(s)).length;
+      
+      const countEl = categoryEl.querySelector('.category-count');
+      const headerRight = categoryEl.querySelector('.category-header > div:last-child');
+      
+      if (selectedInCat > 0) {
+        if (countEl) {
+          countEl.textContent = `${selectedInCat} selected`;
+        } else {
+          const chevron = headerRight.querySelector('.category-chevron');
+          const newCount = document.createElement('span');
+          newCount.className = 'category-count';
+          newCount.textContent = `${selectedInCat} selected`;
+          headerRight.insertBefore(newCount, chevron);
+        }
+      } else if (countEl) {
+        countEl.remove();
+      }
+    }
+
+    // ============ SAVE & NAVIGATE ============
+    function saveInterests() {
+      localStorage.setItem('stickerbook_interests', JSON.stringify([...selectedInterests]));
+    }
+
+    function navigateNext() {
+      if (source === 'settings') {
+        // Go back to settings
+        window.location.href = 'settings.html';
+      } else {
+        // Account creation or refresh - go to stickerbook
+        window.location.href = 'stickerbook.html';
+      }
+    }
+
+    // ============ START ============
+    document.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>
