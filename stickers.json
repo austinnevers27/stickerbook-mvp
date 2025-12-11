@@ -1,552 +1,3892 @@
-[
-  {
-    "id": "sticker_001",
-    "filename": "alhambratheatre0001.png",
-    "displayName": "Alhambra Theatre",
-    "category": "Places & Travel",
-    "tags": ["nostalgia", "theater", "historic", "sacramento", "movies", "film"],
-    "price": 0,
-    "artistId": null,
-    "isTrending": false,
-    "isFeatured": false
-  },
-  {
-    "id": "sticker_002",
-    "filename": "ambulance0001.png",
-    "displayName": "Ambulance",
-    "category": "Objects & Stuff",
-    "tags": ["vehicle", "medic", "first responder", "paramedic", "siren", "sirens", "medical"],
-    "price": 0,
-    "artistId": null,
-    "isTrending": false,
-    "isFeatured": false
-  },
-  {
-    "id": "sticker_003",
-    "filename": "arches0001.png",
-    "displayName": "Arches National Park",
-    "category": "Places & Travel",
-    "tags": ["utah", "national park", "moab", "geology", "canyon", "rock", "arches", "arches national park"],
-    "price": 0,
-    "artistId": null,
-    "isTrending": false,
-    "isFeatured": false
-  },
-  {
-    "id": "sticker_004",
-    "filename": "berniesanders0001.png",
-    "displayName": "Bernie Sanders Meme",
-    "category": "Entertainment",
-    "tags": ["politics", "politicians", "liberal", "left wing", "socialist", "democrat", "democratic", "democratic socialist", "president", "senator", "vermont"],
-    "price": 0,
-    "artistId": null,
-    "isTrending": false,
-    "isFeatured": false
-  },
-  {
-    "id": "sticker_005",
-    "filename": "bidet0001.png",
-    "displayName": "Bidet 2028",
-    "category": "Vibes & Aesthetic",
-    "tags": ["humor", "meme", "2028", "president", "politics", "politician", "bathroom", "toilet", "trump", "white house", "election", "joke", "impeach", "shit", "poop"],
-    "price": 0,
-    "artistId": null,
-    "isTrending": false,
-    "isFeatured": false
-  },
-  {
-    "id": "sticker_006",
-    "filename": "blackcat0001.png",
-    "displayName": "Black Cat Energy",
-    "category": "Animals",
-    "tags": ["cat", "black cat", "void", "witch"],
-    "price": 0,
-    "artistId": null,
-    "isTrending": true,
-    "isFeatured": false
-  },
-  {
-    "id": "sticker_007",
-    "filename": "brickbybrick0001.png",
-    "displayName": "Brick by Brick",
-    "category": "Vibes & Aesthetic",
-    "tags": ["meme", "funny", "humor", "fyp", "for you page", "brick", "building", "construction", "helmet"],
-    "price": 0,
-    "artistId": null,
-    "isTrending": false,
-    "isFeatured": false
-  },
-  {
-    "id": "sticker_008",
-    "filename": "cityofsneeze0001.png",
-    "displayName": "City of Sneeze",
-    "category": "Nature & Outdoors",
-    "tags": ["sacramento", "allergy", "allergies", "tree", "flower", "tissue", "kleenex", "pollen"],
-    "price": 0,
-    "artistId": null,
-    "isTrending": false,
-    "isFeatured": false
-  },
-  {
-    "id": "sticker_009",
-    "filename": "cityoftrees0001.png",
-    "displayName": "Sacramento Water Tower",
-    "category": "Places & Travel",
-    "tags": ["sacramento", "water tower", "city of trees", "farm to fork"],
-    "price": 0,
-    "artistId": null,
-    "isTrending": false,
-    "isFeatured": true
-  },
-  {
-    "id": "sticker_010",
-    "filename": "clown0001.png",
-    "displayName": "Victorian Clown",
-    "category": "People & Characters",
-    "tags": ["victorian", "clown", "black and white", "mime"],
-    "price": 0,
-    "artistId": null,
-    "isTrending": false,
-    "isFeatured": false
-  },
-  {
-    "id": "sticker_011",
-    "filename": "cocacola0001.png",
-    "displayName": "Coca Cola Clydesdales",
-    "category": "Food & Drinks",
-    "tags": ["soda", "coca cola", "clydesdale", "winter", "snow", "americana", "nostalgia", "horse", "horse drawn", "delivery", "thomas kincaid"],
-    "price": 0,
-    "artistId": null,
-    "isTrending": false,
-    "isFeatured": false
-  },
-  {
-    "id": "sticker_012",
-    "filename": "coexist0001.png",
-    "displayName": "Coexist",
-    "category": "Vibes & Aesthetic",
-    "tags": ["religion", "peace", "bumper sticker", "christian", "jewish", "islam", "hinduism", "catholic", "church", "equality", "faith", "inclusive"],
-    "price": 0,
-    "artistId": null,
-    "isTrending": false,
-    "isFeatured": false
-  },
-  {
-    "id": "sticker_013",
-    "filename": "coffee0001.png",
-    "displayName": "But First, Coffee",
-    "category": "Food & Drinks",
-    "tags": ["coffee", "mug", "tea", "morning", "breakfast", "sunshine", "wake up"],
-    "price": 0,
-    "artistId": null,
-    "isTrending": true,
-    "isFeatured": false
-  },
-  {
-    "id": "sticker_014",
-    "filename": "crockerartmuseum0001.png",
-    "displayName": "Crocker Art Museum",
-    "category": "Places & Travel",
-    "tags": ["art", "museum", "sacramento", "crocker", "paint", "painting", "paintings", "sculpture", "historic", "fine art"],
-    "price": 0,
-    "artistId": null,
-    "isTrending": false,
-    "isFeatured": false
-  },
-  {
-    "id": "sticker_015",
-    "filename": "cubansandwich0001.png",
-    "displayName": "Cuban Sandwich",
-    "category": "Food & Drinks",
-    "tags": ["cuba", "havana", "miami", "tampa", "little havana", "cubano", "sandwich", "pork", "ham", "mustard", "cheese", "swiss cheese", "pickle"],
-    "price": 0,
-    "artistId": null,
-    "isTrending": false,
-    "isFeatured": false
-  },
-  {
-    "id": "sticker_016",
-    "filename": "firetruck0001.png",
-    "displayName": "Fire Truck",
-    "category": "Objects & Stuff",
-    "tags": ["car", "truck", "vehicle", "first aid", "fire fighter", "fire hydrant", "siren", "sirens", "fire", "fireman", "firemen", "hose", "water hose"],
-    "price": 0,
-    "artistId": null,
-    "isTrending": false,
-    "isFeatured": false
-  },
-  {
-    "id": "sticker_017",
-    "filename": "fleabag0001.png",
-    "displayName": "Fleabag",
-    "category": "Entertainment",
-    "tags": ["fleabag", "statue", "feminism", "lesbian", "martini", "tv", "tv show", "television", "television shows", "bbc", "england", "british", "phoebe waller bridge"],
-    "price": 0,
-    "artistId": null,
-    "isTrending": false,
-    "isFeatured": false
-  },
-  {
-    "id": "sticker_018",
-    "filename": "germanshepherd0001.png",
-    "displayName": "German Shepherd",
-    "category": "Animals",
-    "tags": ["dog", "german shepherd", "bark", "police dog"],
-    "price": 0,
-    "artistId": null,
-    "isTrending": false,
-    "isFeatured": false
-  },
-  {
-    "id": "sticker_019",
-    "filename": "gunthers0001.png",
-    "displayName": "Gunther's Ice Cream",
-    "category": "Places & Travel",
-    "tags": ["ice cream", "dessert", "sacramento", "historic", "curtis park", "parlor", "parlour"],
-    "price": 0,
-    "artistId": null,
-    "isTrending": false,
-    "isFeatured": false
-  },
-  {
-    "id": "sticker_020",
-    "filename": "heatcoldmisers0001.png",
-    "displayName": "Heat Miser & Cold Miser",
-    "category": "Entertainment",
-    "tags": ["winter", "movie", "santa claus", "miser", "frosty", "frosty the snowman"],
-    "price": 0,
-    "artistId": null,
-    "isTrending": false,
-    "isFeatured": false
-  },
-  {
-    "id": "sticker_021",
-    "filename": "homewardbound0001.png",
-    "displayName": "Homeward Bound",
-    "category": "Entertainment",
-    "tags": ["animal", "dog", "cat", "lost", "movie", "kids movie", "children's movie", "1990's", "the 90's", "san francisco", "wholesome", "family", "feel good"],
-    "price": 0,
-    "artistId": null,
-    "isTrending": false,
-    "isFeatured": false
-  },
-  {
-    "id": "sticker_022",
-    "filename": "jesus0001.png",
-    "displayName": "Jesus",
-    "category": "People & Characters",
-    "tags": ["jesus", "christ", "christian", "angel", "saint", "messiah", "bible", "church", "pastor", "priest", "jewish", "judaism"],
-    "price": 0,
-    "artistId": null,
-    "isTrending": false,
-    "isFeatured": false
-  },
-  {
-    "id": "sticker_023",
-    "filename": "keeptahoeblue0001.png",
-    "displayName": "Keep Tahoe Blue",
-    "category": "Vibes & Aesthetic",
-    "tags": ["campaign", "bumper sticker", "tahoe", "lake tahoe", "conservation", "advocacy", "environment", "environmentalism", "water", "boat", "boating", "fishing", "tourism", "california", "nevada", "outdoors"],
-    "price": 0,
-    "artistId": null,
-    "isTrending": false,
-    "isFeatured": false
-  },
-  {
-    "id": "sticker_024",
-    "filename": "leavetheleaves0001.png",
-    "displayName": "Leave the Leaves",
-    "category": "Vibes & Aesthetic",
-    "tags": ["leaves", "fall", "rake", "leaf blower", "lawn", "grass", "grassroots", "campaign"],
-    "price": 0,
-    "artistId": null,
-    "isTrending": false,
-    "isFeatured": false
-  },
-  {
-    "id": "sticker_025",
-    "filename": "lightthebeam0001.png",
-    "displayName": "Light the Beam",
-    "category": "Sports",
-    "tags": ["kings", "sacramento", "sacramento kings", "purple", "laser", "light the beam", "skyline", "california", "bridge", "tower bridge", "night", "sports", "doco", "basketball"],
-    "price": 0,
-    "artistId": null,
-    "isTrending": true,
-    "isFeatured": true
-  },
-  {
-    "id": "sticker_026",
-    "filename": "lukesdiner0001.png",
-    "displayName": "Luke's Diner",
-    "category": "Entertainment",
-    "tags": ["gilmore girls", "luke danes", "lorelei gilmore", "rory gilmore", "stars hollow", "connecticut", "tv", "tv show", "tv shows", "television", "television shows", "television show", "diner", "coffee", "coffee mug", "small business", "luke"],
-    "price": 0,
-    "artistId": null,
-    "isTrending": false,
-    "isFeatured": false
-  },
-  {
-    "id": "sticker_027",
-    "filename": "mammamiamovie0001.png",
-    "displayName": "Donna & The Dynamos",
-    "category": "Entertainment",
-    "tags": ["mamma mia", "mamma mia 2", "here we go again", "meryl streep", "donna sheridan", "donna and the dynamos", "movie", "movies", "musical", "greece", "denim", "trio", "dancing queen", "super trouper", "fernando", "abba", "lily james"],
-    "price": 0,
-    "artistId": null,
-    "isTrending": false,
-    "isFeatured": false
-  },
-  {
-    "id": "sticker_028",
-    "filename": "mushroom0001.png",
-    "displayName": "Mushrooms",
-    "category": "Nature & Outdoors",
-    "tags": ["fungi", "mushroom", "mushrooms", "whimsy", "whimsical", "mycology", "cottage core", "fantasy", "fairy", "nature", "fungus", "outdoors"],
-    "price": 0,
-    "artistId": null,
-    "isTrending": true,
-    "isFeatured": false
-  },
-  {
-    "id": "sticker_029",
-    "filename": "noevilanimals0001.png",
-    "displayName": "Speak No Evil See No Evil Hear No Evil",
-    "category": "Animals",
-    "tags": ["raccoon", "possum", "opossum", "skunk", "street cats", "nocturnal"],
-    "price": 0,
-    "artistId": null,
-    "isTrending": false,
-    "isFeatured": false
-  },
-  {
-    "id": "sticker_030",
-    "filename": "orangecat0001.png",
-    "displayName": "Smoking Orange Cat",
-    "category": "Animals",
-    "tags": ["cat", "orange cat", "smoking", "cigarette", "cool"],
-    "price": 0,
-    "artistId": null,
-    "isTrending": true,
-    "isFeatured": false
-  },
-  {
-    "id": "sticker_031",
-    "filename": "orca0001.png",
-    "displayName": "Orca",
-    "category": "Animals",
-    "tags": ["orca", "whale", "ocean", "free willy", "pacific", "killer whale", "dolphin", "apex", "apex predator"],
-    "price": 0,
-    "artistId": null,
-    "isTrending": false,
-    "isFeatured": false
-  },
-  {
-    "id": "sticker_032",
-    "filename": "prideflag0001.png",
-    "displayName": "Moon Pride",
-    "category": "Vibes & Aesthetic",
-    "tags": ["space", "pride", "pride flag", "rainbow", "moon", "astronaut", "flag", "apollo", "space shuttle", "lgbt", "lgbtq"],
-    "price": 0,
-    "artistId": null,
-    "isTrending": false,
-    "isFeatured": false
-  },
-  {
-    "id": "sticker_033",
-    "filename": "prideflag0002.png",
-    "displayName": "Alien Pride",
-    "category": "Vibes & Aesthetic",
-    "tags": ["alien", "space", "pride", "pride flag", "rainbow", "moon", "astronaut", "flag", "apollo", "space shuttle", "lgbt", "lgbtq"],
-    "price": 0,
-    "artistId": null,
-    "isTrending": false,
-    "isFeatured": false
-  },
-  {
-    "id": "sticker_034",
-    "filename": "raccoon0001.png",
-    "displayName": "Raccoon Nap",
-    "category": "Animals",
-    "tags": ["raccoon", "stump", "tree", "tree stump", "nap", "sleep", "sleeping", "street cat", "street cats", "trash panda"],
-    "price": 0,
-    "artistId": null,
-    "isTrending": true,
-    "isFeatured": true
-  },
-  {
-    "id": "sticker_035",
-    "filename": "redkettle0001.png",
-    "displayName": "Red Kettle",
-    "category": "Objects & Stuff",
-    "tags": ["kettle", "red kettle", "bell", "bell ringer", "salvation", "salvation army", "christmas", "holidays", "shield", "charity", "donation", "nonprofit"],
-    "price": 0,
-    "artistId": null,
-    "isTrending": false,
-    "isFeatured": false
-  },
-  {
-    "id": "sticker_036",
-    "filename": "renosign0001.png",
-    "displayName": "Biggest Little City",
-    "category": "Places & Travel",
-    "tags": ["reno", "sign", "nevada", "landmark", "casino", "gambling", "tourist", "tourism"],
-    "price": 0,
-    "artistId": null,
-    "isTrending": false,
-    "isFeatured": false
-  },
-  {
-    "id": "sticker_037",
-    "filename": "rolex0001.png",
-    "displayName": "Rolex Watch",
-    "category": "Objects & Stuff",
-    "tags": ["rolex", "watch", "gold watch", "wealth", "jewelry", "time piece", "wrist watch", "clock", "brand"],
-    "price": 0,
-    "artistId": null,
-    "isTrending": false,
-    "isFeatured": false
-  },
-  {
-    "id": "sticker_038",
-    "filename": "rubixcube0001.png",
-    "displayName": "Rubik's Cube",
-    "category": "Objects & Stuff",
-    "tags": ["toy", "toys", "games", "puzzles", "80's", "1980's", "nostalgia", "nostalgic", "classic", "children", "children's toys"],
-    "price": 0,
-    "artistId": null,
-    "isTrending": false,
-    "isFeatured": false
-  },
-  {
-    "id": "sticker_039",
-    "filename": "sebastianmaniscalco0001.png",
-    "displayName": "Sebastian Maniscalco",
-    "category": "People & Characters",
-    "tags": ["comedy", "comedian", "stand up", "stand up comic", "comic", "italian"],
-    "price": 0,
-    "artistId": null,
-    "isTrending": false,
-    "isFeatured": false
-  },
-  {
-    "id": "sticker_040",
-    "filename": "seinfeld0001.png",
-    "displayName": "Seinfeld",
-    "category": "Entertainment",
-    "tags": ["tv", "tv show", "television", "jerry seinfeld", "cosmo kramer", "george costanza", "elaine benes", "show about nothing", "coffee shop", "diner", "ny", "new york", "new york city", "manhattan", "central park", "east side", "upper east side"],
-    "price": 0,
-    "artistId": null,
-    "isTrending": false,
-    "isFeatured": false
-  },
-  {
-    "id": "sticker_041",
-    "filename": "slinky0001.png",
-    "displayName": "Slinky",
-    "category": "Objects & Stuff",
-    "tags": ["toy", "toys", "games", "puzzles", "nostalgia", "nostalgic", "classic", "children", "children's toys"],
-    "price": 0,
-    "artistId": null,
-    "isTrending": false,
-    "isFeatured": false
-  },
-  {
-    "id": "sticker_042",
-    "filename": "strangerthings0001.png",
-    "displayName": "Stranger Things",
-    "category": "Entertainment",
-    "tags": ["stranger things", "eleven", "11", "dustin henderson", "mike wheeler", "lucas sinclair", "caleb mclaughlin", "millie bobbie brown", "gaten matarazzo", "winona ryder", "david harbour", "finn wolfhard", "hawkins", "hawkins indiana", "upside down", "tv", "tv show", "television", "television show", "streaming", "netflix"],
-    "price": 0,
-    "artistId": null,
-    "isTrending": false,
-    "isFeatured": false
-  },
-  {
-    "id": "sticker_043",
-    "filename": "towerbridgesacramento0001.png",
-    "displayName": "Tower Bridge Sacramento",
-    "category": "Places & Travel",
-    "tags": ["sacramento", "old sacramento", "west sacramento", "tower", "tower bridge", "bridge", "architecture"],
-    "price": 0,
-    "artistId": null,
-    "isTrending": false,
-    "isFeatured": true
-  },
-  {
-    "id": "sticker_044",
-    "filename": "trenchcoatanimals0001.png",
-    "displayName": "Trenchcoat Street Cats",
-    "category": "Animals",
-    "tags": ["raccoon", "possum", "opossum", "skunk", "street cats", "nocturnal", "trash panda"],
-    "price": 0,
-    "artistId": null,
-    "isTrending": false,
-    "isFeatured": false
-  },
-  {
-    "id": "sticker_045",
-    "filename": "triviawizard0001.png",
-    "displayName": "Trivia Wizard",
-    "category": "People & Characters",
-    "tags": ["trivia", "wizard", "magic", "brain", "smart"],
-    "price": 0,
-    "artistId": null,
-    "isTrending": false,
-    "isFeatured": false
-  },
-  {
-    "id": "sticker_046",
-    "filename": "veryhungrycaterpillar0001.png",
-    "displayName": "Very Hungry Caterpillar",
-    "category": "Entertainment",
-    "tags": ["book", "children's book", "eric carle", "caterpillar", "butterfly", "nostalgia", "classic", "literature", "book fair", "scholastic"],
-    "price": 0,
-    "artistId": null,
-    "isTrending": false,
-    "isFeatured": false
-  },
-  {
-    "id": "sticker_047",
-    "filename": "virginmary0001.png",
-    "displayName": "Virgin Mary",
-    "category": "People & Characters",
-    "tags": ["religion", "jesus", "christian", "catholic", "church", "saint", "divine", "spiritual", "immaculate", "mother"],
-    "price": 0,
-    "artistId": null,
-    "isTrending": false,
-    "isFeatured": false
-  },
-  {
-    "id": "sticker_048",
-    "filename": "wicked0001.png",
-    "displayName": "Wicked",
-    "category": "Entertainment",
-    "tags": ["wicked", "wizard", "wizard of oz", "oz", "yellow brick road", "galinda", "glinda the good", "glinda upland", "wicked witch", "witch", "wicked witch of the west", "elphaba", "elphaba thrupp", "movie", "musical", "broadway", "book"],
-    "price": 0,
-    "artistId": null,
-    "isTrending": true,
-    "isFeatured": true
-  },
-  {
-    "id": "sticker_049",
-    "filename": "williambooth0001.png",
-    "displayName": "William Booth",
-    "category": "People & Characters",
-    "tags": ["william booth", "salvation army", "charity", "london", "east end", "victorian", "church", "jesus", "christian", "founder", "catherine booth", "social service"],
-    "price": 0,
-    "artistId": null,
-    "isTrending": false,
-    "isFeatured": false
-  },
-  {
-    "id": "sticker_050",
-    "filename": "yorkie0001.png",
-    "displayName": "Yorkie",
-    "category": "Animals",
-    "tags": ["dog", "puppy", "animal", "yorkshire", "yorkshire terrier", "terrier"],
-    "price": 0,
-    "artistId": null,
-    "isTrending": false,
-    "isFeatured": false
-  }
-]
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Stickerbook</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/stickerbook.css">
+  <style>
+    /* ========== PAGE-SPECIFIC STYLES ========== */
+    html, body {
+      touch-action: none;
+      overflow: hidden;
+      height: 100%;
+    }
+
+    .stickerbook-shell {
+      width: 100%;
+      height: 100vh;
+      height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      background: var(--color-canvas);
+      overflow: hidden;
+      padding-top: env(safe-area-inset-top, 0);
+    }
+
+    /* ========== BRAND TITLE ========== */
+    .brand-title {
+      text-align: center;
+      font-family: var(--font-display);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 10px 0 6px;
+      flex-shrink: 0;
+      color: var(--color-text-primary);
+    }
+
+    /* ========== PAGE CONTAINER ========== */
+    .page-container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0 10px;
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    /* ========== STICKERBOOK PAGE ========== */
+    .stickerbook-page {
+      width: 95%;
+      max-width: 380px;
+      flex: 1;
+      border-radius: var(--radius-lg);
+      background: #ffffff;
+      box-shadow: var(--shadow-xl);
+      position: relative;
+      overflow: hidden;
+      touch-action: none;
+    }
+
+    .page-canvas {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+    }
+
+    /* ========== ON-CANVAS ELEMENTS ========== */
+    .canvas-header {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px;
+      z-index: 2000;
+      pointer-events: none;
+    }
+
+    .canvas-profile-btn {
+      position: absolute;
+      left: 12px;
+      top: 12px;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 2px solid rgba(255, 255, 255, 0.8);
+      background: var(--gradient-primary);
+      cursor: pointer;
+      overflow: hidden;
+      box-shadow: var(--shadow-md);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      flex-shrink: 0;
+      pointer-events: auto;
+    }
+
+    .canvas-profile-btn:hover {
+      transform: scale(1.05);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .canvas-profile-btn img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .canvas-profile-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-text-inverse);
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .canvas-book-title {
+      text-align: center;
+      font-family: var(--font-display);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      color: white;
+      padding: 6px 14px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      background: rgba(0, 0, 0, 0.35);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+      max-width: 70%;
+    }
+
+    /* Dynamic sizing for long names */
+    .canvas-book-title.long-name {
+      font-size: 12px;
+    }
+
+    .canvas-book-title.very-long-name {
+      font-size: 10px;
+    }
+
+    /* ========== STICKERS ON PAGE ========== */
+    .placed-sticker {
+      position: absolute;
+      touch-action: none;
+      user-select: none;
+      transform-origin: center center;
+      cursor: pointer;
+    }
+
+    .placed-sticker img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      pointer-events: none;
+      user-select: none;
+      display: block;
+    }
+
+    /* Pending selection - subtle glow while holding */
+    .placed-sticker.pending-select {
+      animation: pendingGlow 0.15s ease-out forwards;
+    }
+
+    @keyframes pendingGlow {
+      0% { filter: drop-shadow(0 0 0 transparent); }
+      100% { filter: drop-shadow(0 0 6px rgba(20, 184, 166, 0.5)); }
+    }
+
+    .placed-sticker.active {
+      z-index: 1000 !important;
+      box-shadow: 0 0 0 2px var(--color-accent), var(--shadow-lg);
+      border-radius: 4px;
+      cursor: grab;
+    }
+
+    .placed-sticker.dragging {
+      cursor: grabbing;
+      opacity: 0.9;
+    }
+
+    /* Sticker being dragged to drawer */
+    .placed-sticker.to-drawer {
+      transition: transform 0.3s ease, opacity 0.3s ease;
+      transform: scale(0.3) !important;
+      opacity: 0;
+    }
+
+    /* ========== PAGE INDICATOR ========== */
+    .page-indicator {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px 0;
+      flex-shrink: 0;
+    }
+
+    .page-dots {
+      display: flex;
+      gap: 10px;
+    }
+
+    .page-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      cursor: pointer;
+    }
+
+    .page-dot.active {
+      transform: scale(1.3);
+      box-shadow: 0 0 0 2px var(--color-canvas), 0 0 0 4px currentColor;
+    }
+
+    .page-dot.locked {
+      opacity: 0.4;
+      cursor: pointer;
+    }
+
+    /* ========== BOTTOM TOOLBAR ========== */
+    .bottom-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 12px 16px;
+      padding-bottom: calc(12px + env(safe-area-inset-bottom, 0));
+      flex-shrink: 0;
+    }
+
+    .toolbar-pill {
+      padding: 8px 14px;
+      border: none;
+      border-radius: var(--radius-pill);
+      background: var(--color-purple);
+      color: white;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(109, 40, 217, 0.25);
+      transition: transform 0.12s ease, box-shadow 0.15s ease;
+      font-family: var(--font-primary);
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      line-height: 1.2;
+    }
+
+    .toolbar-pill:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(109, 40, 217, 0.35);
+    }
+
+    .toolbar-pill:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 8px rgba(109, 40, 217, 0.25);
+    }
+
+    /* Shop button - turquoise with purple frame to draw attention */
+    #btn-shop {
+      background: var(--color-turquoise);
+      box-shadow: 0 0 0 2px var(--color-purple), 0 4px 14px rgba(20, 184, 166, 0.25);
+    }
+
+    #btn-shop:hover {
+      box-shadow: 0 0 0 2px var(--color-purple), 0 6px 20px rgba(20, 184, 166, 0.35);
+    }
+
+    #btn-shop:active {
+      box-shadow: 0 0 0 2px var(--color-purple), 0 2px 8px rgba(20, 184, 166, 0.25);
+    }
+
+    /* === DRAG MODE STATES === */
+    
+    /* During drag: dim Backgrounds and Shop */
+    .bottom-toolbar.drag-mode #btn-backgrounds,
+    .bottom-toolbar.drag-mode #btn-shop {
+      opacity: 0.25;
+      pointer-events: none;
+    }
+
+    /* In drop zone: Drawer highlighted */
+    .bottom-toolbar.in-drop-zone #btn-drawer {
+      box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.4), 0 4px 12px rgba(109, 40, 217, 0.4);
+    }
+
+    #btn-drawer.drop-active {
+      box-shadow: 0 0 0 4px rgba(20, 184, 166, 0.5), 0 6px 16px rgba(109, 40, 217, 0.5);
+    }
+
+    /* Page dot states for editability */
+    .page-dot.locked-edit {
+      background: var(--color-border-subtle);
+      border: 1px dashed var(--color-border);
+      cursor: not-allowed;
+    }
+
+    /* ========== SLIDE-OUT NAV MENU ========== */
+    .nav-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+      z-index: 900;
+    }
+
+    .nav-overlay.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .nav-menu {
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 280px;
+      max-width: 80vw;
+      background: var(--color-canvas-elevated);
+      box-shadow: var(--shadow-xl);
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
+      z-index: 901;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .nav-menu.visible {
+      transform: translateX(0);
+    }
+
+    .nav-header {
+      padding: 24px 20px;
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .nav-profile {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .nav-profile-photo {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--gradient-primary);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-text-inverse);
+      font-size: 20px;
+      font-weight: 600;
+    }
+
+    .nav-profile-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .nav-profile-info {
+      flex: 1;
+    }
+
+    .nav-profile-name {
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--color-text-primary);
+    }
+
+    .nav-profile-handle {
+      font-size: 11px;
+      color: var(--color-text-muted);
+    }
+
+    .nav-items {
+      flex: 1;
+      padding: 12px 0;
+      overflow-y: auto;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 20px;
+      font-size: 14px;
+      color: var(--color-text-primary);
+      cursor: pointer;
+      transition: background 0.15s ease;
+      border: none;
+      background: transparent;
+      width: 100%;
+      text-align: left;
+      font-family: var(--font-primary);
+    }
+
+    .nav-item:hover {
+      background: var(--color-hover-bg);
+    }
+
+    .nav-item-icon {
+      font-size: 18px;
+      width: 24px;
+      text-align: center;
+    }
+
+    .nav-footer {
+      padding: 16px 20px;
+      border-top: 1px solid var(--color-border);
+    }
+
+    .nav-footer-text {
+      font-size: 10px;
+      color: var(--color-text-subtle);
+      text-align: center;
+    }
+
+    /* ========== SAVE/DISCARD MODAL ========== */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+      z-index: 1000;
+    }
+
+    .modal-overlay.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-card {
+      background: var(--color-canvas-elevated);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      max-width: 300px;
+      width: 90%;
+      box-shadow: var(--shadow-xl);
+    }
+
+    .modal-title {
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--color-text-primary);
+      margin-bottom: 8px;
+    }
+
+    .modal-text {
+      font-size: 13px;
+      color: var(--color-text-muted);
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+
+    .modal-buttons {
+      display: flex;
+      gap: 10px;
+    }
+
+    .modal-btn {
+      flex: 1;
+      padding: 10px 16px;
+      border-radius: var(--radius-pill);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.12s ease, box-shadow 0.12s ease;
+      font-family: var(--font-primary);
+    }
+
+    .modal-btn:active {
+      transform: scale(0.98);
+    }
+
+    .modal-btn-secondary {
+      background: var(--color-canvas-subtle);
+      border: 1px solid var(--color-border);
+      color: var(--color-text-primary);
+    }
+
+    .modal-btn-secondary:hover {
+      background: var(--color-hover-bg);
+    }
+
+    .modal-btn-primary {
+      background: var(--gradient-primary);
+      border: none;
+      color: var(--color-text-inverse);
+      box-shadow: var(--shadow-button);
+    }
+
+    .modal-btn-primary:hover {
+      box-shadow: var(--shadow-button-hover);
+    }
+
+    /* ========== UNLOCK MODALS ========== */
+    .unlock-modal {
+      background: var(--color-canvas-elevated);
+      border-radius: var(--radius-xl);
+      padding: 28px 24px;
+      max-width: 320px;
+      width: 90%;
+      box-shadow: var(--shadow-xl);
+      text-align: center;
+    }
+
+    .unlock-icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+    }
+
+    .unlock-title {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 700;
+      background: linear-gradient(135deg, #6D28D9 0%, #14b8a6 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 8px;
+    }
+
+    .unlock-subtitle {
+      font-size: 13px;
+      color: var(--color-text-muted);
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+
+    .unlock-btn {
+      width: 100%;
+      padding: 14px 20px;
+      border-radius: var(--radius-pill);
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.12s ease, box-shadow 0.12s ease;
+      font-family: var(--font-primary);
+      margin-bottom: 10px;
+      border: none;
+      background: linear-gradient(135deg, #6D28D9 0%, #14b8a6 100%);
+      color: white;
+      box-shadow: 0 4px 14px rgba(109, 40, 217, 0.3);
+    }
+
+    .unlock-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(109, 40, 217, 0.4);
+    }
+
+    .unlock-btn:active {
+      transform: translateY(0);
+    }
+
+    .unlock-btn-secondary {
+      background: transparent;
+      border: 1px solid var(--color-border);
+      color: var(--color-text-muted);
+      box-shadow: none;
+    }
+
+    .unlock-btn-secondary:hover {
+      background: var(--color-hover-bg);
+      box-shadow: none;
+      transform: none;
+    }
+
+    .unlock-coins {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--color-tertiary);
+      margin-bottom: 16px;
+    }
+
+    .unlock-coins-icon {
+      font-size: 18px;
+    }
+
+    /* ========== TOAST ========== */
+    .toast {
+      position: fixed;
+      bottom: 100px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      padding: 10px 20px;
+      background: var(--color-text-primary);
+      color: var(--color-text-inverse);
+      border-radius: var(--radius-pill);
+      font-size: 12px;
+      font-weight: 500;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      z-index: 800;
+    }
+
+    .toast.visible {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* ========== DRAWER PANEL - CLEAN ELEVATED ========== */
+    .drawer-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+      z-index: 2500;
+    }
+
+    .drawer-overlay.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .drawer-panel {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 52vh;
+      background: var(--color-canvas-elevated);
+      border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+      box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.15);
+      transform: translateY(100%);
+      transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+      z-index: 2501;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      border-top: 1px solid var(--color-border);
+    }
+
+    .drawer-panel.visible {
+      transform: translateY(0);
+    }
+
+    .drawer-handle {
+      width: 40px;
+      height: 4px;
+      background: var(--color-border-strong);
+      border-radius: 2px;
+      margin: 12px auto 8px;
+      flex-shrink: 0;
+      cursor: grab;
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+
+    .drawer-handle:hover {
+      background: var(--color-text-subtle);
+      transform: scaleX(1.1);
+    }
+
+    .drawer-header {
+      display: flex;
+      align-items: center;
+      padding: 4px 16px 12px;
+      border-bottom: 1px solid var(--color-border);
+      flex-shrink: 0;
+    }
+
+    .drawer-header-spacer {
+      width: 28px;
+      flex-shrink: 0;
+    }
+
+    .drawer-header-tabs {
+      display: flex;
+      gap: 8px;
+      flex: 1;
+      justify-content: center;
+    }
+
+    .drawer-header-tab {
+      padding: 8px 16px;
+      background: var(--color-canvas-subtle);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-pill);
+      color: var(--color-text-muted);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: var(--font-primary);
+    }
+
+    .drawer-header-tab:hover {
+      background: var(--color-hover-bg);
+      border-color: var(--color-border-strong);
+      color: var(--color-text-secondary);
+    }
+
+    .drawer-header-tab.active {
+      background: linear-gradient(135deg, #6D28D9 0%, #14b8a6 100%);
+      border-color: transparent;
+      color: white;
+      box-shadow: 0 2px 8px rgba(109, 40, 217, 0.3);
+    }
+
+    .drawer-close-btn {
+      background: transparent;
+      border: none;
+      color: var(--color-text-muted);
+      font-size: 20px;
+      cursor: pointer;
+      padding: 4px 8px;
+      transition: color 0.15s ease;
+      flex-shrink: 0;
+    }
+
+    .drawer-close-btn:hover {
+      color: var(--color-text-primary);
+    }
+
+    .drawer-archived-view {
+      display: none;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    .drawer-archived-view.visible {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .drawer-archived-empty {
+      text-align: center;
+      color: var(--color-text-muted);
+    }
+
+    .drawer-shop-footer {
+      flex-shrink: 0;
+      padding: 12px 16px;
+      border-top: 1px solid var(--color-border);
+    }
+
+    .drawer-grid {
+      flex: 1;
+      overflow-x: hidden;
+      overflow-y: auto;
+      padding: 12px 16px;
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      grid-auto-rows: min-content;
+      gap: 8px;
+      align-content: start;
+    }
+
+    /* Custom scrollbar for drawer */
+    .drawer-grid::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .drawer-grid::-webkit-scrollbar-track {
+      background: var(--color-border-subtle);
+      border-radius: 2px;
+    }
+
+    .drawer-grid::-webkit-scrollbar-thumb {
+      background: var(--color-border-strong);
+      border-radius: 2px;
+    }
+
+    /* Swipe delete wrapper */
+    .drawer-sticker-wrapper {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-md);
+      aspect-ratio: 1 / 1;
+    }
+
+    .drawer-sticker {
+      position: absolute;
+      inset: 0;
+      background: var(--color-canvas-subtle);
+      border-radius: var(--radius-md);
+      padding: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+      border: 1px solid var(--color-border);
+      box-shadow: var(--shadow-xs);
+      touch-action: pan-y;
+    }
+
+    .drawer-sticker-delete {
+      position: absolute;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      width: 50px;
+      background: var(--color-error);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 18px;
+      transform: translateX(100%);
+      transition: transform 0.2s ease;
+    }
+
+    .drawer-sticker-wrapper.swiped .drawer-sticker-delete {
+      transform: translateX(0);
+    }
+
+    .drawer-sticker-wrapper.swiped .drawer-sticker {
+      transform: translateX(-50px);
+    }
+
+    /* Selection mode */
+    .drawer-sticker.selectable {
+      cursor: pointer;
+    }
+
+    .drawer-sticker.selected {
+      background: var(--color-selected-bg);
+      border-color: var(--color-selected);
+      box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.15);
+    }
+
+    .drawer-sticker-check {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      width: 18px;
+      height: 18px;
+      background: var(--color-accent);
+      border-radius: 50%;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 10px;
+      font-weight: bold;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .drawer-sticker.selected .drawer-sticker-check {
+      display: flex;
+    }
+
+    /* Draggable mode (half-screen) */
+    .drawer-sticker.draggable {
+      cursor: grab;
+    }
+
+    .drawer-sticker.draggable:active {
+      cursor: grabbing;
+    }
+
+    .drawer-sticker:hover {
+      background: var(--color-hover-bg);
+      border-color: var(--color-border-strong);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .drawer-sticker img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      pointer-events: none;
+    }
+
+    .drawer-sticker.dragging {
+      opacity: 0.5;
+      transform: scale(0.95);
+    }
+
+    .drawer-empty {
+      position: absolute;
+      inset: 70px 20px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: var(--color-text-muted);
+    }
+
+    .drawer-empty.hidden {
+      display: none;
+    }
+
+    .drawer-empty-icon {
+      font-size: 36px;
+      margin-bottom: 12px;
+      opacity: 0.5;
+    }
+
+    .drawer-empty-text {
+      font-size: 13px;
+      font-weight: 500;
+      line-height: 1.6;
+    }
+
+    /* Selection footer - always visible */
+    .drawer-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      border-top: 1px solid var(--color-border);
+      background: var(--color-canvas-subtle);
+      flex-shrink: 0;
+    }
+
+    .drawer-selection-count {
+      color: var(--color-text-secondary);
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .drawer-footer-buttons {
+      display: flex;
+      gap: 10px;
+    }
+
+    .drawer-delete-btn {
+      background: var(--color-error);
+      border: none;
+      border-radius: var(--radius-pill);
+      padding: 10px 16px;
+      color: white;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.12s ease, box-shadow 0.12s ease, opacity 0.15s ease;
+      font-family: var(--font-primary);
+    }
+
+    .drawer-delete-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .drawer-delete-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .drawer-add-btn {
+      background: var(--color-accent);
+      border: none;
+      border-radius: var(--radius-pill);
+      padding: 10px 16px;
+      color: white;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.12s ease, box-shadow 0.12s ease, opacity 0.15s ease;
+      font-family: var(--font-primary);
+    }
+
+    .drawer-add-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .drawer-add-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* Sticker being dragged from drawer */
+    .drag-ghost {
+      position: fixed;
+      pointer-events: none;
+      z-index: 1000;
+      opacity: 0.9;
+      transform: translate(-50%, -50%) scale(1.1);
+    }
+
+    .drag-ghost img {
+      width: 120px;
+      height: 120px;
+      object-fit: contain;
+    }
+
+    /* Page highlight when dragging sticker over it */
+    .stickerbook-page.drop-target {
+      box-shadow: 0 0 0 3px var(--color-accent), var(--shadow-xl);
+    }
+
+    /* ========== BACKGROUND PANEL ========== */
+    .bg-panel {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 52vh;
+      background: var(--color-canvas-elevated);
+      border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+      box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.15);
+      transform: translateY(100%);
+      transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+      z-index: 2501;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      border-top: 1px solid var(--color-border);
+    }
+
+    .bg-panel.visible {
+      transform: translateY(0);
+    }
+
+    .bg-panel-header {
+      display: flex;
+      align-items: center;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--color-border);
+      flex-shrink: 0;
+    }
+
+    .bg-header-spacer {
+      width: 28px;
+      flex-shrink: 0;
+    }
+
+    .bg-header-tabs {
+      display: flex;
+      gap: 8px;
+      flex: 1;
+      justify-content: center;
+    }
+
+    .bg-header-tab {
+      padding: 8px 16px;
+      background: var(--color-canvas-subtle);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-pill);
+      color: var(--color-text-muted);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: var(--font-primary);
+    }
+
+    .bg-header-tab:hover {
+      background: var(--color-hover-bg);
+      border-color: var(--color-border-strong);
+      color: var(--color-text-secondary);
+    }
+
+    .bg-header-tab.active {
+      background: linear-gradient(135deg, #6D28D9 0%, #14b8a6 100%);
+      border-color: transparent;
+      color: white;
+      box-shadow: 0 2px 8px rgba(109, 40, 217, 0.3);
+    }
+
+    .bg-header-tab.active:hover {
+      box-shadow: 0 4px 12px rgba(109, 40, 217, 0.4);
+    }
+
+    .bg-panel-close {
+      background: transparent;
+      border: none;
+      color: var(--color-text-muted);
+      font-size: 20px;
+      cursor: pointer;
+      padding: 4px 8px;
+      transition: color 0.15s ease;
+    }
+
+    .bg-panel-close:hover {
+      color: var(--color-text-primary);
+    }
+
+    /* Pattern tabs */
+    .bg-pattern-tabs {
+      display: flex;
+      gap: 6px;
+      padding: 12px 16px;
+      flex-shrink: 0;
+    }
+
+    .bg-pattern-tab {
+      flex: 1;
+      padding: 8px 0;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-pill);
+      background: var(--color-canvas);
+      color: var(--color-text-muted);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      font-family: var(--font-primary);
+    }
+
+    .bg-pattern-tab:hover {
+      border-color: var(--color-border-strong);
+      color: var(--color-text-secondary);
+    }
+
+    .bg-pattern-tab.active {
+      background: var(--gradient-primary);
+      border-color: transparent;
+      color: var(--color-text-inverse);
+      box-shadow: var(--shadow-button);
+    }
+
+    /* Sub-filter buttons - now inside controls row */
+    .bg-subfilter {
+      display: none;
+      gap: 4px;
+      flex-shrink: 0;
+    }
+
+    .bg-subfilter.visible {
+      display: flex;
+    }
+
+    .bg-subfilter-btn {
+      padding: 4px 6px;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-pill);
+      background: transparent;
+      color: var(--color-text-subtle);
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      font-family: var(--font-primary);
+    }
+
+    .bg-subfilter-btn:hover {
+      border-color: var(--color-border-strong);
+      color: var(--color-text-muted);
+    }
+
+    .bg-subfilter-btn.active {
+      background: var(--color-text-primary);
+      border-color: var(--color-text-primary);
+      color: var(--color-text-inverse);
+    }
+
+    /* Combined controls row (swatches + size/direction buttons) */
+    .bg-controls-row {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 0 10px 12px;
+      flex-shrink: 0;
+    }
+
+    .bg-controls-row.visible {
+      display: flex;
+    }
+
+    /* Pattern swatch selector - now inside controls row */
+    .bg-swatch-row {
+      display: flex;
+      gap: 4px;
+      flex-shrink: 0;
+    }
+
+    .bg-swatch {
+      flex: none;
+      padding: 4px 6px;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-pill);
+      background: transparent;
+      color: var(--color-text-subtle);
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      font-family: var(--font-primary);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .bg-swatch:hover {
+      border-color: var(--color-border-strong);
+      color: var(--color-text-muted);
+    }
+
+    .bg-swatch.active {
+      background: var(--color-text-primary);
+      border-color: var(--color-text-primary);
+      color: var(--color-text-inverse);
+    }
+
+    .bg-swatch-color {
+      width: 8px;
+      height: 8px;
+      border-radius: 2px;
+      flex-shrink: 0;
+      border: 1px solid rgba(0,0,0,0.15);
+    }
+
+    /* Orientation button for stripes */
+    #stripes-orientation-btn {
+      display: none;
+    }
+
+    .bg-swatch.active .bg-swatch-color {
+      border-color: rgba(255,255,255,0.4);
+    }
+
+    .bg-swatch-label {
+      line-height: 1;
+    }
+
+    /* Color grid */
+    .bg-color-grid {
+      flex: 1;
+      overflow-y: auto;
+      padding: 0 16px 16px;
+    }
+
+    .bg-color-grid::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .bg-color-grid::-webkit-scrollbar-track {
+      background: var(--color-border-subtle);
+      border-radius: 2px;
+    }
+
+    .bg-color-grid::-webkit-scrollbar-thumb {
+      background: var(--color-border-strong);
+      border-radius: 2px;
+    }
+
+    .bg-color-row {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .bg-color-tile {
+      aspect-ratio: 1;
+      width: 100%;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: transform 0.12s ease;
+      box-shadow: var(--shadow-xs);
+      border: 2px solid transparent;
+    }
+
+    .bg-color-tile:hover {
+      transform: scale(1.08);
+    }
+
+    .bg-color-tile:active {
+      transform: scale(0.98);
+    }
+
+    .bg-color-tile.selected {
+      border-color: var(--color-accent);
+      box-shadow: 0 0 0 2px rgba(20, 184, 166, 0.3), var(--shadow-sm);
+    }
+
+    /* Shop link in background panel */
+    /* Background panel footer */
+    .bg-footer {
+      flex-shrink: 0;
+      padding: 12px 16px;
+      border-top: 1px solid var(--color-border);
+      background: var(--color-canvas-elevated);
+    }
+
+    /* Shared shop button style for both panels */
+    .panel-shop-btn {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 20px;
+      background: linear-gradient(135deg, #6D28D9 0%, #14b8a6 100%);
+      border: none;
+      border-radius: var(--radius-pill);
+      color: white;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(109, 40, 217, 0.3);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      font-family: var(--font-primary);
+    }
+
+    .panel-shop-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(109, 40, 217, 0.4);
+    }
+
+    .panel-shop-btn:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 6px rgba(109, 40, 217, 0.3);
+    }
+
+    /* My Backgrounds view */
+    .bg-my-view {
+      display: none;
+      flex: 1;
+      overflow: hidden;
+      flex-direction: column;
+    }
+
+    .bg-my-view.visible {
+      display: flex;
+    }
+
+    .bg-default-view {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+      flex-direction: column;
+    }
+
+    .bg-default-view.hidden {
+      display: none;
+    }
+
+    .bg-my-grid {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px 16px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      align-content: start;
+    }
+
+    .bg-my-grid::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .bg-my-grid::-webkit-scrollbar-track {
+      background: var(--color-border-subtle);
+      border-radius: 2px;
+    }
+
+    .bg-my-grid::-webkit-scrollbar-thumb {
+      background: var(--color-border-strong);
+      border-radius: 2px;
+    }
+
+    .bg-my-item-wrapper {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-md);
+      aspect-ratio: 1 / 1;
+    }
+
+    .bg-my-item {
+      position: absolute;
+      inset: 0;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      border: 2px solid transparent;
+      box-shadow: var(--shadow-sm);
+      background-size: cover;
+      background-position: center;
+    }
+
+    .bg-my-item:hover {
+      transform: scale(1.03);
+    }
+
+    .bg-my-item.selected {
+      border-color: var(--color-accent);
+      box-shadow: 0 0 0 2px rgba(20, 184, 166, 0.3), var(--shadow-sm);
+    }
+
+    .bg-my-item-delete {
+      position: absolute;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      width: 50px;
+      background: var(--color-error);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 16px;
+      transform: translateX(100%);
+      transition: transform 0.2s ease;
+      border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    }
+
+    .bg-my-item-wrapper.swiped .bg-my-item-delete {
+      transform: translateX(0);
+    }
+
+    .bg-my-item-wrapper.swiped .bg-my-item {
+      transform: translateX(-50px);
+    }
+
+    .bg-my-empty {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+      text-align: center;
+      color: var(--color-text-muted);
+    }
+
+    .bg-my-empty-icon {
+      font-size: 32px;
+      margin-bottom: 12px;
+      opacity: 0.5;
+    }
+
+    .bg-my-empty-text {
+      font-size: 12px;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+  <div class="stickerbook-shell">
+    <!-- Brand Title -->
+    <div class="brand-title">STICKERBOOK</div>
+
+    <!-- Page Container -->
+    <div class="page-container">
+      <div class="stickerbook-page" id="stickerbook-page">
+        <!-- On-canvas header (profile + title) -->
+        <div class="canvas-header">
+          <button class="canvas-profile-btn" id="profile-btn" title="Menu">
+            <div class="canvas-profile-placeholder" id="profile-initial">A</div>
+          </button>
+          <div class="canvas-book-title" id="book-title">Name's Stickerbook</div>
+        </div>
+        <div class="page-canvas" id="page-canvas">
+          <!-- Stickers render here -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Page Indicator -->
+    <div class="page-indicator">
+      <div class="page-dots" id="page-dots">
+        <!-- Dots generated by JS -->
+      </div>
+    </div>
+
+    <!-- Bottom Toolbar -->
+    <div class="bottom-toolbar">
+      <button class="toolbar-pill" id="btn-backgrounds">Backgrounds</button>
+      <button class="toolbar-pill" id="btn-shop">Sticker Shop</button>
+      <button class="toolbar-pill" id="btn-drawer">Sticker Drawer</button>
+    </div>
+
+    <!-- Slide-out Nav Menu -->
+    <div class="nav-overlay" id="nav-overlay"></div>
+    <nav class="nav-menu" id="nav-menu">
+      <div class="nav-header">
+        <div class="nav-profile">
+          <div class="nav-profile-photo" id="nav-profile-photo">A</div>
+          <div class="nav-profile-info">
+            <div class="nav-profile-name" id="nav-profile-name">Austin</div>
+            <div class="nav-profile-handle" id="nav-profile-handle">@austin</div>
+          </div>
+        </div>
+      </div>
+      <div class="nav-items">
+        <button class="nav-item" id="nav-matching">
+          <span class="nav-item-icon">💜</span>
+          <span>Find Friends</span>
+        </button>
+        <button class="nav-item" id="nav-messages">
+          <span class="nav-item-icon">💬</span>
+          <span>Messages</span>
+        </button>
+        <button class="nav-item" id="nav-stickerbook">
+          <span class="nav-item-icon">📖</span>
+          <span>My Stickerbook</span>
+        </button>
+        <button class="nav-item" id="nav-settings">
+          <span class="nav-item-icon">⚙️</span>
+          <span>Settings</span>
+        </button>
+      </div>
+      <div class="nav-footer">
+        <div class="nav-footer-text">Stickerbook v1.0</div>
+      </div>
+    </nav>
+
+    <!-- Save/Discard Modal -->
+    <div class="modal-overlay" id="save-modal">
+      <div class="modal-card">
+        <div class="modal-title">Save changes?</div>
+        <div class="modal-text">You have unsaved changes to your stickerbook.</div>
+        <div class="modal-buttons">
+          <button class="modal-btn modal-btn-secondary" id="modal-discard">Discard</button>
+          <button class="modal-btn modal-btn-primary" id="modal-save">Save</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast">Saved!</div>
+
+    <!-- Unlock Page 9 Modal (Invite Friend) -->
+    <div class="modal-overlay" id="unlock-invite-modal">
+      <div class="unlock-modal">
+        <div class="unlock-icon">💌</div>
+        <div class="unlock-title">Unlock Page 9</div>
+        <div class="unlock-subtitle">Invite a friend to join Stickerbook and unlock an extra page for your collection!</div>
+        <button class="unlock-btn" id="unlock-invite-btn">Invite a Friend</button>
+        <button class="unlock-btn unlock-btn-secondary" id="unlock-invite-cancel">Maybe Later</button>
+      </div>
+    </div>
+
+    <!-- Unlock Page 10 Modal (Follow Artist) -->
+    <div class="modal-overlay" id="unlock-follow-modal">
+      <div class="unlock-modal">
+        <div class="unlock-icon">🎨</div>
+        <div class="unlock-title">Unlock Page 10</div>
+        <div class="unlock-subtitle">Follow an artist to unlock another page and discover amazing sticker creators!</div>
+        <button class="unlock-btn" id="unlock-follow-btn">Browse Artists</button>
+        <button class="unlock-btn unlock-btn-secondary" id="unlock-follow-cancel">Maybe Later</button>
+      </div>
+    </div>
+
+    <!-- Unlock Pages 11-20 Modal (Coins) -->
+    <div class="modal-overlay" id="unlock-coins-modal">
+      <div class="unlock-modal">
+        <div class="unlock-icon">✨</div>
+        <div class="unlock-title" id="unlock-coins-title">Unlock Page 11</div>
+        <div class="unlock-subtitle">Expand your stickerbook with more pages for your growing collection!</div>
+        <div class="unlock-coins">
+          <span class="unlock-coins-icon">🪙</span>
+          <span>50 coins per page</span>
+        </div>
+        <button class="unlock-btn" id="unlock-coins-btn">Get Coins</button>
+        <button class="unlock-btn unlock-btn-secondary" id="unlock-coins-cancel">Maybe Later</button>
+      </div>
+    </div>
+
+    <!-- Drawer Panel -->
+    <div class="drawer-overlay" id="drawer-overlay"></div>
+    <div class="drawer-panel" id="drawer-panel">
+      <div class="drawer-handle"></div>
+      <div class="drawer-header">
+        <div class="drawer-header-spacer"></div>
+        <div class="drawer-header-tabs">
+          <button class="drawer-header-tab active" id="drawer-tab-stickers">My Stickers</button>
+          <button class="drawer-header-tab" id="drawer-tab-archived">Archived Pages</button>
+        </div>
+        <button class="drawer-close-btn" id="drawer-close-btn">✕</button>
+      </div>
+      <div class="drawer-grid" id="drawer-grid">
+        <!-- Stickers injected by JS -->
+      </div>
+      <div class="drawer-empty" id="drawer-empty">
+        <div class="drawer-empty-icon">📂</div>
+        <div class="drawer-empty-text">Your drawer is empty.<br>Visit the shop to get stickers!</div>
+      </div>
+      <div class="drawer-archived-view" id="drawer-archived-view">
+        <div class="drawer-archived-empty">
+          <div class="drawer-empty-icon">📚</div>
+          <div class="drawer-empty-text">No archived pages yet.<br>Archive pages to save them here.</div>
+        </div>
+      </div>
+      <div class="drawer-footer" id="drawer-footer">
+        <div class="drawer-selection-count" id="drawer-selection-count">0 selected</div>
+        <div class="drawer-footer-buttons">
+          <button class="drawer-delete-btn" id="drawer-delete-btn" disabled>Delete</button>
+          <button class="drawer-add-btn" id="drawer-add-btn" disabled>Add to Page</button>
+        </div>
+      </div>
+      <div class="drawer-shop-footer" id="drawer-shop-footer">
+        <button class="panel-shop-btn" id="drawer-shop-btn">
+          More Stickers in the Shop
+        </button>
+      </div>
+    </div>
+
+    <!-- Background Panel -->
+    <div class="drawer-overlay" id="bg-overlay"></div>
+    <div class="bg-panel" id="bg-panel">
+      <div class="bg-panel-header">
+        <div class="bg-header-spacer"></div>
+        <div class="bg-header-tabs" id="bg-header-tabs">
+          <button class="bg-header-tab active" id="bg-tab-default">Create</button>
+          <button class="bg-header-tab" id="bg-tab-my">My Backgrounds</button>
+        </div>
+        <button class="bg-panel-close" id="bg-close-btn">✕</button>
+      </div>
+
+      <!-- Pattern type tabs -->
+      <div class="bg-pattern-tabs">
+        <button class="bg-pattern-tab active" data-pattern="solid">Solid</button>
+        <button class="bg-pattern-tab" data-pattern="stripes">Stripes</button>
+        <button class="bg-pattern-tab" data-pattern="checkered">Checkered</button>
+        <button class="bg-pattern-tab" data-pattern="dots">Dots</button>
+      </div>
+
+      <!-- Combined controls row (color swatches + orientation/size buttons) -->
+      <div class="bg-controls-row" id="bg-controls-row">
+        <!-- Color swatches -->
+        <div class="bg-swatch-row" id="bg-swatch-row">
+          <button class="bg-swatch active" id="swatch-base" data-target="base">
+            <div class="bg-swatch-color" id="swatch-base-color"></div>
+            <div class="bg-swatch-label">Color 1</div>
+          </button>
+          <button class="bg-swatch" id="swatch-pattern" data-target="pattern">
+            <div class="bg-swatch-color" id="swatch-pattern-color"></div>
+            <div class="bg-swatch-label">Color 2</div>
+          </button>
+        </div>
+
+        <!-- Orientation button for stripes (cycles on tap) -->
+        <button class="bg-subfilter-btn" id="stripes-orientation-btn">Orientation</button>
+
+        <!-- Size buttons for checkered/dots -->
+        <div class="bg-subfilter" id="checkered-filter">
+          <button class="bg-subfilter-btn active" data-value="small">Small</button>
+          <button class="bg-subfilter-btn" data-value="large">Large</button>
+        </div>
+
+        <div class="bg-subfilter" id="dots-filter">
+          <button class="bg-subfilter-btn active" data-value="small">Small</button>
+          <button class="bg-subfilter-btn" data-value="large">Large</button>
+        </div>
+      </div>
+
+      <!-- Default view (colors/patterns) -->
+      <div class="bg-default-view" id="bg-default-view">
+        <!-- Color grid -->
+        <div class="bg-color-grid" id="bg-color-grid">
+          <!-- Color rows injected by JS -->
+        </div>
+      </div>
+
+      <!-- My Backgrounds view (premium) -->
+      <div class="bg-my-view" id="bg-my-view">
+        <div class="bg-my-grid" id="bg-my-grid">
+          <!-- Premium backgrounds injected by JS -->
+        </div>
+        <div class="bg-my-empty" id="bg-my-empty">
+          <div class="bg-my-empty-icon">🎨</div>
+          <div class="bg-my-empty-text">No backgrounds yet.<br>Visit the Shop to discover artist backgrounds!</div>
+        </div>
+      </div>
+
+      <!-- Footer (shop link) -->
+      <div class="bg-footer" id="bg-footer">
+        <button class="panel-shop-btn" id="bg-footer-shop">
+          More Backgrounds in Sticker Shop
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ============ CONSTANTS ============
+    const MAX_PAGES_FREE = 8;
+    const MAX_PAGES_TOTAL = 20;
+    const MAX_STICKERS_PER_PAGE = 15;
+    const DRAWER_CAPACITY_MULTIPLIER = 1.25;
+    const MIN_SCALE = 0.5;
+    const MAX_SCALE = 3;
+
+    // ============ COLOR DATA ============
+    const COLOR_FAMILIES = [
+      {
+        colors: [
+          { name: 'Magenta', hex: '#a21caf' },
+          { name: 'Dark Pink', hex: '#db2777' },
+          { name: 'Hot Pink', hex: '#ec4899' },
+          { name: 'Pink', hex: '#f472b6' },
+          { name: 'Rose', hex: '#fda4af' },
+          { name: 'Light Pink', hex: '#f9a8d4' },
+          { name: 'Pale Pink', hex: '#fce7f3' },
+        ]
+      },
+      {
+        colors: [
+          { name: 'Maroon', hex: '#7f1d1d' },
+          { name: 'Dark Red', hex: '#b91c1c' },
+          { name: 'True Red', hex: '#dc2626' },
+          { name: 'Red', hex: '#ef4444' },
+          { name: 'Light Red', hex: '#f87171' },
+          { name: 'Salmon', hex: '#fca5a5' },
+          { name: 'Blush', hex: '#fecaca' },
+        ]
+      },
+      {
+        colors: [
+          { name: 'Burnt Orange', hex: '#9a3412' },
+          { name: 'Dark Orange', hex: '#ea580c' },
+          { name: 'True Orange', hex: '#f97316' },
+          { name: 'Orange', hex: '#fb923c' },
+          { name: 'Light Orange', hex: '#fdba74' },
+          { name: 'Peach', hex: '#fed7aa' },
+          { name: 'Pale Peach', hex: '#ffedd5' },
+        ]
+      },
+      {
+        colors: [
+          { name: 'Mustard', hex: '#a16207' },
+          { name: 'Dark Gold', hex: '#ca8a04' },
+          { name: 'Gold', hex: '#eab308' },
+          { name: 'Yellow', hex: '#facc15' },
+          { name: 'Light Yellow', hex: '#fde047' },
+          { name: 'Pale Yellow', hex: '#fef08a' },
+          { name: 'Lemon', hex: '#fef9c3' },
+        ]
+      },
+      {
+        colors: [
+          { name: 'Forest', hex: '#14532d' },
+          { name: 'Dark Green', hex: '#15803d' },
+          { name: 'True Green', hex: '#16a34a' },
+          { name: 'Green', hex: '#22c55e' },
+          { name: 'Light Green', hex: '#4ade80' },
+          { name: 'Pale Green', hex: '#86efac' },
+          { name: 'Mint', hex: '#bbf7d0' },
+        ]
+      },
+      {
+        colors: [
+          { name: 'Navy', hex: '#1e3a8a' },
+          { name: 'Dark Blue', hex: '#1d4ed8' },
+          { name: 'Blue', hex: '#3b82f6' },
+          { name: 'Sky', hex: '#0ea5e9' },
+          { name: 'Light Blue', hex: '#38bdf8' },
+          { name: 'Pale Blue', hex: '#7dd3fc' },
+          { name: 'Ice', hex: '#bfdbfe' },
+        ]
+      },
+      {
+        colors: [
+          { name: 'Deep Purple', hex: '#581c87' },
+          { name: 'Dark Purple', hex: '#7e22ce' },
+          { name: 'True Purple', hex: '#9333ea' },
+          { name: 'Purple', hex: '#a855f7' },
+          { name: 'Light Purple', hex: '#c084fc' },
+          { name: 'Pale Purple', hex: '#d8b4fe' },
+          { name: 'Lavender', hex: '#e9d5ff' },
+        ]
+      },
+      {
+        colors: [
+          { name: 'Espresso', hex: '#3d1f0d' },
+          { name: 'Chocolate', hex: '#6b3410' },
+          { name: 'Brown', hex: '#92400e' },
+          { name: 'Camel', hex: '#b8860b' },
+          { name: 'Tan', hex: '#d4a574' },
+          { name: 'Sand', hex: '#e7c9a9' },
+          { name: 'Cream', hex: '#fef3c7' },
+        ]
+      },
+      {
+        colors: [
+          { name: 'Black', hex: '#030712' },
+          { name: 'Charcoal', hex: '#1f2937' },
+          { name: 'Dark Gray', hex: '#4b5563' },
+          { name: 'Gray', hex: '#6b7280' },
+          { name: 'Medium Gray', hex: '#9ca3af' },
+          { name: 'Light Gray', hex: '#e5e7eb' },
+          { name: 'White', hex: '#ffffff' },
+        ]
+      }
+    ];
+
+    // ============ STATE ============
+    let currentPageIndex = 0;
+    let totalPages = MAX_PAGES_FREE;
+    let pages = [];
+    let drawer = [];
+    let hasUnsavedChanges = false;
+    let activeSticker = null;
+    let currentZ = 10;
+
+    // Background panel state
+    let bgCurrentPattern = 'solid';
+    let bgSubfilter = {
+      stripes: 'diagonal',
+      checkered: 'small',
+      dots: 'small'
+    };
+    let bgSelectedBaseColor = null;
+    let bgSelectedPatternColor = null;
+    let bgEditingTarget = 'base';
+    let bgViewMode = 'default'; // 'default' or 'my'
+    let myBackgrounds = []; // Premium/purchased backgrounds
+
+    // ============ DOM ELEMENTS ============
+    const stickerPage = document.getElementById('stickerbook-page');
+    const pageCanvas = document.getElementById('page-canvas');
+    const pageDotsContainer = document.getElementById('page-dots');
+    const bookTitle = document.getElementById('book-title');
+    const profileBtn = document.getElementById('profile-btn');
+    const profileInitial = document.getElementById('profile-initial');
+    const navOverlay = document.getElementById('nav-overlay');
+    const navMenu = document.getElementById('nav-menu');
+    const navProfilePhoto = document.getElementById('nav-profile-photo');
+    const navProfileName = document.getElementById('nav-profile-name');
+    const navProfileHandle = document.getElementById('nav-profile-handle');
+    const saveModal = document.getElementById('save-modal');
+    const toast = document.getElementById('toast');
+    const btnBackgrounds = document.getElementById('btn-backgrounds');
+    const btnShop = document.getElementById('btn-shop');
+    const btnDrawer = document.getElementById('btn-drawer');
+    const bottomToolbar = document.querySelector('.bottom-toolbar');
+    const drawerOverlay = document.getElementById('drawer-overlay');
+    const drawerPanel = document.getElementById('drawer-panel');
+    const drawerGrid = document.getElementById('drawer-grid');
+    const drawerEmpty = document.getElementById('drawer-empty');
+    const drawerFooter = document.getElementById('drawer-footer');
+    const drawerSelectionCount = document.getElementById('drawer-selection-count');
+    const drawerDeleteBtn = document.getElementById('drawer-delete-btn');
+    const drawerAddBtn = document.getElementById('drawer-add-btn');
+    const drawerCloseBtn = document.getElementById('drawer-close-btn');
+    const drawerTabStickers = document.getElementById('drawer-tab-stickers');
+    const drawerTabArchived = document.getElementById('drawer-tab-archived');
+    const drawerArchivedView = document.getElementById('drawer-archived-view');
+    const drawerShopBtn = document.getElementById('drawer-shop-btn');
+    const drawerShopFooter = document.getElementById('drawer-shop-footer');
+
+    // Background panel elements
+    const bgOverlay = document.getElementById('bg-overlay');
+    const bgPanel = document.getElementById('bg-panel');
+    const bgCloseBtn = document.getElementById('bg-close-btn');
+    const bgPatternTabs = document.querySelectorAll('.bg-pattern-tab');
+    const bgCheckeredFilter = document.getElementById('checkered-filter');
+    const bgDotsFilter = document.getElementById('dots-filter');
+    const bgControlsRow = document.getElementById('bg-controls-row');
+    const bgSwatchRow = document.getElementById('bg-swatch-row');
+    const bgSwatchBase = document.getElementById('swatch-base');
+    const bgSwatchPattern = document.getElementById('swatch-pattern');
+    const bgSwatchBaseColor = document.getElementById('swatch-base-color');
+    const bgSwatchPatternColor = document.getElementById('swatch-pattern-color');
+    const stripesOrientationBtn = document.getElementById('stripes-orientation-btn');
+    const bgColorGrid = document.getElementById('bg-color-grid');
+    const bgDefaultView = document.getElementById('bg-default-view');
+    const bgMyView = document.getElementById('bg-my-view');
+    const bgMyGrid = document.getElementById('bg-my-grid');
+    const bgMyEmpty = document.getElementById('bg-my-empty');
+    const bgFooter = document.getElementById('bg-footer');
+    const bgFooterShop = document.getElementById('bg-footer-shop');
+    const bgTabDefault = document.getElementById('bg-tab-default');
+    const bgTabMy = document.getElementById('bg-tab-my');
+
+    // Unlock modal elements
+    const unlockInviteModal = document.getElementById('unlock-invite-modal');
+    const unlockFollowModal = document.getElementById('unlock-follow-modal');
+    const unlockCoinsModal = document.getElementById('unlock-coins-modal');
+    const unlockCoinsTitle = document.getElementById('unlock-coins-title');
+
+    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
+    // ============ PATTERN CSS GENERATOR ============
+    function getPatternCSS(pattern, subfilter, baseHex, patternHex) {
+      const base = baseHex || '#e5e7eb';
+      const pat = patternHex || '#ffffff';
+
+      switch (pattern) {
+        case 'solid':
+          return `background-color: ${base};`;
+
+        case 'stripes':
+          const stripeSize = '10px';
+          if (subfilter === 'diagonal') {
+            return `background: repeating-linear-gradient(135deg, ${base}, ${base} ${stripeSize}, ${pat} ${stripeSize}, ${pat} calc(${stripeSize} * 2));`;
+          } else if (subfilter === 'diagonal2') {
+            return `background: repeating-linear-gradient(45deg, ${base}, ${base} ${stripeSize}, ${pat} ${stripeSize}, ${pat} calc(${stripeSize} * 2));`;
+          } else if (subfilter === 'horizontal') {
+            return `background: repeating-linear-gradient(0deg, ${base}, ${base} ${stripeSize}, ${pat} ${stripeSize}, ${pat} calc(${stripeSize} * 2));`;
+          } else if (subfilter === 'vertical') {
+            return `background: repeating-linear-gradient(90deg, ${base}, ${base} ${stripeSize}, ${pat} ${stripeSize}, ${pat} calc(${stripeSize} * 2));`;
+          }
+          break;
+
+        case 'checkered':
+          const checkSize = subfilter === 'small' ? '16px' : '24px';
+          return `
+            background-color: ${base};
+            background-image:
+              linear-gradient(45deg, ${pat} 25%, transparent 25%),
+              linear-gradient(-45deg, ${pat} 25%, transparent 25%),
+              linear-gradient(45deg, transparent 75%, ${pat} 75%),
+              linear-gradient(-45deg, transparent 75%, ${pat} 75%);
+            background-size: ${checkSize} ${checkSize};
+            background-position: 0 0, 0 calc(${checkSize}/2), calc(${checkSize}/2) calc(-${checkSize}/2), calc(-${checkSize}/2) 0;
+          `;
+
+        case 'dots':
+          let dotSize, gap;
+          if (subfilter === 'small') {
+            dotSize = '6px';
+            gap = '16px';
+          } else {
+            dotSize = '10px';
+            gap = '24px';
+          }
+          return `background-color: ${base}; background-image: radial-gradient(${pat} ${dotSize}, transparent ${dotSize}); background-size: ${gap} ${gap};`;
+      }
+
+      return `background-color: ${base};`;
+    }
+
+    // ============ BACKGROUND PANEL FUNCTIONS ============
+    function openBackgroundPanel() {
+      // Load current page's background state for Create view
+      const page = pages[currentPageIndex];
+      if (page && page.backgroundData && page.backgroundData.pattern !== 'premium') {
+        const data = page.backgroundData;
+        bgCurrentPattern = data.pattern || 'solid';
+        bgSelectedBaseColor = data.baseColor || null;
+        bgSelectedPatternColor = data.patternColor || null;
+
+        if (data.subfilter) {
+          bgSubfilter[bgCurrentPattern] = data.subfilter;
+        }
+      } else {
+        bgCurrentPattern = 'solid';
+        bgSelectedBaseColor = null;
+        bgSelectedPatternColor = null;
+      }
+
+      // Always open to Create view
+      bgViewMode = 'default';
+      bgEditingTarget = 'base';
+      
+      // Update footer based on whether user has premium backgrounds
+      updateBgFooter();
+      
+      // Update view mode and render
+      updateBgViewMode();
+
+      bgOverlay.classList.add('visible');
+      bgPanel.classList.add('visible');
+    }
+
+    function closeBackgroundPanel() {
+      bgOverlay.classList.remove('visible');
+      bgPanel.classList.remove('visible');
+    }
+
+    function updateBgPanelUI() {
+      // Update tabs
+      bgPatternTabs.forEach(tab => {
+        tab.classList.toggle('active', tab.dataset.pattern === bgCurrentPattern);
+      });
+
+      // Hide all subfilters and orientation button
+      stripesOrientationBtn.style.display = 'none';
+      bgCheckeredFilter.classList.remove('visible');
+      bgDotsFilter.classList.remove('visible');
+
+      // Show/hide controls row
+      if (bgCurrentPattern === 'solid') {
+        bgControlsRow.classList.remove('visible');
+      } else {
+        bgControlsRow.classList.add('visible');
+
+        // Show appropriate control for pattern type
+        if (bgCurrentPattern === 'stripes') {
+          stripesOrientationBtn.style.display = 'block';
+        } else if (bgCurrentPattern === 'checkered') {
+          bgCheckeredFilter.classList.add('visible');
+          bgCheckeredFilter.querySelectorAll('.bg-subfilter-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.value === bgSubfilter.checkered);
+          });
+        } else if (bgCurrentPattern === 'dots') {
+          bgDotsFilter.classList.add('visible');
+          bgDotsFilter.querySelectorAll('.bg-subfilter-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.value === bgSubfilter.dots);
+          });
+        }
+
+        // Update swatch colors
+        bgSwatchBaseColor.style.backgroundColor = bgSelectedBaseColor || '#e5e7eb';
+        bgSwatchPatternColor.style.backgroundColor = bgSelectedPatternColor || '#ffffff';
+
+        // Update active swatch
+        bgSwatchBase.classList.toggle('active', bgEditingTarget === 'base');
+        bgSwatchPattern.classList.toggle('active', bgEditingTarget === 'pattern');
+      }
+    }
+
+    function renderBgColorGrid() {
+      bgColorGrid.innerHTML = '';
+
+      COLOR_FAMILIES.forEach(family => {
+        const row = document.createElement('div');
+        row.className = 'bg-color-row';
+
+        family.colors.forEach(color => {
+          const tile = document.createElement('div');
+          tile.className = 'bg-color-tile';
+          tile.style.backgroundColor = color.hex;
+          tile.dataset.hex = color.hex;
+
+          // Mark selected
+          if (bgCurrentPattern === 'solid') {
+            if (bgSelectedBaseColor === color.hex) {
+              tile.classList.add('selected');
+            }
+          } else {
+            if (bgEditingTarget === 'base' && bgSelectedBaseColor === color.hex) {
+              tile.classList.add('selected');
+            } else if (bgEditingTarget === 'pattern' && bgSelectedPatternColor === color.hex) {
+              tile.classList.add('selected');
+            }
+          }
+
+          tile.addEventListener('click', () => handleBgColorClick(color.hex));
+          row.appendChild(tile);
+        });
+
+        bgColorGrid.appendChild(row);
+      });
+    }
+
+    function handleBgColorClick(hex) {
+      if (bgCurrentPattern === 'solid') {
+        bgSelectedBaseColor = hex;
+      } else {
+        // For patterns, update whichever swatch is currently being edited
+        // Don't auto-switch - let user play with base color while pattern stays white
+        if (bgEditingTarget === 'base') {
+          bgSelectedBaseColor = hex;
+        } else {
+          bgSelectedPatternColor = hex;
+        }
+      }
+
+      // Apply immediately to page (live preview!)
+      applyBackgroundToPage();
+
+      updateBgPanelUI();
+      renderBgColorGrid();
+    }
+
+    function applyBackgroundToPage() {
+      if (!bgSelectedBaseColor) return;
+      // For patterns, use white as default if no pattern color selected
+      const patternColor = bgCurrentPattern !== 'solid' 
+        ? (bgSelectedPatternColor || '#ffffff') 
+        : null;
+
+      const subfilter = bgSubfilter[bgCurrentPattern] || '';
+      const finalCSS = getPatternCSS(bgCurrentPattern, subfilter, bgSelectedBaseColor, patternColor);
+
+      // Apply to visual page
+      stickerPage.style.cssText = finalCSS;
+
+      // Save to page data
+      const page = pages[currentPageIndex];
+      page.background = bgSelectedBaseColor;
+      page.backgroundCSS = finalCSS;
+      page.backgroundData = {
+        pattern: bgCurrentPattern,
+        subfilter: subfilter,
+        baseColor: bgSelectedBaseColor,
+        patternColor: patternColor
+      };
+
+      hasUnsavedChanges = true;
+      renderPageDots();
+    }
+
+    // Setup background panel event listeners
+    function setupBackgroundPanel() {
+      bgCloseBtn.addEventListener('click', closeBackgroundPanel);
+      bgOverlay.addEventListener('click', closeBackgroundPanel);
+
+      // Tab switching
+      bgPatternTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          const newPattern = tab.dataset.pattern;
+
+          if (newPattern !== bgCurrentPattern) {
+            // When switching to a pattern type, default pattern color to white
+            if (newPattern !== 'solid') {
+              bgSelectedPatternColor = '#ffffff';
+            }
+            bgEditingTarget = 'base';
+          }
+
+          bgCurrentPattern = newPattern;
+          updateBgPanelUI();
+          renderBgColorGrid();
+
+          // Apply immediately if we have a base color
+          if (bgSelectedBaseColor) {
+            applyBackgroundToPage();
+          }
+        });
+      });
+
+      // Subfilter switching (checkered and dots only - stripes use icon cycling)
+      bgCheckeredFilter.querySelectorAll('.bg-subfilter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          bgCheckeredFilter.querySelectorAll('.bg-subfilter-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          bgSubfilter.checkered = btn.dataset.value;
+          if (bgSelectedBaseColor) {
+            applyBackgroundToPage();
+          }
+        });
+      });
+
+      bgDotsFilter.querySelectorAll('.bg-subfilter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          bgDotsFilter.querySelectorAll('.bg-subfilter-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          bgSubfilter.dots = btn.dataset.value;
+          if (bgSelectedBaseColor) {
+            applyBackgroundToPage();
+          }
+        });
+      });
+
+      // Swatch clicking
+      bgSwatchBase.addEventListener('click', () => {
+        bgEditingTarget = 'base';
+        updateBgPanelUI();
+        renderBgColorGrid();
+      });
+
+      bgSwatchPattern.addEventListener('click', () => {
+        bgEditingTarget = 'pattern';
+        updateBgPanelUI();
+        renderBgColorGrid();
+      });
+
+      // Orientation button - cycles stripe direction on tap
+      stripesOrientationBtn.addEventListener('click', () => {
+        const directions = ['diagonal', 'diagonal2', 'horizontal', 'vertical'];
+        const currentIndex = directions.indexOf(bgSubfilter.stripes);
+        const nextIndex = (currentIndex + 1) % directions.length;
+        bgSubfilter.stripes = directions[nextIndex];
+        updateBgPanelUI();
+        applyBackgroundToPage();
+      });
+
+      // Footer shop link - opens shop with backgrounds filter
+      bgFooterShop.addEventListener('click', () => {
+        closeBackgroundPanel();
+        localStorage.setItem('stickerbook_editing_page', currentPageIndex);
+        const shopUrl = 'stickershop.html?filter=backgrounds';
+        if (hasUnsavedChanges) {
+          showSaveModal(() => window.location.href = shopUrl);
+        } else {
+          window.location.href = shopUrl;
+        }
+      });
+
+      // Header toggle tabs
+      bgTabDefault.addEventListener('click', () => {
+        if (bgViewMode !== 'default') {
+          bgViewMode = 'default';
+          updateBgViewMode();
+        }
+      });
+
+      bgTabMy.addEventListener('click', () => {
+        if (bgViewMode !== 'my') {
+          bgViewMode = 'my';
+          updateBgViewMode();
+        }
+      });
+    }
+
+    // ============ PREMIUM BACKGROUNDS ============
+    function seedPremiumBackgrounds() {
+      // Load from localStorage or seed with rainbow examples
+      try {
+        const saved = localStorage.getItem('stickerbook_my_backgrounds');
+        if (saved) {
+          myBackgrounds = JSON.parse(saved);
+          return;
+        }
+      } catch (e) {}
+
+      // Seed with rainbow solid examples to show thumbnail size
+      myBackgrounds = [
+        { id: 'bg_red', name: 'Ruby Red', css: 'background-color: #dc2626;', type: 'solid', source: 'shop' },
+        { id: 'bg_orange', name: 'Sunset Orange', css: 'background-color: #ea580c;', type: 'solid', source: 'shop' },
+        { id: 'bg_yellow', name: 'Golden Sun', css: 'background-color: #eab308;', type: 'solid', source: 'shop' },
+        { id: 'bg_green', name: 'Forest Green', css: 'background-color: #16a34a;', type: 'solid', source: 'shop' },
+        { id: 'bg_blue', name: 'Ocean Blue', css: 'background-color: #2563eb;', type: 'solid', source: 'shop' },
+        { id: 'bg_indigo', name: 'Deep Indigo', css: 'background-color: #4f46e5;', type: 'solid', source: 'shop' },
+        { id: 'bg_violet', name: 'Royal Violet', css: 'background-color: #6D28D9;', type: 'solid', source: 'shop' },
+      ];
+      localStorage.setItem('stickerbook_my_backgrounds', JSON.stringify(myBackgrounds));
+    }
+
+    function updateBgFooter() {
+      // Shop link is always visible in footer
+      bgFooterShop.style.display = 'flex';
+    }
+
+    function updateBgViewMode() {
+      // Update tab active states
+      bgTabDefault.classList.toggle('active', bgViewMode === 'default');
+      bgTabMy.classList.toggle('active', bgViewMode === 'my');
+
+      // Show/hide views
+      if (bgViewMode === 'default') {
+        bgDefaultView.classList.remove('hidden');
+        bgMyView.classList.remove('visible');
+        // Show pattern tabs and swatches for default view
+        document.querySelector('.bg-pattern-tabs').style.display = 'flex';
+        updateBgPanelUI(); // This handles subfilter and swatch visibility
+        renderBgColorGrid(); // Render the color picker
+      } else {
+        bgDefaultView.classList.add('hidden');
+        bgMyView.classList.add('visible');
+        // Hide pattern tabs and controls row for my backgrounds view
+        document.querySelector('.bg-pattern-tabs').style.display = 'none';
+        bgControlsRow.classList.remove('visible');
+        renderMyBackgrounds();
+      }
+    }
+
+    function renderMyBackgrounds() {
+      bgMyGrid.innerHTML = '';
+
+      if (myBackgrounds.length === 0) {
+        bgMyEmpty.style.display = 'flex';
+        return;
+      }
+
+      bgMyEmpty.style.display = 'none';
+
+      // Sort: purchased first, created after
+      const sorted = [...myBackgrounds].sort((a, b) => {
+        const aCreated = a.source === 'created' ? 1 : 0;
+        const bCreated = b.source === 'created' ? 1 : 0;
+        return aCreated - bCreated;
+      });
+
+      sorted.forEach((bg) => {
+        // Find original index for deletion
+        const originalIndex = myBackgrounds.indexOf(bg);
+        
+        const wrapper = document.createElement('div');
+        wrapper.className = 'bg-my-item-wrapper';
+
+        const item = document.createElement('div');
+        item.className = 'bg-my-item';
+        item.style.cssText = bg.css;
+        item.dataset.id = bg.id;
+        item.dataset.index = originalIndex;
+
+        // Check if this is the currently applied background
+        const page = pages[currentPageIndex];
+        if (page && page.backgroundData && page.backgroundData.premiumId === bg.id) {
+          item.classList.add('selected');
+        }
+
+        item.addEventListener('click', () => applyPremiumBackground(bg));
+
+        wrapper.appendChild(item);
+
+        // Delete button (swipe reveal)
+        const deleteBtn = document.createElement('div');
+        deleteBtn.className = 'bg-my-item-delete';
+        deleteBtn.textContent = '🗑️';
+        deleteBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          deletePremiumBackground(originalIndex);
+        });
+        wrapper.appendChild(deleteBtn);
+
+        // Setup swipe to delete
+        setupBgSwipeToDelete(wrapper, item);
+
+        bgMyGrid.appendChild(wrapper);
+      });
+    }
+
+    function setupBgSwipeToDelete(wrapper, item) {
+      let startX = 0;
+      let isSwiping = false;
+
+      item.addEventListener('touchstart', (e) => {
+        startX = e.touches[0].clientX;
+        isSwiping = true;
+      }, { passive: true });
+
+      item.addEventListener('touchmove', (e) => {
+        if (!isSwiping) return;
+        const currentX = e.touches[0].clientX;
+        const dx = startX - currentX;
+
+        if (dx > 30) {
+          wrapper.classList.add('swiped');
+        } else if (dx < -10) {
+          wrapper.classList.remove('swiped');
+        }
+      }, { passive: true });
+
+      item.addEventListener('touchend', () => {
+        isSwiping = false;
+      }, { passive: true });
+
+      // Click outside to close swipe
+      document.addEventListener('click', (e) => {
+        if (!wrapper.contains(e.target)) {
+          wrapper.classList.remove('swiped');
+        }
+      });
+    }
+
+    function applyPremiumBackground(bg) {
+      // Apply to visual page
+      stickerPage.style.cssText = bg.css;
+
+      // Save to page data
+      const page = pages[currentPageIndex];
+      page.background = null;
+      page.backgroundCSS = bg.css;
+      page.backgroundData = {
+        pattern: 'premium',
+        premiumId: bg.id,
+        premiumName: bg.name
+      };
+
+      hasUnsavedChanges = true;
+      renderPageDots();
+      renderMyBackgrounds(); // Update selection state
+
+      showToast(`Applied: ${bg.name}`);
+    }
+
+    function deletePremiumBackground(index) {
+      const bg = myBackgrounds[index];
+      myBackgrounds.splice(index, 1);
+      localStorage.setItem('stickerbook_my_backgrounds', JSON.stringify(myBackgrounds));
+
+      renderMyBackgrounds();
+      updateBgFooter();
+
+      // If no more backgrounds, switch back to default view
+      if (myBackgrounds.length === 0) {
+        bgViewMode = 'default';
+        updateBgViewMode();
+      }
+
+      showToast('Background removed');
+    }
+
+    // ============ DEV HELPER: Seed drawer with test stickers ============
+    function seedDrawerForTesting() {
+      if (drawer.length > 0) return;
+      
+      const testStickers = [
+        { id: 'sticker_006', filename: 'blackcat0001.png', displayName: 'Black Cat Energy' },
+        { id: 'sticker_018', filename: 'germanshepherd0001.png', displayName: 'German Shepherd' },
+        { id: 'sticker_028', filename: 'mushroom0001.png', displayName: 'Mushrooms' },
+        { id: 'sticker_015', filename: 'cubansandwich0001.png', displayName: 'Cuban Sandwich' },
+        { id: 'sticker_003', filename: 'arches0001.png', displayName: 'Arches National Park' },
+        { id: 'sticker_013', filename: 'coffee0001.png', displayName: 'But First, Coffee' },
+        { id: 'sticker_034', filename: 'raccoon0001.png', displayName: 'Raccoon Nap' },
+        { id: 'sticker_025', filename: 'lightthebeam0001.png', displayName: 'Light the Beam' }
+      ];
+
+      testStickers.forEach(s => {
+        drawer.push({
+          id: s.id,
+          src: 'assets/Stickers/' + s.filename,
+          displayName: s.displayName
+        });
+      });
+
+      localStorage.setItem('stickerbook_drawer', JSON.stringify(drawer));
+    }
+// ============ INITIALIZATION ============
+    function init() {
+      loadDataFromStorage();
+      restorePagePosition();
+      checkNewPurchases();
+      seedDrawerForTesting();
+      seedPremiumBackgrounds();
+      loadUserProfile();
+      renderPageDots();
+      renderCurrentPage();
+      setupEventListeners();
+      setupDrawerHandle();
+      setupBackgroundPanel();
+      setupUnlockModals();
+    }
+
+    function restorePagePosition() {
+      const editingPage = localStorage.getItem('stickerbook_editing_page');
+      if (editingPage !== null) {
+        const pageIndex = parseInt(editingPage, 10);
+        if (!isNaN(pageIndex) && pageIndex >= 0 && pageIndex < totalPages) {
+          currentPageIndex = pageIndex;
+        }
+        localStorage.removeItem('stickerbook_editing_page');
+      }
+    }
+
+    function checkNewPurchases() {
+      const newStickers = localStorage.getItem('stickerbook_new_sticker_count');
+      const newBackgrounds = localStorage.getItem('stickerbook_new_background_count');
+      
+      // Clear flags
+      localStorage.removeItem('stickerbook_new_sticker_count');
+      localStorage.removeItem('stickerbook_new_background_count');
+      
+      // Build toast message
+      let messages = [];
+      if (newStickers && parseInt(newStickers) > 0) {
+        const count = parseInt(newStickers);
+        messages.push(`${count} sticker${count > 1 ? 's' : ''} added to drawer`);
+      }
+      if (newBackgrounds && parseInt(newBackgrounds) > 0) {
+        const count = parseInt(newBackgrounds);
+        messages.push(`${count} background${count > 1 ? 's' : ''} added`);
+      }
+      
+      if (messages.length > 0) {
+        setTimeout(() => showToast(messages.join(' • ')), 300);
+      }
+    }
+    // ============ PAGE EDITABILITY LOGIC ============
+    function pageHasContent(pageIndex) {
+      const page = pages[pageIndex];
+      if (!page) return false;
+      if (page.stickers && page.stickers.length > 0) return true;
+      if (page.backgroundData && page.backgroundData.baseColor) return true;
+      return false;
+    }
+
+    function pageHasSticker(pageIndex) {
+      const page = pages[pageIndex];
+      return page && page.stickers && page.stickers.length > 0;
+    }
+
+    // Get gradient color for page dot (purple → turquoise)
+    function getDotGradientColor(index, total) {
+      // Purple: rgb(124, 58, 237) - #6D28D9
+      // Turquoise: rgb(20, 184, 166) - #14b8a6
+      const purple = { r: 124, g: 58, b: 237 };
+      const turquoise = { r: 20, g: 184, b: 166 };
+      
+      const ratio = total > 1 ? index / (total - 1) : 0;
+      
+      const r = Math.round(purple.r + (turquoise.r - purple.r) * ratio);
+      const g = Math.round(purple.g + (turquoise.g - purple.g) * ratio);
+      const b = Math.round(purple.b + (turquoise.b - purple.b) * ratio);
+      
+      return `rgb(${r}, ${g}, ${b})`;
+    }
+
+    function canAccessMatching() {
+      return pageHasSticker(0);
+    }
+
+    function getPublicPageIndices() {
+      const visible = [];
+      for (let i = 0; i < totalPages; i++) {
+        if (pageHasSticker(i)) visible.push(i);
+      }
+      return visible;
+    }
+
+    function loadUserProfile() {
+      const userName = localStorage.getItem('stickerbook_user_name') || 'Name';
+      const userHandle = localStorage.getItem('stickerbook_user_handle') || '@user';
+      const userInitial = userName.charAt(0).toUpperCase();
+
+      const titleText = `${userName}'s Stickerbook`;
+      bookTitle.textContent = titleText;
+      
+      // Dynamic sizing based on name length
+      bookTitle.classList.remove('long-name', 'very-long-name');
+      if (titleText.length > 22) {
+        bookTitle.classList.add('very-long-name');
+      } else if (titleText.length > 16) {
+        bookTitle.classList.add('long-name');
+      }
+      
+      profileInitial.textContent = userInitial;
+      navProfilePhoto.textContent = userInitial;
+      navProfileName.textContent = userName;
+      navProfileHandle.textContent = userHandle;
+    }
+
+    function loadDataFromStorage() {
+      try {
+        const savedPages = localStorage.getItem('stickerbook_all_pages');
+        if (savedPages) {
+          pages = JSON.parse(savedPages);
+        }
+      } catch (e) {
+        pages = [];
+      }
+
+      if (pages.length === 0) {
+        try {
+          const oldPage1 = localStorage.getItem('stickerbook_page_1');
+          if (oldPage1) {
+            pages[0] = JSON.parse(oldPage1);
+          }
+        } catch (e) {}
+      }
+
+      while (pages.length < totalPages) {
+        pages.push({
+          background: '#ffffff',
+          backgroundCSS: 'background-color: #ffffff;',
+          stickers: []
+        });
+      }
+
+      try {
+        const savedDrawer = localStorage.getItem('stickerbook_drawer');
+        if (savedDrawer) {
+          drawer = JSON.parse(savedDrawer);
+        }
+      } catch (e) {
+        drawer = [];
+      }
+
+      if (drawer.length === 0) {
+        try {
+          const oldSelected = localStorage.getItem('stickerbookSelectedStickers');
+          if (oldSelected) {
+            const ids = JSON.parse(oldSelected);
+            ids.forEach(id => {
+              drawer.push({
+                id: id,
+                src: 'assets/Stickers/' + id.replace('sticker_', '') + '.png',
+                displayName: id
+              });
+            });
+          }
+        } catch (e) {}
+        
+        try {
+          const oldPage1 = localStorage.getItem('stickerbook_page_1');
+          if (oldPage1) {
+            const pageData = JSON.parse(oldPage1);
+            if (pageData.stickers && Array.isArray(pageData.stickers)) {
+              pageData.stickers.forEach(s => {
+                if (s.src && !drawer.find(d => d.src === s.src)) {
+                  drawer.push({
+                    id: s.id || 'sticker_' + Date.now(),
+                    src: s.src,
+                    displayName: s.displayName || ''
+                  });
+                }
+              });
+            }
+          }
+        } catch (e) {}
+      }
+    }
+
+    function saveDataToStorage() {
+      localStorage.setItem('stickerbook_all_pages', JSON.stringify(pages));
+      localStorage.setItem('stickerbook_drawer', JSON.stringify(drawer));
+      
+      // Auto-save any created backgrounds to My Backgrounds
+      saveCreatedBackgrounds();
+      
+      hasUnsavedChanges = false;
+      showToast('Saved!');
+    }
+
+    function saveCreatedBackgrounds() {
+      let addedCount = 0;
+      
+      pages.forEach(page => {
+        if (!page.backgroundData) return;
+        if (page.backgroundData.pattern === 'premium') return; // Skip purchased
+        if (!page.backgroundData.baseColor) return; // Skip empty/default
+        
+        const data = page.backgroundData;
+        
+        // Check for duplicate
+        const isDupe = myBackgrounds.some(bg => {
+          if (bg.source !== 'created') return false;
+          return bg.pattern === data.pattern &&
+                 bg.subfilter === data.subfilter &&
+                 bg.baseColor === data.baseColor &&
+                 bg.patternColor === data.patternColor;
+        });
+        
+        if (!isDupe) {
+          myBackgrounds.push({
+            id: 'created_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5),
+            css: page.backgroundCSS,
+            source: 'created',
+            pattern: data.pattern,
+            subfilter: data.subfilter,
+            baseColor: data.baseColor,
+            patternColor: data.patternColor
+          });
+          addedCount++;
+        }
+      });
+      
+      if (addedCount > 0) {
+        localStorage.setItem('stickerbook_my_backgrounds', JSON.stringify(myBackgrounds));
+      }
+    }
+
+    // ============ PAGE RENDERING ============
+    function renderCurrentPage() {
+      const page = pages[currentPageIndex];
+      if (!page) return;
+
+      if (page.backgroundCSS) {
+        stickerPage.style.cssText = page.backgroundCSS;
+      } else {
+        stickerPage.style.background = page.background || '#ffffff';
+      }
+
+      pageCanvas.innerHTML = '';
+
+      page.stickers.forEach(sticker => {
+        const el = createStickerElement(sticker);
+        pageCanvas.appendChild(el);
+      });
+
+      activeSticker = null;
+    }
+
+    function createStickerElement(stickerData) {
+      const el = document.createElement('div');
+      el.className = 'placed-sticker';
+      el.dataset.id = stickerData.id;
+
+      const size = stickerData.size || 70;
+      const scale = stickerData.scale || 1;
+      const rotation = stickerData.rotation || 0;
+
+      el.style.width = `${stickerData.width || size}px`;
+      el.style.height = `${stickerData.height || size}px`;
+      el.style.left = `${stickerData.x || 50}px`;
+      el.style.top = `${stickerData.y || 50}px`;
+      el.style.transform = `scale(${scale}) rotate(${rotation}deg)`;
+      el.style.zIndex = stickerData.zIndex || ++currentZ;
+
+      const img = document.createElement('img');
+      img.src = stickerData.src;
+      img.alt = stickerData.displayName || '';
+      img.draggable = false;
+      el.appendChild(img);
+
+      setupStickerInteractions(el, stickerData);
+
+      return el;
+    }
+
+    // ============ STICKER INTERACTIONS ============
+    function setupStickerInteractions(el, stickerData) {
+      if (isTouchDevice) {
+        setupTouchGestures(el, stickerData);
+      } else {
+        setupMouseDrag(el, stickerData);
+      }
+    }
+
+    function setActiveSticker(el) {
+      if (activeSticker) {
+        activeSticker.classList.remove('active');
+      }
+      activeSticker = el;
+      if (el) {
+        el.classList.add('active');
+        el.style.zIndex = ++currentZ;
+        const page = pages[currentPageIndex];
+        const sticker = page.stickers.find(s => s.id === el.dataset.id);
+        if (sticker) sticker.zIndex = currentZ;
+      }
+    }
+
+    // Keep at least 25% of sticker visible on page
+    function constrainStickerPosition(el, stickerData) {
+      const pageRect = stickerPage.getBoundingClientRect();
+      const pageWidth = pageRect.width;
+      const pageHeight = pageRect.height;
+      const stickerWidth = stickerData.width || 80;
+      const stickerHeight = stickerData.height || 80;
+      const minVisible = 0.25; // 25% must stay visible
+
+      const minX = -(stickerWidth * (1 - minVisible));
+      const maxX = pageWidth - (stickerWidth * minVisible);
+      const minY = -(stickerHeight * (1 - minVisible));
+      const maxY = pageHeight - (stickerHeight * minVisible);
+
+      stickerData.x = Math.max(minX, Math.min(maxX, stickerData.x));
+      stickerData.y = Math.max(minY, Math.min(maxY, stickerData.y));
+    }
+
+    function setupMouseDrag(el, stickerData) {
+      let startX, startY, startMouseX, startMouseY;
+      let isDragging = false;
+      let isSelected = false;
+      let holdTimer = null;
+      const HOLD_DURATION = 150; // ms to hold before selecting
+      const MOVE_THRESHOLD = 8; // pixels of movement that cancels selection
+
+      el.addEventListener('mousedown', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        startMouseX = e.clientX;
+        startMouseY = e.clientY;
+        startX = stickerData.x || parseFloat(el.style.left);
+        startY = stickerData.y || parseFloat(el.style.top);
+
+        // Start pending state
+        el.classList.add('pending-select');
+
+        // Start hold timer
+        holdTimer = setTimeout(() => {
+          // Hold completed - select the sticker
+          el.classList.remove('pending-select');
+          isSelected = true;
+          isDragging = true;
+          setActiveSticker(el);
+          el.classList.add('dragging');
+          enterDragMode();
+        }, HOLD_DURATION);
+      });
+
+      const handleMouseMove = (e) => {
+        // Check if we should cancel the hold (user is swiping)
+        if (holdTimer && !isSelected) {
+          const dx = Math.abs(e.clientX - startMouseX);
+          const dy = Math.abs(e.clientY - startMouseY);
+          if (dx > MOVE_THRESHOLD || dy > MOVE_THRESHOLD) {
+            clearTimeout(holdTimer);
+            holdTimer = null;
+            el.classList.remove('pending-select');
+            return; // Let the swipe happen
+          }
+        }
+
+        if (!isDragging) return;
+
+        const dx = e.clientX - startMouseX;
+        const dy = e.clientY - startMouseY;
+
+        stickerData.x = startX + dx;
+        stickerData.y = startY + dy;
+
+        // Constrain to keep 25% visible
+        constrainStickerPosition(el, stickerData);
+
+        el.style.left = `${stickerData.x}px`;
+        el.style.top = `${stickerData.y}px`;
+
+        hasUnsavedChanges = true;
+        checkDropZones(e.clientX, e.clientY);
+      };
+
+      const handleMouseUp = (e) => {
+        // Clear any pending hold
+        if (holdTimer) {
+          clearTimeout(holdTimer);
+          holdTimer = null;
+        }
+        el.classList.remove('pending-select');
+
+        if (!isDragging) {
+          isSelected = false;
+          return;
+        }
+
+        isDragging = false;
+        isSelected = false;
+        el.classList.remove('dragging');
+
+        if (isOverDrawer(e.clientX, e.clientY)) {
+          moveToDrawer(el, stickerData);
+        } else {
+          constrainStickerPosition(el, stickerData);
+          el.style.left = `${stickerData.x}px`;
+          el.style.top = `${stickerData.y}px`;
+          exitDragMode();
+        }
+      };
+
+      window.addEventListener('mousemove', handleMouseMove);
+      window.addEventListener('mouseup', handleMouseUp);
+    }
+
+    function setupTouchGestures(el, stickerData) {
+      let touchMode = null;
+      let startX, startY, startTouchX, startTouchY;
+      let initialDistance, initialAngle, startScale, startRotation;
+      let holdTimer = null;
+      let isSelected = false;
+      const HOLD_DURATION = 150; // ms to hold before selecting
+      const MOVE_THRESHOLD = 10; // pixels of movement that cancels selection
+
+      el.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+
+        if (e.touches.length === 1) {
+          const t = e.touches[0];
+          startTouchX = t.clientX;
+          startTouchY = t.clientY;
+          startX = stickerData.x || parseFloat(el.style.left);
+          startY = stickerData.y || parseFloat(el.style.top);
+
+          // Start pending state
+          el.classList.add('pending-select');
+
+          // Start hold timer
+          holdTimer = setTimeout(() => {
+            // Hold completed - select the sticker
+            el.classList.remove('pending-select');
+            isSelected = true;
+            touchMode = 'pan';
+            setActiveSticker(el);
+            el.classList.add('dragging');
+            enterDragMode();
+          }, HOLD_DURATION);
+
+        } else if (e.touches.length === 2 && isSelected) {
+          // Two-finger gesture only if already selected
+          clearTimeout(holdTimer);
+          holdTimer = null;
+          el.classList.remove('pending-select');
+          touchMode = 'transform';
+          const t1 = e.touches[0];
+          const t2 = e.touches[1];
+          const dx = t2.clientX - t1.clientX;
+          const dy = t2.clientY - t1.clientY;
+          initialDistance = Math.hypot(dx, dy) || 1;
+          initialAngle = Math.atan2(dy, dx);
+          startScale = stickerData.scale || 1;
+          startRotation = stickerData.rotation || 0;
+        }
+      }, { passive: false });
+
+      el.addEventListener('touchmove', (e) => {
+        e.preventDefault();
+
+        // Check if we should cancel the hold (user is swiping)
+        if (holdTimer && !isSelected && e.touches.length === 1) {
+          const t = e.touches[0];
+          const dx = Math.abs(t.clientX - startTouchX);
+          const dy = Math.abs(t.clientY - startTouchY);
+          if (dx > MOVE_THRESHOLD || dy > MOVE_THRESHOLD) {
+            clearTimeout(holdTimer);
+            holdTimer = null;
+            el.classList.remove('pending-select');
+            touchMode = null;
+            return; // Let the swipe happen
+          }
+        }
+
+        if (touchMode === 'pan' && e.touches.length === 1) {
+          const t = e.touches[0];
+          const dx = t.clientX - startTouchX;
+          const dy = t.clientY - startTouchY;
+
+          stickerData.x = startX + dx;
+          stickerData.y = startY + dy;
+
+          // Constrain to keep 25% visible
+          constrainStickerPosition(el, stickerData);
+
+          el.style.left = `${stickerData.x}px`;
+          el.style.top = `${stickerData.y}px`;
+
+          hasUnsavedChanges = true;
+          checkDropZones(t.clientX, t.clientY);
+
+        } else if (touchMode === 'transform' && e.touches.length >= 2) {
+          const t1 = e.touches[0];
+          const t2 = e.touches[1];
+          const dx = t2.clientX - t1.clientX;
+          const dy = t2.clientY - t1.clientY;
+
+          const distance = Math.hypot(dx, dy);
+          const angle = Math.atan2(dy, dx);
+
+          let newScale = startScale * (distance / initialDistance);
+          newScale = Math.max(MIN_SCALE, Math.min(MAX_SCALE, newScale));
+
+          const rotationDelta = (angle - initialAngle) * (180 / Math.PI);
+          const newRotation = startRotation + rotationDelta;
+
+          stickerData.scale = newScale;
+          stickerData.rotation = newRotation;
+
+          el.style.transform = `scale(${newScale}) rotate(${newRotation}deg)`;
+          hasUnsavedChanges = true;
+        }
+      }, { passive: false });
+
+      const handleTouchEnd = (e) => {
+        // Clear any pending hold
+        if (holdTimer) {
+          clearTimeout(holdTimer);
+          holdTimer = null;
+        }
+        el.classList.remove('pending-select');
+
+        if (e.touches.length === 0) {
+          el.classList.remove('dragging');
+
+          if (touchMode === 'pan') {
+            const lastTouch = e.changedTouches[0];
+            if (isOverDrawer(lastTouch.clientX, lastTouch.clientY)) {
+              moveToDrawer(el, stickerData);
+            } else {
+              constrainStickerPosition(el, stickerData);
+              el.style.left = `${stickerData.x}px`;
+              el.style.top = `${stickerData.y}px`;
+              exitDragMode();
+            }
+          } else {
+            exitDragMode();
+          }
+
+          touchMode = null;
+          isSelected = false;
+        } else if (e.touches.length === 1 && touchMode === 'transform') {
+          touchMode = 'pan';
+          const t = e.touches[0];
+          startX = stickerData.x;
+          startY = stickerData.y;
+          startTouchX = t.clientX;
+          startTouchY = t.clientY;
+        }
+      };
+
+      el.addEventListener('touchend', handleTouchEnd, { passive: false });
+      el.addEventListener('touchcancel', handleTouchEnd, { passive: false });
+    }
+
+    // ============ DRAG DROP ZONES ============
+    let isDraggingSticker = false;
+
+    function isInDropZone(y) {
+      const pageRect = stickerPage.getBoundingClientRect();
+      return y > pageRect.bottom;
+    }
+
+    function enterDragMode() {
+      if (isDraggingSticker) return;
+      isDraggingSticker = true;
+      bottomToolbar.classList.add('drag-mode');
+    }
+
+    function exitDragMode() {
+      isDraggingSticker = false;
+      bottomToolbar.classList.remove('drag-mode');
+      bottomToolbar.classList.remove('in-drop-zone');
+      btnDrawer.classList.remove('drop-active');
+    }
+
+    function checkDropZones(x, y) {
+      if (isInDropZone(y)) {
+        bottomToolbar.classList.add('in-drop-zone');
+        
+        if (isOverDrawer(x, y)) {
+          btnDrawer.classList.add('drop-active');
+        } else {
+          btnDrawer.classList.remove('drop-active');
+        }
+      } else {
+        bottomToolbar.classList.remove('in-drop-zone');
+        btnDrawer.classList.remove('drop-active');
+      }
+    }
+
+    function isOverDrawer(x, y) {
+      const rect = btnDrawer.getBoundingClientRect();
+      return x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
+    }
+
+    function moveToDrawer(el, stickerData) {
+      el.classList.add('to-drawer');
+
+      setTimeout(() => {
+        const page = pages[currentPageIndex];
+        page.stickers = page.stickers.filter(s => s.id !== stickerData.id);
+
+        drawer.push({
+          id: stickerData.id,
+          src: stickerData.src,
+          displayName: stickerData.displayName
+        });
+
+        el.remove();
+        activeSticker = null;
+        hasUnsavedChanges = true;
+        exitDragMode();
+
+        renderPageDots();
+        showToast('Moved to drawer');
+      }, 300);
+    }
+
+    // ============ PAGE NAVIGATION ============
+    function renderPageDots() {
+      pageDotsContainer.innerHTML = '';
+
+      // Show 8 free pages + any unlocked bonus pages
+      // For now, just show up to totalPages (which includes locked hint for page 9)
+      const dotsToShow = Math.min(totalPages + 1, MAX_PAGES_TOTAL); // Show one extra as locked hint
+
+      for (let i = 0; i < dotsToShow; i++) {
+        const dot = document.createElement('div');
+        dot.className = 'page-dot';
+
+        // Apply gradient color
+        const gradientColor = getDotGradientColor(i, dotsToShow);
+        dot.style.backgroundColor = gradientColor;
+        dot.style.color = gradientColor; // For the box-shadow on active state
+
+        if (i === currentPageIndex) {
+          dot.classList.add('active');
+        }
+
+        // Mark locked pages (beyond free tier)
+        if (i >= MAX_PAGES_FREE) {
+          dot.classList.add('locked');
+        }
+
+        dot.addEventListener('click', () => goToPage(i));
+        pageDotsContainer.appendChild(dot);
+      }
+    }
+
+    function goToPage(index) {
+      if (index < 0 || index === currentPageIndex) return;
+
+      // Check if trying to access locked pages
+      if (index >= MAX_PAGES_FREE) {
+        showUnlockModal(index);
+        return;
+      }
+
+      if (index >= totalPages) return;
+
+      currentPageIndex = index;
+      renderCurrentPage();
+      renderPageDots();
+    }
+
+    // ============ UNLOCK MODALS ============
+    function showUnlockModal(pageIndex) {
+      const pageNum = pageIndex + 1;
+
+      if (pageIndex === 8) {
+        // Page 9 - Invite a friend
+        unlockInviteModal.classList.add('visible');
+      } else if (pageIndex === 9) {
+        // Page 10 - Follow an artist
+        unlockFollowModal.classList.add('visible');
+      } else {
+        // Pages 11-20 - Coins
+        unlockCoinsTitle.textContent = `Unlock Page ${pageNum}`;
+        unlockCoinsModal.classList.add('visible');
+      }
+    }
+
+    function closeUnlockModals() {
+      unlockInviteModal.classList.remove('visible');
+      unlockFollowModal.classList.remove('visible');
+      unlockCoinsModal.classList.remove('visible');
+    }
+
+    function setupUnlockModals() {
+      // Invite modal
+      document.getElementById('unlock-invite-btn').addEventListener('click', () => {
+        // TODO: Implement invite flow
+        showToast('Invite feature coming soon!');
+        closeUnlockModals();
+      });
+      document.getElementById('unlock-invite-cancel').addEventListener('click', closeUnlockModals);
+
+      // Follow artist modal
+      document.getElementById('unlock-follow-btn').addEventListener('click', () => {
+        // TODO: Navigate to artist discovery
+        showToast('Artist discovery coming soon!');
+        closeUnlockModals();
+      });
+      document.getElementById('unlock-follow-cancel').addEventListener('click', closeUnlockModals);
+
+      // Coins modal
+      document.getElementById('unlock-coins-btn').addEventListener('click', () => {
+        // TODO: Navigate to coin purchase
+        showToast('Coin shop coming soon!');
+        closeUnlockModals();
+      });
+      document.getElementById('unlock-coins-cancel').addEventListener('click', closeUnlockModals);
+
+      // Close on overlay click
+      unlockInviteModal.addEventListener('click', (e) => {
+        if (e.target === unlockInviteModal) closeUnlockModals();
+      });
+      unlockFollowModal.addEventListener('click', (e) => {
+        if (e.target === unlockFollowModal) closeUnlockModals();
+      });
+      unlockCoinsModal.addEventListener('click', (e) => {
+        if (e.target === unlockCoinsModal) closeUnlockModals();
+      });
+    }
+
+    function flipPage(direction) {
+      const newIndex = currentPageIndex + direction;
+      if (newIndex >= 0 && newIndex < MAX_PAGES_TOTAL) {
+        goToPage(newIndex);
+      }
+    }
+
+    // ============ SWIPE GESTURE FOR PAGE FLIP ============
+    function setupPageSwipe() {
+      let startX = 0;
+      let startY = 0;
+      let tracking = false;
+
+      stickerPage.addEventListener('touchstart', (e) => {
+        if (e.target.closest('.placed-sticker')) return;
+        startX = e.touches[0].clientX;
+        startY = e.touches[0].clientY;
+        tracking = true;
+      }, { passive: true });
+
+      stickerPage.addEventListener('touchend', (e) => {
+        if (!tracking) return;
+        tracking = false;
+
+        const endX = e.changedTouches[0].clientX;
+        const endY = e.changedTouches[0].clientY;
+        const dx = endX - startX;
+        const dy = endY - startY;
+
+        if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) {
+          if (dx > 0) {
+            flipPage(-1);
+          } else {
+            flipPage(1);
+          }
+        }
+      }, { passive: true });
+
+      if (!isTouchDevice) {
+        let mouseDown = false;
+        let mouseStartX = 0;
+
+        stickerPage.addEventListener('mousedown', (e) => {
+          if (e.target.closest('.placed-sticker')) return;
+          mouseDown = true;
+          mouseStartX = e.clientX;
+        });
+
+        window.addEventListener('mouseup', (e) => {
+          if (!mouseDown) return;
+          mouseDown = false;
+
+          const dx = e.clientX - mouseStartX;
+          if (Math.abs(dx) > 50) {
+            if (dx > 0) {
+              flipPage(-1);
+            } else {
+              flipPage(1);
+            }
+          }
+        });
+      }
+    }
+
+    // ============ NAV MENU ============
+    function openNav() {
+      navOverlay.classList.add('visible');
+      navMenu.classList.add('visible');
+    }
+
+    function closeNav() {
+      navOverlay.classList.remove('visible');
+      navMenu.classList.remove('visible');
+    }
+
+    function handleNavAction(destination) {
+      closeNav();
+
+      if (hasUnsavedChanges) {
+        showSaveModal(() => navigateTo(destination));
+      } else {
+        navigateTo(destination);
+      }
+    }
+
+    function navigateTo(destination) {
+      switch (destination) {
+        case 'matching':
+          if (!canAccessMatching()) {
+            showToast('Add at least 1 sticker to Page 1 first!');
+            return;
+          }
+          window.location.href = 'matching.html';
+          break;
+        case 'messages':
+          showToast('Messages coming soon!');
+          break;
+        case 'settings':
+          showToast('Settings coming soon!');
+          break;
+      }
+    }
+
+    // ============ MODAL ============
+    function showSaveModal(onComplete) {
+      saveModal.classList.add('visible');
+
+      const handleSave = () => {
+        saveDataToStorage();
+        cleanup();
+        if (onComplete) onComplete();
+      };
+
+      const handleDiscard = () => {
+        hasUnsavedChanges = false;
+        cleanup();
+        if (onComplete) onComplete();
+      };
+
+      const cleanup = () => {
+        saveModal.classList.remove('visible');
+        document.getElementById('modal-save').removeEventListener('click', handleSave);
+        document.getElementById('modal-discard').removeEventListener('click', handleDiscard);
+      };
+
+      document.getElementById('modal-save').addEventListener('click', handleSave);
+      document.getElementById('modal-discard').addEventListener('click', handleDiscard);
+    }
+
+    // ============ TOAST ============
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add('visible');
+      setTimeout(() => toast.classList.remove('visible'), 2000);
+    }
+
+    // ============ TOOLBAR ACTIONS ============
+    function openBackgrounds() {
+      openBackgroundPanel();
+    }
+
+    function openShop() {
+      localStorage.setItem('stickerbook_editing_page', currentPageIndex);
+      
+      if (hasUnsavedChanges) {
+        showSaveModal(() => window.location.href = 'stickershop.html');
+      } else {
+        window.location.href = 'stickershop.html';
+      }
+    }
+
+    // ============ DRAWER FUNCTIONS ============
+    let drawerSelectedIds = new Set();
+    let longPressTimer = null;
+    let drawerViewMode = 'stickers'; // 'stickers' | 'archived'
+    const LONG_PRESS_DURATION = 300;
+    const STICKER_PLACE_SIZE = 120;
+
+    function openDrawer() {
+      drawerSelectedIds.clear();
+      drawerViewMode = 'stickers';
+      updateDrawerViewMode();
+      drawerOverlay.classList.add('visible');
+      drawerPanel.classList.add('visible');
+      updateDrawerSelectionUI();
+    }
+
+    function closeDrawer() {
+      drawerOverlay.classList.remove('visible');
+      drawerPanel.classList.remove('visible');
+      drawerSelectedIds.clear();
+    }
+
+    function updateDrawerViewMode() {
+      // Update tab active states
+      drawerTabStickers.classList.toggle('active', drawerViewMode === 'stickers');
+      drawerTabArchived.classList.toggle('active', drawerViewMode === 'archived');
+
+      // Show/hide views
+      if (drawerViewMode === 'stickers') {
+        drawerGrid.style.display = 'grid';
+        drawerArchivedView.classList.remove('visible');
+        drawerFooter.style.display = 'flex';
+        drawerShopFooter.style.display = 'block';
+        renderDrawer();
+      } else {
+        drawerGrid.style.display = 'none';
+        drawerEmpty.classList.add('hidden');
+        drawerArchivedView.classList.add('visible');
+        drawerFooter.style.display = 'none';
+        drawerShopFooter.style.display = 'none';
+      }
+    }
+
+    function updateDrawerSelectionUI() {
+      const page = pages[currentPageIndex];
+      const currentCount = page ? page.stickers.length : 0;
+      const availableSlots = MAX_STICKERS_PER_PAGE - currentCount;
+      
+      const selectedCount = drawerSelectedIds.size;
+      
+      if (selectedCount === 0) {
+        drawerSelectionCount.textContent = 'Tap to select';
+      } else {
+        drawerSelectionCount.textContent = `${selectedCount} selected`;
+      }
+      
+      drawerDeleteBtn.disabled = selectedCount === 0;
+      drawerDeleteBtn.textContent = selectedCount > 0 ? `Delete` : 'Delete';
+      
+      if (selectedCount === 0) {
+        drawerAddBtn.disabled = true;
+        drawerAddBtn.textContent = 'Add to Page';
+      } else if (availableSlots === 0) {
+        drawerAddBtn.disabled = true;
+        drawerAddBtn.textContent = 'Page Full';
+      } else if (selectedCount > availableSlots) {
+        drawerAddBtn.disabled = false;
+        drawerAddBtn.textContent = `Add ${availableSlots}`;
+      } else {
+        drawerAddBtn.disabled = false;
+        drawerAddBtn.textContent = `Add ${selectedCount}`;
+      }
+    }
+
+    function addSelectedToPage() {
+      const page = pages[currentPageIndex];
+      const currentCount = page.stickers.length;
+      const availableSlots = MAX_STICKERS_PER_PAGE - currentCount;
+      
+      if (drawerSelectedIds.size === 0 || availableSlots === 0) return;
+
+      const canvasRect = pageCanvas.getBoundingClientRect();
+      const padding = 20;
+      const stickerSize = STICKER_PLACE_SIZE;
+      const maxX = canvasRect.width - stickerSize - padding;
+      const maxY = canvasRect.height - stickerSize - padding;
+
+      let addedCount = 0;
+      const addedIds = new Set();
+      
+      for (const sticker of drawer) {
+        if (addedCount >= availableSlots) break;
+        if (!drawerSelectedIds.has(sticker.id)) continue;
+        
+        const randomX = padding + Math.random() * maxX;
+        const randomY = padding + Math.random() * maxY;
+        const randomRotation = (Math.random() - 0.5) * 20;
+        
+        const newSticker = {
+          id: sticker.id + '_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9),
+          src: sticker.src,
+          displayName: sticker.displayName,
+          x: randomX,
+          y: randomY,
+          size: stickerSize,
+          scale: 1,
+          rotation: randomRotation,
+          zIndex: ++currentZ
+        };
+        page.stickers.push(newSticker);
+        addedIds.add(sticker.id);
+        addedCount++;
+      }
+
+      for (let i = drawer.length - 1; i >= 0; i--) {
+        if (addedIds.has(drawer[i].id)) {
+          drawer.splice(i, 1);
+        }
+      }
+
+      drawerSelectedIds.clear();
+      hasUnsavedChanges = true;
+      
+      renderCurrentPage();
+      renderPageDots();
+      closeDrawer();
+      showToast(`${addedCount} sticker${addedCount > 1 ? 's' : ''} added!`);
+    }
+
+    function deleteSelectedFromDrawer() {
+      if (drawerSelectedIds.size === 0) return;
+      
+      const count = drawerSelectedIds.size;
+      
+      for (let i = drawer.length - 1; i >= 0; i--) {
+        if (drawerSelectedIds.has(drawer[i].id)) {
+          drawer.splice(i, 1);
+        }
+      }
+
+      drawerSelectedIds.clear();
+      hasUnsavedChanges = true;
+      
+      renderDrawer();
+      updateDrawerSelectionUI();
+      showToast(`${count} sticker${count > 1 ? 's' : ''} deleted`);
+    }
+
+    function deleteFromDrawer(index) {
+      drawer.splice(index, 1);
+      hasUnsavedChanges = true;
+      renderDrawer();
+      showToast('Sticker deleted');
+    }
+
+    function setupDrawerHandle() {
+      const handle = drawerPanel.querySelector('.drawer-handle');
+      let startY = 0;
+      let isDragging = false;
+
+      handle.addEventListener('touchstart', (e) => {
+        startY = e.touches[0].clientY;
+        isDragging = true;
+      }, { passive: true });
+
+      handle.addEventListener('touchend', (e) => {
+        if (!isDragging) return;
+        isDragging = false;
+        const dy = e.changedTouches[0].clientY - startY;
+        if (dy > 50) {
+          closeDrawer();
+        }
+      }, { passive: true });
+
+      handle.addEventListener('mousedown', (e) => {
+        startY = e.clientY;
+        isDragging = true;
+        
+        const handleMouseUp = (ev) => {
+          isDragging = false;
+          window.removeEventListener('mouseup', handleMouseUp);
+          const dy = ev.clientY - startY;
+          if (dy > 50) {
+            closeDrawer();
+          }
+        };
+
+        window.addEventListener('mouseup', handleMouseUp);
+      });
+
+      drawerAddBtn.addEventListener('click', addSelectedToPage);
+      drawerDeleteBtn.addEventListener('click', deleteSelectedFromDrawer);
+    }
+
+    function renderDrawer() {
+      drawerGrid.innerHTML = '';
+
+      if (drawer.length === 0) {
+        drawerEmpty.classList.remove('hidden');
+        return;
+      }
+
+      drawerEmpty.classList.add('hidden');
+
+      const reversedDrawer = [...drawer];
+      
+      reversedDrawer.forEach((sticker, reversedIndex) => {
+        const actualIndex = drawer.length - 1 - reversedIndex;
+        
+        const wrapper = document.createElement('div');
+        wrapper.className = 'drawer-sticker-wrapper';
+        
+        const el = document.createElement('div');
+        el.className = 'drawer-sticker draggable selectable';
+        
+        if (drawerSelectedIds.has(sticker.id)) {
+          el.classList.add('selected');
+        }
+        
+        el.dataset.index = actualIndex;
+        el.dataset.id = sticker.id;
+        el.dataset.src = sticker.src;
+
+        const img = document.createElement('img');
+        img.src = sticker.src;
+        img.alt = sticker.displayName || '';
+        img.draggable = false;
+        el.appendChild(img);
+
+        const check = document.createElement('div');
+        check.className = 'drawer-sticker-check';
+        check.textContent = '✓';
+        el.appendChild(check);
+
+        wrapper.appendChild(el);
+        
+        const deleteBtn = document.createElement('div');
+        deleteBtn.className = 'drawer-sticker-delete';
+        deleteBtn.textContent = '🗑️';
+        deleteBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          deleteFromDrawer(actualIndex);
+        });
+        wrapper.appendChild(deleteBtn);
+
+        // Setup both drag and select behaviors
+        setupDrawerStickerDrag(el, sticker, actualIndex);
+        setupDrawerStickerSelect(el, sticker);
+        
+        setupSwipeToDelete(wrapper, el);
+
+        drawerGrid.appendChild(wrapper);
+      });
+    }
+
+    function setupDrawerStickerSelect(el, sticker) {
+      el.addEventListener('click', () => {
+        if (drawerSelectedIds.has(sticker.id)) {
+          drawerSelectedIds.delete(sticker.id);
+          el.classList.remove('selected');
+        } else {
+          drawerSelectedIds.add(sticker.id);
+          el.classList.add('selected');
+        }
+        updateDrawerSelectionUI();
+      });
+    }
+
+    function setupSwipeToDelete(wrapper, stickerEl) {
+      let startX = 0;
+      let currentX = 0;
+      let isSwiping = false;
+
+      stickerEl.addEventListener('touchstart', (e) => {
+        startX = e.touches[0].clientX;
+        isSwiping = true;
+      }, { passive: true });
+
+      stickerEl.addEventListener('touchmove', (e) => {
+        if (!isSwiping) return;
+        currentX = e.touches[0].clientX;
+        const dx = startX - currentX;
+        
+        if (dx > 30) {
+          wrapper.classList.add('swiped');
+        } else if (dx < -10) {
+          wrapper.classList.remove('swiped');
+        }
+      }, { passive: true });
+
+      stickerEl.addEventListener('touchend', () => {
+        isSwiping = false;
+      }, { passive: true });
+
+      document.addEventListener('click', (e) => {
+        if (!wrapper.contains(e.target)) {
+          wrapper.classList.remove('swiped');
+        }
+      });
+    }
+
+    let dragGhost = null;
+    let dragData = null;
+    let dragSourceIndex = null;
+
+    function setupDrawerStickerDrag(el, sticker, index) {
+      if (isTouchDevice) {
+        setupDrawerTouchDrag(el, sticker, index);
+      } else {
+        setupDrawerMouseDrag(el, sticker, index);
+      }
+    }
+
+    function setupDrawerMouseDrag(el, sticker, index) {
+      el.addEventListener('mousedown', (e) => {
+        e.preventDefault();
+        startDragFromDrawer(e.clientX, e.clientY, sticker, index, el);
+
+        const handleMove = (ev) => {
+          moveDragGhost(ev.clientX, ev.clientY);
+          checkPageDropZone(ev.clientX, ev.clientY);
+        };
+
+        const handleUp = (ev) => {
+          window.removeEventListener('mousemove', handleMove);
+          window.removeEventListener('mouseup', handleUp);
+          endDragFromDrawer(ev.clientX, ev.clientY);
+        };
+
+        window.addEventListener('mousemove', handleMove);
+        window.addEventListener('mouseup', handleUp);
+      });
+    }
+
+    function setupDrawerTouchDrag(el, sticker, index) {
+      let longPressTriggered = false;
+      let startX, startY;
+
+      el.addEventListener('touchstart', (e) => {
+        startX = e.touches[0].clientX;
+        startY = e.touches[0].clientY;
+        longPressTriggered = false;
+
+        longPressTimer = setTimeout(() => {
+          longPressTriggered = true;
+          const t = e.touches[0] || { clientX: startX, clientY: startY };
+          startDragFromDrawer(t.clientX, t.clientY, sticker, index, el);
+          
+          if (navigator.vibrate) navigator.vibrate(50);
+        }, LONG_PRESS_DURATION);
+      }, { passive: true });
+
+      el.addEventListener('touchmove', (e) => {
+        if (!longPressTriggered && longPressTimer) {
+          const t = e.touches[0];
+          const dx = Math.abs(t.clientX - startX);
+          const dy = Math.abs(t.clientY - startY);
+          
+          if (dy > 10) {
+            clearTimeout(longPressTimer);
+            longPressTimer = null;
+            return;
+          }
+        }
+
+        if (!longPressTriggered || !dragGhost) return;
+        
+        e.preventDefault();
+        const t = e.touches[0];
+        moveDragGhost(t.clientX, t.clientY);
+        checkPageDropZone(t.clientX, t.clientY);
+      }, { passive: false });
+
+      el.addEventListener('touchend', (e) => {
+        clearTimeout(longPressTimer);
+        longPressTimer = null;
+        
+        if (!longPressTriggered || !dragGhost) return;
+        
+        const t = e.changedTouches[0];
+        endDragFromDrawer(t.clientX, t.clientY);
+      }, { passive: true });
+
+      el.addEventListener('touchcancel', () => {
+        clearTimeout(longPressTimer);
+        longPressTimer = null;
+        cancelDragFromDrawer();
+      }, { passive: true });
+    }
+
+    function startDragFromDrawer(x, y, sticker, index, sourceEl) {
+      dragData = sticker;
+      dragSourceIndex = index;
+      sourceEl.classList.add('dragging');
+
+      dragGhost = document.createElement('div');
+      dragGhost.className = 'drag-ghost';
+      const img = document.createElement('img');
+      img.src = sticker.src;
+      dragGhost.appendChild(img);
+      document.body.appendChild(dragGhost);
+
+      moveDragGhost(x, y);
+    }
+
+    function moveDragGhost(x, y) {
+      if (!dragGhost) return;
+      dragGhost.style.left = x + 'px';
+      dragGhost.style.top = y + 'px';
+    }
+
+    function checkPageDropZone(x, y) {
+      const rect = stickerPage.getBoundingClientRect();
+      const isOver = x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
+      
+      if (isOver) {
+        stickerPage.classList.add('drop-target');
+      } else {
+        stickerPage.classList.remove('drop-target');
+      }
+    }
+
+    function endDragFromDrawer(x, y) {
+      if (!dragGhost || !dragData) {
+        cancelDragFromDrawer();
+        return;
+      }
+
+      const rect = stickerPage.getBoundingClientRect();
+      const isOverPage = x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
+
+      if (isOverPage) {
+        const page = pages[currentPageIndex];
+        if (page.stickers.length >= MAX_STICKERS_PER_PAGE) {
+          showToast(`Max ${MAX_STICKERS_PER_PAGE} stickers per page`);
+          cancelDragFromDrawer();
+          return;
+        }
+
+        const canvasRect = pageCanvas.getBoundingClientRect();
+        const halfSize = STICKER_PLACE_SIZE / 2;
+        const dropX = x - canvasRect.left - halfSize;
+        const dropY = y - canvasRect.top - halfSize;
+
+        const newSticker = {
+          id: dragData.id + '_' + Date.now(),
+          src: dragData.src,
+          displayName: dragData.displayName,
+          x: Math.max(0, Math.min(dropX, canvasRect.width - STICKER_PLACE_SIZE)),
+          y: Math.max(0, Math.min(dropY, canvasRect.height - STICKER_PLACE_SIZE)),
+          size: STICKER_PLACE_SIZE,
+          scale: 1,
+          rotation: 0,
+          zIndex: ++currentZ
+        };
+
+        page.stickers.push(newSticker);
+        drawer.splice(dragSourceIndex, 1);
+
+        hasUnsavedChanges = true;
+
+        renderCurrentPage();
+        renderDrawer();
+        renderPageDots();
+
+        showToast('Sticker placed!');
+      }
+
+      cancelDragFromDrawer();
+    }
+
+    function cancelDragFromDrawer() {
+      if (dragGhost) {
+        dragGhost.remove();
+        dragGhost = null;
+      }
+      dragData = null;
+      dragSourceIndex = null;
+      stickerPage.classList.remove('drop-target');
+
+      document.querySelectorAll('.drawer-sticker.dragging').forEach(el => {
+        el.classList.remove('dragging');
+      });
+    }
+
+    // ============ EVENT LISTENERS ============
+    function setupEventListeners() {
+      profileBtn.addEventListener('click', openNav);
+      navOverlay.addEventListener('click', closeNav);
+
+      document.getElementById('nav-matching').addEventListener('click', () => handleNavAction('matching'));
+      document.getElementById('nav-messages').addEventListener('click', () => handleNavAction('messages'));
+      document.getElementById('nav-stickerbook').addEventListener('click', closeNav);
+      document.getElementById('nav-settings').addEventListener('click', () => handleNavAction('settings'));
+
+      btnBackgrounds.addEventListener('click', openBackgrounds);
+      btnShop.addEventListener('click', openShop);
+      btnDrawer.addEventListener('click', openDrawer);
+
+      // Drawer close handlers
+      drawerOverlay.addEventListener('click', closeDrawer);
+      drawerCloseBtn.addEventListener('click', closeDrawer);
+
+      // Drawer tab switching
+      drawerTabStickers.addEventListener('click', () => {
+        if (drawerViewMode !== 'stickers') {
+          drawerViewMode = 'stickers';
+          updateDrawerViewMode();
+        }
+      });
+
+      drawerTabArchived.addEventListener('click', () => {
+        if (drawerViewMode !== 'archived') {
+          drawerViewMode = 'archived';
+          updateDrawerViewMode();
+        }
+      });
+
+      // Drawer shop button
+      drawerShopBtn.addEventListener('click', () => {
+        closeDrawer();
+        openShop();
+      });
+      
+      let drawerTouchStartY = 0;
+      let drawerWasAtTop = false;
+      
+      drawerPanel.addEventListener('touchstart', (e) => {
+        drawerTouchStartY = e.touches[0].clientY;
+        // Only allow swipe-to-close if content is scrolled to top
+        drawerWasAtTop = drawerGrid.scrollTop <= 5;
+      }, { passive: true });
+
+      drawerPanel.addEventListener('touchend', (e) => {
+        const dy = e.changedTouches[0].clientY - drawerTouchStartY;
+        // Only close if swiping down AND was at top of scroll
+        if (dy > 80 && drawerWasAtTop && drawerGrid.scrollTop <= 5) {
+          closeDrawer();
+        }
+      }, { passive: true });
+
+      pageCanvas.addEventListener('click', (e) => {
+        if (e.target === pageCanvas) setActiveSticker(null);
+      });
+
+      stickerPage.addEventListener('click', (e) => {
+        if (e.target === stickerPage) setActiveSticker(null);
+      });
+
+      setupPageSwipe();
+
+      window.addEventListener('beforeunload', () => {
+        if (hasUnsavedChanges) saveDataToStorage();
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') flipPage(-1);
+        if (e.key === 'ArrowRight') flipPage(1);
+        if (e.key === 'Escape') {
+          setActiveSticker(null);
+          closeNav();
+          closeDrawer();
+          closeBackgroundPanel();
+          closeUnlockModals();
+          saveModal.classList.remove('visible');
+        }
+        if ((e.metaKey || e.ctrlKey) && e.key === 's') {
+          e.preventDefault();
+          saveDataToStorage();
+        }
+      });
+    }
+
+    // ============ START ============
+    document.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>
