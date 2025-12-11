@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Stickerbook – Creator Setup</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/stickerbook.css">
+  <style>
+    html, body {
+      height: 100%;
+      overflow: hidden;
+      background: var(--color-canvas);
+    }
+
+    .creator-shell {
+      width: 100%;
+      height: 100vh;
+      height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      background: var(--color-canvas);
+      overflow: hidden;
+    }
+
+    /* ========== HEADER ========== */
+    .creator-header {
+      padding: 24px 20px 16px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+
+    .brand-title {
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--color-text-primary);
+      margin-bottom: 12px;
+    }
+
+    .creator-title {
+      font-family: var(--font-display);
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--color-text-primary);
+      margin-bottom: 6px;
+    }
+
+    .creator-subtitle {
+      font-size: 14px;
+      color: var(--color-text-muted);
+    }
+
+    /* ========== CONTENT ========== */
+    .creator-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 0 20px 140px;
+    }
+
+    .creator-content::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* ========== SECTIONS ========== */
+    .section {
+      margin-bottom: 28px;
+    }
+
+    .section-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+      margin-bottom: 12px;
+    }
+
+    /* ========== PROFILE IMAGE ========== */
+    .profile-upload {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .profile-preview {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: var(--color-canvas-subtle);
+      border: 2px dashed var(--color-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      cursor: pointer;
+      transition: border-color 0.15s ease;
+    }
+
+    .profile-preview:hover {
+      border-color: var(--color-purple);
+    }
+
+    .profile-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .profile-preview-placeholder {
+      font-size: 32px;
+      color: var(--color-text-muted);
+    }
+
+    .profile-upload-btn {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--color-turquoise);
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: var(--font-primary);
+    }
+
+    .profile-upload-btn:hover {
+      opacity: 0.8;
+    }
+
+    #profile-input {
+      display: none;
+    }
+
+    /* ========== INPUT FIELDS ========== */
+    .field {
+      margin-bottom: 16px;
+    }
+
+    .field-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--color-text-secondary);
+      margin-bottom: 6px;
+    }
+
+    .field-input {
+      width: 100%;
+      padding: 14px 16px;
+      background: var(--color-canvas-elevated);
+      border: 1.5px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      font-size: 15px;
+      font-family: var(--font-primary);
+      color: var(--color-text-primary);
+      transition: border-color 0.15s ease;
+    }
+
+    .field-input::placeholder {
+      color: var(--color-text-muted);
+    }
+
+    .field-input:focus {
+      outline: none;
+      border-color: var(--color-purple);
+    }
+
+    .field-textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    .field-hint {
+      font-size: 12px;
+      color: var(--color-text-muted);
+      margin-top: 4px;
+    }
+
+    /* ========== DOB ROW ========== */
+    .dob-row {
+      display: flex;
+      gap: 10px;
+    }
+
+    .dob-row .field-input {
+      text-align: center;
+    }
+
+    .dob-row .field-input:first-child,
+    .dob-row .field-input:nth-child(2) {
+      flex: 1;
+    }
+
+    .dob-row .field-input:last-child {
+      flex: 1.5;
+    }
+
+    /* ========== LOCATION ROW ========== */
+    .location-row {
+      display: flex;
+      gap: 10px;
+    }
+
+    .location-row .field-input:first-child {
+      flex: 2;
+    }
+
+    .location-row .field-input:nth-child(2) {
+      flex: 0.8;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    /* ========== PILLS ========== */
+    .pills-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .pill {
+      padding: 10px 16px;
+      background: var(--color-canvas-elevated);
+      border: 1.5px solid var(--color-border);
+      border-radius: var(--radius-pill);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--color-text-secondary);
+      cursor: pointer;
+      transition: all 0.15s ease;
+      font-family: var(--font-primary);
+    }
+
+    .pill:hover {
+      border-color: var(--color-purple);
+    }
+
+    .pill.selected {
+      background: var(--color-purple);
+      border-color: var(--color-purple);
+      color: white;
+    }
+
+    .pills-hint {
+      text-align: center;
+      font-size: 12px;
+      color: var(--color-text-muted);
+      margin-top: 10px;
+    }
+
+    /* ========== SOCIAL LINKS ========== */
+    .social-field {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .social-icon {
+      width: 40px;
+      height: 40px;
+      background: var(--color-canvas-subtle);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .social-field .field-input {
+      margin-bottom: 0;
+    }
+
+    /* ========== TERMS ========== */
+    .terms-section {
+      padding: 16px;
+      background: var(--color-canvas-subtle);
+      border-radius: var(--radius-lg);
+      margin-bottom: 16px;
+    }
+
+    .terms-checkbox-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .terms-checkbox {
+      width: 22px;
+      height: 22px;
+      margin-top: 2px;
+      flex-shrink: 0;
+      accent-color: var(--color-purple);
+    }
+
+    .terms-text {
+      font-size: 13px;
+      color: var(--color-text-secondary);
+      line-height: 1.5;
+    }
+
+    .terms-text a {
+      color: var(--color-turquoise);
+      text-decoration: none;
+    }
+
+    .terms-text a:hover {
+      text-decoration: underline;
+    }
+
+    /* ========== AGE NOTICE ========== */
+    .age-notice {
+      display: none;
+      padding: 14px 16px;
+      background: rgba(20, 184, 166, 0.1);
+      border: 1px solid var(--color-turquoise);
+      border-radius: var(--radius-lg);
+      margin-top: 12px;
+    }
+
+    .age-notice.visible {
+      display: block;
+    }
+
+    .age-notice-text {
+      font-size: 13px;
+      color: var(--color-turquoise);
+      line-height: 1.5;
+    }
+
+    /* ========== FOOTER ========== */
+    .creator-footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 16px 20px;
+      padding-bottom: max(20px, env(safe-area-inset-bottom));
+      background: linear-gradient(to top, var(--color-canvas) 80%, transparent);
+    }
+
+    .btn-continue {
+      width: 100%;
+      padding: 16px 20px;
+      background: var(--color-purple);
+      border: none;
+      border-radius: var(--radius-pill);
+      font-size: 15px;
+      font-weight: 700;
+      color: white;
+      cursor: pointer;
+      font-family: var(--font-primary);
+      transition: all 0.15s ease;
+    }
+
+    .btn-continue:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .btn-continue:not(:disabled):hover {
+      opacity: 0.9;
+    }
+
+    .btn-continue:not(:disabled):active {
+      transform: scale(0.98);
+    }
+
+    .field-error {
+      font-size: 12px;
+      color: #ef4444;
+      margin-top: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div class="creator-shell">
+    <!-- Header -->
+    <div class="creator-header">
+      <div class="brand-title">Stickerbook</div>
+      <div class="creator-title">Set up your creator profile</div>
+      <div class="creator-subtitle">Tell us about you and your art</div>
+    </div>
+
+    <!-- Content -->
+    <div class="creator-content">
+      
+      <!-- Profile Image -->
+      <div class="section">
+        <div class="profile-upload">
+          <div class="profile-preview" id="profile-preview">
+            <span class="profile-preview-placeholder">📷</span>
+          </div>
+          <button class="profile-upload-btn" id="profile-upload-btn">Upload profile photo</button>
+          <input type="file" id="profile-input" accept="image/*" />
+        </div>
+      </div>
+
+      <!-- Basic Info -->
+      <div class="section">
+        <div class="section-label">Basic Info</div>
+        
+        <div class="field">
+          <label class="field-label">Artist / Display Name</label>
+          <input type="text" class="field-input" id="display-name" placeholder="How should we show your name?" maxlength="30" />
+        </div>
+
+        <div class="field">
+          <label class="field-label">Date of Birth</label>
+          <div class="dob-row">
+            <input type="text" class="field-input" id="dob-month" placeholder="MM" maxlength="2" inputmode="numeric" />
+            <input type="text" class="field-input" id="dob-day" placeholder="DD" maxlength="2" inputmode="numeric" />
+            <input type="text" class="field-input" id="dob-year" placeholder="YYYY" maxlength="4" inputmode="numeric" />
+          </div>
+          <div class="age-notice" id="age-notice">
+            <div class="age-notice-text">🎨 Awesome! Creators under 18 can upload free stickers and build a following. Paid stickers unlock when you turn 18.</div>
+          </div>
+          <div class="field-error" id="dob-error"></div>
+        </div>
+
+        <div class="field">
+          <label class="field-label">Location</label>
+          <div class="location-row">
+            <input type="text" class="field-input" id="city" placeholder="City" />
+            <input type="text" class="field-input" id="state" placeholder="ST" maxlength="2" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="field-label">Bio</label>
+          <textarea class="field-input field-textarea" id="bio" placeholder="Tell people about yourself and your art..." maxlength="200"></textarea>
+          <div class="field-hint"><span id="bio-count">0</span>/200</div>
+        </div>
+      </div>
+
+      <!-- Categories -->
+      <div class="section">
+        <div class="section-label">What do you create?</div>
+        <div class="pills-container" id="category-pills"></div>
+        <div class="pills-hint">Choose up to 5 categories</div>
+      </div>
+
+      <!-- Styles -->
+      <div class="section">
+        <div class="section-label">Your style</div>
+        <div class="pills-container" id="style-pills"></div>
+        <div class="pills-hint">Choose up to 3 styles</div>
+      </div>
+
+      <!-- Social Links -->
+      <div class="section">
+        <div class="section-label">Social Links <span style="font-weight: 400; text-transform: none;">(optional)</span></div>
+        
+        <div class="social-field">
+          <div class="social-icon">📸</div>
+          <input type="text" class="field-input" id="social-instagram" placeholder="Instagram username" />
+        </div>
+        
+        <div class="social-field">
+          <div class="social-icon">🎨</div>
+          <input type="text" class="field-input" id="social-portfolio" placeholder="Portfolio or website URL" />
+        </div>
+        
+        <div class="social-field">
+          <div class="social-icon">🐦</div>
+          <input type="text" class="field-input" id="social-twitter" placeholder="X / Twitter username" />
+        </div>
+      </div>
+
+      <!-- Terms -->
+      <div class="section">
+        <div class="section-label">Creator Agreement</div>
+        <div class="terms-section">
+          <div class="terms-checkbox-row">
+            <input type="checkbox" class="terms-checkbox" id="terms-checkbox" />
+            <div class="terms-text">
+              I agree to the <a href="#">Creator Terms of Service</a> and confirm that all work I upload is my own original content or I have the rights to distribute it.
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="creator-footer">
+      <button class="btn-continue" id="btn-continue" disabled>Complete Setup</button>
+    </div>
+  </div>
+
+  <script>
+    // ============ DATA ============
+    const categories = [
+      "Music", "TV & Film", "Gaming", "Sports", "Food & Drink",
+      "Places & Travel", "Animals & Pets", "Nature & Outdoors",
+      "Art & Style", "Humor & Personality", "Community & Values"
+    ];
+
+    const styles = [
+      "Cartoon / Illustrated", "Minimalist / Clean", "Hand-drawn / Sketchy",
+      "Kawaii / Cute", "Retro / Vintage", "Realistic",
+      "Abstract / Artistic", "Bold / Graphic"
+    ];
+
+    // ============ STATE ============
+    let selectedCategories = new Set();
+    let selectedStyles = new Set();
+    let profileImage = null;
+    let isUnder18 = false;
+
+    // ============ DOM ============
+    const displayNameInput = document.getElementById('display-name');
+    const dobMonth = document.getElementById('dob-month');
+    const dobDay = document.getElementById('dob-day');
+    const dobYear = document.getElementById('dob-year');
+    const dobError = document.getElementById('dob-error');
+    const ageNotice = document.getElementById('age-notice');
+    const cityInput = document.getElementById('city');
+    const stateInput = document.getElementById('state');
+    const bioInput = document.getElementById('bio');
+    const bioCount = document.getElementById('bio-count');
+    const categoryPillsEl = document.getElementById('category-pills');
+    const stylePillsEl = document.getElementById('style-pills');
+    const profilePreview = document.getElementById('profile-preview');
+    const profileInput = document.getElementById('profile-input');
+    const profileUploadBtn = document.getElementById('profile-upload-btn');
+    const termsCheckbox = document.getElementById('terms-checkbox');
+    const continueBtn = document.getElementById('btn-continue');
+
+    // ============ INIT ============
+    function init() {
+      renderCategoryPills();
+      renderStylePills();
+      setupListeners();
+    }
+
+    // ============ RENDER ============
+    function renderCategoryPills() {
+      categoryPillsEl.innerHTML = categories.map(cat => `
+        <div class="pill ${selectedCategories.has(cat) ? 'selected' : ''}" data-value="${cat}" data-type="category">
+          ${cat}
+        </div>
+      `).join('');
+    }
+
+    function renderStylePills() {
+      stylePillsEl.innerHTML = styles.map(style => `
+        <div class="pill ${selectedStyles.has(style) ? 'selected' : ''}" data-value="${style}" data-type="style">
+          ${style}
+        </div>
+      `).join('');
+    }
+
+    // ============ VALIDATION ============
+    function calculateAge(month, day, year) {
+      const today = new Date();
+      const birthDate = new Date(year, month - 1, day);
+      let age = today.getFullYear() - birthDate.getFullYear();
+      const monthDiff = today.getMonth() - birthDate.getMonth();
+      
+      if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+      }
+      
+      return age;
+    }
+
+    function validateDOB() {
+      const m = parseInt(dobMonth.value, 10);
+      const d = parseInt(dobDay.value, 10);
+      const y = parseInt(dobYear.value, 10);
+
+      if (!dobMonth.value || !dobDay.value || !dobYear.value) {
+        return { valid: false, reason: 'incomplete' };
+      }
+
+      if (isNaN(m) || isNaN(d) || isNaN(y)) return { valid: false, reason: 'invalid' };
+      if (m < 1 || m > 12) return { valid: false, reason: 'invalid' };
+      if (d < 1 || d > 31) return { valid: false, reason: 'invalid' };
+      if (y < 1900 || y > new Date().getFullYear()) return { valid: false, reason: 'invalid' };
+
+      const testDate = new Date(y, m - 1, d);
+      if (testDate.getMonth() !== m - 1) return { valid: false, reason: 'invalid' };
+
+      const age = calculateAge(m, d, y);
+      if (age < 13) return { valid: false, reason: 'underage' };
+
+      return { valid: true, age };
+    }
+
+    function validateForm() {
+      const hasName = displayNameInput.value.trim().length > 0;
+      const dobResult = validateDOB();
+      const hasLocation = cityInput.value.trim().length > 0 && stateInput.value.trim().length > 0;
+      const hasCategories = selectedCategories.size > 0;
+      const hasStyles = selectedStyles.size > 0;
+      const hasTerms = termsCheckbox.checked;
+
+      continueBtn.disabled = !(hasName && dobResult.valid && hasLocation && hasCategories && hasStyles && hasTerms);
+    }
+
+    // ============ LISTENERS ============
+    function setupListeners() {
+      // Profile image
+      profilePreview.addEventListener('click', () => profileInput.click());
+      profileUploadBtn.addEventListener('click', () => profileInput.click());
+      
+      profileInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+          profileImage = file;
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            profilePreview.innerHTML = `<img src="${e.target.result}" alt="Profile" />`;
+            profileUploadBtn.textContent = 'Change photo';
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+
+      // DOB auto-tab
+      dobMonth.addEventListener('input', (e) => {
+        e.target.value = e.target.value.replace(/\D/g, '');
+        if (e.target.value.length >= 2) dobDay.focus();
+        checkAge();
+        validateForm();
+      });
+
+      dobDay.addEventListener('input', (e) => {
+        e.target.value = e.target.value.replace(/\D/g, '');
+        if (e.target.value.length >= 2) dobYear.focus();
+        checkAge();
+        validateForm();
+      });
+
+      dobYear.addEventListener('input', (e) => {
+        e.target.value = e.target.value.replace(/\D/g, '');
+        checkAge();
+        validateForm();
+      });
+
+      // State uppercase
+      stateInput.addEventListener('input', (e) => {
+        e.target.value = e.target.value.toUpperCase().replace(/[^A-Z]/g, '');
+        validateForm();
+      });
+
+      // Bio counter
+      bioInput.addEventListener('input', () => {
+        bioCount.textContent = bioInput.value.length;
+      });
+
+      // Other fields
+      displayNameInput.addEventListener('input', validateForm);
+      cityInput.addEventListener('input', validateForm);
+      termsCheckbox.addEventListener('change', validateForm);
+
+      // Category pills
+      categoryPillsEl.addEventListener('click', (e) => {
+        const pill = e.target.closest('.pill');
+        if (!pill) return;
+
+        const value = pill.dataset.value;
+
+        if (selectedCategories.has(value)) {
+          selectedCategories.delete(value);
+          pill.classList.remove('selected');
+        } else if (selectedCategories.size < 5) {
+          selectedCategories.add(value);
+          pill.classList.add('selected');
+        }
+        validateForm();
+      });
+
+      // Style pills
+      stylePillsEl.addEventListener('click', (e) => {
+        const pill = e.target.closest('.pill');
+        if (!pill) return;
+
+        const value = pill.dataset.value;
+
+        if (selectedStyles.has(value)) {
+          selectedStyles.delete(value);
+          pill.classList.remove('selected');
+        } else if (selectedStyles.size < 3) {
+          selectedStyles.add(value);
+          pill.classList.add('selected');
+        }
+        validateForm();
+      });
+
+      // Continue
+      continueBtn.addEventListener('click', saveAndContinue);
+    }
+
+    function checkAge() {
+      const dobResult = validateDOB();
+      
+      if (dobResult.valid) {
+        dobError.textContent = '';
+        if (dobResult.age < 18) {
+          isUnder18 = true;
+          ageNotice.classList.add('visible');
+        } else {
+          isUnder18 = false;
+          ageNotice.classList.remove('visible');
+        }
+      } else if (dobResult.reason === 'underage') {
+        dobError.textContent = 'You must be at least 13 to create on Stickerbook.';
+        ageNotice.classList.remove('visible');
+      } else if (dobResult.reason === 'invalid') {
+        dobError.textContent = 'Please enter a valid date.';
+        ageNotice.classList.remove('visible');
+      } else {
+        dobError.textContent = '';
+        ageNotice.classList.remove('visible');
+      }
+    }
+
+    // ============ SAVE & NAVIGATE ============
+    function saveAndContinue() {
+      const creatorData = {
+        displayName: displayNameInput.value.trim(),
+        dob: {
+          month: dobMonth.value,
+          day: dobDay.value,
+          year: dobYear.value
+        },
+        isUnder18,
+        location: {
+          city: cityInput.value.trim(),
+          state: stateInput.value.trim().toUpperCase()
+        },
+        bio: bioInput.value.trim(),
+        categories: [...selectedCategories],
+        styles: [...selectedStyles],
+        social: {
+          instagram: document.getElementById('social-instagram').value.trim(),
+          portfolio: document.getElementById('social-portfolio').value.trim(),
+          twitter: document.getElementById('social-twitter').value.trim()
+        }
+      };
+
+      localStorage.setItem('stickerbook_creator', JSON.stringify(creatorData));
+      
+      // Navigate to creator dashboard (or stickerbook for now)
+      window.location.href = 'stickerbook.html';
+    }
+
+    // ============ START ============
+    document.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>
