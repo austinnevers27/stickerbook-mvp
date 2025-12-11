@@ -3076,7 +3076,8 @@
       }, { passive: false });
 
       el.addEventListener('touchmove', (e) => {
-        e.preventDefault();
+        // Only handle if we're in an active touch mode
+        if (!touchMode && !holdTimer) return;
 
         // Check if we should cancel the hold (user is swiping)
         if (holdTimer && !isSelected && e.touches.length === 1) {
@@ -3093,6 +3094,7 @@
         }
 
         if (touchMode === 'pan' && e.touches.length === 1) {
+          e.preventDefault();
           const t = e.touches[0];
           const dx = t.clientX - startTouchX;
           const dy = t.clientY - startTouchY;
@@ -3110,6 +3112,7 @@
           checkDropZones(t.clientX, t.clientY);
 
         } else if (touchMode === 'transform' && e.touches.length >= 2) {
+          e.preventDefault();
           const t1 = e.touches[0];
           const t2 = e.touches[1];
           const dx = t2.clientX - t1.clientX;
