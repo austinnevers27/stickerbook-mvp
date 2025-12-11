@@ -237,18 +237,24 @@
     }
 
     .toolbar-pill {
-      padding: 10px 16px;
+      padding: 8px 14px;
       border: none;
       border-radius: var(--radius-pill);
-      background: linear-gradient(135deg, #7c3aed 0%, #14b8a6 100%);
+      background: #7c3aed;
       color: white;
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 600;
       letter-spacing: 0.02em;
       cursor: pointer;
       box-shadow: 0 2px 8px rgba(124, 58, 237, 0.3);
       transition: transform 0.12s ease, box-shadow 0.15s ease;
       font-family: var(--font-primary);
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      line-height: 1.2;
     }
 
     .toolbar-pill:hover {
@@ -259,6 +265,20 @@
     .toolbar-pill:active {
       transform: translateY(0);
       box-shadow: 0 2px 6px rgba(124, 58, 237, 0.25);
+    }
+
+    /* Shop button - turquoise with purple frame to draw attention */
+    #btn-shop {
+      background: #14b8a6;
+      box-shadow: 0 0 0 2px #7c3aed, 0 2px 8px rgba(20, 184, 166, 0.3);
+    }
+
+    #btn-shop:hover {
+      box-shadow: 0 0 0 2px #7c3aed, 0 4px 12px rgba(20, 184, 166, 0.4);
+    }
+
+    #btn-shop:active {
+      box-shadow: 0 0 0 2px #7c3aed, 0 2px 6px rgba(20, 184, 166, 0.25);
     }
 
     /* === DRAG MODE STATES === */
