@@ -1733,9 +1733,9 @@
     // ============ CONSTANTS ============
     const MAX_PAGES_FREE = 8;
     const MAX_PAGES_TOTAL = 20;
-    const MAX_STICKERS_PER_PAGE = 15;
+    const MAX_STICKERS_PER_PAGE = 18;
     const DRAWER_CAPACITY_MULTIPLIER = 1.25;
-    const MIN_SCALE = 0.5;
+    const MIN_SCALE = 0.8;
     const MAX_SCALE = 3;
     const HIT_TEST_ALPHA_THRESHOLD = 20; // Pixel must have alpha > this to count as hit
 
@@ -2898,7 +2898,7 @@
       const pageHeight = pageRect.height;
       const stickerWidth = stickerData.width || 80;
       const stickerHeight = stickerData.height || 80;
-      const minVisible = 0.25; // 25% must stay visible
+      const minVisible = 0.5; // 50% must stay visible
 
       const minX = -(stickerWidth * (1 - minVisible));
       const maxX = pageWidth - (stickerWidth * minVisible);
@@ -3556,7 +3556,7 @@
     let longPressTimer = null;
     let drawerViewMode = 'stickers'; // 'stickers' | 'archived'
     const LONG_PRESS_DURATION = 300;
-    const STICKER_PLACE_SIZE = 120;
+    const STICKER_PLACE_SIZE = 100;
 
     function openDrawer() {
       drawerSelectedIds.clear();
