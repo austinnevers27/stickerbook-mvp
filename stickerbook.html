@@ -1250,15 +1250,34 @@
       border: 1px solid rgba(0,0,0,0.15);
     }
 
-    /* Stripe direction icon inside stripes swatch */
-    .stripe-direction-icon {
-      width: 18px;
-      height: 14px;
+    /* Stripe direction circular preview button */
+    .stripe-direction-btn {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 1px solid var(--color-border);
+      background: rgba(255,255,255,0.95);
+      cursor: pointer;
+      padding: 0;
+      overflow: hidden;
+      display: none;
+      align-items: center;
+      justify-content: center;
       flex-shrink: 0;
+      transition: border-color 0.15s ease, transform 0.1s ease;
     }
     
-    .bg-swatch-stripes {
-      gap: 6px;
+    .stripe-direction-btn:hover {
+      border-color: var(--color-border-strong);
+    }
+    
+    .stripe-direction-btn:active {
+      transform: scale(0.95);
+    }
+    
+    .stripe-preview {
+      width: 100%;
+      height: 100%;
     }
 
     .bg-swatch.active .bg-swatch-color {
@@ -1671,21 +1690,28 @@
             <div class="bg-swatch-color" id="swatch-base-color"></div>
             <div class="bg-swatch-label">Base</div>
           </button>
-          <!-- Stripes swatch with cycling direction icon -->
-          <button class="bg-swatch bg-swatch-stripes" id="swatch-stripes" data-target="pattern">
-            <div class="bg-swatch-color" id="swatch-stripes-color"></div>
-            <svg class="stripe-direction-icon" id="stripe-icon-diagonal" viewBox="0 0 18 12" fill="none">
-              <line x1="2" y1="12" x2="14" y2="0" stroke="var(--color-turquoise)" stroke-width="2.5" stroke-linecap="round"/>
-              <line x1="6" y1="12" x2="18" y2="0" stroke="var(--color-purple)" stroke-width="2.5" stroke-linecap="round"/>
+          <!-- Stripes direction preview circle (cycles on tap) -->
+          <button class="stripe-direction-btn" id="stripe-direction-btn">
+            <svg class="stripe-preview" id="stripe-preview-diagonal" viewBox="0 0 24 24" fill="none">
+              <line x1="0" y1="24" x2="24" y2="0" stroke="var(--color-turquoise)" stroke-width="3"/>
+              <line x1="8" y1="24" x2="32" y2="0" stroke="var(--color-purple)" stroke-width="3"/>
+              <line x1="-8" y1="24" x2="16" y2="0" stroke="var(--color-turquoise)" stroke-width="3"/>
             </svg>
-            <svg class="stripe-direction-icon" id="stripe-icon-horizontal" viewBox="0 0 18 12" fill="none" style="display:none;">
-              <line x1="0" y1="3" x2="18" y2="3" stroke="var(--color-turquoise)" stroke-width="2.5" stroke-linecap="round"/>
-              <line x1="0" y1="9" x2="18" y2="9" stroke="var(--color-purple)" stroke-width="2.5" stroke-linecap="round"/>
+            <svg class="stripe-preview" id="stripe-preview-horizontal" viewBox="0 0 24 24" fill="none" style="display:none;">
+              <line x1="0" y1="6" x2="24" y2="6" stroke="var(--color-turquoise)" stroke-width="3"/>
+              <line x1="0" y1="12" x2="24" y2="12" stroke="var(--color-purple)" stroke-width="3"/>
+              <line x1="0" y1="18" x2="24" y2="18" stroke="var(--color-turquoise)" stroke-width="3"/>
             </svg>
-            <svg class="stripe-direction-icon" id="stripe-icon-vertical" viewBox="0 0 12 14" fill="none" style="display:none;">
-              <line x1="3" y1="0" x2="3" y2="14" stroke="var(--color-turquoise)" stroke-width="2.5" stroke-linecap="round"/>
-              <line x1="9" y1="0" x2="9" y2="14" stroke="var(--color-purple)" stroke-width="2.5" stroke-linecap="round"/>
+            <svg class="stripe-preview" id="stripe-preview-vertical" viewBox="0 0 24 24" fill="none" style="display:none;">
+              <line x1="6" y1="0" x2="6" y2="24" stroke="var(--color-turquoise)" stroke-width="3"/>
+              <line x1="12" y1="0" x2="12" y2="24" stroke="var(--color-purple)" stroke-width="3"/>
+              <line x1="18" y1="0" x2="18" y2="24" stroke="var(--color-turquoise)" stroke-width="3"/>
             </svg>
+          </button>
+          <!-- Stripes color swatch (shown for stripes pattern) -->
+          <button class="bg-swatch bg-swatch-stripe-color" id="swatch-stripe" data-target="pattern" style="display:none;">
+            <div class="bg-swatch-color" id="swatch-stripe-color"></div>
+            <div class="bg-swatch-label">Stripe</div>
           </button>
           <!-- Checkered/Dots swatch (shown for those patterns) -->
           <button class="bg-swatch bg-swatch-other" id="swatch-pattern" data-target="pattern" style="display:none;">
@@ -1911,15 +1937,16 @@
     const bgControlsRow = document.getElementById('bg-controls-row');
     const bgSwatchRow = document.getElementById('bg-swatch-row');
     const bgSwatchBase = document.getElementById('swatch-base');
-    const bgSwatchStripes = document.getElementById('swatch-stripes');
-    const bgSwatchStripesColor = document.getElementById('swatch-stripes-color');
+    const stripeDirectionBtn = document.getElementById('stripe-direction-btn');
+    const stripePreviewDiagonal = document.getElementById('stripe-preview-diagonal');
+    const stripePreviewHorizontal = document.getElementById('stripe-preview-horizontal');
+    const stripePreviewVertical = document.getElementById('stripe-preview-vertical');
+    const bgSwatchStripe = document.getElementById('swatch-stripe');
+    const bgSwatchStripeColor = document.getElementById('swatch-stripe-color');
     const bgSwatchPattern = document.getElementById('swatch-pattern');
     const bgSwatchBaseColor = document.getElementById('swatch-base-color');
     const bgSwatchPatternColor = document.getElementById('swatch-pattern-color');
     const bgSwatchPatternLabel = document.getElementById('swatch-pattern-label');
-    const stripeIconDiagonal = document.getElementById('stripe-icon-diagonal');
-    const stripeIconHorizontal = document.getElementById('stripe-icon-horizontal');
-    const stripeIconVertical = document.getElementById('stripe-icon-vertical');
     const bgColorGrid = document.getElementById('bg-color-grid');
     const bgDefaultView = document.getElementById('bg-default-view');
     const bgMyView = document.getElementById('bg-my-view');
@@ -2034,7 +2061,7 @@
       bgCheckeredFilter.classList.remove('visible');
       bgDotsFilter.classList.remove('visible');
 
-      // Show appropriate subfilter (checkered/dots only - stripes uses icon)
+      // Show appropriate subfilter (checkered/dots only - stripes uses circular button)
       if (bgCurrentPattern === 'checkered') {
         bgCheckeredFilter.classList.add('visible');
         bgCheckeredFilter.querySelectorAll('.bg-subfilter-btn').forEach(btn => {
@@ -2053,20 +2080,25 @@
       } else {
         bgControlsRow.classList.add('visible');
 
-        // Show stripes swatch OR pattern swatch based on current pattern
+        // Show stripe direction button + stripe swatch OR pattern swatch based on current pattern
         if (bgCurrentPattern === 'stripes') {
-          bgSwatchStripes.style.display = 'inline-flex';
+          stripeDirectionBtn.style.display = 'flex';
+          bgSwatchStripe.style.display = 'inline-flex';
           bgSwatchPattern.style.display = 'none';
           
-          // Update stripe direction icon
-          stripeIconDiagonal.style.display = bgSubfilter.stripes === 'diagonal' ? 'block' : 'none';
-          stripeIconHorizontal.style.display = bgSubfilter.stripes === 'horizontal' ? 'block' : 'none';
-          stripeIconVertical.style.display = bgSubfilter.stripes === 'vertical' ? 'block' : 'none';
+          // Update stripe direction preview
+          stripePreviewDiagonal.style.display = bgSubfilter.stripes === 'diagonal' ? 'block' : 'none';
+          stripePreviewHorizontal.style.display = bgSubfilter.stripes === 'horizontal' ? 'block' : 'none';
+          stripePreviewVertical.style.display = bgSubfilter.stripes === 'vertical' ? 'block' : 'none';
           
-          // Update stripes swatch color
-          bgSwatchStripesColor.style.backgroundColor = bgSelectedPatternColor || '#ffffff';
+          // Update stripe color swatch
+          bgSwatchStripeColor.style.backgroundColor = bgSelectedPatternColor || '#ffffff';
+          
+          // Update active state for stripe swatch
+          bgSwatchStripe.classList.toggle('active', bgEditingTarget === 'pattern');
         } else {
-          bgSwatchStripes.style.display = 'none';
+          stripeDirectionBtn.style.display = 'none';
+          bgSwatchStripe.style.display = 'none';
           bgSwatchPattern.style.display = 'inline-flex';
           
           // Update swatch label
@@ -2078,15 +2110,16 @@
           
           // Update pattern swatch color
           bgSwatchPatternColor.style.backgroundColor = bgSelectedPatternColor || '#ffffff';
+          
+          // Update active state for pattern swatch
+          bgSwatchPattern.classList.toggle('active', bgEditingTarget === 'pattern');
         }
 
         // Update base swatch color
         bgSwatchBaseColor.style.backgroundColor = bgSelectedBaseColor || '#e5e7eb';
 
-        // Update active swatch
+        // Update active swatch for base
         bgSwatchBase.classList.toggle('active', bgEditingTarget === 'base');
-        bgSwatchStripes.classList.toggle('active', bgEditingTarget === 'pattern' && bgCurrentPattern === 'stripes');
-        bgSwatchPattern.classList.toggle('active', bgEditingTarget === 'pattern' && bgCurrentPattern !== 'stripes');
       }
     }
 
@@ -2237,18 +2270,20 @@
         renderBgColorGrid();
       });
 
-      // Stripes swatch - cycles direction on tap, also sets editing target
-      bgSwatchStripes.addEventListener('click', () => {
-        // If already editing pattern, cycle direction
-        if (bgEditingTarget === 'pattern') {
-          const directions = ['diagonal', 'horizontal', 'vertical'];
-          const currentIndex = directions.indexOf(bgSubfilter.stripes);
-          const nextIndex = (currentIndex + 1) % directions.length;
-          bgSubfilter.stripes = directions[nextIndex];
-        }
+      // Stripe color swatch - sets editing target to pattern
+      bgSwatchStripe.addEventListener('click', () => {
         bgEditingTarget = 'pattern';
         updateBgPanelUI();
         renderBgColorGrid();
+      });
+
+      // Stripe direction button - cycles direction on tap
+      stripeDirectionBtn.addEventListener('click', () => {
+        const directions = ['diagonal', 'horizontal', 'vertical'];
+        const currentIndex = directions.indexOf(bgSubfilter.stripes);
+        const nextIndex = (currentIndex + 1) % directions.length;
+        bgSubfilter.stripes = directions[nextIndex];
+        updateBgPanelUI();
         applyBackgroundToPage();
       });
 
