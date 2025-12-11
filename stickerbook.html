@@ -1148,7 +1148,7 @@
     /* Sub-filter buttons - now inside controls row */
     .bg-subfilter {
       display: none;
-      gap: 5px;
+      gap: 4px;
       flex-shrink: 0;
     }
 
@@ -1157,14 +1157,14 @@
     }
 
     .bg-subfilter-btn {
-      padding: 5px 8px;
+      padding: 4px 6px;
       border: 1px solid var(--color-border);
       border-radius: var(--radius-pill);
       background: transparent;
       color: var(--color-text-subtle);
       font-size: 9px;
-      font-weight: 500;
-      letter-spacing: 0.04em;
+      font-weight: 600;
+      letter-spacing: 0.02em;
       text-align: center;
       cursor: pointer;
       transition: all 0.15s ease;
@@ -1182,13 +1182,13 @@
       color: var(--color-text-inverse);
     }
 
-    /* Combined controls row (swatches + divider + size/direction buttons) */
+    /* Combined controls row (swatches + size/direction buttons) */
     .bg-controls-row {
       display: none;
       align-items: center;
       justify-content: center;
-      gap: 10px;
-      padding: 0 16px 12px;
+      gap: 8px;
+      padding: 0 10px 12px;
       flex-shrink: 0;
     }
 
@@ -1196,31 +1196,23 @@
       display: flex;
     }
 
-    .bg-controls-divider {
-      width: 2px;
-      height: 28px;
-      border-radius: 1px;
-      background: linear-gradient(180deg, var(--color-turquoise) 0%, var(--color-purple) 100%);
-      flex-shrink: 0;
-    }
-
     /* Pattern swatch selector - now inside controls row */
     .bg-swatch-row {
       display: flex;
-      gap: 5px;
+      gap: 4px;
       flex-shrink: 0;
     }
 
     .bg-swatch {
       flex: none;
-      padding: 5px 10px;
+      padding: 4px 6px;
       border: 1px solid var(--color-border);
       border-radius: var(--radius-pill);
       background: transparent;
       color: var(--color-text-subtle);
       font-size: 9px;
-      font-weight: 500;
-      letter-spacing: 0.04em;
+      font-weight: 600;
+      letter-spacing: 0.02em;
       text-transform: uppercase;
       text-align: center;
       cursor: pointer;
@@ -1228,7 +1220,7 @@
       font-family: var(--font-primary);
       display: inline-flex;
       align-items: center;
-      gap: 5px;
+      gap: 4px;
     }
 
     .bg-swatch:hover {
@@ -1243,8 +1235,8 @@
     }
 
     .bg-swatch-color {
-      width: 10px;
-      height: 10px;
+      width: 8px;
+      height: 8px;
       border-radius: 2px;
       flex-shrink: 0;
       border: 1px solid rgba(0,0,0,0.15);
@@ -1926,6 +1918,8 @@
           const stripeSize = '10px';
           if (subfilter === 'diagonal') {
             return `background: repeating-linear-gradient(135deg, ${base}, ${base} ${stripeSize}, ${pat} ${stripeSize}, ${pat} calc(${stripeSize} * 2));`;
+          } else if (subfilter === 'diagonal2') {
+            return `background: repeating-linear-gradient(45deg, ${base}, ${base} ${stripeSize}, ${pat} ${stripeSize}, ${pat} calc(${stripeSize} * 2));`;
           } else if (subfilter === 'horizontal') {
             return `background: repeating-linear-gradient(0deg, ${base}, ${base} ${stripeSize}, ${pat} ${stripeSize}, ${pat} calc(${stripeSize} * 2));`;
           } else if (subfilter === 'vertical') {
@@ -2190,7 +2184,7 @@
 
       // Orientation button - cycles stripe direction on tap
       stripesOrientationBtn.addEventListener('click', () => {
-        const directions = ['diagonal', 'horizontal', 'vertical'];
+        const directions = ['diagonal', 'diagonal2', 'horizontal', 'vertical'];
         const currentIndex = directions.indexOf(bgSubfilter.stripes);
         const nextIndex = (currentIndex + 1) % directions.length;
         bgSubfilter.stripes = directions[nextIndex];
