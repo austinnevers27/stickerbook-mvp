@@ -251,6 +251,37 @@
       margin-top: 10px;
     }
 
+    /* ========== OTHER FIELD ========== */
+    .other-field {
+      margin-top: 12px;
+    }
+
+    .other-field.hidden {
+      display: none;
+    }
+
+    /* ========== ADD ANOTHER BUTTON ========== */
+    .add-another-btn {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      margin-top: 8px;
+      background: none;
+      border: 1.5px dashed var(--color-border);
+      border-radius: var(--radius-lg);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--color-turquoise);
+      cursor: pointer;
+      font-family: var(--font-primary);
+      transition: all 0.15s ease;
+    }
+
+    .add-another-btn:hover {
+      border-color: var(--color-turquoise);
+      background: rgba(20, 184, 166, 0.05);
+    }
+
     /* ========== SOCIAL LINKS ========== */
     .social-field {
       display: flex;
@@ -437,38 +468,52 @@
         </div>
       </div>
 
-      <!-- Categories -->
-      <div class="section">
-        <div class="section-label">What do you create?</div>
-        <div class="pills-container" id="category-pills"></div>
-        <div class="pills-hint">Choose up to 5 categories</div>
-      </div>
-
       <!-- Styles -->
       <div class="section">
-        <div class="section-label">Your style</div>
+        <div class="section-label">How would you describe your art style?</div>
         <div class="pills-container" id="style-pills"></div>
+        <div class="other-field hidden" id="style-other-field">
+          <input type="text" class="field-input" id="style-other-input" placeholder="Describe your style..." maxlength="50" />
+        </div>
         <div class="pills-hint">Choose up to 3 styles</div>
+      </div>
+
+      <!-- Categories / Topics -->
+      <div class="section">
+        <div class="section-label">What topics will your stickers feature?</div>
+        <div class="pills-container" id="category-pills"></div>
+        <div class="other-field hidden" id="category-other-field">
+          <input type="text" class="field-input" id="category-other-input" placeholder="What other topics?" maxlength="50" />
+        </div>
+        <div class="pills-hint">Choose up to 5 topics</div>
+      </div>
+
+      <!-- Contact Email -->
+      <div class="section">
+        <div class="section-label">Contact Email</div>
+        <div class="field">
+          <input type="email" class="field-input" id="contact-email" placeholder="your@email.com" />
+          <div class="field-hint">We'll use this to reach you about your creator account</div>
+        </div>
       </div>
 
       <!-- Social Links -->
       <div class="section">
-        <div class="section-label">Social Links <span style="font-weight: 400; text-transform: none;">(optional)</span></div>
+        <div class="section-label">Links <span style="font-weight: 400; text-transform: none;">(optional)</span></div>
         
         <div class="social-field">
-          <div class="social-icon">📸</div>
-          <input type="text" class="field-input" id="social-instagram" placeholder="Instagram username" />
-        </div>
-        
-        <div class="social-field">
-          <div class="social-icon">🎨</div>
+          <div class="social-icon">🌐</div>
           <input type="text" class="field-input" id="social-portfolio" placeholder="Portfolio or website URL" />
         </div>
         
-        <div class="social-field">
-          <div class="social-icon">🐦</div>
-          <input type="text" class="field-input" id="social-twitter" placeholder="X / Twitter username" />
+        <div id="social-links-container">
+          <div class="social-field social-link-row">
+            <div class="social-icon">🔗</div>
+            <input type="text" class="field-input social-link-input" placeholder="Social media link (any platform)" />
+          </div>
         </div>
+        
+        <button class="add-another-btn" id="add-social-btn">+ Add another link</button>
       </div>
 
       <!-- Terms -->
@@ -497,13 +542,13 @@
     const categories = [
       "Music", "TV & Film", "Gaming", "Sports", "Food & Drink",
       "Places & Travel", "Animals & Pets", "Nature & Outdoors",
-      "Art & Style", "Humor & Personality", "Community & Values"
+      "Art & Style", "Humor & Personality", "Community & Values", "Other"
     ];
 
     const styles = [
       "Cartoon / Illustrated", "Minimalist / Clean", "Hand-drawn / Sketchy",
       "Kawaii / Cute", "Retro / Vintage", "Realistic",
-      "Abstract / Artistic", "Bold / Graphic"
+      "Abstract / Artistic", "Bold / Graphic", "Other"
     ];
 
     // ============ STATE ============
@@ -525,17 +570,32 @@
     const bioCount = document.getElementById('bio-count');
     const categoryPillsEl = document.getElementById('category-pills');
     const stylePillsEl = document.getElementById('style-pills');
+    const categoryOtherField = document.getElementById('category-other-field');
+    const categoryOtherInput = document.getElementById('category-other-input');
+    const styleOtherField = document.getElementById('style-other-field');
+    const styleOtherInput = document.getElementById('style-other-input');
     const profilePreview = document.getElementById('profile-preview');
     const profileInput = document.getElementById('profile-input');
     const profileUploadBtn = document.getElementById('profile-upload-btn');
+    const contactEmailInput = document.getElementById('contact-email');
+    const socialLinksContainer = document.getElementById('social-links-container');
+    const addSocialBtn = document.getElementById('add-social-btn');
     const termsCheckbox = document.getElementById('terms-checkbox');
     const continueBtn = document.getElementById('btn-continue');
 
     // ============ INIT ============
     function init() {
-      renderCategoryPills();
       renderStylePills();
+      renderCategoryPills();
       setupListeners();
+      
+      // Pre-populate email from account creation
+      try {
+        const userData = JSON.parse(localStorage.getItem('stickerbook_user') || '{}');
+        if (userData.email) {
+          contactEmailInput.value = userData.email;
+        }
+      } catch (e) {}
     }
 
     // ============ RENDER ============
@@ -598,9 +658,10 @@
       const hasLocation = cityInput.value.trim().length > 0 && stateInput.value.trim().length > 0;
       const hasCategories = selectedCategories.size > 0;
       const hasStyles = selectedStyles.size > 0;
+      const hasEmail = contactEmailInput.value.trim().length > 0 && contactEmailInput.value.includes('@');
       const hasTerms = termsCheckbox.checked;
 
-      continueBtn.disabled = !(hasName && dobResult.valid && hasLocation && hasCategories && hasStyles && hasTerms);
+      continueBtn.disabled = !(hasName && dobResult.valid && hasLocation && hasCategories && hasStyles && hasEmail && hasTerms);
     }
 
     // ============ LISTENERS ============
@@ -669,9 +730,16 @@
         if (selectedCategories.has(value)) {
           selectedCategories.delete(value);
           pill.classList.remove('selected');
+          if (value === 'Other') {
+            categoryOtherField.classList.add('hidden');
+          }
         } else if (selectedCategories.size < 5) {
           selectedCategories.add(value);
           pill.classList.add('selected');
+          if (value === 'Other') {
+            categoryOtherField.classList.remove('hidden');
+            categoryOtherInput.focus();
+          }
         }
         validateForm();
       });
@@ -686,12 +754,33 @@
         if (selectedStyles.has(value)) {
           selectedStyles.delete(value);
           pill.classList.remove('selected');
+          if (value === 'Other') {
+            styleOtherField.classList.add('hidden');
+          }
         } else if (selectedStyles.size < 3) {
           selectedStyles.add(value);
           pill.classList.add('selected');
+          if (value === 'Other') {
+            styleOtherField.classList.remove('hidden');
+            styleOtherInput.focus();
+          }
         }
         validateForm();
       });
+
+      // Add social link
+      addSocialBtn.addEventListener('click', () => {
+        const newField = document.createElement('div');
+        newField.className = 'social-field social-link-row';
+        newField.innerHTML = `
+          <div class="social-icon">🔗</div>
+          <input type="text" class="field-input social-link-input" placeholder="Social media link (any platform)" />
+        `;
+        socialLinksContainer.appendChild(newField);
+      });
+
+      // Contact email
+      contactEmailInput.addEventListener('input', validateForm);
 
       // Continue
       continueBtn.addEventListener('click', saveAndContinue);
@@ -723,6 +812,16 @@
 
     // ============ SAVE & NAVIGATE ============
     function saveAndContinue() {
+      // Collect all social links
+      const socialLinks = [];
+      const portfolio = document.getElementById('social-portfolio').value.trim();
+      if (portfolio) socialLinks.push({ type: 'portfolio', url: portfolio });
+      
+      document.querySelectorAll('.social-link-input').forEach(input => {
+        const url = input.value.trim();
+        if (url) socialLinks.push({ type: 'social', url: url });
+      });
+
       const creatorData = {
         displayName: displayNameInput.value.trim(),
         dob: {
@@ -736,13 +835,12 @@
           state: stateInput.value.trim().toUpperCase()
         },
         bio: bioInput.value.trim(),
-        categories: [...selectedCategories],
+        contactEmail: contactEmailInput.value.trim(),
         styles: [...selectedStyles],
-        social: {
-          instagram: document.getElementById('social-instagram').value.trim(),
-          portfolio: document.getElementById('social-portfolio').value.trim(),
-          twitter: document.getElementById('social-twitter').value.trim()
-        }
+        styleOther: selectedStyles.has('Other') ? styleOtherInput.value.trim() : null,
+        categories: [...selectedCategories],
+        categoryOther: selectedCategories.has('Other') ? categoryOtherInput.value.trim() : null,
+        socialLinks
       };
 
       localStorage.setItem('stickerbook_creator', JSON.stringify(creatorData));
