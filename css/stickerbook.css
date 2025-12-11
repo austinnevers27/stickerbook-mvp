@@ -1291,10 +1291,10 @@ body.layout-contained .overview-rows {
   border: 1px solid var(--color-border);
   border-radius: var(--radius-pill);
   background: transparent;
-  color: var(--color-text-subtle);
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.03em;
+  color: var(--color-text-secondary);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
   text-align: center;
   cursor: pointer;
   transition: all 0.15s ease;
@@ -1431,11 +1431,11 @@ body.layout-contained .overview-rows {
 }
 
 .bg-swatch-label {
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
-  color: var(--color-text-muted);
+  color: var(--color-text-secondary);
 }
 
 body.layout-contained .bg-picker-section {
