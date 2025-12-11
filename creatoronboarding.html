@@ -48,11 +48,6 @@
       margin-bottom: 6px;
     }
 
-    .creator-subtitle {
-      font-size: 14px;
-      color: var(--color-text-muted);
-    }
-
     /* ========== CONTENT ========== */
     .creator-content {
       flex: 1;
@@ -260,6 +255,138 @@
       display: none;
     }
 
+    /* ========== CUSTOM PILLS ========== */
+    .custom-pills-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .custom-pills-container:empty {
+      display: none;
+    }
+
+    .custom-pill {
+      padding: 10px 16px;
+      background: var(--color-turquoise);
+      border: 1.5px solid var(--color-turquoise);
+      border-radius: var(--radius-pill);
+      font-size: 13px;
+      font-weight: 600;
+      color: white;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      font-family: var(--font-primary);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .custom-pill:hover {
+      opacity: 0.85;
+    }
+
+    .custom-pill .remove-x {
+      font-size: 10px;
+      opacity: 0.8;
+    }
+
+    /* ========== PLATFORM SELECT ========== */
+    .social-add-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .platform-select-wrapper {
+      flex: 1;
+      position: relative;
+    }
+
+    .platform-search {
+      width: 100%;
+    }
+
+    .platform-dropdown {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: var(--color-canvas-elevated);
+      border: 1.5px solid var(--color-border);
+      border-top: none;
+      border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+      max-height: 200px;
+      overflow-y: auto;
+      z-index: 100;
+    }
+
+    .platform-dropdown.hidden {
+      display: none;
+    }
+
+    .platform-option {
+      padding: 12px 16px;
+      font-size: 14px;
+      color: var(--color-text-primary);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: background 0.1s ease;
+    }
+
+    .platform-option:hover {
+      background: var(--color-canvas-subtle);
+    }
+
+    .platform-option-icon {
+      font-size: 16px;
+    }
+
+    /* ========== ADDED SOCIAL LINK ========== */
+    .added-social-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .added-social-link .platform-label {
+      min-width: 90px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--color-turquoise);
+    }
+
+    .added-social-link .field-input {
+      flex: 1;
+    }
+
+    .remove-social-btn {
+      width: 32px;
+      height: 32px;
+      border: none;
+      background: var(--color-canvas-subtle);
+      border-radius: 50%;
+      color: var(--color-text-muted);
+      font-size: 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: background 0.15s ease, color 0.15s ease;
+    }
+
+    .remove-social-btn:hover {
+      background: var(--color-hover-bg);
+      color: var(--color-text-primary);
+    }
+
     /* ========== ADD ANOTHER BUTTON ========== */
     .add-another-btn {
       display: block;
@@ -414,7 +541,6 @@
     <div class="creator-header">
       <div class="brand-title">Stickerbook</div>
       <div class="creator-title">Set up your creator profile</div>
-      <div class="creator-subtitle">Tell us about you and your art</div>
     </div>
 
     <!-- Content -->
@@ -472,29 +598,22 @@
       <div class="section">
         <div class="section-label">How would you describe your art style?</div>
         <div class="pills-container" id="style-pills"></div>
+        <div class="custom-pills-container" id="custom-style-pills"></div>
         <div class="other-field hidden" id="style-other-field">
-          <input type="text" class="field-input" id="style-other-input" placeholder="Describe your style..." maxlength="50" />
+          <input type="text" class="field-input" id="style-other-input" placeholder="Add a custom style and press Enter..." maxlength="30" />
         </div>
-        <div class="pills-hint">Choose up to 3 styles</div>
+        <div class="pills-hint">Select all that apply</div>
       </div>
 
       <!-- Categories / Topics -->
       <div class="section">
         <div class="section-label">What topics will your stickers feature?</div>
         <div class="pills-container" id="category-pills"></div>
+        <div class="custom-pills-container" id="custom-category-pills"></div>
         <div class="other-field hidden" id="category-other-field">
-          <input type="text" class="field-input" id="category-other-input" placeholder="What other topics?" maxlength="50" />
+          <input type="text" class="field-input" id="category-other-input" placeholder="Add a custom topic and press Enter..." maxlength="30" />
         </div>
-        <div class="pills-hint">Choose up to 5 topics</div>
-      </div>
-
-      <!-- Contact Email -->
-      <div class="section">
-        <div class="section-label">Contact Email</div>
-        <div class="field">
-          <input type="email" class="field-input" id="contact-email" placeholder="your@email.com" />
-          <div class="field-hint">We'll use this to reach you about your creator account</div>
-        </div>
+        <div class="pills-hint">Select all that apply</div>
       </div>
 
       <!-- Social Links -->
@@ -506,14 +625,15 @@
           <input type="text" class="field-input" id="social-portfolio" placeholder="Portfolio or website URL" />
         </div>
         
-        <div id="social-links-container">
-          <div class="social-field social-link-row">
-            <div class="social-icon">🔗</div>
-            <input type="text" class="field-input social-link-input" placeholder="Social media link (any platform)" />
+        <div id="social-links-container"></div>
+        
+        <div class="social-add-row" id="social-add-row">
+          <div class="social-icon">🔗</div>
+          <div class="platform-select-wrapper">
+            <input type="text" class="field-input platform-search" id="platform-search" placeholder="Search for a platform..." />
+            <div class="platform-dropdown hidden" id="platform-dropdown"></div>
           </div>
         </div>
-        
-        <button class="add-another-btn" id="add-social-btn">+ Add another link</button>
       </div>
 
       <!-- Terms -->
@@ -551,9 +671,38 @@
       "Abstract / Artistic", "Bold / Graphic", "Other"
     ];
 
+    const approvedPlatforms = [
+      { name: "Instagram", icon: "📸" },
+      { name: "TikTok", icon: "🎵" },
+      { name: "YouTube", icon: "▶️" },
+      { name: "X / Twitter", icon: "🐦" },
+      { name: "Facebook", icon: "👤" },
+      { name: "Snapchat", icon: "👻" },
+      { name: "Reddit", icon: "🤖" },
+      { name: "Bluesky", icon: "🦋" },
+      { name: "Threads", icon: "🧵" },
+      { name: "Tumblr", icon: "📝" },
+      { name: "Pinterest", icon: "📌" },
+      { name: "LinkedIn", icon: "💼" },
+      { name: "Behance", icon: "🎨" },
+      { name: "Dribbble", icon: "🏀" },
+      { name: "ArtStation", icon: "🖼️" },
+      { name: "DeviantArt", icon: "🎭" },
+      { name: "Twitch", icon: "🎮" },
+      { name: "Discord", icon: "💬" },
+      { name: "Patreon", icon: "🎁" },
+      { name: "Ko-fi", icon: "☕" },
+      { name: "Etsy", icon: "🛍️" },
+      { name: "Redbubble", icon: "🔴" },
+      { name: "Gumroad", icon: "💰" }
+    ];
+
     // ============ STATE ============
     let selectedCategories = new Set();
     let selectedStyles = new Set();
+    let customCategories = [];
+    let customStyles = [];
+    let addedSocialLinks = [];
     let profileImage = null;
     let isUnder18 = false;
 
@@ -570,6 +719,8 @@
     const bioCount = document.getElementById('bio-count');
     const categoryPillsEl = document.getElementById('category-pills');
     const stylePillsEl = document.getElementById('style-pills');
+    const customCategoryPillsEl = document.getElementById('custom-category-pills');
+    const customStylePillsEl = document.getElementById('custom-style-pills');
     const categoryOtherField = document.getElementById('category-other-field');
     const categoryOtherInput = document.getElementById('category-other-input');
     const styleOtherField = document.getElementById('style-other-field');
@@ -577,9 +728,9 @@
     const profilePreview = document.getElementById('profile-preview');
     const profileInput = document.getElementById('profile-input');
     const profileUploadBtn = document.getElementById('profile-upload-btn');
-    const contactEmailInput = document.getElementById('contact-email');
     const socialLinksContainer = document.getElementById('social-links-container');
-    const addSocialBtn = document.getElementById('add-social-btn');
+    const platformSearch = document.getElementById('platform-search');
+    const platformDropdown = document.getElementById('platform-dropdown');
     const termsCheckbox = document.getElementById('terms-checkbox');
     const continueBtn = document.getElementById('btn-continue');
 
@@ -588,14 +739,6 @@
       renderStylePills();
       renderCategoryPills();
       setupListeners();
-      
-      // Pre-populate email from account creation
-      try {
-        const userData = JSON.parse(localStorage.getItem('stickerbook_user') || '{}');
-        if (userData.email) {
-          contactEmailInput.value = userData.email;
-        }
-      } catch (e) {}
     }
 
     // ============ RENDER ============
@@ -611,6 +754,54 @@
       stylePillsEl.innerHTML = styles.map(style => `
         <div class="pill ${selectedStyles.has(style) ? 'selected' : ''}" data-value="${style}" data-type="style">
           ${style}
+        </div>
+      `).join('');
+    }
+
+    function renderCustomCategoryPills() {
+      customCategoryPillsEl.innerHTML = customCategories.map((cat, idx) => `
+        <div class="custom-pill" data-index="${idx}" data-type="custom-category">
+          ${cat}
+          <span class="remove-x">✕</span>
+        </div>
+      `).join('');
+    }
+
+    function renderCustomStylePills() {
+      customStylePillsEl.innerHTML = customStyles.map((style, idx) => `
+        <div class="custom-pill" data-index="${idx}" data-type="custom-style">
+          ${style}
+          <span class="remove-x">✕</span>
+        </div>
+      `).join('');
+    }
+
+    function renderPlatformDropdown(filter = '') {
+      const filtered = approvedPlatforms.filter(p => 
+        p.name.toLowerCase().includes(filter.toLowerCase()) &&
+        !addedSocialLinks.some(link => link.platform === p.name)
+      );
+
+      if (filtered.length === 0 || filter === '') {
+        platformDropdown.classList.add('hidden');
+        return;
+      }
+
+      platformDropdown.innerHTML = filtered.map(p => `
+        <div class="platform-option" data-platform="${p.name}">
+          <span class="platform-option-icon">${p.icon}</span>
+          ${p.name}
+        </div>
+      `).join('');
+      platformDropdown.classList.remove('hidden');
+    }
+
+    function renderAddedSocialLinks() {
+      socialLinksContainer.innerHTML = addedSocialLinks.map((link, idx) => `
+        <div class="added-social-link" data-index="${idx}">
+          <span class="platform-label">${link.platform}</span>
+          <input type="text" class="field-input social-username" data-index="${idx}" placeholder="Username or URL" value="${link.value}" />
+          <button class="remove-social-btn" data-index="${idx}">✕</button>
         </div>
       `).join('');
     }
@@ -656,12 +847,11 @@
       const hasName = displayNameInput.value.trim().length > 0;
       const dobResult = validateDOB();
       const hasLocation = cityInput.value.trim().length > 0 && stateInput.value.trim().length > 0;
-      const hasCategories = selectedCategories.size > 0;
-      const hasStyles = selectedStyles.size > 0;
-      const hasEmail = contactEmailInput.value.trim().length > 0 && contactEmailInput.value.includes('@');
+      const hasCategories = selectedCategories.size > 0 || customCategories.length > 0;
+      const hasStyles = selectedStyles.size > 0 || customStyles.length > 0;
       const hasTerms = termsCheckbox.checked;
 
-      continueBtn.disabled = !(hasName && dobResult.valid && hasLocation && hasCategories && hasStyles && hasEmail && hasTerms);
+      continueBtn.disabled = !(hasName && dobResult.valid && hasLocation && hasCategories && hasStyles && hasTerms);
     }
 
     // ============ LISTENERS ============
@@ -733,7 +923,7 @@
           if (value === 'Other') {
             categoryOtherField.classList.add('hidden');
           }
-        } else if (selectedCategories.size < 5) {
+        } else {
           selectedCategories.add(value);
           pill.classList.add('selected');
           if (value === 'Other') {
@@ -757,7 +947,7 @@
           if (value === 'Other') {
             styleOtherField.classList.add('hidden');
           }
-        } else if (selectedStyles.size < 3) {
+        } else {
           selectedStyles.add(value);
           pill.classList.add('selected');
           if (value === 'Other') {
@@ -768,19 +958,99 @@
         validateForm();
       });
 
-      // Add social link
-      addSocialBtn.addEventListener('click', () => {
-        const newField = document.createElement('div');
-        newField.className = 'social-field social-link-row';
-        newField.innerHTML = `
-          <div class="social-icon">🔗</div>
-          <input type="text" class="field-input social-link-input" placeholder="Social media link (any platform)" />
-        `;
-        socialLinksContainer.appendChild(newField);
+      // Custom category input - Enter to add
+      categoryOtherInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          const value = categoryOtherInput.value.trim();
+          if (value && !customCategories.includes(value)) {
+            customCategories.push(value);
+            renderCustomCategoryPills();
+            categoryOtherInput.value = '';
+            validateForm();
+          }
+        }
       });
 
-      // Contact email
-      contactEmailInput.addEventListener('input', validateForm);
+      // Custom style input - Enter to add
+      styleOtherInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          const value = styleOtherInput.value.trim();
+          if (value && !customStyles.includes(value)) {
+            customStyles.push(value);
+            renderCustomStylePills();
+            styleOtherInput.value = '';
+            validateForm();
+          }
+        }
+      });
+
+      // Remove custom category
+      customCategoryPillsEl.addEventListener('click', (e) => {
+        const pill = e.target.closest('.custom-pill');
+        if (!pill) return;
+        const idx = parseInt(pill.dataset.index);
+        customCategories.splice(idx, 1);
+        renderCustomCategoryPills();
+        validateForm();
+      });
+
+      // Remove custom style
+      customStylePillsEl.addEventListener('click', (e) => {
+        const pill = e.target.closest('.custom-pill');
+        if (!pill) return;
+        const idx = parseInt(pill.dataset.index);
+        customStyles.splice(idx, 1);
+        renderCustomStylePills();
+        validateForm();
+      });
+
+      // Platform search
+      platformSearch.addEventListener('input', (e) => {
+        renderPlatformDropdown(e.target.value);
+      });
+
+      platformSearch.addEventListener('focus', () => {
+        if (platformSearch.value) {
+          renderPlatformDropdown(platformSearch.value);
+        }
+      });
+
+      // Click outside to close dropdown
+      document.addEventListener('click', (e) => {
+        if (!e.target.closest('.platform-select-wrapper')) {
+          platformDropdown.classList.add('hidden');
+        }
+      });
+
+      // Select platform from dropdown
+      platformDropdown.addEventListener('click', (e) => {
+        const option = e.target.closest('.platform-option');
+        if (!option) return;
+
+        const platform = option.dataset.platform;
+        addedSocialLinks.push({ platform, value: '' });
+        renderAddedSocialLinks();
+        platformSearch.value = '';
+        platformDropdown.classList.add('hidden');
+      });
+
+      // Update social link values & remove
+      socialLinksContainer.addEventListener('input', (e) => {
+        if (e.target.classList.contains('social-username')) {
+          const idx = parseInt(e.target.dataset.index);
+          addedSocialLinks[idx].value = e.target.value;
+        }
+      });
+
+      socialLinksContainer.addEventListener('click', (e) => {
+        const removeBtn = e.target.closest('.remove-social-btn');
+        if (!removeBtn) return;
+        const idx = parseInt(removeBtn.dataset.index);
+        addedSocialLinks.splice(idx, 1);
+        renderAddedSocialLinks();
+      });
 
       // Continue
       continueBtn.addEventListener('click', saveAndContinue);
@@ -812,14 +1082,15 @@
 
     // ============ SAVE & NAVIGATE ============
     function saveAndContinue() {
-      // Collect all social links
+      // Collect social links
       const socialLinks = [];
       const portfolio = document.getElementById('social-portfolio').value.trim();
       if (portfolio) socialLinks.push({ type: 'portfolio', url: portfolio });
       
-      document.querySelectorAll('.social-link-input').forEach(input => {
-        const url = input.value.trim();
-        if (url) socialLinks.push({ type: 'social', url: url });
+      addedSocialLinks.forEach(link => {
+        if (link.value.trim()) {
+          socialLinks.push({ platform: link.platform, value: link.value.trim() });
+        }
       });
 
       const creatorData = {
@@ -835,11 +1106,10 @@
           state: stateInput.value.trim().toUpperCase()
         },
         bio: bioInput.value.trim(),
-        contactEmail: contactEmailInput.value.trim(),
-        styles: [...selectedStyles],
-        styleOther: selectedStyles.has('Other') ? styleOtherInput.value.trim() : null,
-        categories: [...selectedCategories],
-        categoryOther: selectedCategories.has('Other') ? categoryOtherInput.value.trim() : null,
+        styles: [...selectedStyles].filter(s => s !== 'Other'),
+        customStyles: [...customStyles],
+        categories: [...selectedCategories].filter(c => c !== 'Other'),
+        customCategories: [...customCategories],
         socialLinks
       };
 
