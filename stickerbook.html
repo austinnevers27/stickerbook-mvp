@@ -2873,6 +2873,7 @@
     function setActiveSticker(el) {
       if (activeSticker) {
         activeSticker.classList.remove('active');
+        activeSticker.style.boxShadow = ''; // Clear inline style
       }
       activeSticker = el;
       if (el) {
@@ -2880,7 +2881,13 @@
         el.style.zIndex = ++currentZ;
         const page = pages[currentPageIndex];
         const sticker = page.stickers.find(s => s.id === el.dataset.id);
-        if (sticker) sticker.zIndex = currentZ;
+        if (sticker) {
+          sticker.zIndex = currentZ;
+          // Compensate border thickness for scale
+          const scale = sticker.scale || 1;
+          const borderWidth = 2 / scale; // Inverse scale to keep consistent visual thickness
+          el.style.boxShadow = `0 0 0 ${borderWidth}px #2563EB, var(--shadow-lg)`;
+        }
       }
     }
 
@@ -3049,13 +3056,22 @@
             const touchDist = Math.hypot(t.clientX - centerX, t.clientY - centerY);
             const maxRadius = Math.max(MIN_HIT_RADIUS, (Math.min(rect.width, rect.height) / 2) * HIT_RADIUS_PERCENT);
             
-            // If touch is outside the circle, let it pass through
+            // If touch is outside the circle, deselect any active sticker and let it pass through
             if (touchDist > maxRadius) {
+              if (activeSticker) {
+                setActiveSticker(null);
+              }
               return; // Don't prevent default, let event bubble to stickers below
             }
           }
           
           e.preventDefault();
+          
+          // If touching a different sticker, deselect the previous one
+          if (activeSticker && activeSticker !== el) {
+            setActiveSticker(null);
+          }
+          
           startTouchX = t.clientX;
           startTouchY = t.clientY;
           startX = stickerData.x || parseFloat(el.style.left);
@@ -3157,6 +3173,11 @@
           stickerData.rotation = newRotation;
 
           el.style.transform = `scale(${newScale}) rotate(${newRotation}deg)`;
+          
+          // Update border thickness to compensate for scale
+          const borderWidth = 2 / newScale;
+          el.style.boxShadow = `0 0 0 ${borderWidth}px #2563EB, var(--shadow-lg)`;
+          
           hasUnsavedChanges = true;
         }
       }, { passive: false });
@@ -3387,7 +3408,12 @@
       let tracking = false;
 
       stickerPage.addEventListener('touchstart', (e) => {
-        // Only track if touching background, not a sticker
+        // Deselect if touching background directly
+        if (e.target === stickerPage || e.target === pageCanvas) {
+          setActiveSticker(null);
+        }
+        
+        // Only track for swipe if touching background, not a sticker
         if (e.target.closest('.placed-sticker')) return;
         startX = e.touches[0].clientX;
         startY = e.touches[0].clientY;
