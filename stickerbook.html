@@ -1145,12 +1145,10 @@
       box-shadow: var(--shadow-button);
     }
 
-    /* Sub-filter buttons */
+    /* Sub-filter buttons - now inside controls row */
     .bg-subfilter {
       display: none;
       gap: 6px;
-      justify-content: center;
-      padding: 0 16px 10px;
       flex-shrink: 0;
     }
 
@@ -1184,17 +1182,33 @@
       color: var(--color-text-inverse);
     }
 
-    /* Pattern swatch selector */
-    .bg-swatch-row {
+    /* Combined controls row (swatches + divider + size/direction buttons) */
+    .bg-controls-row {
       display: none;
-      gap: 6px;
-      padding: 0 16px 10px;
-      flex-shrink: 0;
+      align-items: center;
       justify-content: center;
+      gap: 12px;
+      padding: 0 16px 12px;
+      flex-shrink: 0;
     }
 
-    .bg-swatch-row.visible {
+    .bg-controls-row.visible {
       display: flex;
+    }
+
+    .bg-controls-divider {
+      width: 2px;
+      height: 28px;
+      border-radius: 1px;
+      background: linear-gradient(180deg, var(--color-turquoise) 0%, var(--color-purple) 100%);
+      flex-shrink: 0;
+    }
+
+    /* Pattern swatch selector - now inside controls row */
+    .bg-swatch-row {
+      display: flex;
+      gap: 6px;
+      flex-shrink: 0;
     }
 
     .bg-swatch {
@@ -1638,34 +1652,40 @@
         <button class="bg-pattern-tab" data-pattern="dots">Dots</button>
       </div>
 
-      <!-- Sub-filters -->
-      <div class="bg-subfilter" id="stripes-filter">
-        <button class="bg-subfilter-btn active" data-value="diagonal">Diagonal</button>
-        <button class="bg-subfilter-btn" data-value="horizontal">Horizontal</button>
-        <button class="bg-subfilter-btn" data-value="vertical">Vertical</button>
-      </div>
+      <!-- Combined controls row (color swatches | divider | size/direction) -->
+      <div class="bg-controls-row" id="bg-controls-row">
+        <!-- Color swatches on LEFT -->
+        <div class="bg-swatch-row" id="bg-swatch-row">
+          <button class="bg-swatch active" id="swatch-base" data-target="base">
+            <div class="bg-swatch-color" id="swatch-base-color"></div>
+            <div class="bg-swatch-label">Base</div>
+          </button>
+          <button class="bg-swatch" id="swatch-pattern" data-target="pattern">
+            <div class="bg-swatch-color" id="swatch-pattern-color"></div>
+            <div class="bg-swatch-label" id="swatch-pattern-label">Pattern</div>
+          </button>
+        </div>
 
-      <div class="bg-subfilter" id="checkered-filter">
-        <button class="bg-subfilter-btn active" data-value="small">Small</button>
-        <button class="bg-subfilter-btn" data-value="large">Large</button>
-      </div>
+        <!-- Gradient divider -->
+        <div class="bg-controls-divider"></div>
 
-      <div class="bg-subfilter" id="dots-filter">
-        <button class="bg-subfilter-btn active" data-value="small">Small</button>
-        <button class="bg-subfilter-btn" data-value="large">Large</button>
-      </div>
+        <!-- Size/direction buttons on RIGHT -->
+        <div class="bg-subfilter" id="stripes-filter">
+          <button class="bg-subfilter-btn active" data-value="diagonal">Diagonal</button>
+          <button class="bg-subfilter-btn" data-value="horizontal">Horizontal</button>
+          <button class="bg-subfilter-btn" data-value="vertical">Vertical</button>
+        </div>
 
-      <!-- Pattern swatches (for selecting base vs pattern color) -->
-      <div class="bg-swatch-row" id="bg-swatch-row">
-  <button class="bg-swatch active" id="swatch-base" data-target="base">
-    <div class="bg-swatch-color" id="swatch-base-color"></div>
-    <div class="bg-swatch-label">Base</div>
-  </button>
-  <button class="bg-swatch" id="swatch-pattern" data-target="pattern">
-    <div class="bg-swatch-color" id="swatch-pattern-color"></div>
-    <div class="bg-swatch-label" id="swatch-pattern-label">Pattern</div>
-  </button>
-</div>
+        <div class="bg-subfilter" id="checkered-filter">
+          <button class="bg-subfilter-btn active" data-value="small">Small</button>
+          <button class="bg-subfilter-btn" data-value="large">Large</button>
+        </div>
+
+        <div class="bg-subfilter" id="dots-filter">
+          <button class="bg-subfilter-btn active" data-value="small">Small</button>
+          <button class="bg-subfilter-btn" data-value="large">Large</button>
+        </div>
+      </div>
 
       <!-- Default view (colors/patterns) -->
       <div class="bg-default-view" id="bg-default-view">
@@ -1870,6 +1890,7 @@
     const bgStripesFilter = document.getElementById('stripes-filter');
     const bgCheckeredFilter = document.getElementById('checkered-filter');
     const bgDotsFilter = document.getElementById('dots-filter');
+    const bgControlsRow = document.getElementById('bg-controls-row');
     const bgSwatchRow = document.getElementById('bg-swatch-row');
     const bgSwatchBase = document.getElementById('swatch-base');
     const bgSwatchPattern = document.getElementById('swatch-pattern');
@@ -2009,11 +2030,11 @@
         });
       }
 
-      // Show/hide swatch row
+      // Show/hide controls row (contains swatches + divider + size buttons)
       if (bgCurrentPattern === 'solid') {
-        bgSwatchRow.classList.remove('visible');
+        bgControlsRow.classList.remove('visible');
       } else {
-        bgSwatchRow.classList.add('visible');
+        bgControlsRow.classList.add('visible');
 
         // Update swatch label
         if (bgCurrentPattern === 'stripes') {
@@ -2265,12 +2286,9 @@
       } else {
         bgDefaultView.classList.add('hidden');
         bgMyView.classList.add('visible');
-        // Hide pattern tabs and swatches for my backgrounds view
+        // Hide pattern tabs and controls row for my backgrounds view
         document.querySelector('.bg-pattern-tabs').style.display = 'none';
-        bgStripesFilter.classList.remove('visible');
-        bgCheckeredFilter.classList.remove('visible');
-        bgDotsFilter.classList.remove('visible');
-        bgSwatchRow.classList.remove('visible');
+        bgControlsRow.classList.remove('visible');
         renderMyBackgrounds();
       }
     }
