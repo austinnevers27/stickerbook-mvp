@@ -931,21 +931,11 @@
         if (isUnder18) {
           headingEl.textContent = 'Welcome, young creator!';
           contentEl.innerHTML = `
-            <p class="disclaimer-text">
-              We're excited to have you join Stickerbook as a creator. Before you get started, there's something important to know:
-            </p>
             <div class="disclaimer-highlight">
-              <p><strong>Creators under 18 can upload stickers, but they must be free.</strong> You won't be able to set prices or earn money until you turn 18.</p>
+              <p>Creators under 18 can add stickers and backgrounds to the Sticker Shop at no cost to users.</p>
             </div>
-            <p class="disclaimer-text">Here's what you CAN do right now:</p>
-            <ul class="disclaimer-list">
-              <li>Upload your original artwork</li>
-              <li>Build a following</li>
-              <li>Get your work seen by users</li>
-              <li>Grow your portfolio</li>
-            </ul>
             <p class="disclaimer-text">
-              On your 18th birthday, we'll notify you to set up payments and start earning from your art.
+              We welcome you to build your portfolio, grow your following, and get your work seen. Once you turn 18, you'll be able to set coin prices and start earning.
             </p>
           `;
           localStorage.setItem('stickerbook_creator_under18', 'true');
@@ -970,14 +960,15 @@
         disclaimerModal.classList.add('visible');
       });
 
-      // Disclaimer modal - Continue
+      // Disclaimer modal - Continue (go straight to creator onboarding)
       document.getElementById('disclaimer-continue').addEventListener('click', () => {
         localStorage.setItem('stickerbook_account_type', 'creator');
-        // Update the link to show they've selected creator
-        const linkBtn = document.getElementById('creator-link-btn');
-        linkBtn.textContent = '✓ Creator account selected';
-        linkBtn.style.color = 'var(--color-turquoise)';
-        disclaimerModal.classList.remove('visible');
+        // Save any interests they've already selected
+        if (selectedInterests.size > 0) {
+          saveInterests();
+        }
+        // Skip straight to creator onboarding
+        window.location.href = 'creatoronboarding.html';
       });
 
       // Disclaimer modal - Go back

@@ -564,8 +564,8 @@
         <div class="pills-hint">Select all that apply</div>
       </div>
 
-      <!-- Social Links -->
-      <div class="section">
+     <!-- Social Links -->
+      <div class="section" id="social-links-section">
         <div class="section-label">Links <span style="font-weight: 400; text-transform: none;">(optional)</span></div>
         
         <div class="social-field">
@@ -679,6 +679,15 @@
       renderStylePills();
       renderCategoryPills();
       setupListeners();
+
+      // Hide social links for under-18 creators
+      const isUnder18 = localStorage.getItem('stickerbook_creator_under18') === 'true';
+      if (isUnder18) {
+        const socialSection = document.getElementById('social-links-section');
+        if (socialSection) {
+          socialSection.style.display = 'none';
+        }
+      }
     }
 
     // ============ RENDER ============

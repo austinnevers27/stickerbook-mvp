@@ -22,11 +22,13 @@
       flex-direction: column;
       background: var(--color-canvas);
       overflow: hidden;
+      max-width: 1400px;
+      margin: 0 auto;
     }
 
     /* ========== HEADER ========== */
     .studio-header {
-      padding: 20px 20px 0;
+      padding: 20px 24px 0;
       flex-shrink: 0;
     }
 
@@ -73,6 +75,11 @@
       font-size: 14px;
       cursor: pointer;
       overflow: hidden;
+      transition: border-color 0.15s ease;
+    }
+
+    .creator-avatar:hover {
+      border-color: var(--color-turquoise);
     }
 
     .creator-avatar img {
@@ -88,6 +95,7 @@
       background: var(--color-canvas-subtle);
       padding: 4px;
       border-radius: var(--radius-pill);
+      max-width: 420px;
     }
 
     .studio-tab {
@@ -103,6 +111,7 @@
       color: var(--color-text-muted);
       cursor: pointer;
       transition: all 0.2s ease;
+      white-space: nowrap;
     }
 
     .studio-tab:hover {
@@ -137,11 +146,11 @@
     .panel-scroll {
       flex: 1;
       overflow-y: auto;
-      padding: 20px;
+      padding: 24px;
     }
 
     .panel-scroll::-webkit-scrollbar {
-      width: 4px;
+      width: 6px;
     }
 
     .panel-scroll::-webkit-scrollbar-thumb {
@@ -150,15 +159,32 @@
     }
 
     /* ========== UPLOAD PANEL ========== */
+    .upload-layout {
+      display: flex;
+      gap: 24px;
+      align-items: flex-start;
+    }
+
+    .upload-sidebar {
+      flex-shrink: 0;
+      width: 280px;
+      position: sticky;
+      top: 0;
+    }
+
+    .upload-main {
+      flex: 1;
+      min-width: 0;
+    }
+
     .upload-zone {
       border: 2px dashed var(--color-border);
       border-radius: var(--radius-lg);
-      padding: 40px 20px;
+      padding: 32px 20px;
       text-align: center;
       cursor: pointer;
       transition: all 0.2s ease;
       background: var(--color-canvas-subtle);
-      margin-bottom: 24px;
     }
 
     .upload-zone:hover,
@@ -168,37 +194,38 @@
     }
 
     .upload-zone-icon {
-      font-size: 48px;
-      margin-bottom: 12px;
+      font-size: 40px;
+      margin-bottom: 10px;
       opacity: 0.6;
     }
 
     .upload-zone-title {
       font-family: var(--font-display);
-      font-size: 16px;
+      font-size: 15px;
       font-weight: 600;
       color: var(--color-text-primary);
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
 
     .upload-zone-subtitle {
       font-size: 12px;
       color: var(--color-text-muted);
-      margin-bottom: 16px;
+      margin-bottom: 14px;
     }
 
     .upload-zone-specs {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 8px;
+      gap: 6px;
+      margin-bottom: 12px;
     }
 
     .spec-badge {
       display: inline-flex;
       align-items: center;
       gap: 4px;
-      padding: 4px 10px;
+      padding: 4px 8px;
       background: var(--color-canvas);
       border-radius: var(--radius-pill);
       font-size: 10px;
@@ -209,6 +236,12 @@
 
     .spec-badge .icon {
       font-size: 10px;
+    }
+
+    .upload-zone-limit {
+      font-size: 11px;
+      color: var(--color-turquoise);
+      font-weight: 600;
     }
 
     #file-input {
@@ -241,6 +274,7 @@
     .queue-count {
       font-size: 12px;
       color: var(--color-text-muted);
+      margin-left: 8px;
     }
 
     .queue-actions {
@@ -248,10 +282,28 @@
       gap: 8px;
     }
 
+    .btn-outline {
+      padding: 8px 14px;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-pill);
+      background: transparent;
+      font-family: var(--font-primary);
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--color-text-muted);
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .btn-outline:hover {
+      border-color: var(--color-border-strong);
+      color: var(--color-text-secondary);
+    }
+
     .queue-list {
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 16px;
       margin-bottom: 20px;
     }
 
@@ -260,13 +312,17 @@
       background: var(--color-canvas-elevated);
       border: 1px solid var(--color-border);
       border-radius: var(--radius-lg);
-      padding: 16px;
+      padding: 20px;
       transition: all 0.2s ease;
+    }
+
+    .upload-item:hover {
+      border-color: var(--color-border-strong);
     }
 
     .upload-item.error {
       border-color: var(--color-error);
-      background: rgba(220, 38, 38, 0.05);
+      background: rgba(220, 38, 38, 0.03);
     }
 
     .upload-item.success {
@@ -275,13 +331,13 @@
 
     .upload-item-header {
       display: flex;
-      gap: 12px;
-      margin-bottom: 12px;
+      gap: 16px;
+      margin-bottom: 16px;
     }
 
     .upload-item-preview {
-      width: 64px;
-      height: 64px;
+      width: 80px;
+      height: 80px;
       border-radius: var(--radius-md);
       background: var(--color-canvas-subtle);
       display: flex;
@@ -289,6 +345,7 @@
       justify-content: center;
       overflow: hidden;
       flex-shrink: 0;
+      border: 1px solid var(--color-border);
     }
 
     .upload-item-preview img {
@@ -300,20 +357,23 @@
     .upload-item-info {
       flex: 1;
       min-width: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
     }
 
     .upload-item-filename {
-      font-size: 13px;
+      font-size: 14px;
       font-weight: 600;
       color: var(--color-text-primary);
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      margin-bottom: 4px;
+      margin-bottom: 6px;
     }
 
     .upload-item-status {
-      font-size: 11px;
+      font-size: 12px;
       color: var(--color-text-muted);
       display: flex;
       align-items: center;
@@ -332,6 +392,10 @@
       animation: pulse 1.5s infinite;
     }
 
+    .status-dot.ready {
+      background: var(--color-turquoise);
+    }
+
     .status-dot.success {
       background: var(--color-success);
     }
@@ -346,8 +410,8 @@
     }
 
     .upload-item-remove {
-      width: 28px;
-      height: 28px;
+      width: 32px;
+      height: 32px;
       border: none;
       background: var(--color-canvas-subtle);
       border-radius: 50%;
@@ -359,6 +423,7 @@
       justify-content: center;
       flex-shrink: 0;
       transition: all 0.15s ease;
+      align-self: flex-start;
     }
 
     .upload-item-remove:hover {
@@ -368,34 +433,27 @@
 
     /* ========== UPLOAD ITEM FORM ========== */
     .upload-item-form {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
     }
 
     .upload-item.error .upload-item-form {
       display: none;
     }
 
-    .form-row {
-      display: flex;
-      gap: 10px;
-    }
-
     .form-field {
-      flex: 1;
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      gap: 6px;
     }
 
-    .form-field.small {
-      flex: 0 0 auto;
-      width: 120px;
+    .form-field.full-width {
+      grid-column: 1 / -1;
     }
 
     .form-label {
-      font-size: 10px;
+      font-size: 11px;
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.08em;
@@ -403,10 +461,10 @@
     }
 
     .form-input {
-      padding: 8px 12px;
+      padding: 10px 14px;
       border: 1px solid var(--color-border);
       border-radius: var(--radius-md);
-      font-size: 13px;
+      font-size: 14px;
       font-family: var(--font-primary);
       color: var(--color-text-primary);
       background: var(--color-canvas);
@@ -423,10 +481,10 @@
     }
 
     .form-select {
-      padding: 8px 12px;
+      padding: 10px 14px;
       border: 1px solid var(--color-border);
       border-radius: var(--radius-md);
-      font-size: 13px;
+      font-size: 14px;
       font-family: var(--font-primary);
       color: var(--color-text-primary);
       background: var(--color-canvas);
@@ -434,8 +492,8 @@
       appearance: none;
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2371717a' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
       background-repeat: no-repeat;
-      background-position: right 10px center;
-      padding-right: 32px;
+      background-position: right 12px center;
+      padding-right: 36px;
     }
 
     .form-select:focus {
@@ -448,11 +506,11 @@
       display: flex;
       flex-wrap: wrap;
       gap: 6px;
-      padding: 8px;
+      padding: 10px;
       border: 1px solid var(--color-border);
       border-radius: var(--radius-md);
       background: var(--color-canvas);
-      min-height: 40px;
+      min-height: 44px;
       cursor: text;
       transition: border-color 0.15s ease;
     }
@@ -465,10 +523,10 @@
       display: inline-flex;
       align-items: center;
       gap: 4px;
-      padding: 4px 8px;
+      padding: 4px 10px;
       background: var(--color-purple);
       border-radius: var(--radius-pill);
-      font-size: 11px;
+      font-size: 12px;
       font-weight: 600;
       color: white;
     }
@@ -498,10 +556,10 @@
 
     .tags-input {
       flex: 1;
-      min-width: 80px;
+      min-width: 100px;
       border: none;
       outline: none;
-      font-size: 12px;
+      font-size: 13px;
       font-family: var(--font-primary);
       color: var(--color-text-primary);
       background: transparent;
@@ -512,20 +570,19 @@
     }
 
     .tags-hint {
-      font-size: 10px;
+      font-size: 11px;
       color: var(--color-text-subtle);
-      margin-top: 4px;
     }
 
     /* ========== TIER SELECTOR ========== */
     .tier-selector {
       display: flex;
-      gap: 6px;
+      gap: 8px;
     }
 
     .tier-option {
       flex: 1;
-      padding: 8px 4px;
+      padding: 10px 8px;
       border: 1px solid var(--color-border);
       border-radius: var(--radius-md);
       background: var(--color-canvas);
@@ -543,19 +600,25 @@
       background: rgba(109, 40, 217, 0.08);
     }
 
+    .tier-option.disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
     .tier-option input {
       display: none;
     }
 
     .tier-name {
-      font-size: 11px;
+      font-size: 12px;
       font-weight: 600;
       color: var(--color-text-primary);
       margin-bottom: 2px;
     }
 
     .tier-price {
-      font-size: 10px;
+      font-size: 11px;
       color: var(--color-text-muted);
     }
 
@@ -563,18 +626,18 @@
     .checkbox-row {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
     }
 
     .checkbox-row input[type="checkbox"] {
-      width: 16px;
-      height: 16px;
+      width: 18px;
+      height: 18px;
       accent-color: var(--color-purple);
       cursor: pointer;
     }
 
     .checkbox-row label {
-      font-size: 12px;
+      font-size: 13px;
       color: var(--color-text-secondary);
       cursor: pointer;
     }
@@ -583,21 +646,21 @@
     .error-message {
       display: flex;
       align-items: center;
-      gap: 8px;
-      padding: 12px;
-      background: rgba(220, 38, 38, 0.1);
+      gap: 10px;
+      padding: 14px;
+      background: rgba(220, 38, 38, 0.08);
       border-radius: var(--radius-md);
-      font-size: 12px;
+      font-size: 13px;
       color: var(--color-error);
     }
 
     .error-message .icon {
-      font-size: 16px;
+      font-size: 18px;
     }
 
     /* ========== SUBMIT SECTION ========== */
     .submit-section {
-      padding: 16px 20px;
+      padding: 16px 24px;
       border-top: 1px solid var(--color-border);
       background: var(--color-canvas);
       flex-shrink: 0;
@@ -607,25 +670,28 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 12px;
+      gap: 16px;
+      max-width: 1400px;
+      margin: 0 auto;
     }
 
     .submit-info {
-      font-size: 12px;
+      font-size: 13px;
       color: var(--color-text-muted);
     }
 
     .submit-info strong {
       color: var(--color-text-primary);
+      font-weight: 600;
     }
 
     .btn-submit {
-      padding: 12px 24px;
+      padding: 12px 28px;
       background: var(--gradient-primary);
       border: none;
       border-radius: var(--radius-pill);
       font-family: var(--font-primary);
-      font-size: 13px;
+      font-size: 14px;
       font-weight: 700;
       color: white;
       cursor: pointer;
@@ -654,9 +720,8 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 16px;
-      flex-wrap: wrap;
-      gap: 12px;
+      margin-bottom: 20px;
+      gap: 16px;
     }
 
     .manage-filters {
@@ -665,12 +730,12 @@
     }
 
     .filter-btn {
-      padding: 8px 14px;
+      padding: 8px 16px;
       border: 1px solid var(--color-border);
       border-radius: var(--radius-pill);
       background: var(--color-canvas);
       font-family: var(--font-primary);
-      font-size: 11px;
+      font-size: 12px;
       font-weight: 600;
       color: var(--color-text-muted);
       cursor: pointer;
@@ -690,15 +755,15 @@
 
     .manage-search {
       position: relative;
-      width: 200px;
+      width: 240px;
     }
 
     .manage-search input {
       width: 100%;
-      padding: 8px 12px 8px 32px;
+      padding: 10px 14px 10px 36px;
       border: 1px solid var(--color-border);
       border-radius: var(--radius-pill);
-      font-size: 12px;
+      font-size: 13px;
       font-family: var(--font-primary);
       color: var(--color-text-primary);
       background: var(--color-canvas);
@@ -711,25 +776,25 @@
 
     .manage-search .search-icon {
       position: absolute;
-      left: 10px;
+      left: 12px;
       top: 50%;
       transform: translateY(-50%);
-      font-size: 12px;
+      font-size: 14px;
       color: var(--color-text-subtle);
     }
 
     /* ========== STICKER GRID ========== */
     .sticker-grid-manage {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-      gap: 12px;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 16px;
     }
 
     .sticker-card {
       background: var(--color-canvas-elevated);
       border: 1px solid var(--color-border);
       border-radius: var(--radius-lg);
-      padding: 12px;
+      padding: 14px;
       cursor: pointer;
       transition: all 0.15s ease;
     }
@@ -753,7 +818,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
       overflow: hidden;
     }
 
@@ -764,25 +829,25 @@
     }
 
     .sticker-card-name {
-      font-size: 12px;
+      font-size: 13px;
       font-weight: 600;
       color: var(--color-text-primary);
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      margin-bottom: 4px;
+      margin-bottom: 6px;
     }
 
     .sticker-card-meta {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      font-size: 10px;
+      font-size: 11px;
       color: var(--color-text-muted);
     }
 
     .sticker-card-tier {
-      padding: 2px 6px;
+      padding: 3px 8px;
       background: var(--color-canvas-subtle);
       border-radius: var(--radius-sm);
       font-weight: 600;
@@ -811,42 +876,76 @@
     /* ========== EMPTY STATE ========== */
     .empty-state {
       text-align: center;
-      padding: 60px 20px;
+      padding: 80px 20px;
     }
 
     .empty-state-icon {
-      font-size: 48px;
-      margin-bottom: 16px;
+      font-size: 56px;
+      margin-bottom: 20px;
       opacity: 0.5;
     }
 
     .empty-state-title {
       font-family: var(--font-display);
-      font-size: 16px;
+      font-size: 18px;
       font-weight: 600;
       color: var(--color-text-primary);
       margin-bottom: 8px;
     }
 
     .empty-state-text {
-      font-size: 13px;
+      font-size: 14px;
       color: var(--color-text-muted);
-      margin-bottom: 20px;
+      margin-bottom: 24px;
     }
 
-    /* ========== ANALYTICS PANEL ========== */
+    .btn-primary {
+      padding: 12px 24px;
+      background: var(--gradient-primary);
+      border: none;
+      border-radius: var(--radius-pill);
+      font-family: var(--font-primary);
+      font-size: 14px;
+      font-weight: 700;
+      color: white;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .btn-primary:hover {
+      opacity: 0.9;
+    }
+
+    /* ========== EARNINGS & ANALYTICS PANEL ========== */
+    .analytics-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .analytics-main {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .analytics-sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
     .stats-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 12px;
-      margin-bottom: 24px;
     }
 
     .stat-card {
       background: var(--color-canvas-elevated);
       border: 1px solid var(--color-border);
       border-radius: var(--radius-lg);
-      padding: 16px;
+      padding: 18px;
     }
 
     .stat-label {
@@ -855,24 +954,29 @@
       text-transform: uppercase;
       letter-spacing: 0.08em;
       color: var(--color-text-muted);
-      margin-bottom: 6px;
+      margin-bottom: 8px;
     }
 
     .stat-value {
       font-family: var(--font-display);
-      font-size: 24px;
+      font-size: 28px;
       font-weight: 700;
       color: var(--color-text-primary);
     }
 
     .stat-change {
-      font-size: 11px;
+      font-size: 12px;
       color: var(--color-success);
-      margin-top: 4px;
+      margin-top: 6px;
+      font-weight: 500;
     }
 
     .stat-change.negative {
       color: var(--color-error);
+    }
+
+    .stat-change.neutral {
+      color: var(--color-text-muted);
     }
 
     .section-header {
@@ -884,39 +988,38 @@
 
     .section-title {
       font-family: var(--font-display);
-      font-size: 14px;
+      font-size: 15px;
       font-weight: 600;
       color: var(--color-text-primary);
     }
 
     .earnings-card {
       background: var(--gradient-primary);
-      border-radius: var(--radius-lg);
-      padding: 20px;
+      border-radius: var(--radius-xl);
+      padding: 24px;
       color: white;
-      margin-bottom: 24px;
     }
 
     .earnings-label {
-      font-size: 12px;
-      opacity: 0.8;
-      margin-bottom: 4px;
+      font-size: 13px;
+      opacity: 0.85;
+      margin-bottom: 6px;
     }
 
     .earnings-value {
       font-family: var(--font-display);
-      font-size: 32px;
+      font-size: 40px;
       font-weight: 700;
-      margin-bottom: 12px;
+      margin-bottom: 16px;
     }
 
     .earnings-btn {
-      padding: 10px 20px;
+      padding: 12px 24px;
       background: rgba(255,255,255,0.2);
       border: none;
       border-radius: var(--radius-pill);
       font-family: var(--font-primary);
-      font-size: 12px;
+      font-size: 13px;
       font-weight: 600;
       color: white;
       cursor: pointer;
@@ -936,24 +1039,30 @@
     .top-sticker-item {
       display: flex;
       align-items: center;
-      gap: 12px;
-      padding: 12px;
+      gap: 14px;
+      padding: 14px;
       background: var(--color-canvas-elevated);
       border: 1px solid var(--color-border);
       border-radius: var(--radius-md);
+      transition: border-color 0.15s ease;
+    }
+
+    .top-sticker-item:hover {
+      border-color: var(--color-border-strong);
     }
 
     .top-sticker-rank {
-      width: 24px;
-      height: 24px;
+      width: 28px;
+      height: 28px;
       background: var(--color-canvas-subtle);
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 11px;
+      font-size: 12px;
       font-weight: 700;
       color: var(--color-text-muted);
+      flex-shrink: 0;
     }
 
     .top-sticker-rank.gold {
@@ -972,33 +1081,36 @@
     }
 
     .top-sticker-preview {
-      width: 40px;
-      height: 40px;
+      width: 48px;
+      height: 48px;
       background: var(--color-canvas-subtle);
       border-radius: var(--radius-sm);
       display: flex;
       align-items: center;
       justify-content: center;
+      flex-shrink: 0;
     }
 
     .top-sticker-preview img {
-      max-width: 32px;
-      max-height: 32px;
+      max-width: 40px;
+      max-height: 40px;
       object-fit: contain;
     }
 
     .top-sticker-info {
       flex: 1;
+      min-width: 0;
     }
 
     .top-sticker-name {
-      font-size: 13px;
+      font-size: 14px;
       font-weight: 600;
       color: var(--color-text-primary);
+      margin-bottom: 2px;
     }
 
     .top-sticker-stat {
-      font-size: 11px;
+      font-size: 12px;
       color: var(--color-text-muted);
     }
 
@@ -1006,10 +1118,10 @@
     .bulk-actions {
       display: none;
       position: fixed;
-      bottom: 20px;
+      bottom: 24px;
       left: 50%;
       transform: translateX(-50%);
-      padding: 12px 20px;
+      padding: 14px 24px;
       background: var(--color-text-primary);
       border-radius: var(--radius-pill);
       box-shadow: var(--shadow-xl);
@@ -1019,26 +1131,26 @@
     .bulk-actions.visible {
       display: flex;
       align-items: center;
-      gap: 16px;
+      gap: 20px;
     }
 
     .bulk-count {
-      font-size: 13px;
+      font-size: 14px;
       font-weight: 600;
       color: var(--color-text-inverse);
     }
 
     .bulk-btns {
       display: flex;
-      gap: 8px;
+      gap: 10px;
     }
 
     .bulk-btn {
-      padding: 8px 14px;
+      padding: 8px 16px;
       border: none;
       border-radius: var(--radius-pill);
       font-family: var(--font-primary);
-      font-size: 12px;
+      font-size: 13px;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.15s ease;
@@ -1058,23 +1170,63 @@
       opacity: 0.85;
     }
 
-    /* ========== RESPONSIVE ========== */
-    @media (max-width: 480px) {
+    /* ========== UNDER-18 NOTICE ========== */
+    .under18-notice {
+      display: none;
+      padding: 12px 16px;
+      background: rgba(20, 184, 166, 0.1);
+      border: 1px solid var(--color-turquoise);
+      border-radius: var(--radius-md);
+      margin-bottom: 16px;
+    }
+
+    .under18-notice.visible {
+      display: block;
+    }
+
+    .under18-notice p {
+      font-size: 13px;
+      color: var(--color-turquoise);
+      margin: 0;
+    }
+
+    /* ========== RESPONSIVE - TABLET ========== */
+    @media (max-width: 900px) {
+      .upload-layout {
+        flex-direction: column;
+      }
+
+      .upload-sidebar {
+        width: 100%;
+        position: static;
+      }
+
+      .analytics-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .upload-item-form {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* ========== RESPONSIVE - MOBILE ========== */
+    @media (max-width: 580px) {
+      .studio-header {
+        padding: 16px 16px 0;
+      }
+
+      .panel-scroll {
+        padding: 16px;
+      }
+
       .studio-tabs {
-        padding: 3px;
+        max-width: 100%;
       }
 
       .studio-tab {
         padding: 8px 10px;
         font-size: 11px;
-      }
-
-      .form-row {
-        flex-direction: column;
-      }
-
-      .form-field.small {
-        width: 100%;
       }
 
       .tier-selector {
@@ -1094,8 +1246,26 @@
         align-items: stretch;
       }
 
+      .manage-filters {
+        overflow-x: auto;
+        padding-bottom: 4px;
+      }
+
       .manage-search {
         width: 100%;
+      }
+
+      .sticker-grid-manage {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+      }
+
+      .submit-section {
+        padding: 14px 16px;
+      }
+
+      .earnings-value {
+        font-size: 32px;
       }
     }
   </style>
@@ -1116,64 +1286,19 @@
         </div>
       </div>
 
-      <!-- Tab Navigation -->
+      <!-- Tab Navigation: Manage → Upload → Earnings & Analytics -->
       <div class="studio-tabs">
-        <button class="studio-tab active" data-tab="upload">Upload</button>
-        <button class="studio-tab" data-tab="manage">Manage</button>
-        <button class="studio-tab" data-tab="analytics">Analytics</button>
+        <button class="studio-tab active" data-tab="manage">Manage</button>
+        <button class="studio-tab" data-tab="upload">Upload</button>
+        <button class="studio-tab" data-tab="analytics">Earnings & Analytics</button>
       </div>
     </div>
 
     <!-- Content -->
     <div class="studio-content">
 
-      <!-- UPLOAD PANEL -->
-      <div class="studio-panel active" id="panel-upload">
-        <div class="panel-scroll">
-          <!-- Drop Zone -->
-          <div class="upload-zone" id="upload-zone">
-            <div class="upload-zone-icon">📤</div>
-            <div class="upload-zone-title">Drop stickers here</div>
-            <div class="upload-zone-subtitle">or click to browse files</div>
-            <div class="upload-zone-specs">
-              <span class="spec-badge"><span class="icon">📐</span> 512-2048px</span>
-              <span class="spec-badge"><span class="icon">⬜</span> 1:1 ratio</span>
-              <span class="spec-badge"><span class="icon">🖼</span> PNG only</span>
-              <span class="spec-badge"><span class="icon">📦</span> Max 2MB</span>
-            </div>
-          </div>
-          <input type="file" id="file-input" accept="image/png" multiple />
-
-          <!-- Upload Queue -->
-          <div class="upload-queue" id="upload-queue">
-            <div class="queue-header">
-              <div>
-                <span class="queue-title">Ready to upload</span>
-                <span class="queue-count" id="queue-count">(0 stickers)</span>
-              </div>
-              <div class="queue-actions">
-                <button class="btn-outline" id="btn-clear-all">Clear All</button>
-              </div>
-            </div>
-            <div class="queue-list" id="queue-list">
-              <!-- Upload items will be inserted here -->
-            </div>
-          </div>
-        </div>
-
-        <!-- Submit Section -->
-        <div class="submit-section" id="submit-section" style="display: none;">
-          <div class="submit-row">
-            <div class="submit-info">
-              <strong id="valid-count">0</strong> stickers ready
-            </div>
-            <button class="btn-submit" id="btn-upload-all">Upload All</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- MANAGE PANEL -->
-      <div class="studio-panel" id="panel-manage">
+      <!-- MANAGE PANEL (Default) -->
+      <div class="studio-panel active" id="panel-manage">
         <div class="panel-scroll">
           <!-- Header with filters -->
           <div class="manage-header">
@@ -1239,78 +1364,153 @@
             <div class="empty-state-icon">🎨</div>
             <div class="empty-state-title">No stickers yet</div>
             <div class="empty-state-text">Upload your first sticker to get started</div>
-            <button class="btn btn-primary" onclick="switchTab('upload')">Upload Stickers</button>
+            <button class="btn-primary" onclick="switchTab('upload')">Upload Stickers</button>
           </div>
         </div>
       </div>
 
-      <!-- ANALYTICS PANEL -->
+      <!-- UPLOAD PANEL -->
+      <div class="studio-panel" id="panel-upload">
+        <div class="panel-scroll">
+          <div class="upload-layout">
+            <!-- Sidebar with drop zone -->
+            <div class="upload-sidebar">
+              <div class="upload-zone" id="upload-zone">
+                <div class="upload-zone-icon">📤</div>
+                <div class="upload-zone-title">Drop stickers here</div>
+                <div class="upload-zone-subtitle">or click to browse</div>
+                <div class="upload-zone-specs">
+                  <span class="spec-badge"><span class="icon">📐</span> 512-2048px</span>
+                  <span class="spec-badge"><span class="icon">⬜</span> 1:1 ratio</span>
+                  <span class="spec-badge"><span class="icon">🖼</span> PNG only</span>
+                  <span class="spec-badge"><span class="icon">📦</span> Max 2MB</span>
+                </div>
+                <div class="upload-zone-limit">Up to 15 files at a time</div>
+              </div>
+              <input type="file" id="file-input" accept="image/png" multiple />
+            </div>
+
+            <!-- Main area with queue -->
+            <div class="upload-main">
+              <!-- Under-18 notice -->
+              <div class="under18-notice" id="under18-notice">
+                <p>Your stickers will be available for free while you're under 18. Keep building your portfolio!</p>
+              </div>
+
+              <!-- Upload Queue -->
+              <div class="upload-queue" id="upload-queue">
+                <div class="queue-header">
+                  <div>
+                    <span class="queue-title">Ready to upload</span>
+                    <span class="queue-count" id="queue-count">(0 stickers)</span>
+                  </div>
+                  <div class="queue-actions">
+                    <button class="btn-outline" id="btn-clear-all">Clear All</button>
+                  </div>
+                </div>
+                <div class="queue-list" id="queue-list">
+                  <!-- Upload items will be inserted here -->
+                </div>
+              </div>
+
+              <!-- Empty queue state -->
+              <div class="empty-state" id="empty-queue" style="display: block;">
+                <div class="empty-state-icon">📁</div>
+                <div class="empty-state-title">No files queued</div>
+                <div class="empty-state-text">Drag and drop PNG files or click the upload zone</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Submit Section -->
+        <div class="submit-section" id="submit-section" style="display: none;">
+          <div class="submit-row">
+            <div class="submit-info">
+              <strong id="valid-count">0</strong> stickers ready to upload
+            </div>
+            <button class="btn-submit" id="btn-upload-all">Upload All</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- EARNINGS & ANALYTICS PANEL -->
       <div class="studio-panel" id="panel-analytics">
         <div class="panel-scroll">
-          <!-- Earnings Card -->
-          <div class="earnings-card">
-            <div class="earnings-label">Available Balance</div>
-            <div class="earnings-value">$127.40</div>
-            <button class="earnings-btn">Request Payout</button>
-          </div>
+          <div class="analytics-layout">
+            <!-- Main Column -->
+            <div class="analytics-main">
+              <!-- Earnings Card -->
+              <div class="earnings-card">
+                <div class="earnings-label">Available Balance</div>
+                <div class="earnings-value">$127.40</div>
+                <button class="earnings-btn">Request Payout</button>
+              </div>
 
-          <!-- Stats Grid -->
-          <div class="stats-grid">
-            <div class="stat-card">
-              <div class="stat-label">Total Sales</div>
-              <div class="stat-value">847</div>
-              <div class="stat-change">↑ 12% this week</div>
+              <!-- Stats Grid -->
+              <div class="stats-grid">
+                <div class="stat-card">
+                  <div class="stat-label">Total Sales</div>
+                  <div class="stat-value">847</div>
+                  <div class="stat-change">↑ 12% this week</div>
+                </div>
+                <div class="stat-card">
+                  <div class="stat-label">Revenue</div>
+                  <div class="stat-value">$423.50</div>
+                  <div class="stat-change">↑ 8% this week</div>
+                </div>
+                <div class="stat-card">
+                  <div class="stat-label">Impressions</div>
+                  <div class="stat-value">12.4K</div>
+                  <div class="stat-change">↑ 24% this week</div>
+                </div>
+                <div class="stat-card">
+                  <div class="stat-label">Stickers Live</div>
+                  <div class="stat-value">23</div>
+                  <div class="stat-change neutral">+2 this week</div>
+                </div>
+              </div>
             </div>
-            <div class="stat-card">
-              <div class="stat-label">Revenue</div>
-              <div class="stat-value">$423.50</div>
-              <div class="stat-change">↑ 8% this week</div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-label">Impressions</div>
-              <div class="stat-value">12.4K</div>
-              <div class="stat-change">↑ 24% this week</div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-label">Stickers Live</div>
-              <div class="stat-value">23</div>
-              <div class="stat-change" style="color: var(--color-text-muted);">+2 this week</div>
-            </div>
-          </div>
 
-          <!-- Top Performers -->
-          <div class="section-header">
-            <div class="section-title">Top Performers</div>
-          </div>
-          <div class="top-stickers-list">
-            <div class="top-sticker-item">
-              <div class="top-sticker-rank gold">1</div>
-              <div class="top-sticker-preview">
-                <img src="images/stickers/raccoon0001.png" alt="Raccoon" />
-              </div>
-              <div class="top-sticker-info">
-                <div class="top-sticker-name">Raccoon Nap</div>
-                <div class="top-sticker-stat">142 sales · $85.20 revenue</div>
-              </div>
-            </div>
-            <div class="top-sticker-item">
-              <div class="top-sticker-rank silver">2</div>
-              <div class="top-sticker-preview">
-                <img src="images/stickers/blackcat0001.png" alt="Black Cat" />
-              </div>
-              <div class="top-sticker-info">
-                <div class="top-sticker-name">Black Cat Energy</div>
-                <div class="top-sticker-stat">98 sales · $39.20 revenue</div>
-              </div>
-            </div>
-            <div class="top-sticker-item">
-              <div class="top-sticker-rank bronze">3</div>
-              <div class="top-sticker-preview">
-                <img src="images/stickers/mushroom0001.png" alt="Mushrooms" />
-              </div>
-              <div class="top-sticker-info">
-                <div class="top-sticker-name">Mushrooms</div>
-                <div class="top-sticker-stat">67 sales · $13.40 revenue</div>
+            <!-- Sidebar Column -->
+            <div class="analytics-sidebar">
+              <!-- Top Performers -->
+              <div>
+                <div class="section-header">
+                  <div class="section-title">Top Performers</div>
+                </div>
+                <div class="top-stickers-list">
+                  <div class="top-sticker-item">
+                    <div class="top-sticker-rank gold">1</div>
+                    <div class="top-sticker-preview">
+                      <img src="images/stickers/raccoon0001.png" alt="Raccoon" />
+                    </div>
+                    <div class="top-sticker-info">
+                      <div class="top-sticker-name">Raccoon Nap</div>
+                      <div class="top-sticker-stat">142 sales · $85.20 revenue</div>
+                    </div>
+                  </div>
+                  <div class="top-sticker-item">
+                    <div class="top-sticker-rank silver">2</div>
+                    <div class="top-sticker-preview">
+                      <img src="images/stickers/blackcat0001.png" alt="Black Cat" />
+                    </div>
+                    <div class="top-sticker-info">
+                      <div class="top-sticker-name">Black Cat Energy</div>
+                      <div class="top-sticker-stat">98 sales · $39.20 revenue</div>
+                    </div>
+                  </div>
+                  <div class="top-sticker-item">
+                    <div class="top-sticker-rank bronze">3</div>
+                    <div class="top-sticker-preview">
+                      <img src="images/stickers/mushroom0001.png" alt="Mushrooms" />
+                    </div>
+                    <div class="top-sticker-info">
+                      <div class="top-sticker-name">Mushrooms</div>
+                      <div class="top-sticker-stat">67 sales · $13.40 revenue</div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -1335,8 +1535,10 @@
     let uploadQueue = [];
     let selectedStickers = new Set();
     let uploadIdCounter = 0;
+    let isUnder18 = false;
+    const MAX_FILES = 15;
 
-    // Categories (will be updated)
+    // Categories
     const categories = [
       "Animals",
       "Entertainment",
@@ -1361,51 +1563,113 @@
     const btnClearAll = document.getElementById('btn-clear-all');
     const bulkActions = document.getElementById('bulk-actions');
     const selectedCountEl = document.getElementById('selected-count');
+    const emptyQueue = document.getElementById('empty-queue');
+    const under18Notice = document.getElementById('under18-notice');
+
+    // ============ INIT ============
+    function init() {
+      // Check under-18 status
+      isUnder18 = localStorage.getItem('stickerbook_creator_under18') === 'true';
+      
+      if (isUnder18) {
+        under18Notice.classList.add('visible');
+      }
+
+      // Load creator info
+      loadCreatorInfo();
+      
+      // Set up event listeners
+      setupEventListeners();
+    }
+
+    function loadCreatorInfo() {
+      const creatorData = localStorage.getItem('stickerbook_creator');
+      if (creatorData) {
+        const creator = JSON.parse(creatorData);
+        // Could update avatar, name display, etc.
+      }
+    }
+
+    function setupEventListeners() {
+      // Tab navigation
+      document.querySelectorAll('.studio-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+          const tabName = tab.dataset.tab;
+          switchTab(tabName);
+        });
+      });
+
+      // Upload zone
+      uploadZone.addEventListener('click', () => fileInput.click());
+      uploadZone.addEventListener('dragover', handleDragOver);
+      uploadZone.addEventListener('dragleave', handleDragLeave);
+      uploadZone.addEventListener('drop', handleDrop);
+      fileInput.addEventListener('change', handleFileSelect);
+
+      // Queue actions
+      btnClearAll.addEventListener('click', clearQueue);
+      btnUploadAll.addEventListener('click', uploadAll);
+
+      // Filter buttons
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          // TODO: Filter stickers
+        });
+      });
+
+      // Sticker selection
+      document.getElementById('sticker-grid').addEventListener('click', handleStickerClick);
+
+      // Bulk actions
+      document.getElementById('btn-bulk-deselect').addEventListener('click', deselectAll);
+      document.getElementById('btn-bulk-delete').addEventListener('click', bulkDelete);
+      document.getElementById('btn-bulk-tag').addEventListener('click', bulkTag);
+    }
 
     // ============ TAB NAVIGATION ============
-    document.querySelectorAll('.studio-tab').forEach(tab => {
-      tab.addEventListener('click', () => {
-        const tabName = tab.dataset.tab;
-        switchTab(tabName);
-      });
-    });
-
     function switchTab(tabName) {
-      // Update tab buttons
       document.querySelectorAll('.studio-tab').forEach(t => t.classList.remove('active'));
       document.querySelector(`.studio-tab[data-tab="${tabName}"]`).classList.add('active');
       
-      // Update panels
       document.querySelectorAll('.studio-panel').forEach(p => p.classList.remove('active'));
       document.getElementById(`panel-${tabName}`).classList.add('active');
     }
 
-    // ============ UPLOAD ZONE ============
-    uploadZone.addEventListener('click', () => fileInput.click());
-
-    uploadZone.addEventListener('dragover', (e) => {
+    // ============ DRAG & DROP ============
+    function handleDragOver(e) {
       e.preventDefault();
       uploadZone.classList.add('drag-over');
-    });
+    }
 
-    uploadZone.addEventListener('dragleave', () => {
+    function handleDragLeave() {
       uploadZone.classList.remove('drag-over');
-    });
+    }
 
-    uploadZone.addEventListener('drop', (e) => {
+    function handleDrop(e) {
       e.preventDefault();
       uploadZone.classList.remove('drag-over');
       handleFiles(e.dataTransfer.files);
-    });
+    }
 
-    fileInput.addEventListener('change', (e) => {
+    function handleFileSelect(e) {
       handleFiles(e.target.files);
-      fileInput.value = ''; // Reset for re-selection
-    });
+      fileInput.value = '';
+    }
 
     // ============ FILE HANDLING ============
     function handleFiles(files) {
-      Array.from(files).forEach(file => {
+      const fileArray = Array.from(files);
+      
+      // Enforce 15 file limit
+      const remaining = MAX_FILES - uploadQueue.length;
+      if (fileArray.length > remaining) {
+        alert(`You can only upload ${MAX_FILES} files at a time. ${remaining} slots remaining.`);
+        fileArray.splice(remaining);
+      }
+
+      fileArray.forEach(file => {
         const validation = validateFile(file);
         const id = ++uploadIdCounter;
         
@@ -1417,20 +1681,18 @@
           category: '',
           tags: [],
           suggestedTags: [],
-          tier: 'standard',
+          tier: isUnder18 ? 'free' : 'standard',
           isNsfw: false,
-          status: validation.valid ? 'ready' : 'error',
+          status: validation.valid ? 'processing' : 'error',
           error: validation.error || null,
           previewUrl: null
         };
 
-        // Generate preview
         if (file.type === 'image/png') {
           const reader = new FileReader();
           reader.onload = (e) => {
             item.previewUrl = e.target.result;
             
-            // Check dimensions after loading
             const img = new Image();
             img.onload = () => {
               if (img.width !== img.height) {
@@ -1443,7 +1705,7 @@
                 item.status = 'error';
                 item.error = 'Image too large (maximum 2048×2048)';
               } else {
-                // Generate AI tag suggestions (simulated)
+                item.status = 'ready';
                 item.suggestedTags = generateSuggestedTags(item.displayName);
                 item.tags = [...item.suggestedTags];
               }
@@ -1461,28 +1723,20 @@
     }
 
     function validateFile(file) {
-      // Check file type
       if (file.type !== 'image/png') {
         return { valid: false, error: 'Only PNG files are allowed' };
       }
-      
-      // Check file size (2MB)
       if (file.size > 2 * 1024 * 1024) {
         return { valid: false, error: 'File exceeds 2MB limit' };
       }
-
       return { valid: true };
     }
 
     function generateDisplayName(filename) {
-      // Remove extension and convert to title case
       let name = filename.replace(/\.png$/i, '');
-      // Remove numbers at the end
       name = name.replace(/\d+$/, '');
-      // Convert camelCase or snake_case to spaces
       name = name.replace(/([a-z])([A-Z])/g, '$1 $2');
       name = name.replace(/[_-]/g, ' ');
-      // Title case
       return toTitleCase(name.trim());
     }
 
@@ -1492,19 +1746,15 @@
         if (index === 0 || index === arr.length - 1) {
           return word.charAt(0).toUpperCase() + word.slice(1);
         }
-        if (smallWords.includes(word)) {
-          return word;
-        }
+        if (smallWords.includes(word)) return word;
         return word.charAt(0).toUpperCase() + word.slice(1);
       }).join(' ');
     }
 
     function generateSuggestedTags(displayName) {
-      // Simulated AI tag suggestions based on name
       const nameLower = displayName.toLowerCase();
       const suggestions = [];
       
-      // Simple keyword matching for demo
       const keywords = {
         'cat': ['cat', 'feline', 'pet', 'animal'],
         'dog': ['dog', 'canine', 'pet', 'animal'],
@@ -1522,7 +1772,6 @@
         }
       }
 
-      // Always return at least 3 generic tags
       if (suggestions.length < 3) {
         suggestions.push('sticker', 'art', 'design');
       }
@@ -1535,10 +1784,12 @@
       if (uploadQueue.length === 0) {
         uploadQueueEl.classList.remove('has-items');
         submitSection.style.display = 'none';
+        emptyQueue.style.display = 'block';
         return;
       }
 
       uploadQueueEl.classList.add('has-items');
+      emptyQueue.style.display = 'none';
       queueCount.textContent = `(${uploadQueue.length} sticker${uploadQueue.length !== 1 ? 's' : ''})`;
 
       const validItems = uploadQueue.filter(item => item.status === 'ready');
@@ -1547,13 +1798,19 @@
       btnUploadAll.disabled = validItems.length === 0;
 
       queueList.innerHTML = uploadQueue.map(item => renderUploadItem(item)).join('');
-
-      // Re-attach event listeners
       attachUploadItemListeners();
     }
 
     function renderUploadItem(item) {
       const isError = item.status === 'error';
+      
+      // Build tier options - disable non-free for under-18
+      const tierOptions = [
+        { value: 'free', name: 'Free', price: '0 coins', disabled: false },
+        { value: 'value', name: 'Value', price: '5 coins', disabled: isUnder18 },
+        { value: 'standard', name: 'Standard', price: '10 coins', disabled: isUnder18 },
+        { value: 'premium', name: 'Premium', price: '15 coins', disabled: isUnder18 }
+      ];
       
       return `
         <div class="upload-item ${isError ? 'error' : ''}" data-id="${item.id}">
@@ -1578,23 +1835,23 @@
             </div>
           ` : `
             <div class="upload-item-form">
-              <!-- Display Name & Category -->
-              <div class="form-row">
-                <div class="form-field">
-                  <label class="form-label">Display Name</label>
-                  <input type="text" class="form-input display-name-input" data-id="${item.id}" value="${item.displayName}" maxlength="50" placeholder="Sticker name..." />
-                </div>
-                <div class="form-field small">
-                  <label class="form-label">Category</label>
-                  <select class="form-select category-select" data-id="${item.id}">
-                    <option value="">Select...</option>
-                    ${categories.map(cat => `<option value="${cat}" ${item.category === cat ? 'selected' : ''}>${cat}</option>`).join('')}
-                  </select>
-                </div>
+              <!-- Display Name -->
+              <div class="form-field">
+                <label class="form-label">Display Name</label>
+                <input type="text" class="form-input display-name-input" data-id="${item.id}" value="${item.displayName}" maxlength="50" placeholder="Sticker name..." />
+              </div>
+
+              <!-- Category -->
+              <div class="form-field">
+                <label class="form-label">Category</label>
+                <select class="form-select category-select" data-id="${item.id}">
+                  <option value="">Select category...</option>
+                  ${categories.map(cat => `<option value="${cat}" ${item.category === cat ? 'selected' : ''}>${cat}</option>`).join('')}
+                </select>
               </div>
 
               <!-- Tags -->
-              <div class="form-field">
+              <div class="form-field full-width">
                 <label class="form-label">Tags (3-15)</label>
                 <div class="tags-input-wrapper" data-id="${item.id}">
                   ${item.tags.map(tag => `
@@ -1606,36 +1863,25 @@
               </div>
 
               <!-- Pricing Tier -->
-              <div class="form-field">
+              <div class="form-field full-width">
                 <label class="form-label">Pricing Tier</label>
                 <div class="tier-selector" data-id="${item.id}">
-                  <label class="tier-option ${item.tier === 'free' ? 'selected' : ''}">
-                    <input type="radio" name="tier-${item.id}" value="free" ${item.tier === 'free' ? 'checked' : ''} />
-                    <div class="tier-name">Free</div>
-                    <div class="tier-price">0 coins</div>
-                  </label>
-                  <label class="tier-option ${item.tier === 'value' ? 'selected' : ''}">
-                    <input type="radio" name="tier-${item.id}" value="value" ${item.tier === 'value' ? 'checked' : ''} />
-                    <div class="tier-name">Value</div>
-                    <div class="tier-price">5 coins</div>
-                  </label>
-                  <label class="tier-option ${item.tier === 'standard' ? 'selected' : ''}">
-                    <input type="radio" name="tier-${item.id}" value="standard" ${item.tier === 'standard' ? 'checked' : ''} />
-                    <div class="tier-name">Standard</div>
-                    <div class="tier-price">10 coins</div>
-                  </label>
-                  <label class="tier-option ${item.tier === 'premium' ? 'selected' : ''}">
-                    <input type="radio" name="tier-${item.id}" value="premium" ${item.tier === 'premium' ? 'checked' : ''} />
-                    <div class="tier-name">Premium</div>
-                    <div class="tier-price">15 coins</div>
-                  </label>
+                  ${tierOptions.map(tier => `
+                    <label class="tier-option ${item.tier === tier.value ? 'selected' : ''} ${tier.disabled ? 'disabled' : ''}">
+                      <input type="radio" name="tier-${item.id}" value="${tier.value}" ${item.tier === tier.value ? 'checked' : ''} ${tier.disabled ? 'disabled' : ''} />
+                      <div class="tier-name">${tier.name}</div>
+                      <div class="tier-price">${tier.price}</div>
+                    </label>
+                  `).join('')}
                 </div>
               </div>
 
               <!-- NSFW Flag -->
-              <div class="checkbox-row">
-                <input type="checkbox" id="nsfw-${item.id}" class="nsfw-checkbox" data-id="${item.id}" ${item.isNsfw ? 'checked' : ''} />
-                <label for="nsfw-${item.id}">Contains mature content (NSFW)</label>
+              <div class="form-field full-width">
+                <div class="checkbox-row">
+                  <input type="checkbox" id="nsfw-${item.id}" class="nsfw-checkbox" data-id="${item.id}" ${item.isNsfw ? 'checked' : ''} />
+                  <label for="nsfw-${item.id}">Contains mature content (NSFW)</label>
+                </div>
               </div>
             </div>
           `}
@@ -1670,9 +1916,7 @@
         select.addEventListener('change', (e) => {
           const id = parseInt(e.target.dataset.id);
           const item = uploadQueue.find(i => i.id === id);
-          if (item) {
-            item.category = e.target.value;
-          }
+          if (item) item.category = e.target.value;
         });
       });
 
@@ -1718,7 +1962,6 @@
           
           if (item) {
             item.tier = e.target.value;
-            // Update visual selection
             selector.querySelectorAll('.tier-option').forEach(opt => opt.classList.remove('selected'));
             e.target.closest('.tier-option').classList.add('selected');
           }
@@ -1730,24 +1973,19 @@
         checkbox.addEventListener('change', (e) => {
           const id = parseInt(e.target.dataset.id);
           const item = uploadQueue.find(i => i.id === id);
-          if (item) {
-            item.isNsfw = e.target.checked;
-          }
+          if (item) item.isNsfw = e.target.checked;
         });
       });
     }
 
-    // Clear all button
-    btnClearAll.addEventListener('click', () => {
+    // ============ QUEUE ACTIONS ============
+    function clearQueue() {
       uploadQueue = [];
       renderUploadQueue();
-    });
+    }
 
-    // Upload all button
-    btnUploadAll.addEventListener('click', () => {
+    function uploadAll() {
       const validItems = uploadQueue.filter(item => item.status === 'ready');
-      
-      // Validate all items have required fields
       const incomplete = validItems.filter(item => !item.category || item.tags.length < 3);
       
       if (incomplete.length > 0) {
@@ -1755,28 +1993,16 @@
         return;
       }
 
-      // Simulate upload
       console.log('Uploading stickers:', validItems);
       alert(`${validItems.length} sticker(s) uploaded successfully!`);
       
-      // Clear queue and switch to manage tab
       uploadQueue = [];
       renderUploadQueue();
       switchTab('manage');
-    });
+    }
 
     // ============ MANAGE PANEL ============
-    // Filter buttons
-    document.querySelectorAll('.filter-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        // TODO: Filter stickers based on btn.dataset.filter
-      });
-    });
-
-    // Sticker selection
-    document.getElementById('sticker-grid').addEventListener('click', (e) => {
+    function handleStickerClick(e) {
       const card = e.target.closest('.sticker-card');
       if (!card) return;
 
@@ -1791,7 +2017,7 @@
       }
 
       updateBulkActions();
-    });
+    }
 
     function updateBulkActions() {
       if (selectedStickers.size > 0) {
@@ -1802,41 +2028,29 @@
       }
     }
 
-    // Bulk action buttons
-    document.getElementById('btn-bulk-deselect').addEventListener('click', () => {
+    function deselectAll() {
       selectedStickers.clear();
       document.querySelectorAll('.sticker-card.selected').forEach(card => card.classList.remove('selected'));
       updateBulkActions();
-    });
+    }
 
-    document.getElementById('btn-bulk-delete').addEventListener('click', () => {
+    function bulkDelete() {
       if (confirm(`Delete ${selectedStickers.size} sticker(s)? This will remove them from the shop.`)) {
-        // TODO: Implement deletion
         alert('Stickers deleted (demo)');
         selectedStickers.clear();
         updateBulkActions();
       }
-    });
+    }
 
-    document.getElementById('btn-bulk-tag').addEventListener('click', () => {
+    function bulkTag() {
       const tag = prompt('Enter tag to add to selected stickers:');
       if (tag) {
-        // TODO: Implement bulk tagging
         alert(`Tag "${tag}" added to ${selectedStickers.size} stickers (demo)`);
-      }
-    });
-
-    // ============ INIT ============
-    // Load creator info from localStorage
-    function loadCreatorInfo() {
-      const creatorData = localStorage.getItem('stickerbook_creator');
-      if (creatorData) {
-        const creator = JSON.parse(creatorData);
-        // Could update avatar, name, etc.
       }
     }
 
-    loadCreatorInfo();
+    // ============ START ============
+    document.addEventListener('DOMContentLoaded', init);
   </script>
 </body>
 </html>
