@@ -531,7 +531,7 @@
       color: white;
     }
 
-    .tag-chip.ai-suggested {
+    .tag-chip.suggested {
       background: var(--color-turquoise);
     }
 
@@ -1855,11 +1855,11 @@
                 <label class="form-label">Tags (3-15)</label>
                 <div class="tags-input-wrapper" data-id="${item.id}">
                   ${item.tags.map(tag => `
-                    <span class="tag-chip ${item.suggestedTags.includes(tag) ? 'ai-suggested' : ''}">${tag}<button class="tag-chip-remove" data-tag="${tag}">✕</button></span>
+                    <span class="tag-chip ${item.suggestedTags.includes(tag) ? 'suggested' : ''}">${tag}<button class="tag-chip-remove" data-tag="${tag}">✕</button></span>
                   `).join('')}
                   <input type="text" class="tags-input" data-id="${item.id}" placeholder="${item.tags.length === 0 ? 'Add tags...' : ''}" />
                 </div>
-                <div class="tags-hint">${item.tags.length}/15 tags · Press Enter to add · AI suggestions in teal</div>
+                <div class="tags-hint">${item.tags.length}/15 tags · Press Enter to add · Suggested tags in teal</div>
               </div>
 
               <!-- Pricing Tier -->
@@ -1920,7 +1920,7 @@
         });
       });
 
-      // Tags input
+      // Tags input - Enter stays in field
       document.querySelectorAll('.tags-input').forEach(input => {
         input.addEventListener('keydown', (e) => {
           if (e.key === 'Enter') {
@@ -1932,6 +1932,11 @@
             if (item && value && !item.tags.includes(value) && item.tags.length < 15) {
               item.tags.push(value);
               renderUploadQueue();
+              // Refocus on the tags input for this item
+              setTimeout(() => {
+                const newInput = document.querySelector(`.tags-input[data-id="${id}"]`);
+                if (newInput) newInput.focus();
+              }, 0);
             }
           }
         });
