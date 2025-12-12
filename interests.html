@@ -225,136 +225,6 @@
       opacity: 0.7;
     }
 
-    /* ========== CREATOR LINK ========== */
-    .creator-link-section {
-      margin-top: 32px;
-      padding: 20px;
-      text-align: center;
-      border-top: 1px solid var(--color-border);
-    }
-
-    .creator-link-text {
-      font-size: 13px;
-      color: var(--color-text-muted);
-      margin-bottom: 8px;
-    }
-
-    .creator-link-btn {
-      background: none;
-      border: none;
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--color-turquoise);
-      cursor: pointer;
-      font-family: var(--font-primary);
-      padding: 4px 8px;
-      transition: opacity 0.15s ease;
-    }
-
-    .creator-link-btn:hover {
-      opacity: 0.8;
-    }
-
-    /* ========== CREATOR TYPE MODAL ========== */
-    .creator-modal-overlay {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0, 0, 0, 0.8);
-      z-index: 1000;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-
-    .creator-modal-overlay.visible {
-      display: flex;
-    }
-
-    .creator-modal {
-      background: var(--color-canvas-elevated);
-      border-radius: var(--radius-xl);
-      padding: 24px;
-      width: 100%;
-      max-width: 340px;
-      position: relative;
-    }
-
-    .creator-modal-close {
-      position: absolute;
-      top: 16px;
-      right: 16px;
-      width: 28px;
-      height: 28px;
-      border: none;
-      background: var(--color-canvas-subtle);
-      border-radius: 50%;
-      color: var(--color-text-muted);
-      font-size: 12px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: background 0.15s ease;
-    }
-
-    .creator-modal-close:hover {
-      background: var(--color-hover-bg);
-    }
-
-    .creator-modal-title {
-      font-family: var(--font-display);
-      font-size: 18px;
-      font-weight: 700;
-      color: var(--color-text-primary);
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    .creator-type-btn {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 4px;
-      padding: 20px;
-      background: var(--color-canvas-subtle);
-      border: 1.5px solid var(--color-border);
-      border-radius: var(--radius-lg);
-      cursor: pointer;
-      transition: all 0.15s ease;
-      margin-bottom: 12px;
-    }
-
-    .creator-type-btn:last-child {
-      margin-bottom: 0;
-    }
-
-    .creator-type-btn:hover {
-      border-color: var(--color-purple);
-      background: var(--color-canvas-elevated);
-    }
-
-    .creator-type-icon {
-      font-size: 28px;
-      margin-bottom: 4px;
-    }
-
-    .creator-type-label {
-      font-family: var(--font-display);
-      font-size: 15px;
-      font-weight: 700;
-      color: var(--color-text-primary);
-    }
-
-    .creator-type-desc {
-      font-size: 12px;
-      color: var(--color-text-muted);
-    }
-
     /* ========== FOOTER ========== */
     .interests-footer {
       position: fixed;
@@ -440,138 +310,6 @@
       flex: 1;
     }
 
-    /* ========== CREATOR DISCLAIMER MODAL ========== */
-    .disclaimer-modal-overlay {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0, 0, 0, 0.85);
-      z-index: 1001;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      overflow-y: auto;
-    }
-
-    .disclaimer-modal-overlay.visible {
-      display: flex;
-    }
-
-    .disclaimer-modal {
-      background: var(--color-canvas-elevated);
-      border-radius: var(--radius-xl);
-      padding: 24px;
-      width: 100%;
-      max-width: 380px;
-      max-height: 90vh;
-      overflow-y: auto;
-    }
-
-    .disclaimer-icon {
-      text-align: center;
-      font-size: 48px;
-      margin-bottom: 16px;
-    }
-
-    .disclaimer-heading {
-      font-family: var(--font-display);
-      font-size: 20px;
-      font-weight: 700;
-      color: var(--color-text-primary);
-      text-align: center;
-      margin-bottom: 16px;
-    }
-
-    .disclaimer-text {
-      font-size: 14px;
-      color: var(--color-text-secondary);
-      line-height: 1.6;
-      margin-bottom: 16px;
-    }
-
-    .disclaimer-highlight {
-      background: rgba(20, 184, 166, 0.1);
-      border-left: 3px solid var(--color-turquoise);
-      padding: 12px 16px;
-      border-radius: 0 var(--radius-md) var(--radius-md) 0;
-      margin: 16px 0;
-    }
-
-    .disclaimer-highlight p {
-      font-size: 13px;
-      color: var(--color-turquoise);
-      line-height: 1.5;
-      margin: 0;
-    }
-
-    .disclaimer-list {
-      list-style: none;
-      padding: 0;
-      margin: 16px 0;
-    }
-
-    .disclaimer-list li {
-      font-size: 14px;
-      color: var(--color-text-secondary);
-      padding: 8px 0;
-      padding-left: 28px;
-      position: relative;
-    }
-
-    .disclaimer-list li::before {
-      content: "✓";
-      position: absolute;
-      left: 0;
-      color: var(--color-turquoise);
-      font-weight: 700;
-    }
-
-    .disclaimer-buttons {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-top: 20px;
-    }
-
-    .disclaimer-btn-continue {
-      width: 100%;
-      padding: 14px 20px;
-      background: var(--color-purple);
-      border: none;
-      border-radius: var(--radius-pill);
-      font-size: 15px;
-      font-weight: 700;
-      color: white;
-      cursor: pointer;
-      font-family: var(--font-primary);
-      transition: all 0.15s ease;
-    }
-
-    .disclaimer-btn-continue:hover {
-      opacity: 0.9;
-    }
-
-    .disclaimer-btn-back {
-      width: 100%;
-      padding: 12px 20px;
-      background: transparent;
-      border: 1.5px solid var(--color-border);
-      border-radius: var(--radius-pill);
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--color-text-muted);
-      cursor: pointer;
-      font-family: var(--font-primary);
-      transition: all 0.15s ease;
-    }
-
-    .disclaimer-btn-back:hover {
-      border-color: var(--color-border-strong);
-      color: var(--color-text-secondary);
-    }
   </style>
 </head>
 <body>
@@ -604,46 +342,6 @@
         <div class="selected-pills" id="selected-pills"></div>
       </div>
 
-      <!-- Creator/Brand conversion link -->
-      <div class="creator-link-section">
-        <p class="creator-link-text">Here to share your art or represent a brand?</p>
-        <button class="creator-link-btn" id="creator-link-btn">Set up a creator account →</button>
-      </div>
-    </div>
-
-    <!-- Creator Type Modal -->
-    <div class="creator-modal-overlay" id="creator-modal-overlay">
-      <div class="creator-modal">
-        <button class="creator-modal-close" id="creator-modal-close">✕</button>
-        <h3 class="creator-modal-title">What best describes you?</h3>
-        
-        <button class="creator-type-btn" id="type-creator">
-          <span class="creator-type-icon">🎨</span>
-          <span class="creator-type-label">Artist / Creator</span>
-          <span class="creator-type-desc">I make stickers, designs, or art</span>
-        </button>
-        
-        <button class="creator-type-btn" id="type-brand">
-          <span class="creator-type-icon">🏢</span>
-          <span class="creator-type-label">Brand / Business</span>
-          <span class="creator-type-desc">I represent a company or organization</span>
-        </button>
-      </div>
-    </div>
-
-    <!-- Creator Disclaimer Modal -->
-    <div class="disclaimer-modal-overlay" id="disclaimer-modal-overlay">
-      <div class="disclaimer-modal">
-        <div class="disclaimer-icon">🎨</div>
-        <div class="disclaimer-heading" id="disclaimer-heading">Ready to share your art?</div>
-        <div id="disclaimer-content">
-          <!-- Populated by JS based on age -->
-        </div>
-        <div class="disclaimer-buttons">
-          <button class="disclaimer-btn-continue" id="disclaimer-continue">Continue</button>
-          <button class="disclaimer-btn-back" id="disclaimer-back">Back</button>
-        </div>
-      </div>
     </div>
 
     <!-- Footer -->
@@ -711,33 +409,6 @@
     let activeCategory = null;
     let source = 'account';
 
-    // ============ HELPER: Get user age ============
-    function getUserAge() {
-      try {
-        const userData = JSON.parse(localStorage.getItem('stickerbook_user') || '{}');
-        if (userData.dob) {
-          const { month, day, year } = userData.dob;
-          const m = parseInt(month, 10);
-          const d = parseInt(day, 10);
-          const y = parseInt(year, 10);
-          
-          if (isNaN(m) || isNaN(d) || isNaN(y)) return null;
-          
-          const today = new Date();
-          const birthDate = new Date(y, m - 1, d);
-          let age = today.getFullYear() - birthDate.getFullYear();
-          const monthDiff = today.getMonth() - birthDate.getMonth();
-          
-          if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
-            age--;
-          }
-          
-          return age;
-        }
-      } catch (e) {}
-      return null;
-    }
-
     // ============ DOM ============
     const categoryPillsEl = document.getElementById('category-pills');
     const subcategorySectionEl = document.getElementById('subcategory-section');
@@ -764,14 +435,6 @@
         const saved = JSON.parse(localStorage.getItem('stickerbook_interests') || '[]');
         saved.forEach(i => selectedInterests.add(i));
       } catch (e) {}
-
-      // Check if already marked as creator
-      const accountType = localStorage.getItem('stickerbook_account_type');
-      if (accountType === 'creator') {
-        const linkBtn = document.getElementById('creator-link-btn');
-        linkBtn.textContent = '✓ Creator account selected';
-        linkBtn.style.color = 'var(--color-turquoise)';
-      }
 
       renderCategoryPills();
       renderSelectedPills();
@@ -899,103 +562,6 @@
         saveInterests();
         navigateNext();
       });
-
-      // Creator link - show modal
-      const creatorModal = document.getElementById('creator-modal-overlay');
-      const disclaimerModal = document.getElementById('disclaimer-modal-overlay');
-      
-      document.getElementById('creator-link-btn').addEventListener('click', () => {
-        creatorModal.classList.add('visible');
-      });
-
-      document.getElementById('creator-modal-close').addEventListener('click', () => {
-        creatorModal.classList.remove('visible');
-      });
-
-      // Click outside modal to close
-      creatorModal.addEventListener('click', (e) => {
-        if (e.target === creatorModal) {
-          creatorModal.classList.remove('visible');
-        }
-      });
-
-      // Artist/Creator - show disclaimer modal with age-appropriate content
-      document.getElementById('type-creator').addEventListener('click', () => {
-        creatorModal.classList.remove('visible');
-        
-        const age = getUserAge();
-        const isUnder18 = age !== null && age < 18;
-        const headingEl = document.getElementById('disclaimer-heading');
-        const contentEl = document.getElementById('disclaimer-content');
-        
-        if (isUnder18) {
-          headingEl.textContent = 'Welcome, young creator!';
-          contentEl.innerHTML = `
-            <div class="disclaimer-highlight">
-              <p>Creators under 18 can add stickers and backgrounds to the Sticker Shop at no cost to users.</p>
-            </div>
-            <p class="disclaimer-text">
-              We welcome you to build your portfolio, grow your following, and get your work seen. Once you turn 18, you'll be able to set coin prices and start earning.
-            </p>
-          `;
-          localStorage.setItem('stickerbook_creator_under18', 'true');
-        } else {
-          headingEl.textContent = 'Ready to share your art?';
-          contentEl.innerHTML = `
-            <p class="disclaimer-text">As a Stickerbook Creator, you'll be able to:</p>
-            <ul class="disclaimer-list">
-              <li>Share your original art in the Sticker Shop</li>
-              <li>Pick a tier for your work</li>
-              <li>Create your own Sticker Packs</li>
-              <li>Top stickers featured in Stickerbook collections</li>
-              <li>Grow your following</li>
-              <li>Track your earnings and analytics</li>
-            </ul>
-            <p class="disclaimer-text" style="margin-bottom: 12px;">
-              Stickerbook gives 84% of Sticker Shop revenue to creators.
-            </p>
-            <div class="disclaimer-highlight">
-              <p>🎨 73 of 100 Founding Creator spots remaining — lock in 90% for life</p>
-            </div>
-            <p class="disclaimer-text">
-              Set up your payout information before adding to the Sticker Shop.
-            </p>
-          `;
-          localStorage.setItem('stickerbook_creator_under18', 'false');
-        }
-        
-        disclaimerModal.classList.add('visible');
-      });
-
-      // Disclaimer modal - Continue (go straight to creator onboarding)
-      document.getElementById('disclaimer-continue').addEventListener('click', () => {
-        localStorage.setItem('stickerbook_account_type', 'creator');
-        // Save any interests they've already selected
-        if (selectedInterests.size > 0) {
-          saveInterests();
-        }
-        // Skip straight to creator onboarding
-        window.location.href = 'creatoronboarding.html';
-      });
-
-      // Disclaimer modal - Go back
-      document.getElementById('disclaimer-back').addEventListener('click', () => {
-        disclaimerModal.classList.remove('visible');
-        creatorModal.classList.add('visible');
-      });
-
-      // Click outside disclaimer modal to close
-      disclaimerModal.addEventListener('click', (e) => {
-        if (e.target === disclaimerModal) {
-          disclaimerModal.classList.remove('visible');
-        }
-      });
-
-      // Brand - skip interests, go straight to brand portal
-      document.getElementById('type-brand').addEventListener('click', () => {
-        localStorage.setItem('stickerbook_account_type', 'brand');
-        window.location.href = 'brand-signup.html';
-      });
     }
 
     // ============ SAVE & NAVIGATE ============
@@ -1004,13 +570,8 @@
     }
 
     function navigateNext() {
-      const accountType = localStorage.getItem('stickerbook_account_type');
-      
       if (source === 'settings') {
         window.location.href = 'settings.html';
-      } else if (accountType === 'creator') {
-        // Creators finish interests, then go to creator onboarding
-        window.location.href = 'creatoronboarding.html';
       } else {
         window.location.href = 'stickerbook.html';
       }
