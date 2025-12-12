@@ -640,8 +640,8 @@
           <!-- Populated by JS based on age -->
         </div>
         <div class="disclaimer-buttons">
-          <button class="disclaimer-btn-continue" id="disclaimer-continue">I understand, let's go</button>
-          <button class="disclaimer-btn-back" id="disclaimer-back">Go back</button>
+          <button class="disclaimer-btn-continue" id="disclaimer-continue">Continue</button>
+          <button class="disclaimer-btn-back" id="disclaimer-back">Back</button>
         </div>
       </div>
     </div>
@@ -942,16 +942,23 @@
         } else {
           headingEl.textContent = 'Ready to share your art?';
           contentEl.innerHTML = `
-            <p class="disclaimer-text">As a Stickerbook creator, you'll be able to:</p>
+            <p class="disclaimer-text">As a Stickerbook Creator, you'll be able to:</p>
             <ul class="disclaimer-list">
-              <li>Upload your original sticker designs</li>
-              <li>Set your own prices</li>
-              <li>Keep 80% of every sale</li>
-              <li>Build a following</li>
-              <li>Track your earnings and stats</li>
+              <li>Share your original art in the Sticker Shop</li>
+              <li>Pick a tier for your work</li>
+              <li>Create your own Sticker Packs</li>
+              <li>Top stickers featured in Stickerbook collections</li>
+              <li>Grow your following</li>
+              <li>Track your earnings and analytics</li>
             </ul>
+            <p class="disclaimer-text" style="margin-bottom: 12px;">
+              Stickerbook gives 84% of Sticker Shop revenue to creators.
+            </p>
+            <div class="disclaimer-highlight">
+              <p>🎨 73 of 100 Founding Creator spots remaining — lock in 90% for life</p>
+            </div>
             <p class="disclaimer-text">
-              You'll set up your payment info later when you're ready to start selling.
+              Set up your payout information before adding to the Sticker Shop.
             </p>
           `;
           localStorage.setItem('stickerbook_creator_under18', 'false');
