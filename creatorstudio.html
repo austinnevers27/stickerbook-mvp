@@ -1535,7 +1535,7 @@
     let uploadQueue = [];
     let selectedStickers = new Set();
     let uploadIdCounter = 0;
-    let isUnder18 = false;
+    let isMinor = false;
     const MAX_FILES = 15;
 
     // Categories
@@ -1568,10 +1568,10 @@
 
     // ============ INIT ============
     function init() {
-      // Check under-18 status
-      isUnder18 = localStorage.getItem('stickerbook_creator_under18') === 'true';
+      // Check minor status
+      isMinor = localStorage.getItem('stickerbook_is_minor') === 'true';
       
-      if (isUnder18) {
+      if (isMinor) {
         under18Notice.classList.add('visible');
       }
 
@@ -1681,7 +1681,7 @@
           category: '',
           tags: [],
           suggestedTags: [],
-          tier: isUnder18 ? 'free' : 'standard',
+          tier: isMinor ? 'free' : 'standard',
           isNsfw: false,
           status: validation.valid ? 'processing' : 'error',
           error: validation.error || null,
@@ -1804,12 +1804,12 @@
     function renderUploadItem(item) {
       const isError = item.status === 'error';
       
-      // Build tier options - disable non-free for under-18
+      // Build tier options - disable non-free for minors
       const tierOptions = [
         { value: 'free', name: 'Free', price: '0 coins', disabled: false },
-        { value: 'value', name: 'Value', price: '5 coins', disabled: isUnder18 },
-        { value: 'standard', name: 'Standard', price: '10 coins', disabled: isUnder18 },
-        { value: 'premium', name: 'Premium', price: '15 coins', disabled: isUnder18 }
+        { value: 'value', name: 'Value', price: '5 coins', disabled: isMinor },
+        { value: 'standard', name: 'Standard', price: '10 coins', disabled: isMinor },
+        { value: 'premium', name: 'Premium', price: '15 coins', disabled: isMinor }
       ];
       
       return `

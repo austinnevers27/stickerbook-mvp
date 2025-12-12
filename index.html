@@ -7,92 +7,40 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/stickerbook.css">
   <style>
-    /* ========== PAGE-SPECIFIC: SPLASH ========== */
+    /* ========== PAGE-SPECIFIC: INDEX ========== */
     html, body {
-      overflow: hidden;
+      overflow-x: hidden;
     }
 
-    /* Splash container - full viewport */
-    .splash-container {
-      position: fixed;
-      inset: 0;
-      overflow: hidden;
-      transition: opacity 0.5s ease-out;
+    .index-container {
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 60px 24px 40px;
     }
 
-    .splash-container.fade-out {
-      opacity: 0;
+    /* Header */
+    .index-header {
+      text-align: center;
+      margin-bottom: 32px;
     }
 
-    /* Title sticker positioning */
-    .title-sticker {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) rotate(-2deg);
-      z-index: 1000;
-    }
-
-    /* Header state (after transition) */
-    .header-title {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
+    .index-title {
       font-family: var(--font-display);
-      font-size: 24px;
+      font-size: 32px;
       font-weight: 700;
       letter-spacing: 0.12em;
       text-transform: uppercase;
       color: var(--color-text-primary);
-      opacity: 0;
-      pointer-events: none;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-      transition: all 1s ease-out;
+      margin-bottom: 8px;
     }
 
-    .header-title.visible {
-      opacity: 1;
-    }
-
-    .header-title.at-top {
-      top: 60px;
-      font-size: 18px;
-      letter-spacing: 0.15em;
-    }
-
-    .header-title .accent-bar {
-      transition: width 1s ease-out;
-    }
-
-    .header-title.at-top .accent-bar {
-      width: 80px;
-    }
-
-    /* Intro content */
-    .intro-content {
-      position: fixed;
-      top: 110px;
-      left: 50%;
-      transform: translateX(-50%) translateY(30px);
-      width: 100%;
+    /* Intro text */
+    .intro-section {
       max-width: 340px;
-      height: calc(100vh - 130px);
-      height: calc(100dvh - 130px);
-      padding: 0 24px 40px;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.5s ease-out, transform 0.5s ease-out;
-      overflow-y: auto;
-    }
-
-    .intro-content.visible {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0);
-      pointer-events: auto;
+      margin-bottom: 40px;
     }
 
     .intro-text {
@@ -103,164 +51,148 @@
       font-weight: 500;
     }
 
-    /* CTA button overrides for splash */
-    .cta-button {
-      opacity: 0;
-      margin-bottom: 20px;
+    /* Account type selector */
+    .type-selector {
+      width: 100%;
+      max-width: 340px;
     }
 
-    .cta-button.visible {
-      opacity: 1;
+    .type-selector__heading {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--color-text-secondary);
+      text-align: center;
+      margin-bottom: 16px;
+    }
+
+    .type-option {
+      width: 100%;
+      padding: 16px 20px;
+      margin-bottom: 12px;
+      background: var(--color-surface);
+      border: 2px solid var(--color-border);
+      border-radius: 12px;
+      font-family: var(--font-body);
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--color-text-primary);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: left;
+    }
+
+    .type-option:hover {
+      border-color: var(--color-accent-primary);
+      background: rgba(138, 43, 226, 0.05);
+    }
+
+    .type-option:active {
+      transform: scale(0.98);
+    }
+
+    .type-option__label {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .type-option__desc {
+      font-size: 12px;
+      font-weight: 400;
+      color: var(--color-text-secondary);
+    }
+
+    /* Other option styling */
+    .type-option--other {
+      background: transparent;
+      border-style: dashed;
+    }
+
+    .type-option--other:hover {
+      background: rgba(138, 43, 226, 0.03);
     }
   </style>
 </head>
 <body>
 
-  <!-- SPLASH: Sticker bomb -->
-  <div class="splash-container" id="splashContainer">
-    <!-- Stickers will be injected here by JavaScript -->
+  <div class="index-container">
     
-    <!-- Title sticker on top -->
-    <div class="title-sticker">
-      <div class="title-sticker__text">Stickerbook</div>
-      <div class="title-sticker__bar"></div>
+    <!-- Header -->
+    <header class="index-header">
+      <h1 class="index-title">Stickerbook</h1>
+      <div class="accent-bar accent-bar--md"></div>
+    </header>
+
+    <!-- Intro -->
+    <section class="intro-section">
+      <p class="intro-text">
+        They're small, but they say a lot. They tell people what we love, what we notice, what matters to us.
+      </p>
+      <p class="intro-text">
+        Stickerbook gathers those signals into pages you can shape with intention. Each sticker is one truth;
+        together, they make a picture that feels unmistakably you.
+      </p>
+      <p class="intro-text">
+        This is where those signals become
+        <span class="text-tagline">connections that stick.</span>
+      </p>
+    </section>
+
+    <!-- Account Type Selector -->
+    <section class="type-selector">
+      <p class="type-selector__heading">I'm here to...</p>
+
+      <button class="type-option" onclick="window.location.href='account.html'">
+        <span class="type-option__label">Find my people</span>
+        <span class="type-option__desc">Create your Stickerbook and connect with others</span>
+      </button>
+
+      <button class="type-option" onclick="window.location.href='account-creator.html'">
+        <span class="type-option__label">Share my art</span>
+        <span class="type-option__desc">Sell stickers and backgrounds in the Sticker Shop</span>
+      </button>
+
+      <button class="type-option" onclick="showBrandMessage()">
+        <span class="type-option__label">Represent a brand</span>
+        <span class="type-option__desc">Companies, nonprofits, public figures</span>
+      </button>
+
+      <button class="type-option type-option--other" onclick="showOtherMessage()">
+        <span class="type-option__label">Something else</span>
+        <span class="type-option__desc">Not sure where I fit</span>
+      </button>
+    </section>
+
+  </div>
+
+  <!-- Temporary modal for brand/other (until we build proper flows) -->
+  <div id="tempModal" class="modal-overlay" style="display: none;">
+    <div class="modal-content">
+      <h3 class="modal-title" id="modalTitle">Coming Soon</h3>
+      <p class="modal-text" id="modalText"></p>
+      <button class="btn btn-primary" onclick="closeModal()">Got it</button>
     </div>
   </div>
 
-  <!-- HEADER: Title that persists and moves to top -->
-  <div class="header-title" id="headerTitle">
-    <span>Stickerbook</span>
-    <div class="accent-bar accent-bar--md"></div>
-  </div>
-
-  <!-- INTRO: Content that fades in -->
-  <div class="intro-content" id="introContent">
-    <p class="intro-text">
-      They're small, but they say a lot. They tell people what we love, what we notice, what matters to us.
-    </p>
-    <p class="intro-text">
-      We all leave little signals — the symbols, references, and pieces of ourselves we put into the world.
-      On our shirts. Our bags. Our water bottles. Our laptops. Even the ones we carry on our skin.
-    </p>
-    <p class="intro-text">
-      Stickerbook gathers those signals into pages you can shape with intention. Each sticker is one truth;
-      together, they make a picture that feels unmistakably you.
-    </p>
-    <p class="intro-text">
-      And when someone else sees your pages and thinks, "Wait... that looks like my kind of person,"
-      you've already skipped the small talk.
-    </p>
-    <p class="intro-text">
-      This is where those signals become<br>
-      <span class="text-tagline">connections that stick.</span>
-    </p>
-    <button id="ctaButton" class="btn btn-primary cta-button" onclick="window.location.href='account.html'">
-      Get Started
-    </button>
-  </div>
-
   <script>
-    // ============ STICKER CONFIGURATION ============
-    const STICKER_PATHS = [
-      'assets/Stickers/splash/airplane.png',
-      'assets/Stickers/splash/baseball.png',
-      'assets/Stickers/splash/cat.png',
-      'assets/Stickers/splash/clown0001.png',
-      'assets/Stickers/splash/coffee0001.png',
-      'assets/Stickers/splash/controller.png',
-      'assets/Stickers/splash/cubansandwich0001.png',
-      'assets/Stickers/splash/donut.png',
-      'assets/Stickers/splash/firetruck0001.png',
-      'assets/Stickers/splash/fox.png',
-      'assets/Stickers/splash/germanshepherd0001.png',
-      'assets/Stickers/splash/leavetheleaves0001.png',
-      'assets/Stickers/splash/moon.png',
-      'assets/Stickers/splash/mushroom0001.png',
-      'assets/Stickers/splash/noevilanimals0001.png',
-      'assets/Stickers/splash/orangecat0001.png',
-      'assets/Stickers/splash/orca0001.png',
-      'assets/Stickers/splash/palmtree.png',
-      'assets/Stickers/splash/peace.png',
-      'assets/Stickers/splash/prideflag0002.png',
-      'assets/Stickers/splash/raccoon0001.png',
-      'assets/Stickers/splash/saxophone.png',
-      'assets/Stickers/splash/yorkie0001.png',
-    ];
-
-    const TOTAL_STICKERS = 500;
-    const MIN_SIZE = 60;
-    const MAX_SIZE = 120;
-    const MIN_ROTATION = -25;
-    const MAX_ROTATION = 25;
-
-    // ============ GENERATE STICKERS ============
-    function generateStickers() {
-      const container = document.getElementById('splashContainer');
-      const titleSticker = container.querySelector('.title-sticker');
-      
-      // Use actual viewport dimensions
-      const containerWidth = window.innerWidth;
-      const containerHeight = window.innerHeight;
-      
-      for (let i = 0; i < TOTAL_STICKERS; i++) {
-        const stickerPath = STICKER_PATHS[Math.floor(Math.random() * STICKER_PATHS.length)];
-        
-        // Random position (full coverage, can bleed off edges)
-        const x = Math.random() * (containerWidth + 100) - 50;
-        const y = Math.random() * (containerHeight + 100) - 50;
-        
-        const size = MIN_SIZE + Math.random() * (MAX_SIZE - MIN_SIZE);
-        const rotation = MIN_ROTATION + Math.random() * (MAX_ROTATION - MIN_ROTATION);
-        const zIndex = Math.floor(Math.random() * 100);
-        
-        const div = document.createElement('div');
-        div.className = 'sticker';
-        div.style.cssText = `
-          left: ${x}px;
-          top: ${y}px;
-          width: ${size}px;
-          height: ${size}px;
-          transform: rotate(${rotation}deg);
-          z-index: ${zIndex};
-        `;
-        
-        const img = document.createElement('img');
-        img.src = stickerPath;
-        img.alt = '';
-        
-        div.appendChild(img);
-        container.insertBefore(div, titleSticker);
-      }
+    function showBrandMessage() {
+      document.getElementById('modalTitle').textContent = 'Brand Accounts';
+      document.getElementById('modalText').textContent = 'Brand and organization accounts are coming soon. For early access, email hello@stickerbook.app with your company name and we\'ll be in touch.';
+      document.getElementById('tempModal').style.display = 'flex';
     }
 
-    // ============ TRANSITION LOGIC ============
-    const splashContainer = document.getElementById('splashContainer');
-    const headerTitle = document.getElementById('headerTitle');
-    const introContent = document.getElementById('introContent');
-    const ctaButton = document.getElementById('ctaButton');
+    function showOtherMessage() {
+      document.getElementById('modalTitle').textContent = 'Not sure?';
+      document.getElementById('modalText').textContent = 'No worries! Most people are here to find their people. If you\'re an artist wanting to sell your work, choose "Share my art." Questions? Email hello@stickerbook.app';
+      document.getElementById('tempModal').style.display = 'flex';
+    }
 
-    window.addEventListener('load', () => {
-      generateStickers();
-      
-      setTimeout(() => {
-        splashContainer.classList.add('fade-out');
-        headerTitle.classList.add('visible');
+    function closeModal() {
+      document.getElementById('tempModal').style.display = 'none';
+    }
 
-        setTimeout(() => {
-          splashContainer.style.display = 'none';
-          headerTitle.classList.add('at-top');
-
-          setTimeout(() => {
-            introContent.classList.add('visible');
-          }, 400);
-
-          setTimeout(() => {
-            ctaButton.classList.add('visible');
-          }, 900);
-
-        }, 500);
-
-      }, 2500);
+    // Close modal on overlay click
+    document.getElementById('tempModal').addEventListener('click', function(e) {
+      if (e.target === this) closeModal();
     });
   </script>
 </body>

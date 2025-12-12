@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Stickerbook – Creator Account</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/stickerbook.css">
+  <style>
+    /* Page-specific styles */
+    .info-note {
+      background: rgba(138, 43, 226, 0.08);
+      border-left: 3px solid var(--color-accent-primary);
+      padding: 12px 14px;
+      margin-bottom: 20px;
+      border-radius: 0 8px 8px 0;
+    }
+
+    .info-note p {
+      font-size: 12px;
+      line-height: 1.5;
+      color: var(--color-text-secondary);
+      margin: 0;
+    }
+
+    .info-note--minor {
+      background: rgba(0, 206, 209, 0.08);
+      border-left-color: var(--color-accent-secondary);
+    }
+
+    .adult-fields {
+      transition: opacity 0.3s ease, max-height 0.3s ease;
+    }
+
+    .adult-fields.hidden {
+      opacity: 0;
+      max-height: 0;
+      overflow: hidden;
+      margin: 0;
+      padding: 0;
+    }
+
+    .minor-fields {
+      transition: opacity 0.3s ease, max-height 0.3s ease;
+    }
+
+    .minor-fields.hidden {
+      opacity: 0;
+      max-height: 0;
+      overflow: hidden;
+      margin: 0;
+      padding: 0;
+    }
+
+    .address-row {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .address-row-split {
+      display: grid;
+      grid-template-columns: 1fr 80px 100px;
+      gap: 12px;
+    }
+
+    .parent-checkbox-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .parent-checkbox-row input[type="checkbox"] {
+      margin-top: 3px;
+      flex-shrink: 0;
+    }
+
+    .parent-checkbox-row label {
+      font-size: 13px;
+      line-height: 1.4;
+      color: var(--color-text-primary);
+    }
+
+    .age-badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-left: 8px;
+    }
+
+    .age-badge--adult {
+      background: rgba(138, 43, 226, 0.15);
+      color: var(--color-accent-primary);
+    }
+
+    .age-badge--minor {
+      background: rgba(0, 206, 209, 0.15);
+      color: var(--color-accent-secondary);
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <div class="phone-frame">
+      <div class="phone-inner">
+        <div class="shell-inner">
+          <!-- Header with logo and back button -->
+          <div class="top-row">
+            <div class="logo-group" style="align-items: flex-start;">
+              <div class="logo-mark">STICKERBOOK</div>
+              <div class="logo-accent"></div>
+            </div>
+            <button class="btn-skip" onclick="window.location.href='index.html'">Back</button>
+          </div>
+
+          <!-- Title -->
+          <h1 class="screen-title text-center">
+            Become a Creator
+            <span class="age-badge age-badge--adult" id="adultBadge">18+</span>
+            <span class="age-badge age-badge--minor hidden" id="minorBadge">Under 18</span>
+          </h1>
+          <p class="screen-subtitle text-center">
+            Share your art in the Sticker Shop
+          </p>
+
+          <!-- Form -->
+          <form class="form" id="creator-form" novalidate>
+            
+            <!-- Date of Birth (First - triggers form change) -->
+            <div class="field">
+              <label class="field-label">Date of Birth</label>
+              <div class="dob-row">
+                <input 
+                  type="text" 
+                  id="dob-month" 
+                  class="field-input" 
+                  placeholder="MM"
+                  maxlength="2"
+                  inputmode="numeric"
+                  autocomplete="bday-month"
+                  required
+                />
+                <input 
+                  type="text" 
+                  id="dob-day" 
+                  class="field-input" 
+                  placeholder="DD"
+                  maxlength="2"
+                  inputmode="numeric"
+                  autocomplete="bday-day"
+                  required
+                />
+                <input 
+                  type="text" 
+                  id="dob-year" 
+                  class="field-input" 
+                  placeholder="YYYY"
+                  maxlength="4"
+                  inputmode="numeric"
+                  autocomplete="bday-year"
+                  required
+                />
+              </div>
+              <div class="field-error" id="dob-error"></div>
+            </div>
+
+            <!-- Adult-only fields -->
+            <div class="adult-fields" id="adultFields">
+              
+              <!-- Info note for adults -->
+              <div class="info-note">
+                <p>We collect your legal name and address because you'll be earning money. This info is used for payouts and tax reporting — it's never shown publicly.</p>
+              </div>
+
+              <!-- Legal Name -->
+              <div class="field">
+                <label class="field-label" for="legal-name">Legal Name</label>
+                <input 
+                  type="text" 
+                  id="legal-name" 
+                  class="field-input" 
+                  placeholder="As it appears on tax documents"
+                  autocomplete="name"
+                />
+                <div class="field-error" id="legal-name-error"></div>
+              </div>
+
+              <!-- Street Address -->
+              <div class="field">
+                <label class="field-label" for="street">Address</label>
+                <div class="address-row">
+                  <input 
+                    type="text" 
+                    id="street" 
+                    class="field-input" 
+                    placeholder="Street address"
+                    autocomplete="street-address"
+                  />
+                </div>
+                <div class="address-row-split" style="margin-top: 12px;">
+                  <input 
+                    type="text" 
+                    id="city" 
+                    class="field-input" 
+                    placeholder="City"
+                    autocomplete="address-level2"
+                  />
+                  <input 
+                    type="text" 
+                    id="state" 
+                    class="field-input" 
+                    placeholder="ST"
+                    maxlength="2"
+                    autocomplete="address-level1"
+                  />
+                  <input 
+                    type="text" 
+                    id="zip" 
+                    class="field-input" 
+                    placeholder="Zip"
+                    maxlength="5"
+                    inputmode="numeric"
+                    autocomplete="postal-code"
+                  />
+                </div>
+                <div class="field-error" id="address-error"></div>
+              </div>
+            </div>
+
+            <!-- Minor-only fields -->
+            <div class="minor-fields hidden" id="minorFields">
+              
+              <!-- Info note for minors -->
+              <div class="info-note info-note--minor">
+                <p>Creators under 18 can add stickers and backgrounds to the Sticker Shop at no cost to users. Once you turn 18, you'll be able to set coin prices and start earning.</p>
+              </div>
+
+              <!-- Parent checkbox -->
+              <div class="parent-checkbox-row">
+                <input type="checkbox" id="parent-consent" />
+                <label for="parent-consent">My parent or guardian knows I'm creating this account</label>
+              </div>
+              <div class="field-error" id="parent-error"></div>
+            </div>
+
+            <!-- Display Name (everyone) -->
+            <div class="field">
+              <label class="field-label" for="display-name">Artist Name</label>
+              <input 
+                type="text" 
+                id="display-name" 
+                class="field-input" 
+                placeholder="Your public display name"
+                autocomplete="nickname"
+                required
+              />
+              <div class="field-error" id="display-name-error"></div>
+            </div>
+
+            <!-- Email -->
+            <div class="field">
+              <label class="field-label" for="email">Email</label>
+              <input 
+                type="email" 
+                id="email" 
+                class="field-input" 
+                placeholder="you@example.com"
+                autocomplete="email"
+                required
+              />
+              <div class="field-error" id="email-error"></div>
+            </div>
+
+            <!-- Password -->
+            <div class="field">
+              <label class="field-label" for="password">Password</label>
+              <input 
+                type="password" 
+                id="password" 
+                class="field-input" 
+                placeholder="Create a password"
+                autocomplete="new-password"
+                required
+              />
+              <div class="password-rules">
+                <div class="password-rule" id="rule-length">At least 8 characters</div>
+                <div class="password-rule" id="rule-upper">One uppercase letter</div>
+                <div class="password-rule" id="rule-lower">One lowercase letter</div>
+                <div class="password-rule" id="rule-number">One number</div>
+              </div>
+              <div class="field-error" id="password-error"></div>
+            </div>
+
+            <!-- Terms -->
+            <div class="terms-row">
+              <input type="checkbox" id="terms" required />
+              <label for="terms">
+                I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
+              </label>
+            </div>
+            <div class="field-error" id="terms-error"></div>
+
+            <!-- Submit -->
+            <div class="cta-row">
+              <button type="submit" class="btn btn-primary" id="submit-btn">
+                Continue
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // DOM elements
+    const form = document.getElementById('creator-form');
+    
+    const dobMonth = document.getElementById('dob-month');
+    const dobDay = document.getElementById('dob-day');
+    const dobYear = document.getElementById('dob-year');
+    const legalNameInput = document.getElementById('legal-name');
+    const displayNameInput = document.getElementById('display-name');
+    const streetInput = document.getElementById('street');
+    const cityInput = document.getElementById('city');
+    const stateInput = document.getElementById('state');
+    const zipInput = document.getElementById('zip');
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+    const termsCheckbox = document.getElementById('terms');
+    const parentConsentCheckbox = document.getElementById('parent-consent');
+
+    const dobError = document.getElementById('dob-error');
+    const legalNameError = document.getElementById('legal-name-error');
+    const displayNameError = document.getElementById('display-name-error');
+    const addressError = document.getElementById('address-error');
+    const emailError = document.getElementById('email-error');
+    const passwordError = document.getElementById('password-error');
+    const termsError = document.getElementById('terms-error');
+    const parentError = document.getElementById('parent-error');
+
+    const ruleLength = document.getElementById('rule-length');
+    const ruleUpper = document.getElementById('rule-upper');
+    const ruleLower = document.getElementById('rule-lower');
+    const ruleNumber = document.getElementById('rule-number');
+
+    const adultFields = document.getElementById('adultFields');
+    const minorFields = document.getElementById('minorFields');
+    const adultBadge = document.getElementById('adultBadge');
+    const minorBadge = document.getElementById('minorBadge');
+
+    let isMinor = false;
+
+    // Calculate age from DOB
+    function calculateAge(month, day, year) {
+      const today = new Date();
+      const birthDate = new Date(year, month - 1, day);
+      let age = today.getFullYear() - birthDate.getFullYear();
+      const monthDiff = today.getMonth() - birthDate.getMonth();
+      
+      if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+      }
+      
+      return age;
+    }
+
+    // Check if DOB is complete and valid, then toggle form
+    function checkAgeAndToggleForm() {
+      const m = parseInt(dobMonth.value, 10);
+      const d = parseInt(dobDay.value, 10);
+      const y = parseInt(dobYear.value, 10);
+
+      // Need complete DOB
+      if (isNaN(m) || isNaN(d) || isNaN(y) || dobYear.value.length < 4) {
+        return;
+      }
+
+      // Basic validation
+      if (m < 1 || m > 12 || d < 1 || d > 31 || y < 1900 || y > new Date().getFullYear()) {
+        return;
+      }
+
+      const age = calculateAge(m, d, y);
+      
+      if (age < 18) {
+        isMinor = true;
+        adultFields.classList.add('hidden');
+        minorFields.classList.remove('hidden');
+        adultBadge.classList.add('hidden');
+        minorBadge.classList.remove('hidden');
+      } else {
+        isMinor = false;
+        adultFields.classList.remove('hidden');
+        minorFields.classList.add('hidden');
+        adultBadge.classList.remove('hidden');
+        minorBadge.classList.add('hidden');
+      }
+    }
+
+    // Auto-tab for DOB fields
+    function autoTab(current, next, maxLength) {
+      current.addEventListener('input', (e) => {
+        e.target.value = e.target.value.replace(/\D/g, '');
+        
+        if (e.target.value.length >= maxLength && next) {
+          next.focus();
+        }
+
+        // Check age after year is complete
+        if (current === dobYear && e.target.value.length === 4) {
+          checkAgeAndToggleForm();
+        }
+      });
+    }
+
+    autoTab(dobMonth, dobDay, 2);
+    autoTab(dobDay, dobYear, 2);
+    autoTab(dobYear, null, 4);
+
+    // Also check on blur for each DOB field
+    dobMonth.addEventListener('blur', checkAgeAndToggleForm);
+    dobDay.addEventListener('blur', checkAgeAndToggleForm);
+    dobYear.addEventListener('blur', checkAgeAndToggleForm);
+
+    // Auto-format state and zip
+    zipInput.addEventListener('input', (e) => {
+      e.target.value = e.target.value.replace(/\D/g, '');
+    });
+
+    stateInput.addEventListener('input', (e) => {
+      e.target.value = e.target.value.toUpperCase().replace(/[^A-Z]/g, '');
+    });
+
+    // Password validation - live update
+    passwordInput.addEventListener('input', () => {
+      const val = passwordInput.value;
+      
+      ruleLength.classList.toggle('met', val.length >= 8);
+      ruleUpper.classList.toggle('met', /[A-Z]/.test(val));
+      ruleLower.classList.toggle('met', /[a-z]/.test(val));
+      ruleNumber.classList.toggle('met', /[0-9]/.test(val));
+    });
+
+    // Clear errors on input
+    dobMonth.addEventListener('input', () => { dobError.textContent = ''; });
+    dobDay.addEventListener('input', () => { dobError.textContent = ''; });
+    dobYear.addEventListener('input', () => { dobError.textContent = ''; });
+    legalNameInput.addEventListener('input', () => { legalNameError.textContent = ''; });
+    displayNameInput.addEventListener('input', () => { displayNameError.textContent = ''; });
+    streetInput.addEventListener('input', () => { addressError.textContent = ''; });
+    cityInput.addEventListener('input', () => { addressError.textContent = ''; });
+    stateInput.addEventListener('input', () => { addressError.textContent = ''; });
+    zipInput.addEventListener('input', () => { addressError.textContent = ''; });
+    emailInput.addEventListener('input', () => { emailError.textContent = ''; });
+    passwordInput.addEventListener('input', () => { passwordError.textContent = ''; });
+    termsCheckbox.addEventListener('change', () => { termsError.textContent = ''; });
+    parentConsentCheckbox.addEventListener('change', () => { parentError.textContent = ''; });
+
+    // Validation helpers
+    function isValidEmail(email) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
+
+    function isValidPassword(password) {
+      return (
+        password.length >= 8 &&
+        /[A-Z]/.test(password) &&
+        /[a-z]/.test(password) &&
+        /[0-9]/.test(password)
+      );
+    }
+
+    function isValidDOB(month, day, year) {
+      const m = parseInt(month, 10);
+      const d = parseInt(day, 10);
+      const y = parseInt(year, 10);
+      
+      if (isNaN(m) || isNaN(d) || isNaN(y)) return { valid: false, reason: 'incomplete' };
+      if (m < 1 || m > 12) return { valid: false, reason: 'invalid' };
+      if (d < 1 || d > 31) return { valid: false, reason: 'invalid' };
+      if (y < 1900 || y > new Date().getFullYear()) return { valid: false, reason: 'invalid' };
+      
+      // Check if date actually exists
+      const testDate = new Date(y, m - 1, d);
+      if (testDate.getMonth() !== m - 1) return { valid: false, reason: 'invalid' };
+      
+      // Check age (minimum 13)
+      const age = calculateAge(m, d, y);
+      if (age < 13) return { valid: false, reason: 'underage' };
+      
+      return { valid: true, age: age };
+    }
+
+    // Form submission
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      let hasError = false;
+      
+      // Validate DOB
+      const dobResult = isValidDOB(dobMonth.value, dobDay.value, dobYear.value);
+      if (!dobResult.valid) {
+        if (dobResult.reason === 'incomplete') {
+          dobError.textContent = 'Please enter your complete date of birth.';
+        } else if (dobResult.reason === 'underage') {
+          dobError.textContent = 'You must be at least 13 years old to use Stickerbook.';
+        } else {
+          dobError.textContent = 'Please enter a valid date of birth.';
+        }
+        hasError = true;
+      }
+
+      // Adult-specific validation
+      if (!isMinor) {
+        // Validate legal name
+        if (!legalNameInput.value.trim()) {
+          legalNameError.textContent = 'Please enter your legal name.';
+          hasError = true;
+        }
+
+        // Validate address
+        if (!streetInput.value.trim() || !cityInput.value.trim() || !stateInput.value.trim() || !zipInput.value.trim()) {
+          addressError.textContent = 'Please enter your complete address.';
+          hasError = true;
+        } else if (zipInput.value.length !== 5) {
+          addressError.textContent = 'Please enter a valid 5-digit zip code.';
+          hasError = true;
+        }
+      }
+
+      // Minor-specific validation
+      if (isMinor) {
+        if (!parentConsentCheckbox.checked) {
+          parentError.textContent = 'Please confirm your parent or guardian knows about this account.';
+          hasError = true;
+        }
+      }
+      
+      // Validate display name
+      if (!displayNameInput.value.trim()) {
+        displayNameError.textContent = 'Please enter your artist name.';
+        hasError = true;
+      }
+      
+      // Validate email
+      if (!emailInput.value.trim()) {
+        emailError.textContent = 'Please enter your email address.';
+        hasError = true;
+      } else if (!isValidEmail(emailInput.value)) {
+        emailError.textContent = 'Please enter a valid email address.';
+        hasError = true;
+      }
+      
+      // Validate password
+      if (!passwordInput.value) {
+        passwordError.textContent = 'Please create a password.';
+        hasError = true;
+      } else if (!isValidPassword(passwordInput.value)) {
+        passwordError.textContent = 'Password doesn\'t meet all requirements.';
+        hasError = true;
+      }
+      
+      // Validate terms
+      if (!termsCheckbox.checked) {
+        termsError.textContent = 'You must agree to the terms to continue.';
+        hasError = true;
+      }
+      
+      if (hasError) return;
+      
+      // Save to localStorage (for MVP - will be backend later)
+      const creatorData = {
+        type: 'creator',
+        isMinor: isMinor,
+        displayName: displayNameInput.value.trim(),
+        dob: {
+          month: dobMonth.value,
+          day: dobDay.value,
+          year: dobYear.value
+        },
+        email: emailInput.value.trim()
+      };
+
+      // Add adult-only fields
+      if (!isMinor) {
+        creatorData.legalName = legalNameInput.value.trim();
+        creatorData.address = {
+          street: streetInput.value.trim(),
+          city: cityInput.value.trim(),
+          state: stateInput.value.trim().toUpperCase(),
+          zip: zipInput.value.trim()
+        };
+      }
+      
+      localStorage.setItem('stickerbook_creator', JSON.stringify(creatorData));
+      localStorage.setItem('stickerbook_user_name', creatorData.displayName);
+      localStorage.setItem('stickerbook_is_minor', isMinor.toString());
+      
+      // Navigate to creator onboarding
+      window.location.href = 'creatoronboarding.html';
+    });
+  </script>
+</body>
+</html>

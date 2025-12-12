@@ -12,7 +12,6 @@
       overflow: hidden;
       background: var(--color-canvas);
     }
-
     .creator-shell {
       width: 100%;
       height: 100vh;
@@ -681,8 +680,8 @@
       setupListeners();
 
       // Hide social links for under-18 creators
-      const isUnder18 = localStorage.getItem('stickerbook_creator_under18') === 'true';
-      if (isUnder18) {
+      const isMinor = localStorage.getItem('stickerbook_is_minor') === 'true';
+      if (isMinor) {
         const socialSection = document.getElementById('social-links-section');
         if (socialSection) {
           socialSection.style.display = 'none';
@@ -957,12 +956,12 @@
         }
       });
 
-      // Get under-18 status from disclaimer page
-      const isUnder18 = localStorage.getItem('stickerbook_creator_under18') === 'true';
+      // Get under-18 status from account-creator page
+      const isMinor = localStorage.getItem('stickerbook_is_minor') === 'true';
 
       const creatorData = {
         displayName: displayNameInput.value.trim(),
-        isUnder18,
+        isMinor,
         bio: bioInput.value.trim(),
         styles: [...selectedStyles].filter(s => s !== 'Other'),
         customStyles: [...customStyles],
@@ -973,8 +972,7 @@
 
       localStorage.setItem('stickerbook_creator', JSON.stringify(creatorData));
       
-      // Navigate to creator dashboard (or stickerbook for now)
-     // Navigate to creator studio
+      // Navigate to creator studio
       window.location.href = 'creatorstudio.html';
     }
 
