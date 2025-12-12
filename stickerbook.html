@@ -207,15 +207,16 @@
 
     /* Sticker being dragged to drawer */
     .placed-sticker.to-drawer {
-        /* Sticker escaped to body during drag */
-.placed-sticker.escaped {
-  position: fixed !important;
-  z-index: 9999 !important;
-  pointer-events: none;
-}
       transition: transform 0.3s ease, opacity 0.3s ease;
       transform: scale(0.3) !important;
       opacity: 0;
+    }
+
+    /* Sticker escaped to body during drag */
+    .placed-sticker.escaped {
+      position: fixed !important;
+      z-index: 9999 !important;
+      pointer-events: none;
     }
 
     /* ========== PAGE INDICATOR ========== */
@@ -3072,23 +3073,6 @@ function isOverPageBoundary(clientY) {
   checkDropZones(e.clientX, e.clientY);
 };
 
-        if (!isDragging) return;
-
-        const dx = e.clientX - startMouseX;
-        const dy = e.clientY - startMouseY;
-
-        stickerData.x = startX + dx;
-        stickerData.y = startY + dy;
-
-        // Constrain to keep 25% visible
-        constrainStickerPosition(el, stickerData);
-
-        el.style.left = `${stickerData.x}px`;
-        el.style.top = `${stickerData.y}px`;
-
-        hasUnsavedChanges = true;
-        checkDropZones(e.clientX, e.clientY);
-      };
 
  const handleMouseUp = (e) => {
   if (holdTimer) {
