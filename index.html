@@ -18,13 +18,13 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      justify-content: center;
       padding: 60px 24px 40px;
     }
 
     /* Header */
     .index-header {
       text-align: center;
-      margin-bottom: 32px;
     }
 
     .index-title {
@@ -37,21 +37,111 @@
       margin-bottom: 8px;
     }
 
-    /* Intro text */
+    /* Screen states */
+    .screen {
+      display: none;
+      width: 100%;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .screen.active {
+      display: flex;
+    }
+
+    /* Landing screen - centered */
+    .screen--landing {
+      justify-content: center;
+      min-height: 80vh;
+      cursor: pointer;
+    }
+
+    .tap-hint {
+      margin-top: 40px;
+      font-size: 12px;
+      color: var(--color-text-muted);
+      opacity: 0;
+      animation: fadeInHint 1s ease 1.5s forwards;
+    }
+
+    @keyframes fadeInHint {
+      to { opacity: 1; }
+    }
+
+    /* Copy screen */
+    .screen--copy {
+      padding-top: 20px;
+    }
+
     .intro-section {
       max-width: 340px;
-      margin-bottom: 40px;
+      margin-bottom: 32px;
     }
 
     .intro-text {
-      font-size: 14px;
-      line-height: 1.65;
+      font-size: 15px;
+      line-height: 1.7;
       color: var(--color-text-primary);
-      margin-bottom: 14px;
-      font-weight: 500;
+      margin-bottom: 20px;
+      font-weight: 400;
     }
 
-    /* Account type selector */
+    .intro-text:last-of-type {
+      margin-bottom: 0;
+    }
+
+    .tagline {
+      display: block;
+      margin-top: 4px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+
+    .tagline-connections {
+      color: var(--color-turquoise);
+    }
+
+    .tagline-that {
+      color: var(--color-text-primary);
+    }
+
+    .tagline-stick {
+      color: var(--color-purple);
+    }
+
+    .btn-get-started {
+      width: 100%;
+      max-width: 340px;
+      padding: 16px 32px;
+      margin-top: 32px;
+      background: var(--color-purple);
+      border: none;
+      border-radius: 50px;
+      font-family: var(--font-primary);
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: white;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-get-started:hover {
+      background: var(--color-purple-dark);
+      transform: translateY(-1px);
+    }
+
+    .btn-get-started:active {
+      transform: scale(0.98);
+    }
+
+    /* Selector screen */
+    .screen--selector {
+      padding-top: 60px;
+    }
+
     .type-selector {
       width: 100%;
       max-width: 340px;
@@ -72,7 +162,7 @@
       background: var(--color-surface);
       border: 2px solid var(--color-border);
       border-radius: 12px;
-      font-family: var(--font-body);
+      font-family: var(--font-primary);
       font-size: 15px;
       font-weight: 600;
       color: var(--color-text-primary);
@@ -82,7 +172,7 @@
     }
 
     .type-option:hover {
-      border-color: var(--color-accent-primary);
+      border-color: var(--color-purple);
       background: rgba(138, 43, 226, 0.05);
     }
 
@@ -101,7 +191,6 @@
       color: var(--color-text-secondary);
     }
 
-    /* Other option styling */
     .type-option--other {
       background: transparent;
       border-style: dashed;
@@ -110,79 +199,177 @@
     .type-option--other:hover {
       background: rgba(138, 43, 226, 0.03);
     }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      z-index: 1000;
+    }
+
+    .modal-content {
+      background: var(--color-canvas);
+      border-radius: 16px;
+      padding: 28px 24px;
+      max-width: 320px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .modal-title {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--color-text-primary);
+      margin-bottom: 12px;
+    }
+
+    .modal-text {
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--color-text-secondary);
+      margin-bottom: 24px;
+    }
+
+    .modal-btn {
+      padding: 12px 32px;
+      background: var(--color-purple);
+      border: none;
+      border-radius: 50px;
+      font-family: var(--font-primary);
+      font-size: 14px;
+      font-weight: 600;
+      color: white;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
 
   <div class="index-container">
     
-    <!-- Header -->
-    <header class="index-header">
-      <h1 class="index-title">Stickerbook</h1>
-      <div class="accent-bar accent-bar--md"></div>
-    </header>
+    <!-- SCREEN 1: Bare bones landing -->
+    <div class="screen screen--landing active" id="screen-landing">
+      <header class="index-header">
+        <h1 class="index-title">Stickerbook</h1>
+        <div class="accent-bar accent-bar--md"></div>
+      </header>
+      <p class="tap-hint">tap anywhere</p>
+    </div>
 
-    <!-- Intro -->
-    <section class="intro-section">
-      <p class="intro-text">
-        They're small, but they say a lot. They tell people what we love, what we notice, what matters to us.
-      </p>
-      <p class="intro-text">
-        Stickerbook gathers those signals into pages you can shape with intention. Each sticker is one truth;
-        together, they make a picture that feels unmistakably you.
-      </p>
-      <p class="intro-text">
-        This is where those signals become
-        <span class="text-tagline">connections that stick.</span>
-      </p>
-    </section>
+    <!-- SCREEN 2: Copy + Get Started -->
+    <div class="screen screen--copy" id="screen-copy">
+      <header class="index-header" style="margin-bottom: 32px;">
+        <h1 class="index-title">Stickerbook</h1>
+        <div class="accent-bar accent-bar--md"></div>
+      </header>
 
-    <!-- Account Type Selector -->
-    <section class="type-selector">
-      <p class="type-selector__heading">I'm here to...</p>
+      <section class="intro-section">
+        <p class="intro-text">
+          They're small, but they say a lot. They tell people what we love, what we notice, what matters to us.
+        </p>
+        <p class="intro-text">
+          We all leave little signals — the symbols, references, and pieces of ourselves we put into the world. On our shirts. Our bags. Our water bottles. Our laptops. Even the ones we carry on our skin.
+        </p>
+        <p class="intro-text">
+          Stickerbook gathers those signals into pages you can shape with intention. Each sticker is one truth; together, they make a picture that feels unmistakably you.
+        </p>
+        <p class="intro-text">
+          And when someone else sees your pages and thinks, "Wait... that looks like my kind of person," you've already skipped the small talk.
+        </p>
+        <p class="intro-text">
+          This is where those signals become
+          <span class="tagline">
+            <span class="tagline-connections">CONNECTIONS</span>
+            <span class="tagline-that">THAT</span>
+            <span class="tagline-stick">STICK.</span>
+          </span>
+        </p>
+      </section>
 
-      <button class="type-option" onclick="window.location.href='account.html'">
-        <span class="type-option__label">Find my people</span>
-        <span class="type-option__desc">Create your Stickerbook and connect with others</span>
-      </button>
+      <button class="btn-get-started" id="btn-get-started">Get Started</button>
+    </div>
 
-      <button class="type-option" onclick="window.location.href='account-creator.html'">
-        <span class="type-option__label">Share my art</span>
-        <span class="type-option__desc">Sell stickers and backgrounds in the Sticker Shop</span>
-      </button>
+    <!-- SCREEN 3: I'm here to... selector -->
+    <div class="screen screen--selector" id="screen-selector">
+      <header class="index-header" style="margin-bottom: 32px;">
+        <h1 class="index-title">Stickerbook</h1>
+        <div class="accent-bar accent-bar--md"></div>
+      </header>
 
-      <button class="type-option" onclick="showBrandMessage()">
-        <span class="type-option__label">Represent a brand</span>
-        <span class="type-option__desc">Companies, nonprofits, public figures</span>
-      </button>
+      <section class="type-selector">
+        <p class="type-selector__heading">I'm here to...</p>
 
-      <button class="type-option type-option--other" onclick="showOtherMessage()">
-        <span class="type-option__label">Something else</span>
-        <span class="type-option__desc">Not sure where I fit</span>
-      </button>
-    </section>
+        <button class="type-option" onclick="window.location.href='account.html'">
+          <span class="type-option__label">Find my people</span>
+          <span class="type-option__desc">Create your Stickerbook and connect with others</span>
+        </button>
+
+        <button class="type-option" onclick="window.location.href='account-creator.html'">
+          <span class="type-option__label">Share my art</span>
+          <span class="type-option__desc">Sell stickers and backgrounds in the Sticker Shop</span>
+        </button>
+
+        <button class="type-option" onclick="showBrandMessage()">
+          <span class="type-option__label">Represent a brand</span>
+          <span class="type-option__desc">Companies, nonprofits, public figures</span>
+        </button>
+
+        <button class="type-option type-option--other" onclick="showOtherMessage()">
+          <span class="type-option__label">Something else</span>
+          <span class="type-option__desc">Not sure where I fit</span>
+        </button>
+      </section>
+    </div>
 
   </div>
 
-  <!-- Temporary modal for brand/other (until we build proper flows) -->
-  <div id="tempModal" class="modal-overlay" style="display: none;">
+  <!-- Modal -->
+  <div id="tempModal" class="modal-overlay">
     <div class="modal-content">
       <h3 class="modal-title" id="modalTitle">Coming Soon</h3>
       <p class="modal-text" id="modalText"></p>
-      <button class="btn btn-primary" onclick="closeModal()">Got it</button>
+      <button class="modal-btn" onclick="closeModal()">Got it</button>
     </div>
   </div>
 
   <script>
+    // Screen navigation
+    const screenLanding = document.getElementById('screen-landing');
+    const screenCopy = document.getElementById('screen-copy');
+    const screenSelector = document.getElementById('screen-selector');
+    const btnGetStarted = document.getElementById('btn-get-started');
+
+    // Landing tap → Copy screen
+    screenLanding.addEventListener('click', function() {
+      screenLanding.classList.remove('active');
+      screenCopy.classList.add('active');
+    });
+
+    // Get Started → Selector screen
+    btnGetStarted.addEventListener('click', function() {
+      screenCopy.classList.remove('active');
+      screenSelector.classList.add('active');
+    });
+
+    // Modal functions
     function showBrandMessage() {
       document.getElementById('modalTitle').textContent = 'Brand Accounts';
-      document.getElementById('modalText').textContent = 'Brand and organization accounts are coming soon. For early access, email hello@stickerbook.app with your company name and we\'ll be in touch.';
+      document.getElementById('modalText').textContent = "Brand and organization accounts are coming soon. For early access, email hello@stickerbook.app with your company name and we'll be in touch.";
       document.getElementById('tempModal').style.display = 'flex';
     }
 
     function showOtherMessage() {
       document.getElementById('modalTitle').textContent = 'Not sure?';
-      document.getElementById('modalText').textContent = 'No worries! Most people are here to find their people. If you\'re an artist wanting to sell your work, choose "Share my art." Questions? Email hello@stickerbook.app';
+      document.getElementById('modalText').textContent = "No worries! Most people are here to find their people. If you're an artist wanting to sell your work, choose \"Share my art.\" Questions? Email hello@stickerbook.app";
       document.getElementById('tempModal').style.display = 'flex';
     }
 
@@ -190,7 +377,6 @@
       document.getElementById('tempModal').style.display = 'none';
     }
 
-    // Close modal on overlay click
     document.getElementById('tempModal').addEventListener('click', function(e) {
       if (e.target === this) closeModal();
     });
