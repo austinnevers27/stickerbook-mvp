@@ -3221,22 +3221,31 @@ function isOverPageBoundary(clientY) {
         }
 
         if (touchMode === 'pan' && e.touches.length === 1) {
-          e.preventDefault();
-          const t = e.touches[0];
-          const dx = t.clientX - startTouchX;
-          const dy = t.clientY - startTouchY;
+  e.preventDefault();
+  const t = e.touches[0];
+  const dx = t.clientX - startTouchX;
+  const dy = t.clientY - startTouchY;
 
-          stickerData.x = startX + dx;
-          stickerData.y = startY + dy;
+  stickerData.x = startX + dx;
+  stickerData.y = startY + dy;
 
-          // Constrain to keep 25% visible
-          constrainStickerPosition(el, stickerData);
+  // Check if we need to escape to body
+  if (isOverPageBoundary(t.clientY) && !escapedSticker) {
+    escapeToBody(el, stickerData, t.clientX, t.clientY);
+  } else if (escapedSticker === el) {
+    const scale = stickerData.scale || 1;
+    const width = (stickerData.width || stickerData.size || 80) * scale;
+    const height = (stickerData.height || stickerData.size || 80) * scale;
+    el.style.left = (t.clientX - width / 2) + 'px';
+    el.style.top = (t.clientY - height / 2) + 'px';
+  } else {
+    constrainStickerPosition(el, stickerData);
+    el.style.left = `${stickerData.x}px`;
+    el.style.top = `${stickerData.y}px`;
+  }
 
-          el.style.left = `${stickerData.x}px`;
-          el.style.top = `${stickerData.y}px`;
-
-          hasUnsavedChanges = true;
-          checkDropZones(t.clientX, t.clientY);
+  hasUnsavedChanges = true;
+  checkDropZones(t.clientX, t.clientY);
 
         } else if (touchMode === 'transform' && e.touches.length >= 2) {
           e.preventDefault();
@@ -3279,15 +3288,26 @@ function isOverPageBoundary(clientY) {
           el.classList.remove('dragging');
 
           if (touchMode === 'pan') {
-            const lastTouch = e.changedTouches[0];
-            if (isOverDrawer(lastTouch.clientX, lastTouch.clientY)) {
-              moveToDrawer(el, stickerData);
-            } else {
-              constrainStickerPosition(el, stickerData);
-              el.style.left = `${stickerData.x}px`;
-              el.style.top = `${stickerData.y}px`;
-              exitDragMode();
-            }
+  const lastTouch = e.changedTouches[0];
+  if (isOverDrawer(lastTouch.clientX, lastTouch.clientY)) {
+    if (escapedSticker === el) {
+      el.classList.remove('escaped');
+      el.style.position = 'absolute';
+      pageCanvas.appendChild(el);
+      escapedSticker = null;
+      escapedStickerData = null;
+      escapedOriginalPos = null;
+    }
+    moveToDrawer(el, stickerData);
+  } else if (escapedSticker === el) {
+    returnToPage(el, stickerData);
+    exitDragMode();
+  } else {
+    constrainStickerPosition(el, stickerData);
+    el.style.left = `${stickerData.x}px`;
+    el.style.top = `${stickerData.y}px`;
+    exitDragMode();
+  }
           } else {
             exitDragMode();
           }
