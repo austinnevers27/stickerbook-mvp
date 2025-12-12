@@ -207,6 +207,12 @@
 
     /* Sticker being dragged to drawer */
     .placed-sticker.to-drawer {
+        /* Sticker escaped to body during drag */
+.placed-sticker.escaped {
+  position: fixed !important;
+  z-index: 9999 !important;
+  pointer-events: none;
+}
       transition: transform 0.3s ease, opacity 0.3s ease;
       transform: scale(0.3) !important;
       opacity: 0;
@@ -1855,7 +1861,10 @@
     let hasUnsavedChanges = false;
     let activeSticker = null;
     let currentZ = 10;
-
+// Track when a placed sticker "escapes" the page during drag
+let escapedSticker = null;
+let escapedStickerData = null;
+let escapedOriginalPos = null;
     // Background panel state
     let bgCurrentPattern = 'solid';
     let bgSubfilter = {
@@ -1933,7 +1942,63 @@
     const unlockCoinsTitle = document.getElementById('unlock-coins-title');
 
     const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+// ============ ESCAPE TO BODY FUNCTIONS ============
+function escapeToBody(el, stickerData, clientX, clientY) {
+  if (escapedSticker) return;
+  
+  escapedSticker = el;
+  escapedStickerData = stickerData;
+  escapedOriginalPos = { x: stickerData.x, y: stickerData.y };
+  
+  const scale = stickerData.scale || 1;
+  const width = (stickerData.width || stickerData.size || 80) * scale;
+  const height = (stickerData.height || stickerData.size || 80) * scale;
+  
+  el.classList.add('escaped');
+  document.body.appendChild(el);
+  
+  el.style.left = (clientX - width / 2) + 'px';
+  el.style.top = (clientY - height / 2) + 'px';
+  el.style.width = width + 'px';
+  el.style.height = height + 'px';
+  el.style.transform = `rotate(${stickerData.rotation || 0}deg)`;
+}
 
+function returnToPage(el, stickerData) {
+  if (!escapedSticker) return;
+  
+  const canvasRect = pageCanvas.getBoundingClientRect();
+  const stickerHeight = stickerData.height || stickerData.size || 80;
+  const stickerWidth = stickerData.width || stickerData.size || 80;
+  const minVisible = 0.5;
+  
+  const minX = -(stickerWidth * (1 - minVisible));
+  const maxX = canvasRect.width - (stickerWidth * minVisible);
+  const maxY = canvasRect.height - (stickerHeight * minVisible);
+  
+  stickerData.x = Math.max(minX, Math.min(maxX, stickerData.x));
+  stickerData.y = maxY;
+  
+  el.classList.remove('escaped');
+  el.style.position = 'absolute';
+  el.style.left = stickerData.x + 'px';
+  el.style.top = stickerData.y + 'px';
+  el.style.width = (stickerData.width || stickerData.size || 80) + 'px';
+  el.style.height = (stickerData.height || stickerData.size || 80) + 'px';
+  el.style.transform = `scale(${stickerData.scale || 1}) rotate(${stickerData.rotation || 0}deg)`;
+  
+  pageCanvas.appendChild(el);
+  
+  escapedSticker = null;
+  escapedStickerData = null;
+  escapedOriginalPos = null;
+  hasUnsavedChanges = true;
+}
+
+function isOverPageBoundary(clientY) {
+  const pageRect = stickerPage.getBoundingClientRect();
+  return clientY > pageRect.bottom;
+}
     // ============ PATTERN CSS GENERATOR ============
     function getPatternCSS(pattern, subfilter, baseHex, patternHex) {
       const base = baseHex || '#e5e7eb';
@@ -2968,18 +3033,44 @@
         }
       });
 
-      const handleMouseMove = (e) => {
-        // Check if we should cancel the hold (user is swiping)
-        if (holdTimer && !isSelected) {
-          const dx = Math.abs(e.clientX - startMouseX);
-          const dy = Math.abs(e.clientY - startMouseY);
-          if (dx > MOVE_THRESHOLD || dy > MOVE_THRESHOLD) {
-            clearTimeout(holdTimer);
-            holdTimer = null;
-            el.classList.remove('pending-select');
-            return; // Let the swipe happen
-          }
-        }
+     const handleMouseMove = (e) => {
+  if (holdTimer && !isSelected) {
+    const dx = Math.abs(e.clientX - startMouseX);
+    const dy = Math.abs(e.clientY - startMouseY);
+    if (dx > MOVE_THRESHOLD || dy > MOVE_THRESHOLD) {
+      clearTimeout(holdTimer);
+      holdTimer = null;
+      el.classList.remove('pending-select');
+      return;
+    }
+  }
+
+  if (!isDragging) return;
+
+  const dx = e.clientX - startMouseX;
+  const dy = e.clientY - startMouseY;
+
+  stickerData.x = startX + dx;
+  stickerData.y = startY + dy;
+
+  // Check if we need to escape to body
+  if (isOverPageBoundary(e.clientY) && !escapedSticker) {
+    escapeToBody(el, stickerData, e.clientX, e.clientY);
+  } else if (escapedSticker === el) {
+    const scale = stickerData.scale || 1;
+    const width = (stickerData.width || stickerData.size || 80) * scale;
+    const height = (stickerData.height || stickerData.size || 80) * scale;
+    el.style.left = (e.clientX - width / 2) + 'px';
+    el.style.top = (e.clientY - height / 2) + 'px';
+  } else {
+    constrainStickerPosition(el, stickerData);
+    el.style.left = `${stickerData.x}px`;
+    el.style.top = `${stickerData.y}px`;
+  }
+
+  hasUnsavedChanges = true;
+  checkDropZones(e.clientX, e.clientY);
+};
 
         if (!isDragging) return;
 
@@ -2999,32 +3090,42 @@
         checkDropZones(e.clientX, e.clientY);
       };
 
-      const handleMouseUp = (e) => {
-        // Clear any pending hold
-        if (holdTimer) {
-          clearTimeout(holdTimer);
-          holdTimer = null;
-        }
-        el.classList.remove('pending-select');
+ const handleMouseUp = (e) => {
+  if (holdTimer) {
+    clearTimeout(holdTimer);
+    holdTimer = null;
+  }
+  el.classList.remove('pending-select');
 
-        if (!isDragging) {
-          isSelected = false;
-          return;
-        }
+  if (!isDragging) {
+    isSelected = false;
+    return;
+  }
 
-        isDragging = false;
-        isSelected = false;
-        el.classList.remove('dragging');
+  isDragging = false;
+  isSelected = false;
+  el.classList.remove('dragging');
 
-        if (isOverDrawer(e.clientX, e.clientY)) {
-          moveToDrawer(el, stickerData);
-        } else {
-          constrainStickerPosition(el, stickerData);
-          el.style.left = `${stickerData.x}px`;
-          el.style.top = `${stickerData.y}px`;
-          exitDragMode();
-        }
-      };
+  if (isOverDrawer(e.clientX, e.clientY)) {
+    if (escapedSticker === el) {
+      el.classList.remove('escaped');
+      el.style.position = 'absolute';
+      pageCanvas.appendChild(el);
+      escapedSticker = null;
+      escapedStickerData = null;
+      escapedOriginalPos = null;
+    }
+    moveToDrawer(el, stickerData);
+  } else if (escapedSticker === el) {
+    returnToPage(el, stickerData);
+    exitDragMode();
+  } else {
+    constrainStickerPosition(el, stickerData);
+    el.style.left = `${stickerData.x}px`;
+    el.style.top = `${stickerData.y}px`;
+    exitDragMode();
+  }
+};
 
       window.addEventListener('mousemove', handleMouseMove);
       window.addEventListener('mouseup', handleMouseUp);
