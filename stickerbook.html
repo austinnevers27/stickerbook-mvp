@@ -1996,9 +1996,12 @@ function returnToPage(el, stickerData) {
   hasUnsavedChanges = true;
 }
 
-function isOverPageBoundary(clientY) {
+function isOverPageBoundary(clientX, clientY) {
   const pageRect = stickerPage.getBoundingClientRect();
-  return clientY > pageRect.bottom;
+  const screenWidth = window.innerWidth;
+  const escapeZoneStart = screenWidth * 0.65;
+  
+  return clientY > pageRect.bottom && clientX > escapeZoneStart;
 }
     // ============ PATTERN CSS GENERATOR ============
     function getPatternCSS(pattern, subfilter, baseHex, patternHex) {
@@ -3055,7 +3058,7 @@ function isOverPageBoundary(clientY) {
   stickerData.y = startY + dy;
 
   // Check if we need to escape to body
-  if (isOverPageBoundary(e.clientY) && !escapedSticker) {
+ if (isOverPageBoundary(e.clientX, e.clientY) && !escapedSticker) {
     escapeToBody(el, stickerData, e.clientX, e.clientY);
   } else if (escapedSticker === el) {
     const scale = stickerData.scale || 1;
@@ -3230,7 +3233,7 @@ function isOverPageBoundary(clientY) {
   stickerData.y = startY + dy;
 
   // Check if we need to escape to body
-  if (isOverPageBoundary(t.clientY) && !escapedSticker) {
+if (isOverPageBoundary(t.clientX, t.clientY) && !escapedSticker) {
     escapeToBody(el, stickerData, t.clientX, t.clientY);
   } else if (escapedSticker === el) {
     const scale = stickerData.scale || 1;
