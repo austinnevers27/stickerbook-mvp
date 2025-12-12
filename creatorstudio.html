@@ -1,0 +1,1842 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Stickerbook – Creator Studio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/stickerbook.css">
+  <style>
+    /* ========== CREATOR STUDIO SHELL ========== */
+    html, body {
+      height: 100%;
+      overflow: hidden;
+      background: var(--color-canvas);
+    }
+
+    .studio-shell {
+      width: 100%;
+      height: 100vh;
+      height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      background: var(--color-canvas);
+      overflow: hidden;
+    }
+
+    /* ========== HEADER ========== */
+    .studio-header {
+      padding: 20px 20px 0;
+      flex-shrink: 0;
+    }
+
+    .header-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .brand-title {
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--color-text-primary);
+    }
+
+    .brand-subtitle {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-turquoise);
+      margin-top: 2px;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .creator-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--color-canvas-subtle);
+      border: 2px solid var(--color-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      cursor: pointer;
+      overflow: hidden;
+    }
+
+    .creator-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* ========== TAB NAVIGATION ========== */
+    .studio-tabs {
+      display: flex;
+      gap: 4px;
+      background: var(--color-canvas-subtle);
+      padding: 4px;
+      border-radius: var(--radius-pill);
+    }
+
+    .studio-tab {
+      flex: 1;
+      padding: 10px 16px;
+      border: none;
+      border-radius: var(--radius-pill);
+      background: transparent;
+      font-family: var(--font-primary);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      color: var(--color-text-muted);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .studio-tab:hover {
+      color: var(--color-text-secondary);
+    }
+
+    .studio-tab.active {
+      background: var(--color-canvas);
+      color: var(--color-text-primary);
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* ========== CONTENT AREA ========== */
+    .studio-content {
+      flex: 1;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .studio-panel {
+      display: none;
+      flex: 1;
+      overflow: hidden;
+      flex-direction: column;
+    }
+
+    .studio-panel.active {
+      display: flex;
+    }
+
+    .panel-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px;
+    }
+
+    .panel-scroll::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .panel-scroll::-webkit-scrollbar-thumb {
+      background: var(--color-border-strong);
+      border-radius: var(--radius-pill);
+    }
+
+    /* ========== UPLOAD PANEL ========== */
+    .upload-zone {
+      border: 2px dashed var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: 40px 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      background: var(--color-canvas-subtle);
+      margin-bottom: 24px;
+    }
+
+    .upload-zone:hover,
+    .upload-zone.drag-over {
+      border-color: var(--color-turquoise);
+      background: var(--color-selected-bg);
+    }
+
+    .upload-zone-icon {
+      font-size: 48px;
+      margin-bottom: 12px;
+      opacity: 0.6;
+    }
+
+    .upload-zone-title {
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--color-text-primary);
+      margin-bottom: 6px;
+    }
+
+    .upload-zone-subtitle {
+      font-size: 12px;
+      color: var(--color-text-muted);
+      margin-bottom: 16px;
+    }
+
+    .upload-zone-specs {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .spec-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 10px;
+      background: var(--color-canvas);
+      border-radius: var(--radius-pill);
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--color-text-muted);
+      border: 1px solid var(--color-border);
+    }
+
+    .spec-badge .icon {
+      font-size: 10px;
+    }
+
+    #file-input {
+      display: none;
+    }
+
+    /* ========== UPLOAD QUEUE ========== */
+    .upload-queue {
+      display: none;
+    }
+
+    .upload-queue.has-items {
+      display: block;
+    }
+
+    .queue-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .queue-title {
+      font-family: var(--font-display);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--color-text-primary);
+    }
+
+    .queue-count {
+      font-size: 12px;
+      color: var(--color-text-muted);
+    }
+
+    .queue-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .queue-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    /* ========== UPLOAD ITEM CARD ========== */
+    .upload-item {
+      background: var(--color-canvas-elevated);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: 16px;
+      transition: all 0.2s ease;
+    }
+
+    .upload-item.error {
+      border-color: var(--color-error);
+      background: rgba(220, 38, 38, 0.05);
+    }
+
+    .upload-item.success {
+      border-color: var(--color-success);
+    }
+
+    .upload-item-header {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .upload-item-preview {
+      width: 64px;
+      height: 64px;
+      border-radius: var(--radius-md);
+      background: var(--color-canvas-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .upload-item-preview img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+
+    .upload-item-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .upload-item-filename {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--color-text-primary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-bottom: 4px;
+    }
+
+    .upload-item-status {
+      font-size: 11px;
+      color: var(--color-text-muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--color-text-muted);
+    }
+
+    .status-dot.processing {
+      background: var(--color-gold);
+      animation: pulse 1.5s infinite;
+    }
+
+    .status-dot.success {
+      background: var(--color-success);
+    }
+
+    .status-dot.error {
+      background: var(--color-error);
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    .upload-item-remove {
+      width: 28px;
+      height: 28px;
+      border: none;
+      background: var(--color-canvas-subtle);
+      border-radius: 50%;
+      color: var(--color-text-muted);
+      font-size: 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: all 0.15s ease;
+    }
+
+    .upload-item-remove:hover {
+      background: var(--color-error);
+      color: white;
+    }
+
+    /* ========== UPLOAD ITEM FORM ========== */
+    .upload-item-form {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .upload-item.error .upload-item-form {
+      display: none;
+    }
+
+    .form-row {
+      display: flex;
+      gap: 10px;
+    }
+
+    .form-field {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .form-field.small {
+      flex: 0 0 auto;
+      width: 120px;
+    }
+
+    .form-label {
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--color-text-muted);
+    }
+
+    .form-input {
+      padding: 8px 12px;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      font-size: 13px;
+      font-family: var(--font-primary);
+      color: var(--color-text-primary);
+      background: var(--color-canvas);
+      transition: border-color 0.15s ease;
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: var(--color-turquoise);
+    }
+
+    .form-input::placeholder {
+      color: var(--color-text-subtle);
+    }
+
+    .form-select {
+      padding: 8px 12px;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      font-size: 13px;
+      font-family: var(--font-primary);
+      color: var(--color-text-primary);
+      background: var(--color-canvas);
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2371717a' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 32px;
+    }
+
+    .form-select:focus {
+      outline: none;
+      border-color: var(--color-turquoise);
+    }
+
+    /* ========== TAGS INPUT ========== */
+    .tags-input-wrapper {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      padding: 8px;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      background: var(--color-canvas);
+      min-height: 40px;
+      cursor: text;
+      transition: border-color 0.15s ease;
+    }
+
+    .tags-input-wrapper:focus-within {
+      border-color: var(--color-turquoise);
+    }
+
+    .tag-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 8px;
+      background: var(--color-purple);
+      border-radius: var(--radius-pill);
+      font-size: 11px;
+      font-weight: 600;
+      color: white;
+    }
+
+    .tag-chip.ai-suggested {
+      background: var(--color-turquoise);
+    }
+
+    .tag-chip-remove {
+      width: 14px;
+      height: 14px;
+      border: none;
+      background: rgba(255,255,255,0.2);
+      border-radius: 50%;
+      color: white;
+      font-size: 9px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s ease;
+    }
+
+    .tag-chip-remove:hover {
+      background: rgba(255,255,255,0.4);
+    }
+
+    .tags-input {
+      flex: 1;
+      min-width: 80px;
+      border: none;
+      outline: none;
+      font-size: 12px;
+      font-family: var(--font-primary);
+      color: var(--color-text-primary);
+      background: transparent;
+    }
+
+    .tags-input::placeholder {
+      color: var(--color-text-subtle);
+    }
+
+    .tags-hint {
+      font-size: 10px;
+      color: var(--color-text-subtle);
+      margin-top: 4px;
+    }
+
+    /* ========== TIER SELECTOR ========== */
+    .tier-selector {
+      display: flex;
+      gap: 6px;
+    }
+
+    .tier-option {
+      flex: 1;
+      padding: 8px 4px;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      background: var(--color-canvas);
+      cursor: pointer;
+      transition: all 0.15s ease;
+      text-align: center;
+    }
+
+    .tier-option:hover {
+      border-color: var(--color-border-strong);
+    }
+
+    .tier-option.selected {
+      border-color: var(--color-purple);
+      background: rgba(109, 40, 217, 0.08);
+    }
+
+    .tier-option input {
+      display: none;
+    }
+
+    .tier-name {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--color-text-primary);
+      margin-bottom: 2px;
+    }
+
+    .tier-price {
+      font-size: 10px;
+      color: var(--color-text-muted);
+    }
+
+    /* ========== CHECKBOX ROW ========== */
+    .checkbox-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .checkbox-row input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      accent-color: var(--color-purple);
+      cursor: pointer;
+    }
+
+    .checkbox-row label {
+      font-size: 12px;
+      color: var(--color-text-secondary);
+      cursor: pointer;
+    }
+
+    /* ========== ERROR MESSAGE ========== */
+    .error-message {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px;
+      background: rgba(220, 38, 38, 0.1);
+      border-radius: var(--radius-md);
+      font-size: 12px;
+      color: var(--color-error);
+    }
+
+    .error-message .icon {
+      font-size: 16px;
+    }
+
+    /* ========== SUBMIT SECTION ========== */
+    .submit-section {
+      padding: 16px 20px;
+      border-top: 1px solid var(--color-border);
+      background: var(--color-canvas);
+      flex-shrink: 0;
+    }
+
+    .submit-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .submit-info {
+      font-size: 12px;
+      color: var(--color-text-muted);
+    }
+
+    .submit-info strong {
+      color: var(--color-text-primary);
+    }
+
+    .btn-submit {
+      padding: 12px 24px;
+      background: var(--gradient-primary);
+      border: none;
+      border-radius: var(--radius-pill);
+      font-family: var(--font-primary);
+      font-size: 13px;
+      font-weight: 700;
+      color: white;
+      cursor: pointer;
+      box-shadow: var(--shadow-button);
+      transition: all 0.15s ease;
+    }
+
+    .btn-submit:hover {
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-button-hover);
+    }
+
+    .btn-submit:active {
+      transform: translateY(1px);
+    }
+
+    .btn-submit:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    /* ========== MANAGE PANEL ========== */
+    .manage-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .manage-filters {
+      display: flex;
+      gap: 8px;
+    }
+
+    .filter-btn {
+      padding: 8px 14px;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-pill);
+      background: var(--color-canvas);
+      font-family: var(--font-primary);
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--color-text-muted);
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .filter-btn:hover {
+      border-color: var(--color-border-strong);
+      color: var(--color-text-secondary);
+    }
+
+    .filter-btn.active {
+      background: var(--color-text-primary);
+      border-color: var(--color-text-primary);
+      color: var(--color-text-inverse);
+    }
+
+    .manage-search {
+      position: relative;
+      width: 200px;
+    }
+
+    .manage-search input {
+      width: 100%;
+      padding: 8px 12px 8px 32px;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-pill);
+      font-size: 12px;
+      font-family: var(--font-primary);
+      color: var(--color-text-primary);
+      background: var(--color-canvas);
+    }
+
+    .manage-search input:focus {
+      outline: none;
+      border-color: var(--color-turquoise);
+    }
+
+    .manage-search .search-icon {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 12px;
+      color: var(--color-text-subtle);
+    }
+
+    /* ========== STICKER GRID ========== */
+    .sticker-grid-manage {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 12px;
+    }
+
+    .sticker-card {
+      background: var(--color-canvas-elevated);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: 12px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .sticker-card:hover {
+      border-color: var(--color-border-strong);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .sticker-card.selected {
+      border-color: var(--color-turquoise);
+      background: var(--color-selected-bg);
+    }
+
+    .sticker-card-preview {
+      width: 100%;
+      aspect-ratio: 1;
+      background: var(--color-canvas-subtle);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 10px;
+      overflow: hidden;
+    }
+
+    .sticker-card-preview img {
+      max-width: 85%;
+      max-height: 85%;
+      object-fit: contain;
+    }
+
+    .sticker-card-name {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--color-text-primary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-bottom: 4px;
+    }
+
+    .sticker-card-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 10px;
+      color: var(--color-text-muted);
+    }
+
+    .sticker-card-tier {
+      padding: 2px 6px;
+      background: var(--color-canvas-subtle);
+      border-radius: var(--radius-sm);
+      font-weight: 600;
+    }
+
+    .sticker-card-tier.premium {
+      background: rgba(109, 40, 217, 0.1);
+      color: var(--color-purple);
+    }
+
+    .sticker-card-tier.standard {
+      background: rgba(20, 184, 166, 0.1);
+      color: var(--color-turquoise);
+    }
+
+    .sticker-card-tier.value {
+      background: rgba(234, 179, 8, 0.1);
+      color: var(--color-gold-dark);
+    }
+
+    .sticker-card-tier.free {
+      background: var(--color-canvas-subtle);
+      color: var(--color-text-muted);
+    }
+
+    /* ========== EMPTY STATE ========== */
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+    }
+
+    .empty-state-icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+      opacity: 0.5;
+    }
+
+    .empty-state-title {
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--color-text-primary);
+      margin-bottom: 8px;
+    }
+
+    .empty-state-text {
+      font-size: 13px;
+      color: var(--color-text-muted);
+      margin-bottom: 20px;
+    }
+
+    /* ========== ANALYTICS PANEL ========== */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .stat-card {
+      background: var(--color-canvas-elevated);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: 16px;
+    }
+
+    .stat-label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--color-text-muted);
+      margin-bottom: 6px;
+    }
+
+    .stat-value {
+      font-family: var(--font-display);
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--color-text-primary);
+    }
+
+    .stat-change {
+      font-size: 11px;
+      color: var(--color-success);
+      margin-top: 4px;
+    }
+
+    .stat-change.negative {
+      color: var(--color-error);
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--color-text-primary);
+    }
+
+    .earnings-card {
+      background: var(--gradient-primary);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      color: white;
+      margin-bottom: 24px;
+    }
+
+    .earnings-label {
+      font-size: 12px;
+      opacity: 0.8;
+      margin-bottom: 4px;
+    }
+
+    .earnings-value {
+      font-family: var(--font-display);
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .earnings-btn {
+      padding: 10px 20px;
+      background: rgba(255,255,255,0.2);
+      border: none;
+      border-radius: var(--radius-pill);
+      font-family: var(--font-primary);
+      font-size: 12px;
+      font-weight: 600;
+      color: white;
+      cursor: pointer;
+      transition: background 0.15s ease;
+    }
+
+    .earnings-btn:hover {
+      background: rgba(255,255,255,0.3);
+    }
+
+    .top-stickers-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .top-sticker-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      background: var(--color-canvas-elevated);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+    }
+
+    .top-sticker-rank {
+      width: 24px;
+      height: 24px;
+      background: var(--color-canvas-subtle);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--color-text-muted);
+    }
+
+    .top-sticker-rank.gold {
+      background: var(--color-gold);
+      color: white;
+    }
+
+    .top-sticker-rank.silver {
+      background: #a1a1aa;
+      color: white;
+    }
+
+    .top-sticker-rank.bronze {
+      background: #ca8a04;
+      color: white;
+    }
+
+    .top-sticker-preview {
+      width: 40px;
+      height: 40px;
+      background: var(--color-canvas-subtle);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .top-sticker-preview img {
+      max-width: 32px;
+      max-height: 32px;
+      object-fit: contain;
+    }
+
+    .top-sticker-info {
+      flex: 1;
+    }
+
+    .top-sticker-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--color-text-primary);
+    }
+
+    .top-sticker-stat {
+      font-size: 11px;
+      color: var(--color-text-muted);
+    }
+
+    /* ========== BULK ACTIONS BAR ========== */
+    .bulk-actions {
+      display: none;
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 12px 20px;
+      background: var(--color-text-primary);
+      border-radius: var(--radius-pill);
+      box-shadow: var(--shadow-xl);
+      z-index: 100;
+    }
+
+    .bulk-actions.visible {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .bulk-count {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--color-text-inverse);
+    }
+
+    .bulk-btns {
+      display: flex;
+      gap: 8px;
+    }
+
+    .bulk-btn {
+      padding: 8px 14px;
+      border: none;
+      border-radius: var(--radius-pill);
+      font-family: var(--font-primary);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .bulk-btn.primary {
+      background: var(--color-turquoise);
+      color: white;
+    }
+
+    .bulk-btn.secondary {
+      background: rgba(255,255,255,0.15);
+      color: var(--color-text-inverse);
+    }
+
+    .bulk-btn:hover {
+      opacity: 0.85;
+    }
+
+    /* ========== RESPONSIVE ========== */
+    @media (max-width: 480px) {
+      .studio-tabs {
+        padding: 3px;
+      }
+
+      .studio-tab {
+        padding: 8px 10px;
+        font-size: 11px;
+      }
+
+      .form-row {
+        flex-direction: column;
+      }
+
+      .form-field.small {
+        width: 100%;
+      }
+
+      .tier-selector {
+        flex-wrap: wrap;
+      }
+
+      .tier-option {
+        flex: 1 1 45%;
+      }
+
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .manage-header {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .manage-search {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="studio-shell">
+    <!-- Header -->
+    <div class="studio-header">
+      <div class="header-top">
+        <div>
+          <div class="brand-title">Stickerbook</div>
+          <div class="brand-subtitle">Creator Studio</div>
+        </div>
+        <div class="header-actions">
+          <div class="creator-avatar" id="creator-avatar">
+            <span>👤</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab Navigation -->
+      <div class="studio-tabs">
+        <button class="studio-tab active" data-tab="upload">Upload</button>
+        <button class="studio-tab" data-tab="manage">Manage</button>
+        <button class="studio-tab" data-tab="analytics">Analytics</button>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="studio-content">
+
+      <!-- UPLOAD PANEL -->
+      <div class="studio-panel active" id="panel-upload">
+        <div class="panel-scroll">
+          <!-- Drop Zone -->
+          <div class="upload-zone" id="upload-zone">
+            <div class="upload-zone-icon">📤</div>
+            <div class="upload-zone-title">Drop stickers here</div>
+            <div class="upload-zone-subtitle">or click to browse files</div>
+            <div class="upload-zone-specs">
+              <span class="spec-badge"><span class="icon">📐</span> 512-2048px</span>
+              <span class="spec-badge"><span class="icon">⬜</span> 1:1 ratio</span>
+              <span class="spec-badge"><span class="icon">🖼</span> PNG only</span>
+              <span class="spec-badge"><span class="icon">📦</span> Max 2MB</span>
+            </div>
+          </div>
+          <input type="file" id="file-input" accept="image/png" multiple />
+
+          <!-- Upload Queue -->
+          <div class="upload-queue" id="upload-queue">
+            <div class="queue-header">
+              <div>
+                <span class="queue-title">Ready to upload</span>
+                <span class="queue-count" id="queue-count">(0 stickers)</span>
+              </div>
+              <div class="queue-actions">
+                <button class="btn-outline" id="btn-clear-all">Clear All</button>
+              </div>
+            </div>
+            <div class="queue-list" id="queue-list">
+              <!-- Upload items will be inserted here -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Submit Section -->
+        <div class="submit-section" id="submit-section" style="display: none;">
+          <div class="submit-row">
+            <div class="submit-info">
+              <strong id="valid-count">0</strong> stickers ready
+            </div>
+            <button class="btn-submit" id="btn-upload-all">Upload All</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- MANAGE PANEL -->
+      <div class="studio-panel" id="panel-manage">
+        <div class="panel-scroll">
+          <!-- Header with filters -->
+          <div class="manage-header">
+            <div class="manage-filters">
+              <button class="filter-btn active" data-filter="all">All</button>
+              <button class="filter-btn" data-filter="live">Live</button>
+              <button class="filter-btn" data-filter="draft">Drafts</button>
+              <button class="filter-btn" data-filter="review">In Review</button>
+            </div>
+            <div class="manage-search">
+              <span class="search-icon">🔍</span>
+              <input type="text" placeholder="Search stickers..." id="manage-search" />
+            </div>
+          </div>
+
+          <!-- Sticker Grid -->
+          <div class="sticker-grid-manage" id="sticker-grid">
+            <!-- Demo stickers for preview -->
+            <div class="sticker-card" data-id="demo1">
+              <div class="sticker-card-preview">
+                <img src="images/stickers/raccoon0001.png" alt="Raccoon" />
+              </div>
+              <div class="sticker-card-name">Raccoon Nap</div>
+              <div class="sticker-card-meta">
+                <span class="sticker-card-tier premium">Premium</span>
+                <span>142 sold</span>
+              </div>
+            </div>
+            <div class="sticker-card" data-id="demo2">
+              <div class="sticker-card-preview">
+                <img src="images/stickers/blackcat0001.png" alt="Black Cat" />
+              </div>
+              <div class="sticker-card-name">Black Cat Energy</div>
+              <div class="sticker-card-meta">
+                <span class="sticker-card-tier standard">Standard</span>
+                <span>98 sold</span>
+              </div>
+            </div>
+            <div class="sticker-card" data-id="demo3">
+              <div class="sticker-card-preview">
+                <img src="images/stickers/mushroom0001.png" alt="Mushrooms" />
+              </div>
+              <div class="sticker-card-name">Mushrooms</div>
+              <div class="sticker-card-meta">
+                <span class="sticker-card-tier value">Value</span>
+                <span>67 sold</span>
+              </div>
+            </div>
+            <div class="sticker-card" data-id="demo4">
+              <div class="sticker-card-preview">
+                <img src="images/stickers/coffee0001.png" alt="Coffee" />
+              </div>
+              <div class="sticker-card-name">But First, Coffee</div>
+              <div class="sticker-card-meta">
+                <span class="sticker-card-tier free">Free</span>
+                <span>234 added</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Empty state (hidden by default) -->
+          <div class="empty-state" id="empty-state" style="display: none;">
+            <div class="empty-state-icon">🎨</div>
+            <div class="empty-state-title">No stickers yet</div>
+            <div class="empty-state-text">Upload your first sticker to get started</div>
+            <button class="btn btn-primary" onclick="switchTab('upload')">Upload Stickers</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ANALYTICS PANEL -->
+      <div class="studio-panel" id="panel-analytics">
+        <div class="panel-scroll">
+          <!-- Earnings Card -->
+          <div class="earnings-card">
+            <div class="earnings-label">Available Balance</div>
+            <div class="earnings-value">$127.40</div>
+            <button class="earnings-btn">Request Payout</button>
+          </div>
+
+          <!-- Stats Grid -->
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-label">Total Sales</div>
+              <div class="stat-value">847</div>
+              <div class="stat-change">↑ 12% this week</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Revenue</div>
+              <div class="stat-value">$423.50</div>
+              <div class="stat-change">↑ 8% this week</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Impressions</div>
+              <div class="stat-value">12.4K</div>
+              <div class="stat-change">↑ 24% this week</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Stickers Live</div>
+              <div class="stat-value">23</div>
+              <div class="stat-change" style="color: var(--color-text-muted);">+2 this week</div>
+            </div>
+          </div>
+
+          <!-- Top Performers -->
+          <div class="section-header">
+            <div class="section-title">Top Performers</div>
+          </div>
+          <div class="top-stickers-list">
+            <div class="top-sticker-item">
+              <div class="top-sticker-rank gold">1</div>
+              <div class="top-sticker-preview">
+                <img src="images/stickers/raccoon0001.png" alt="Raccoon" />
+              </div>
+              <div class="top-sticker-info">
+                <div class="top-sticker-name">Raccoon Nap</div>
+                <div class="top-sticker-stat">142 sales · $85.20 revenue</div>
+              </div>
+            </div>
+            <div class="top-sticker-item">
+              <div class="top-sticker-rank silver">2</div>
+              <div class="top-sticker-preview">
+                <img src="images/stickers/blackcat0001.png" alt="Black Cat" />
+              </div>
+              <div class="top-sticker-info">
+                <div class="top-sticker-name">Black Cat Energy</div>
+                <div class="top-sticker-stat">98 sales · $39.20 revenue</div>
+              </div>
+            </div>
+            <div class="top-sticker-item">
+              <div class="top-sticker-rank bronze">3</div>
+              <div class="top-sticker-preview">
+                <img src="images/stickers/mushroom0001.png" alt="Mushrooms" />
+              </div>
+              <div class="top-sticker-info">
+                <div class="top-sticker-name">Mushrooms</div>
+                <div class="top-sticker-stat">67 sales · $13.40 revenue</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Bulk Actions Bar -->
+    <div class="bulk-actions" id="bulk-actions">
+      <span class="bulk-count"><span id="selected-count">0</span> selected</span>
+      <div class="bulk-btns">
+        <button class="bulk-btn secondary" id="btn-bulk-tag">Add Tag</button>
+        <button class="bulk-btn secondary" id="btn-bulk-delete">Delete</button>
+        <button class="bulk-btn primary" id="btn-bulk-deselect">Deselect All</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ============ STATE ============
+    let uploadQueue = [];
+    let selectedStickers = new Set();
+    let uploadIdCounter = 0;
+
+    // Categories (will be updated)
+    const categories = [
+      "Animals",
+      "Entertainment",
+      "Food & Drinks",
+      "Nature & Outdoors",
+      "Objects & Stuff",
+      "People & Characters",
+      "Places & Travel",
+      "Sports",
+      "Vibes & Aesthetic"
+    ];
+
+    // ============ DOM ELEMENTS ============
+    const uploadZone = document.getElementById('upload-zone');
+    const fileInput = document.getElementById('file-input');
+    const uploadQueueEl = document.getElementById('upload-queue');
+    const queueList = document.getElementById('queue-list');
+    const queueCount = document.getElementById('queue-count');
+    const submitSection = document.getElementById('submit-section');
+    const validCount = document.getElementById('valid-count');
+    const btnUploadAll = document.getElementById('btn-upload-all');
+    const btnClearAll = document.getElementById('btn-clear-all');
+    const bulkActions = document.getElementById('bulk-actions');
+    const selectedCountEl = document.getElementById('selected-count');
+
+    // ============ TAB NAVIGATION ============
+    document.querySelectorAll('.studio-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        const tabName = tab.dataset.tab;
+        switchTab(tabName);
+      });
+    });
+
+    function switchTab(tabName) {
+      // Update tab buttons
+      document.querySelectorAll('.studio-tab').forEach(t => t.classList.remove('active'));
+      document.querySelector(`.studio-tab[data-tab="${tabName}"]`).classList.add('active');
+      
+      // Update panels
+      document.querySelectorAll('.studio-panel').forEach(p => p.classList.remove('active'));
+      document.getElementById(`panel-${tabName}`).classList.add('active');
+    }
+
+    // ============ UPLOAD ZONE ============
+    uploadZone.addEventListener('click', () => fileInput.click());
+
+    uploadZone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      uploadZone.classList.add('drag-over');
+    });
+
+    uploadZone.addEventListener('dragleave', () => {
+      uploadZone.classList.remove('drag-over');
+    });
+
+    uploadZone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      uploadZone.classList.remove('drag-over');
+      handleFiles(e.dataTransfer.files);
+    });
+
+    fileInput.addEventListener('change', (e) => {
+      handleFiles(e.target.files);
+      fileInput.value = ''; // Reset for re-selection
+    });
+
+    // ============ FILE HANDLING ============
+    function handleFiles(files) {
+      Array.from(files).forEach(file => {
+        const validation = validateFile(file);
+        const id = ++uploadIdCounter;
+        
+        const item = {
+          id,
+          file,
+          name: file.name,
+          displayName: generateDisplayName(file.name),
+          category: '',
+          tags: [],
+          suggestedTags: [],
+          tier: 'standard',
+          isNsfw: false,
+          status: validation.valid ? 'ready' : 'error',
+          error: validation.error || null,
+          previewUrl: null
+        };
+
+        // Generate preview
+        if (file.type === 'image/png') {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            item.previewUrl = e.target.result;
+            
+            // Check dimensions after loading
+            const img = new Image();
+            img.onload = () => {
+              if (img.width !== img.height) {
+                item.status = 'error';
+                item.error = 'Image must be square (1:1 ratio)';
+              } else if (img.width < 512) {
+                item.status = 'error';
+                item.error = 'Image too small (minimum 512×512)';
+              } else if (img.width > 2048) {
+                item.status = 'error';
+                item.error = 'Image too large (maximum 2048×2048)';
+              } else {
+                // Generate AI tag suggestions (simulated)
+                item.suggestedTags = generateSuggestedTags(item.displayName);
+                item.tags = [...item.suggestedTags];
+              }
+              renderUploadQueue();
+            };
+            img.src = e.target.result;
+          };
+          reader.readAsDataURL(file);
+        }
+
+        uploadQueue.push(item);
+      });
+
+      renderUploadQueue();
+    }
+
+    function validateFile(file) {
+      // Check file type
+      if (file.type !== 'image/png') {
+        return { valid: false, error: 'Only PNG files are allowed' };
+      }
+      
+      // Check file size (2MB)
+      if (file.size > 2 * 1024 * 1024) {
+        return { valid: false, error: 'File exceeds 2MB limit' };
+      }
+
+      return { valid: true };
+    }
+
+    function generateDisplayName(filename) {
+      // Remove extension and convert to title case
+      let name = filename.replace(/\.png$/i, '');
+      // Remove numbers at the end
+      name = name.replace(/\d+$/, '');
+      // Convert camelCase or snake_case to spaces
+      name = name.replace(/([a-z])([A-Z])/g, '$1 $2');
+      name = name.replace(/[_-]/g, ' ');
+      // Title case
+      return toTitleCase(name.trim());
+    }
+
+    function toTitleCase(str) {
+      const smallWords = ['a', 'an', 'the', 'and', 'but', 'or', 'for', 'nor', 'on', 'at', 'to', 'by', 'in', 'of'];
+      return str.toLowerCase().split(' ').map((word, index, arr) => {
+        if (index === 0 || index === arr.length - 1) {
+          return word.charAt(0).toUpperCase() + word.slice(1);
+        }
+        if (smallWords.includes(word)) {
+          return word;
+        }
+        return word.charAt(0).toUpperCase() + word.slice(1);
+      }).join(' ');
+    }
+
+    function generateSuggestedTags(displayName) {
+      // Simulated AI tag suggestions based on name
+      const nameLower = displayName.toLowerCase();
+      const suggestions = [];
+      
+      // Simple keyword matching for demo
+      const keywords = {
+        'cat': ['cat', 'feline', 'pet', 'animal'],
+        'dog': ['dog', 'canine', 'pet', 'animal'],
+        'flower': ['flower', 'plant', 'nature', 'botanical'],
+        'coffee': ['coffee', 'drink', 'beverage', 'morning'],
+        'music': ['music', 'sound', 'audio'],
+        'food': ['food', 'eating', 'cuisine'],
+        'raccoon': ['raccoon', 'animal', 'wildlife', 'nocturnal'],
+        'mushroom': ['mushroom', 'fungi', 'nature', 'forest']
+      };
+
+      for (const [key, tags] of Object.entries(keywords)) {
+        if (nameLower.includes(key)) {
+          suggestions.push(...tags);
+        }
+      }
+
+      // Always return at least 3 generic tags
+      if (suggestions.length < 3) {
+        suggestions.push('sticker', 'art', 'design');
+      }
+
+      return [...new Set(suggestions)].slice(0, 8);
+    }
+
+    // ============ RENDER UPLOAD QUEUE ============
+    function renderUploadQueue() {
+      if (uploadQueue.length === 0) {
+        uploadQueueEl.classList.remove('has-items');
+        submitSection.style.display = 'none';
+        return;
+      }
+
+      uploadQueueEl.classList.add('has-items');
+      queueCount.textContent = `(${uploadQueue.length} sticker${uploadQueue.length !== 1 ? 's' : ''})`;
+
+      const validItems = uploadQueue.filter(item => item.status === 'ready');
+      validCount.textContent = validItems.length;
+      submitSection.style.display = validItems.length > 0 ? 'block' : 'none';
+      btnUploadAll.disabled = validItems.length === 0;
+
+      queueList.innerHTML = uploadQueue.map(item => renderUploadItem(item)).join('');
+
+      // Re-attach event listeners
+      attachUploadItemListeners();
+    }
+
+    function renderUploadItem(item) {
+      const isError = item.status === 'error';
+      
+      return `
+        <div class="upload-item ${isError ? 'error' : ''}" data-id="${item.id}">
+          <div class="upload-item-header">
+            <div class="upload-item-preview">
+              ${item.previewUrl ? `<img src="${item.previewUrl}" alt="Preview" />` : '<span>📷</span>'}
+            </div>
+            <div class="upload-item-info">
+              <div class="upload-item-filename">${item.name}</div>
+              <div class="upload-item-status">
+                <span class="status-dot ${item.status}"></span>
+                ${isError ? item.error : (item.status === 'ready' ? 'Ready to upload' : 'Processing...')}
+              </div>
+            </div>
+            <button class="upload-item-remove" data-id="${item.id}">✕</button>
+          </div>
+          
+          ${isError ? `
+            <div class="error-message">
+              <span class="icon">⚠️</span>
+              ${item.error}
+            </div>
+          ` : `
+            <div class="upload-item-form">
+              <!-- Display Name & Category -->
+              <div class="form-row">
+                <div class="form-field">
+                  <label class="form-label">Display Name</label>
+                  <input type="text" class="form-input display-name-input" data-id="${item.id}" value="${item.displayName}" maxlength="50" placeholder="Sticker name..." />
+                </div>
+                <div class="form-field small">
+                  <label class="form-label">Category</label>
+                  <select class="form-select category-select" data-id="${item.id}">
+                    <option value="">Select...</option>
+                    ${categories.map(cat => `<option value="${cat}" ${item.category === cat ? 'selected' : ''}>${cat}</option>`).join('')}
+                  </select>
+                </div>
+              </div>
+
+              <!-- Tags -->
+              <div class="form-field">
+                <label class="form-label">Tags (3-15)</label>
+                <div class="tags-input-wrapper" data-id="${item.id}">
+                  ${item.tags.map(tag => `
+                    <span class="tag-chip ${item.suggestedTags.includes(tag) ? 'ai-suggested' : ''}">${tag}<button class="tag-chip-remove" data-tag="${tag}">✕</button></span>
+                  `).join('')}
+                  <input type="text" class="tags-input" data-id="${item.id}" placeholder="${item.tags.length === 0 ? 'Add tags...' : ''}" />
+                </div>
+                <div class="tags-hint">${item.tags.length}/15 tags · Press Enter to add · AI suggestions in teal</div>
+              </div>
+
+              <!-- Pricing Tier -->
+              <div class="form-field">
+                <label class="form-label">Pricing Tier</label>
+                <div class="tier-selector" data-id="${item.id}">
+                  <label class="tier-option ${item.tier === 'free' ? 'selected' : ''}">
+                    <input type="radio" name="tier-${item.id}" value="free" ${item.tier === 'free' ? 'checked' : ''} />
+                    <div class="tier-name">Free</div>
+                    <div class="tier-price">0 coins</div>
+                  </label>
+                  <label class="tier-option ${item.tier === 'value' ? 'selected' : ''}">
+                    <input type="radio" name="tier-${item.id}" value="value" ${item.tier === 'value' ? 'checked' : ''} />
+                    <div class="tier-name">Value</div>
+                    <div class="tier-price">5 coins</div>
+                  </label>
+                  <label class="tier-option ${item.tier === 'standard' ? 'selected' : ''}">
+                    <input type="radio" name="tier-${item.id}" value="standard" ${item.tier === 'standard' ? 'checked' : ''} />
+                    <div class="tier-name">Standard</div>
+                    <div class="tier-price">10 coins</div>
+                  </label>
+                  <label class="tier-option ${item.tier === 'premium' ? 'selected' : ''}">
+                    <input type="radio" name="tier-${item.id}" value="premium" ${item.tier === 'premium' ? 'checked' : ''} />
+                    <div class="tier-name">Premium</div>
+                    <div class="tier-price">15 coins</div>
+                  </label>
+                </div>
+              </div>
+
+              <!-- NSFW Flag -->
+              <div class="checkbox-row">
+                <input type="checkbox" id="nsfw-${item.id}" class="nsfw-checkbox" data-id="${item.id}" ${item.isNsfw ? 'checked' : ''} />
+                <label for="nsfw-${item.id}">Contains mature content (NSFW)</label>
+              </div>
+            </div>
+          `}
+        </div>
+      `;
+    }
+
+    function attachUploadItemListeners() {
+      // Remove buttons
+      document.querySelectorAll('.upload-item-remove').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const id = parseInt(e.target.dataset.id);
+          uploadQueue = uploadQueue.filter(item => item.id !== id);
+          renderUploadQueue();
+        });
+      });
+
+      // Display name inputs
+      document.querySelectorAll('.display-name-input').forEach(input => {
+        input.addEventListener('blur', (e) => {
+          const id = parseInt(e.target.dataset.id);
+          const item = uploadQueue.find(i => i.id === id);
+          if (item) {
+            item.displayName = toTitleCase(e.target.value.trim()) || 'Untitled';
+            e.target.value = item.displayName;
+          }
+        });
+      });
+
+      // Category selects
+      document.querySelectorAll('.category-select').forEach(select => {
+        select.addEventListener('change', (e) => {
+          const id = parseInt(e.target.dataset.id);
+          const item = uploadQueue.find(i => i.id === id);
+          if (item) {
+            item.category = e.target.value;
+          }
+        });
+      });
+
+      // Tags input
+      document.querySelectorAll('.tags-input').forEach(input => {
+        input.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            const id = parseInt(e.target.dataset.id);
+            const item = uploadQueue.find(i => i.id === id);
+            const value = e.target.value.trim().toLowerCase();
+            
+            if (item && value && !item.tags.includes(value) && item.tags.length < 15) {
+              item.tags.push(value);
+              renderUploadQueue();
+            }
+          }
+        });
+      });
+
+      // Tag remove buttons
+      document.querySelectorAll('.tag-chip-remove').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const wrapper = e.target.closest('.tags-input-wrapper');
+          const id = parseInt(wrapper.dataset.id);
+          const tag = e.target.dataset.tag;
+          const item = uploadQueue.find(i => i.id === id);
+          
+          if (item) {
+            item.tags = item.tags.filter(t => t !== tag);
+            renderUploadQueue();
+          }
+        });
+      });
+
+      // Tier selectors
+      document.querySelectorAll('.tier-selector input[type="radio"]').forEach(radio => {
+        radio.addEventListener('change', (e) => {
+          const selector = e.target.closest('.tier-selector');
+          const id = parseInt(selector.dataset.id);
+          const item = uploadQueue.find(i => i.id === id);
+          
+          if (item) {
+            item.tier = e.target.value;
+            // Update visual selection
+            selector.querySelectorAll('.tier-option').forEach(opt => opt.classList.remove('selected'));
+            e.target.closest('.tier-option').classList.add('selected');
+          }
+        });
+      });
+
+      // NSFW checkboxes
+      document.querySelectorAll('.nsfw-checkbox').forEach(checkbox => {
+        checkbox.addEventListener('change', (e) => {
+          const id = parseInt(e.target.dataset.id);
+          const item = uploadQueue.find(i => i.id === id);
+          if (item) {
+            item.isNsfw = e.target.checked;
+          }
+        });
+      });
+    }
+
+    // Clear all button
+    btnClearAll.addEventListener('click', () => {
+      uploadQueue = [];
+      renderUploadQueue();
+    });
+
+    // Upload all button
+    btnUploadAll.addEventListener('click', () => {
+      const validItems = uploadQueue.filter(item => item.status === 'ready');
+      
+      // Validate all items have required fields
+      const incomplete = validItems.filter(item => !item.category || item.tags.length < 3);
+      
+      if (incomplete.length > 0) {
+        alert(`Please complete all required fields:\n- Category must be selected\n- At least 3 tags required`);
+        return;
+      }
+
+      // Simulate upload
+      console.log('Uploading stickers:', validItems);
+      alert(`${validItems.length} sticker(s) uploaded successfully!`);
+      
+      // Clear queue and switch to manage tab
+      uploadQueue = [];
+      renderUploadQueue();
+      switchTab('manage');
+    });
+
+    // ============ MANAGE PANEL ============
+    // Filter buttons
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        // TODO: Filter stickers based on btn.dataset.filter
+      });
+    });
+
+    // Sticker selection
+    document.getElementById('sticker-grid').addEventListener('click', (e) => {
+      const card = e.target.closest('.sticker-card');
+      if (!card) return;
+
+      const id = card.dataset.id;
+      
+      if (selectedStickers.has(id)) {
+        selectedStickers.delete(id);
+        card.classList.remove('selected');
+      } else {
+        selectedStickers.add(id);
+        card.classList.add('selected');
+      }
+
+      updateBulkActions();
+    });
+
+    function updateBulkActions() {
+      if (selectedStickers.size > 0) {
+        bulkActions.classList.add('visible');
+        selectedCountEl.textContent = selectedStickers.size;
+      } else {
+        bulkActions.classList.remove('visible');
+      }
+    }
+
+    // Bulk action buttons
+    document.getElementById('btn-bulk-deselect').addEventListener('click', () => {
+      selectedStickers.clear();
+      document.querySelectorAll('.sticker-card.selected').forEach(card => card.classList.remove('selected'));
+      updateBulkActions();
+    });
+
+    document.getElementById('btn-bulk-delete').addEventListener('click', () => {
+      if (confirm(`Delete ${selectedStickers.size} sticker(s)? This will remove them from the shop.`)) {
+        // TODO: Implement deletion
+        alert('Stickers deleted (demo)');
+        selectedStickers.clear();
+        updateBulkActions();
+      }
+    });
+
+    document.getElementById('btn-bulk-tag').addEventListener('click', () => {
+      const tag = prompt('Enter tag to add to selected stickers:');
+      if (tag) {
+        // TODO: Implement bulk tagging
+        alert(`Tag "${tag}" added to ${selectedStickers.size} stickers (demo)`);
+      }
+    });
+
+    // ============ INIT ============
+    // Load creator info from localStorage
+    function loadCreatorInfo() {
+      const creatorData = localStorage.getItem('stickerbook_creator');
+      if (creatorData) {
+        const creator = JSON.parse(creatorData);
+        // Could update avatar, name, etc.
+      }
+    }
+
+    loadCreatorInfo();
+  </script>
+</body>
+</html>
