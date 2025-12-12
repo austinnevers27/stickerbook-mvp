@@ -115,9 +115,9 @@
       max-width: 340px;
       padding: 16px 32px;
       margin-top: 32px;
-      background: var(--color-purple);
+      background: var(--gradient-primary);
       border: none;
-      border-radius: 50px;
+      border-radius: var(--radius-pill);
       font-family: var(--font-primary);
       font-size: 14px;
       font-weight: 700;
@@ -125,16 +125,18 @@
       text-transform: uppercase;
       color: white;
       cursor: pointer;
+      box-shadow: var(--shadow-button);
       transition: all 0.2s ease;
     }
 
     .btn-get-started:hover {
-      background: var(--color-purple-dark);
       transform: translateY(-1px);
+      box-shadow: var(--shadow-button-hover);
     }
 
     .btn-get-started:active {
-      transform: scale(0.98);
+      transform: translateY(1px);
+      box-shadow: var(--shadow-button-active);
     }
 
     /* Selector screen */
@@ -148,56 +150,56 @@
     }
 
     .type-selector__heading {
-      font-size: 14px;
+      font-family: var(--font-display);
+      font-size: 16px;
       font-weight: 600;
-      color: var(--color-text-secondary);
+      color: var(--color-text-primary);
       text-align: center;
-      margin-bottom: 16px;
+      margin-bottom: 20px;
     }
 
+    /* Option buttons */
     .type-option {
       width: 100%;
-      padding: 16px 20px;
+      padding: 16px 24px;
       margin-bottom: 12px;
-      background: var(--color-surface);
-      border: 2px solid var(--color-border);
-      border-radius: 12px;
+      border: none;
+      border-radius: var(--radius-pill);
       font-family: var(--font-primary);
       font-size: 15px;
       font-weight: 600;
-      color: var(--color-text-primary);
+      color: white;
       cursor: pointer;
       transition: all 0.2s ease;
-      text-align: left;
+      text-align: center;
     }
 
     .type-option:hover {
-      border-color: var(--color-purple);
-      background: rgba(138, 43, 226, 0.05);
+      transform: translateY(-2px);
     }
 
     .type-option:active {
-      transform: scale(0.98);
+      transform: translateY(1px);
     }
 
-    .type-option__label {
-      display: block;
-      margin-bottom: 4px;
+    /* Turquoise - primary path */
+    .type-option--turquoise {
+      background: var(--color-turquoise);
+      box-shadow: 0 4px 14px rgba(20, 184, 166, 0.3);
     }
 
-    .type-option__desc {
-      font-size: 12px;
-      font-weight: 400;
-      color: var(--color-text-secondary);
+    .type-option--turquoise:hover {
+      box-shadow: 0 6px 20px rgba(20, 184, 166, 0.4);
     }
 
-    .type-option--other {
-      background: transparent;
-      border-style: dashed;
+    /* Purple - other paths */
+    .type-option--purple {
+      background: var(--color-purple);
+      box-shadow: var(--shadow-button);
     }
 
-    .type-option--other:hover {
-      background: rgba(138, 43, 226, 0.03);
+    .type-option--purple:hover {
+      box-shadow: var(--shadow-button-hover);
     }
 
     /* Modal */
@@ -217,8 +219,8 @@
 
     .modal-content {
       background: var(--color-canvas);
-      border-radius: 16px;
-      padding: 28px 24px;
+      border-radius: var(--radius-xl);
+      padding: 32px 28px;
       max-width: 320px;
       width: 100%;
       text-align: center;
@@ -226,7 +228,7 @@
 
     .modal-title {
       font-family: var(--font-display);
-      font-size: 18px;
+      font-size: 20px;
       font-weight: 700;
       color: var(--color-text-primary);
       margin-bottom: 12px;
@@ -240,15 +242,22 @@
     }
 
     .modal-btn {
-      padding: 12px 32px;
-      background: var(--color-purple);
+      padding: 14px 36px;
+      background: var(--gradient-primary);
       border: none;
-      border-radius: 50px;
+      border-radius: var(--radius-pill);
       font-family: var(--font-primary);
       font-size: 14px;
       font-weight: 600;
       color: white;
       cursor: pointer;
+      box-shadow: var(--shadow-button);
+      transition: all 0.2s ease;
+    }
+
+    .modal-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-button-hover);
     }
   </style>
 </head>
@@ -308,24 +317,20 @@
       <section class="type-selector">
         <p class="type-selector__heading">I'm here to...</p>
 
-        <button class="type-option" onclick="window.location.href='account.html'">
-          <span class="type-option__label">Find my people</span>
-          <span class="type-option__desc">Create your Stickerbook and connect with others</span>
+        <button class="type-option type-option--turquoise" onclick="window.location.href='account.html'">
+          Connect with others
         </button>
 
-        <button class="type-option" onclick="window.location.href='account-creator.html'">
-          <span class="type-option__label">Share my art</span>
-          <span class="type-option__desc">Sell stickers and backgrounds in the Sticker Shop</span>
+        <button class="type-option type-option--purple" onclick="window.location.href='account-creator.html'">
+          Share my art
         </button>
 
-        <button class="type-option" onclick="showBrandMessage()">
-          <span class="type-option__label">Represent a brand</span>
-          <span class="type-option__desc">Companies, nonprofits, public figures</span>
+        <button class="type-option type-option--purple" onclick="showBrandMessage()">
+          Promote a brand
         </button>
 
-        <button class="type-option type-option--other" onclick="showOtherMessage()">
-          <span class="type-option__label">Something else</span>
-          <span class="type-option__desc">Not sure where I fit</span>
+        <button class="type-option type-option--purple" onclick="showOtherMessage()">
+          Explore other options
         </button>
       </section>
     </div>
@@ -369,7 +374,7 @@
 
     function showOtherMessage() {
       document.getElementById('modalTitle').textContent = 'Not sure?';
-      document.getElementById('modalText').textContent = "No worries! Most people are here to find their people. If you're an artist wanting to sell your work, choose \"Share my art.\" Questions? Email hello@stickerbook.app";
+      document.getElementById('modalText').textContent = "No worries! Most people are here to connect with others. If you're an artist wanting to share your work, choose \"Share my art.\" Questions? Email hello@stickerbook.app";
       document.getElementById('tempModal').style.display = 'flex';
     }
 
