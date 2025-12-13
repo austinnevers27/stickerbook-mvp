@@ -472,14 +472,14 @@
     }
 
     /* Password rules - horizontal (override CSS file with higher specificity) */
-  .creator-flow .password-rules {
-  display: flex !important;
-  flex-direction: row !important;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 4px 14px;
-  margin-top: 4px;
-}
+    .creator-flow .password-rules {
+      display: flex !important;
+      flex-direction: row !important;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 4px 14px;
+      margin-top: 4px;
+    }
 
     .creator-flow .password-rule {
       font-size: 9px;
@@ -834,6 +834,7 @@
     let scale = 1;
     let minScale = 1;
     let maxScale = 4;
+    let baseScale = 1; // The scale at which image exactly fills crop area (100%)
     let posX = 0;
     let posY = 0;
     let isDragging = false;
@@ -872,13 +873,16 @@
         imgNaturalWidth = cropImage.naturalWidth;
         imgNaturalHeight = cropImage.naturalHeight;
         
-        // Calculate minimum scale to cover the crop circle (280px)
+        // Calculate scale to exactly fill the crop circle (280px) - this is "100%"
         const cropSize = 280;
         const scaleX = cropSize / imgNaturalWidth;
         const scaleY = cropSize / imgNaturalHeight;
-        minScale = Math.max(scaleX, scaleY);
-        maxScale = minScale * 4;
-        scale = minScale;
+        baseScale = Math.max(scaleX, scaleY);
+        
+        // Allow zoom out to 75% of fill size
+        minScale = baseScale * 0.75;
+        maxScale = baseScale * 4;
+        scale = baseScale; // Start at 100%
         
         // Center the image
         posX = (cropSize - imgNaturalWidth * scale) / 2;
@@ -901,7 +905,8 @@
     }
 
     function updateZoomLabel() {
-      const percentage = Math.round((scale / minScale) * 100);
+      // Show percentage relative to baseScale (100% = exactly fills circle)
+      const percentage = Math.round((scale / baseScale) * 100);
       zoomLabel.textContent = percentage + '%';
     }
 
@@ -910,12 +915,20 @@
       const imgWidth = imgNaturalWidth * scale;
       const imgHeight = imgNaturalHeight * scale;
       
-      // Keep image covering the crop circle
-      const minX = cropSize - imgWidth;
-      const minY = cropSize - imgHeight;
+      // If image is smaller than crop area, center it
+      if (imgWidth <= cropSize) {
+        posX = (cropSize - imgWidth) / 2;
+      } else {
+        const minX = cropSize - imgWidth;
+        posX = Math.min(0, Math.max(minX, posX));
+      }
       
-      posX = Math.min(0, Math.max(minX, posX));
-      posY = Math.min(0, Math.max(minY, posY));
+      if (imgHeight <= cropSize) {
+        posY = (cropSize - imgHeight) / 2;
+      } else {
+        const minY = cropSize - imgHeight;
+        posY = Math.min(0, Math.max(minY, posY));
+      }
     }
 
     function setScale(newScale, centerX = 140, centerY = 140) {
@@ -1043,15 +1056,19 @@
       canvas.width = outputSize;
       canvas.height = outputSize;
       
-      // Draw the cropped portion
-      const sourceX = -posX / scale;
-      const sourceY = -posY / scale;
-      const sourceSize = cropSize / scale;
+      // Fill with white background (for when zoomed out)
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, outputSize, outputSize);
       
+      // Calculate the visible portion of the image
+      const imgWidth = imgNaturalWidth * scale;
+      const imgHeight = imgNaturalHeight * scale;
+      
+      // Draw the image at its current position/scale
       ctx.drawImage(
         cropImage,
-        sourceX, sourceY, sourceSize, sourceSize,
-        0, 0, outputSize, outputSize
+        0, 0, imgNaturalWidth, imgNaturalHeight,
+        posX, posY, imgWidth, imgHeight
       );
       
       croppedImageData = canvas.toDataURL('image/jpeg', 0.9);
