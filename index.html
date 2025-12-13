@@ -19,7 +19,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 60px 24px 40px;
+      padding: 32px 24px 24px;
     }
 
     /* Header */
@@ -29,12 +29,12 @@
 
     .index-title {
       font-family: var(--font-display);
-      font-size: 32px;
+      font-size: 28px;
       font-weight: 700;
       letter-spacing: 0.12em;
       text-transform: uppercase;
       color: var(--color-text-primary);
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
 
     /* Screen states */
@@ -53,36 +53,36 @@
     .screen--landing {
       justify-content: center;
       min-height: 80vh;
-      cursor: pointer;
     }
 
-    .tap-hint {
-      margin-top: 40px;
-      font-size: 12px;
-      color: var(--color-text-muted);
-      opacity: 0;
-      animation: fadeInHint 1s ease 1.5s forwards;
-    }
-
-    @keyframes fadeInHint {
-      to { opacity: 1; }
+    .screen--landing .index-title {
+      font-size: 32px;
+      margin-bottom: 8px;
     }
 
     /* Copy screen */
     .screen--copy {
-      padding-top: 20px;
+      padding-top: 0;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    .screen--copy.active {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     .intro-section {
       max-width: 340px;
-      margin-bottom: 32px;
+      margin-bottom: 16px;
     }
 
     .intro-text {
-      font-size: 15px;
-      line-height: 1.7;
+      font-size: 13px;
+      line-height: 1.5;
       color: var(--color-text-primary);
-      margin-bottom: 20px;
+      margin-bottom: 12px;
       font-weight: 400;
     }
 
@@ -113,8 +113,8 @@
     .btn-get-started {
       width: 100%;
       max-width: 340px;
-      padding: 16px 32px;
-      margin-top: 32px;
+      padding: 14px 32px;
+      margin-top: 20px;
       background: var(--gradient-primary);
       border: none;
       border-radius: var(--radius-pill);
@@ -271,12 +271,11 @@
         <h1 class="index-title">Stickerbook</h1>
         <div class="accent-bar accent-bar--md"></div>
       </header>
-      <p class="tap-hint">tap anywhere</p>
     </div>
 
     <!-- SCREEN 2: Copy + Get Started -->
     <div class="screen screen--copy" id="screen-copy">
-      <header class="index-header" style="margin-bottom: 32px;">
+      <header class="index-header" style="margin-bottom: 16px;">
         <h1 class="index-title">Stickerbook</h1>
         <div class="accent-bar accent-bar--md"></div>
       </header>
@@ -347,17 +346,17 @@
   </div>
 
   <script>
-    // Screen navigation
+    // Screen elements
     const screenLanding = document.getElementById('screen-landing');
     const screenCopy = document.getElementById('screen-copy');
     const screenSelector = document.getElementById('screen-selector');
     const btnGetStarted = document.getElementById('btn-get-started');
 
-    // Landing tap → Copy screen
-    screenLanding.addEventListener('click', function() {
+    // Auto-transition after 2 seconds
+    setTimeout(function() {
       screenLanding.classList.remove('active');
       screenCopy.classList.add('active');
-    });
+    }, 2000);
 
     // Get Started → Selector screen
     btnGetStarted.addEventListener('click', function() {
