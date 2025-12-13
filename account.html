@@ -3,37 +3,179 @@
 <head>
   <meta charset="UTF-8" />
   <title>Stickerbook – Create Account</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/stickerbook.css">
   <style>
-    .field-label {
+    /* ========== PAGE-SPECIFIC STYLES ========== */
+    
+    /* Fix browser autofill yellow background */
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover,
+    input:-webkit-autofill:focus,
+    input:-webkit-autofill:active {
+      -webkit-box-shadow: 0 0 0 1000px white inset !important;
+      -webkit-text-fill-color: var(--color-text-primary) !important;
+      transition: background-color 5000s ease-in-out 0s;
+    }
+
+    /* Turquoise accent for user flow */
+    .user-flow .field-label {
       color: var(--color-turquoise);
+    }
+
+    .user-flow .field-input:focus {
+      border-color: var(--color-turquoise);
+      box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.15);
+    }
+
+    .user-flow .terms-row a {
+      color: var(--color-turquoise);
+    }
+
+    .user-flow .terms-row a:hover {
+      color: var(--color-turquoise-dark);
+    }
+
+    .user-flow .password-rule.met {
+      color: var(--color-turquoise);
+    }
+
+    .user-flow .terms-row input[type="checkbox"] {
+      accent-color: var(--color-turquoise);
+    }
+
+    /* Tighter form spacing */
+    .form-tight {
+      gap: 10px;
+    }
+
+    .form-tight .field {
+      margin-bottom: 0;
+    }
+
+    /* Title area */
+    .title-area {
+      text-align: center;
+      margin-bottom: 8px;
+    }
+
+    .title-area .screen-title {
+      margin-bottom: 2px;
+    }
+
+    .title-area .screen-subtitle {
+      margin-bottom: 0;
+    }
+
+    /* Location row - all centered */
+    .location-row {
+      display: flex;
+      gap: 8px;
+    }
+
+    .location-row .field-input {
+      min-width: 0;
+      text-align: center;
+    }
+
+    .location-row .field-input--city {
+      flex: 2;
+    }
+
+    .location-row .field-input--state {
+      flex: 1;
+    }
+
+    .location-row .field-input--zip {
+      flex: 1;
+    }
+
+    /* Password rules - horizontal, matching creator style */
+    .user-flow .password-rules {
+      display: flex !important;
+      flex-direction: row !important;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 4px 14px;
+      margin-top: 4px;
+    }
+
+    .user-flow .password-rule {
+      font-size: 9px;
+      white-space: nowrap;
+    }
+
+    /* Terms row */
+    .terms-row {
+      margin-top: 6px;
+    }
+
+    /* CTA row */
+    .cta-row {
+      margin-top: 12px;
+    }
+
+    /* Field error */
+    .field-error {
+      min-height: 0;
+    }
+
+    .field-error:not(:empty) {
+      margin-top: 4px;
+    }
+
+    /* Skip button in header */
+    .app-header__skip {
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      background: transparent;
+      border: 1px solid var(--color-border);
+      color: var(--color-text-muted);
+      padding: 6px 12px;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      border-radius: var(--radius-pill);
+      cursor: pointer;
+      font-family: var(--font-primary);
+      transition: border-color 0.15s ease, color 0.15s ease;
+    }
+
+    .app-header__skip:hover {
+      border-color: var(--color-border-strong);
+      color: var(--color-text-secondary);
     }
   </style>
 </head>
 <body>
-  <div class="app-shell">
+  <div class="app-shell user-flow">
     <div class="phone-frame">
       <div class="phone-inner">
         <div class="shell-inner">
-          <!-- Header with logo and skip button -->
-          <div class="top-row">
-            <div class="logo-group" style="align-items: flex-start;">
-              <div class="logo-mark">STICKERBOOK</div>
-              <div class="logo-accent"></div>
-            </div>
-            <button class="btn-skip" id="skip-btn">Skip</button>
-          </div>
+          
+          <!-- Header -->
+          <header class="app-header app-header--with-nav">
+            <button class="app-header__back" onclick="window.location.href='index.html'">
+              <span>←</span> Back
+            </button>
+            <span class="app-header__title">Stickerbook</span>
+            <div class="app-header__accent"></div>
+            <button class="app-header__skip" id="skip-btn">Skip</button>
+          </header>
 
           <!-- Title -->
-          <h1 class="screen-title text-center">Create your account</h1>
-          <p class="screen-subtitle text-center">
-            Just a few quick things, then we'll get to the fun part.
-          </p>
+          <div class="title-area">
+            <h1 class="screen-title">Create Your Account</h1>
+            <p class="screen-subtitle">Just a few quick things, then we'll get to the fun part.</p>
+          </div>
 
           <!-- Form -->
-          <form class="form" id="account-form" novalidate>
+          <form class="form form-tight" id="account-form" novalidate>
+            
             <!-- Name -->
             <div class="field">
               <label class="field-label" for="name">Name</label>
@@ -102,7 +244,7 @@
                   type="text" 
                   id="state" 
                   class="field-input field-input--state" 
-                  placeholder="ST"
+                  placeholder="State"
                   maxlength="2"
                   autocomplete="address-level1"
                   required
@@ -147,10 +289,10 @@
                 required
               />
               <div class="password-rules">
-                <div class="password-rule" id="rule-length">At least 8 characters</div>
-                <div class="password-rule" id="rule-upper">One uppercase letter</div>
-                <div class="password-rule" id="rule-lower">One lowercase letter</div>
-                <div class="password-rule" id="rule-number">One number</div>
+                <div class="password-rule" id="rule-length">8+ characters</div>
+                <div class="password-rule" id="rule-upper">1+ uppercase</div>
+                <div class="password-rule" id="rule-lower">1+ lowercase</div>
+                <div class="password-rule" id="rule-number">1+ number</div>
               </div>
               <div class="field-error" id="password-error"></div>
             </div>
@@ -207,7 +349,6 @@
     // Auto-tab for DOB fields
     function autoTab(current, next, maxLength) {
       current.addEventListener('input', (e) => {
-        // Only allow numbers
         e.target.value = e.target.value.replace(/\D/g, '');
         
         if (e.target.value.length >= maxLength && next) {
@@ -220,12 +361,12 @@
     autoTab(dobDay, dobYear, 2);
     autoTab(dobYear, null, 4);
 
-    // Auto-tab for zip (just filter to numbers)
+    // Zip field: only numbers
     zipInput.addEventListener('input', (e) => {
       e.target.value = e.target.value.replace(/\D/g, '');
     });
 
-    // State field: force uppercase
+    // State field: force uppercase, letters only
     stateInput.addEventListener('input', (e) => {
       e.target.value = e.target.value.toUpperCase().replace(/[^A-Z]/g, '');
     });
@@ -234,33 +375,10 @@
     passwordInput.addEventListener('input', () => {
       const val = passwordInput.value;
       
-      // Length check
-      if (val.length >= 8) {
-        ruleLength.classList.add('met');
-      } else {
-        ruleLength.classList.remove('met');
-      }
-      
-      // Uppercase check
-      if (/[A-Z]/.test(val)) {
-        ruleUpper.classList.add('met');
-      } else {
-        ruleUpper.classList.remove('met');
-      }
-      
-      // Lowercase check
-      if (/[a-z]/.test(val)) {
-        ruleLower.classList.add('met');
-      } else {
-        ruleLower.classList.remove('met');
-      }
-      
-      // Number check
-      if (/[0-9]/.test(val)) {
-        ruleNumber.classList.add('met');
-      } else {
-        ruleNumber.classList.remove('met');
-      }
+      ruleLength.classList.toggle('met', val.length >= 8);
+      ruleUpper.classList.toggle('met', /[A-Z]/.test(val));
+      ruleLower.classList.toggle('met', /[a-z]/.test(val));
+      ruleNumber.classList.toggle('met', /[0-9]/.test(val));
     });
 
     // Clear errors on input
@@ -312,11 +430,9 @@
       if (d < 1 || d > 31) return { valid: false, reason: 'invalid' };
       if (y < 1900 || y > new Date().getFullYear()) return { valid: false, reason: 'invalid' };
       
-      // Check if date actually exists
       const testDate = new Date(y, m - 1, d);
       if (testDate.getMonth() !== m - 1) return { valid: false, reason: 'invalid' };
       
-      // Check age
       const age = calculateAge(m, d, y);
       if (age < 13) return { valid: false, reason: 'underage' };
       
@@ -355,6 +471,9 @@
       } else if (zipInput.value.length !== 5) {
         locationError.textContent = 'Please enter a valid 5-digit zip code.';
         hasError = true;
+      } else if (stateInput.value.length !== 2) {
+        locationError.textContent = 'Please enter a valid 2-letter state code.';
+        hasError = true;
       }
       
       // Validate email
@@ -383,7 +502,7 @@
       
       if (hasError) return;
       
-      // Save to localStorage (for MVP - will be backend later)
+      // Save to localStorage
       const userData = {
         name: nameInput.value.trim(),
         dob: {
@@ -397,7 +516,6 @@
           zip: zipInput.value.trim()
         },
         email: emailInput.value.trim()
-        // Note: Never store passwords in localStorage in production!
       };
       
       localStorage.setItem('stickerbook_user', JSON.stringify(userData));
