@@ -59,46 +59,6 @@
       margin-bottom: 0;
     }
 
-    /* Header layout */
-    .header-row {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      margin-bottom: 10px;
-    }
-
-    .back-btn {
-      position: absolute;
-      left: 0;
-      top: 50%;
-      transform: translateY(-50%);
-      background: none;
-      border: none;
-      font-size: 11px;
-      color: var(--color-text-muted);
-      cursor: pointer;
-      font-family: var(--font-primary);
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .back-btn:hover {
-      color: var(--color-text-secondary);
-    }
-
-    .logo-centered {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .logo-centered .logo-mark {
-      font-size: 12px;
-    }
-
     /* Title area - tighter */
     .title-area {
       text-align: center;
@@ -513,15 +473,13 @@
         <div class="shell-inner">
           
           <!-- Header -->
-          <div class="header-row">
-            <button class="back-btn" onclick="window.location.href='index.html'">
+          <header class="app-header app-header--with-nav">
+            <button class="app-header__back" onclick="window.location.href='index.html'">
               <span>←</span> Back
             </button>
-            <div class="logo-centered">
-              <div class="logo-mark">STICKERBOOK</div>
-              <div class="logo-accent"></div>
-            </div>
-          </div>
+            <span class="app-header__title">Stickerbook</span>
+            <div class="app-header__accent"></div>
+          </header>
 
           <!-- Title -->
           <div class="title-area">
