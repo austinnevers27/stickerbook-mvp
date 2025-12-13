@@ -125,24 +125,6 @@
       margin-top: 4px;
     }
 
-    /* DOB helper text - shows on focus */
-    .field-helper-focus {
-      font-size: 11px;
-      color: var(--color-turquoise);
-      margin-top: 4px;
-      opacity: 0;
-      max-height: 0;
-      overflow: hidden;
-      transition: opacity 0.2s ease, max-height 0.2s ease;
-      line-height: 1.4;
-      text-align: center;
-    }
-
-    .field-helper-focus.visible {
-      opacity: 1;
-      max-height: 50px;
-    }
-
     /* Parent consent - appears dynamically for 13-17 */
     .parent-consent-row {
       display: flex;
@@ -272,7 +254,6 @@
                   required
                 />
               </div>
-              <p class="field-helper-focus" id="dob-helper">Stickerbook is open to users age 13+</p>
               <div class="parent-consent-row" id="parent-consent-row">
                 <input type="checkbox" id="parent-consent" />
                 <label for="parent-consent">My parent or guardian knows I'm creating this account</label>
@@ -379,7 +360,6 @@
     const dobMonth = document.getElementById('dob-month');
     const dobDay = document.getElementById('dob-day');
     const dobYear = document.getElementById('dob-year');
-    const dobHelper = document.getElementById('dob-helper');
     const parentConsentRow = document.getElementById('parent-consent-row');
     const parentConsentCheckbox = document.getElementById('parent-consent');
     const cityInput = document.getElementById('city');
@@ -403,23 +383,6 @@
 
     // State
     let isMinor = false;
-
-    // DOB helper - show on focus
-    const dobInputs = [dobMonth, dobDay, dobYear];
-    
-    dobInputs.forEach(input => {
-      input.addEventListener('focus', () => {
-        dobHelper.classList.add('visible');
-      });
-      input.addEventListener('blur', () => {
-        setTimeout(() => {
-          const activeEl = document.activeElement;
-          if (!dobInputs.includes(activeEl)) {
-            dobHelper.classList.remove('visible');
-          }
-        }, 100);
-      });
-    });
 
     // Calculate age helper
     function calculateAge(month, day, year) {
