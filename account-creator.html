@@ -7,39 +7,247 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/stickerbook.css">
   <style>
-    /* Page-specific styles */
-    .info-note {
-      background: rgba(138, 43, 226, 0.08);
-      border-left: 3px solid var(--color-accent-primary);
-      padding: 12px 14px;
-      margin-bottom: 20px;
-      border-radius: 0 8px 8px 0;
+    /* ========== PAGE-SPECIFIC STYLES ========== */
+    
+    /* Purple accent overrides for creator flow */
+    .creator-flow .field-label {
+      color: var(--color-purple);
     }
 
-    .info-note p {
+    .creator-flow .field-input:focus {
+      border-color: var(--color-purple);
+      box-shadow: 0 0 0 3px rgba(109, 40, 217, 0.15);
+    }
+
+    .creator-flow .terms-row a {
+      color: var(--color-purple);
+    }
+
+    .creator-flow .terms-row a:hover {
+      color: var(--color-purple-dark);
+    }
+
+    .creator-flow .password-rule.met {
+      color: var(--color-purple);
+    }
+
+    /* Section dividers */
+    .section-divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 24px 0 16px;
+    }
+
+    .section-divider-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--color-purple);
+      white-space: nowrap;
+    }
+
+    .section-divider-line {
+      flex: 1;
+      height: 1px;
+      background: var(--color-border);
+    }
+
+    /* Profile photo upload */
+    .profile-upload {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .profile-preview {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: var(--color-canvas-subtle);
+      border: 2px dashed var(--color-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      cursor: pointer;
+      transition: border-color 0.15s ease;
+    }
+
+    .profile-preview:hover {
+      border-color: var(--color-purple);
+    }
+
+    .profile-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .profile-preview-placeholder {
+      font-size: 32px;
+      color: var(--color-text-muted);
+    }
+
+    .profile-upload-btn {
       font-size: 12px;
+      font-weight: 600;
+      color: var(--color-purple);
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: var(--font-primary);
+    }
+
+    .profile-upload-btn:hover {
+      color: var(--color-purple-dark);
+    }
+
+    #profile-input {
+      display: none;
+    }
+
+    .profile-hint {
+      font-size: 10px;
+      color: var(--color-text-subtle);
+      text-align: center;
+    }
+
+    /* Bio textarea */
+    .field-textarea {
+      border-radius: var(--radius-md);
+      min-height: 80px;
+      resize: vertical;
       line-height: 1.5;
+    }
+
+    .field-char-count {
+      font-size: 10px;
+      color: var(--color-text-subtle);
+      text-align: right;
+      margin-top: 4px;
+    }
+
+    /* Art style pills */
+    .pills-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 6px;
+    }
+
+    .pill {
+      padding: 8px 14px;
+      background: var(--color-canvas);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-pill);
+      font-size: 11px;
+      font-weight: 600;
       color: var(--color-text-secondary);
-      margin: 0;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      font-family: var(--font-primary);
     }
 
-    .info-note--minor {
-      background: rgba(0, 206, 209, 0.08);
-      border-left-color: var(--color-accent-secondary);
+    .pill:hover {
+      border-color: var(--color-purple);
+      color: var(--color-purple);
     }
 
-    .adult-fields {
-      transition: opacity 0.3s ease, max-height 0.3s ease;
+    .pill.selected {
+      background: var(--color-purple);
+      border-color: var(--color-purple);
+      color: white;
     }
 
-    .adult-fields.hidden {
+    .pills-hint {
+      font-size: 10px;
+      color: var(--color-text-subtle);
+      margin-top: 8px;
+    }
+
+    /* Legal name row */
+    .legal-name-row {
+      display: grid;
+      grid-template-columns: 1fr 50px 1fr;
+      gap: 8px;
+    }
+
+    .legal-name-row-suffix {
+      display: grid;
+      grid-template-columns: 1fr 90px;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .field-input--mi {
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    .field-select {
+      border-radius: var(--radius-pill);
+      border: 1px solid var(--color-border);
+      padding: 10px 12px;
+      font-size: 13px;
+      background: var(--color-canvas);
+      color: var(--color-text-primary);
+      outline: none;
+      font-family: var(--font-primary);
+      cursor: pointer;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2371717a' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+    }
+
+    .field-select:focus {
+      border-color: var(--color-purple);
+      box-shadow: 0 0 0 3px rgba(109, 40, 217, 0.15);
+    }
+
+    /* Legal name helper (appears on focus) */
+    .field-helper-focus {
+      font-size: 10px;
+      color: var(--color-text-subtle);
+      font-style: italic;
+      margin-top: 6px;
       opacity: 0;
       max-height: 0;
       overflow: hidden;
-      margin: 0;
-      padding: 0;
+      transition: opacity 0.2s ease, max-height 0.2s ease;
     }
 
+    .field-helper-focus.visible {
+      opacity: 1;
+      max-height: 40px;
+    }
+
+    /* Address rows */
+    .address-row {
+      margin-bottom: 8px;
+    }
+
+    .address-row-split {
+      display: grid;
+      grid-template-columns: 1fr 60px 80px;
+      gap: 8px;
+    }
+
+    .field-input--state {
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    .field-input--zip {
+      text-align: center;
+    }
+
+    /* Minor-specific styles */
     .minor-fields {
       transition: opacity 0.3s ease, max-height 0.3s ease;
     }
@@ -52,16 +260,18 @@
       padding: 0;
     }
 
-    .address-row {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 12px;
+    .minor-note {
+      background: rgba(109, 40, 217, 0.06);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      margin-bottom: 16px;
     }
 
-    .address-row-split {
-      display: grid;
-      grid-template-columns: 1fr 80px 100px;
-      gap: 12px;
+    .minor-note p {
+      font-size: 11px;
+      line-height: 1.5;
+      color: var(--color-text-secondary);
+      margin: 0;
     }
 
     .parent-checkbox-row {
@@ -72,44 +282,43 @@
     }
 
     .parent-checkbox-row input[type="checkbox"] {
-      margin-top: 3px;
+      margin-top: 2px;
       flex-shrink: 0;
+      accent-color: var(--color-purple);
     }
 
     .parent-checkbox-row label {
-      font-size: 13px;
+      font-size: 12px;
       line-height: 1.4;
-      color: var(--color-text-primary);
+      color: var(--color-text-secondary);
     }
 
-    .age-badge {
-      display: inline-block;
-      padding: 4px 10px;
-      border-radius: 20px;
-      font-size: 11px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin-left: 8px;
+    /* Adult fields */
+    .adult-fields {
+      transition: opacity 0.3s ease, max-height 0.3s ease;
     }
 
-    .age-badge--adult {
-      background: rgba(138, 43, 226, 0.15);
-      color: var(--color-accent-primary);
+    .adult-fields.hidden {
+      opacity: 0;
+      max-height: 0;
+      overflow: hidden;
+      margin: 0;
+      padding: 0;
     }
 
-    .age-badge--minor {
-      background: rgba(0, 206, 209, 0.15);
-      color: var(--color-accent-secondary);
+    /* Terms checkbox purple accent */
+    .creator-flow .terms-row input[type="checkbox"] {
+      accent-color: var(--color-purple);
     }
   </style>
 </head>
 <body>
-  <div class="app-shell">
+  <div class="app-shell creator-flow">
     <div class="phone-frame">
       <div class="phone-inner">
         <div class="shell-inner">
-          <!-- Header with logo and back button -->
+          
+          <!-- Header -->
           <div class="top-row">
             <div class="logo-group" style="align-items: flex-start;">
               <div class="logo-mark">STICKERBOOK</div>
@@ -119,19 +328,45 @@
           </div>
 
           <!-- Title -->
-          <h1 class="screen-title text-center">
-            Become a Creator
-            <span class="age-badge age-badge--adult" id="adultBadge">18+</span>
-            <span class="age-badge age-badge--minor hidden" id="minorBadge">Under 18</span>
-          </h1>
-          <p class="screen-subtitle text-center">
-            Share your art in the Sticker Shop
-          </p>
+          <h1 class="screen-title text-center">Become a Creator</h1>
+          <p class="screen-subtitle text-center">Share your art in the Sticker Shop</p>
 
           <!-- Form -->
           <form class="form" id="creator-form" novalidate>
             
-            <!-- Date of Birth (First - triggers form change) -->
+            <!-- ========== SECTION 1: ARTIST IDENTITY ========== -->
+            <div class="section-divider">
+              <span class="section-divider-label">Your Artist Identity</span>
+              <span class="section-divider-line"></span>
+            </div>
+
+            <!-- Profile Photo -->
+            <div class="profile-upload">
+              <div class="profile-preview" id="profile-preview">
+                <span class="profile-preview-placeholder">📷</span>
+              </div>
+              <button type="button" class="profile-upload-btn" id="profile-upload-btn">Upload profile photo</button>
+              <input type="file" id="profile-input" accept="image/*" />
+              <p class="profile-hint">Photo or logo • Required</p>
+            </div>
+            <div class="field-error text-center" id="profile-error"></div>
+
+            <!-- Artist Name -->
+            <div class="field">
+              <label class="field-label" for="display-name">Artist / Display Name</label>
+              <input 
+                type="text" 
+                id="display-name" 
+                class="field-input" 
+                placeholder="How should we show your name?"
+                maxlength="30"
+                autocomplete="nickname"
+                required
+              />
+              <div class="field-error" id="display-name-error"></div>
+            </div>
+
+            <!-- Date of Birth -->
             <div class="field">
               <label class="field-label">Date of Birth</label>
               <div class="dob-row">
@@ -169,97 +404,40 @@
               <div class="field-error" id="dob-error"></div>
             </div>
 
-            <!-- Adult-only fields -->
-            <div class="adult-fields" id="adultFields">
-              
-              <!-- Info note for adults -->
-              <div class="info-note">
-                <p>We collect your legal name and address because you'll be earning money. This info is used for payouts and tax reporting — it's never shown publicly.</p>
-              </div>
-
-              <!-- Legal Name -->
-              <div class="field">
-                <label class="field-label" for="legal-name">Legal Name</label>
-                <input 
-                  type="text" 
-                  id="legal-name" 
-                  class="field-input" 
-                  placeholder="As it appears on tax documents"
-                  autocomplete="name"
-                />
-                <div class="field-error" id="legal-name-error"></div>
-              </div>
-
-              <!-- Street Address -->
-              <div class="field">
-                <label class="field-label" for="street">Address</label>
-                <div class="address-row">
-                  <input 
-                    type="text" 
-                    id="street" 
-                    class="field-input" 
-                    placeholder="Street address"
-                    autocomplete="street-address"
-                  />
-                </div>
-                <div class="address-row-split" style="margin-top: 12px;">
-                  <input 
-                    type="text" 
-                    id="city" 
-                    class="field-input" 
-                    placeholder="City"
-                    autocomplete="address-level2"
-                  />
-                  <input 
-                    type="text" 
-                    id="state" 
-                    class="field-input" 
-                    placeholder="ST"
-                    maxlength="2"
-                    autocomplete="address-level1"
-                  />
-                  <input 
-                    type="text" 
-                    id="zip" 
-                    class="field-input" 
-                    placeholder="Zip"
-                    maxlength="5"
-                    inputmode="numeric"
-                    autocomplete="postal-code"
-                  />
-                </div>
-                <div class="field-error" id="address-error"></div>
-              </div>
-            </div>
-
-            <!-- Minor-only fields -->
-            <div class="minor-fields hidden" id="minorFields">
-              
-              <!-- Info note for minors -->
-              <div class="info-note info-note--minor">
-                <p>Creators under 18 can add stickers and backgrounds to the Sticker Shop at no cost to users. Once you turn 18, you'll be able to set coin prices and start earning.</p>
-              </div>
-
-              <!-- Parent checkbox -->
-              <div class="parent-checkbox-row">
-                <input type="checkbox" id="parent-consent" />
-                <label for="parent-consent">My parent or guardian knows I'm creating this account</label>
-              </div>
-              <div class="field-error" id="parent-error"></div>
-            </div>
-
-            <!-- Display Name (everyone) -->
+            <!-- Bio -->
             <div class="field">
-              <label class="field-label" for="display-name">Artist Name</label>
-              <input 
-                type="text" 
-                id="display-name" 
-                class="field-input" 
-                placeholder="Your public display name"
-                autocomplete="nickname"
-                required
-              />
-              <div class="field-error" id="display-name-error"></div>
+              <label class="field-label" for="bio">Bio</label>
+              <textarea 
+                id="bio" 
+                class="field-input field-textarea" 
+                placeholder="Tell people about yourself and your art..."
+                maxlength="200"
+              ></textarea>
+              <div class="field-char-count"><span id="bio-count">0</span>/200</div>
+              <div class="field-error" id="bio-error"></div>
+            </div>
+
+            <!-- Art Style -->
+            <div class="field">
+              <label class="field-label">Art Style</label>
+              <div class="pills-container" id="style-pills">
+                <div class="pill" data-value="Cartoon / Illustrated">Cartoon / Illustrated</div>
+                <div class="pill" data-value="Minimalist / Clean">Minimalist / Clean</div>
+                <div class="pill" data-value="Hand-drawn / Sketchy">Hand-drawn / Sketchy</div>
+                <div class="pill" data-value="Kawaii / Cute">Kawaii / Cute</div>
+                <div class="pill" data-value="Retro / Vintage">Retro / Vintage</div>
+                <div class="pill" data-value="Realistic">Realistic</div>
+                <div class="pill" data-value="Abstract / Artistic">Abstract / Artistic</div>
+                <div class="pill" data-value="Bold / Graphic">Bold / Graphic</div>
+              </div>
+              <p class="pills-hint">Select all that apply</p>
+              <div class="field-error" id="style-error"></div>
+            </div>
+
+            <!-- ========== SECTION 2: ACCOUNT & LEGAL ========== -->
+            <div class="section-divider">
+              <span class="section-divider-label">Account & Legal</span>
+              <span class="section-divider-line"></span>
             </div>
 
             <!-- Email -->
@@ -296,6 +474,114 @@
               <div class="field-error" id="password-error"></div>
             </div>
 
+            <!-- Minor-only fields -->
+            <div class="minor-fields hidden" id="minorFields">
+              <div class="minor-note">
+                <p>Creators under 18 can share stickers at no cost to users. Once you turn 18, you can set prices and start earning.</p>
+              </div>
+              <div class="parent-checkbox-row">
+                <input type="checkbox" id="parent-consent" />
+                <label for="parent-consent">My parent or guardian knows I'm creating this account</label>
+              </div>
+              <div class="field-error" id="parent-error"></div>
+            </div>
+
+            <!-- Adult-only fields -->
+            <div class="adult-fields" id="adultFields">
+              
+              <!-- Legal Name -->
+              <div class="field" id="legal-name-field">
+                <label class="field-label">Legal Name</label>
+                <div class="legal-name-row">
+                  <input 
+                    type="text" 
+                    id="legal-first" 
+                    class="field-input" 
+                    placeholder="First"
+                    autocomplete="given-name"
+                  />
+                  <input 
+                    type="text" 
+                    id="legal-mi" 
+                    class="field-input field-input--mi" 
+                    placeholder="MI"
+                    maxlength="1"
+                    autocomplete="additional-name"
+                  />
+                  <input 
+                    type="text" 
+                    id="legal-last" 
+                    class="field-input" 
+                    placeholder="Last"
+                    autocomplete="family-name"
+                  />
+                </div>
+                <div class="legal-name-row-suffix">
+                  <div></div>
+                  <select id="legal-suffix" class="field-select">
+                    <option value="">Suffix</option>
+                    <option value="Jr.">Jr.</option>
+                    <option value="Sr.">Sr.</option>
+                    <option value="II">II</option>
+                    <option value="III">III</option>
+                    <option value="IV">IV</option>
+                  </select>
+                </div>
+                <p class="field-helper-focus" id="legal-name-helper">For payouts and tax reporting — never shown publicly</p>
+                <div class="field-error" id="legal-name-error"></div>
+              </div>
+
+              <!-- Address -->
+              <div class="field">
+                <label class="field-label">Address</label>
+                <div class="address-row">
+                  <input 
+                    type="text" 
+                    id="street" 
+                    class="field-input" 
+                    placeholder="Street address"
+                    autocomplete="address-line1"
+                  />
+                </div>
+                <div class="address-row">
+                  <input 
+                    type="text" 
+                    id="apt" 
+                    class="field-input" 
+                    placeholder="Apt, suite, unit (optional)"
+                    autocomplete="address-line2"
+                  />
+                </div>
+                <div class="address-row-split">
+                  <input 
+                    type="text" 
+                    id="city" 
+                    class="field-input" 
+                    placeholder="City"
+                    autocomplete="address-level2"
+                  />
+                  <input 
+                    type="text" 
+                    id="state" 
+                    class="field-input field-input--state" 
+                    placeholder="ST"
+                    maxlength="2"
+                    autocomplete="address-level1"
+                  />
+                  <input 
+                    type="text" 
+                    id="zip" 
+                    class="field-input field-input--zip" 
+                    placeholder="ZIP"
+                    maxlength="5"
+                    inputmode="numeric"
+                    autocomplete="postal-code"
+                  />
+                </div>
+                <div class="field-error" id="address-error"></div>
+              </div>
+            </div>
+
             <!-- Terms -->
             <div class="terms-row">
               <input type="checkbox" id="terms" required />
@@ -308,7 +594,7 @@
             <!-- Submit -->
             <div class="cta-row">
               <button type="submit" class="btn btn-primary" id="submit-btn">
-                Continue
+                Become a Creator
               </button>
             </div>
           </form>
@@ -318,45 +604,114 @@
   </div>
 
   <script>
-    // DOM elements
+    // ============ DOM ELEMENTS ============
     const form = document.getElementById('creator-form');
     
+    // Profile
+    const profilePreview = document.getElementById('profile-preview');
+    const profileInput = document.getElementById('profile-input');
+    const profileUploadBtn = document.getElementById('profile-upload-btn');
+    const profileError = document.getElementById('profile-error');
+    
+    // Artist identity
+    const displayNameInput = document.getElementById('display-name');
     const dobMonth = document.getElementById('dob-month');
     const dobDay = document.getElementById('dob-day');
     const dobYear = document.getElementById('dob-year');
-    const legalNameInput = document.getElementById('legal-name');
-    const displayNameInput = document.getElementById('display-name');
+    const bioInput = document.getElementById('bio');
+    const bioCount = document.getElementById('bio-count');
+    const stylePills = document.getElementById('style-pills');
+    
+    // Account
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+    
+    // Legal (adult)
+    const legalFirst = document.getElementById('legal-first');
+    const legalMi = document.getElementById('legal-mi');
+    const legalLast = document.getElementById('legal-last');
+    const legalSuffix = document.getElementById('legal-suffix');
+    const legalNameHelper = document.getElementById('legal-name-helper');
     const streetInput = document.getElementById('street');
+    const aptInput = document.getElementById('apt');
     const cityInput = document.getElementById('city');
     const stateInput = document.getElementById('state');
     const zipInput = document.getElementById('zip');
-    const emailInput = document.getElementById('email');
-    const passwordInput = document.getElementById('password');
-    const termsCheckbox = document.getElementById('terms');
+    
+    // Minor
     const parentConsentCheckbox = document.getElementById('parent-consent');
-
-    const dobError = document.getElementById('dob-error');
-    const legalNameError = document.getElementById('legal-name-error');
+    
+    // Terms
+    const termsCheckbox = document.getElementById('terms');
+    
+    // Containers
+    const adultFields = document.getElementById('adultFields');
+    const minorFields = document.getElementById('minorFields');
+    
+    // Error elements
     const displayNameError = document.getElementById('display-name-error');
-    const addressError = document.getElementById('address-error');
+    const dobError = document.getElementById('dob-error');
+    const bioError = document.getElementById('bio-error');
+    const styleError = document.getElementById('style-error');
     const emailError = document.getElementById('email-error');
     const passwordError = document.getElementById('password-error');
-    const termsError = document.getElementById('terms-error');
+    const legalNameError = document.getElementById('legal-name-error');
+    const addressError = document.getElementById('address-error');
     const parentError = document.getElementById('parent-error');
-
+    const termsError = document.getElementById('terms-error');
+    
+    // Password rules
     const ruleLength = document.getElementById('rule-length');
     const ruleUpper = document.getElementById('rule-upper');
     const ruleLower = document.getElementById('rule-lower');
     const ruleNumber = document.getElementById('rule-number');
 
-    const adultFields = document.getElementById('adultFields');
-    const minorFields = document.getElementById('minorFields');
-    const adultBadge = document.getElementById('adultBadge');
-    const minorBadge = document.getElementById('minorBadge');
-
+    // ============ STATE ============
+    let profileImage = null;
+    let selectedStyles = new Set();
     let isMinor = false;
 
-    // Calculate age from DOB
+    // ============ PROFILE PHOTO ============
+    profilePreview.addEventListener('click', () => profileInput.click());
+    profileUploadBtn.addEventListener('click', () => profileInput.click());
+
+    profileInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        profileImage = file;
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          profilePreview.innerHTML = `<img src="${e.target.result}" alt="Profile" />`;
+          profileUploadBtn.textContent = 'Change photo';
+        };
+        reader.readAsDataURL(file);
+        profileError.textContent = '';
+      }
+    });
+
+    // ============ BIO CHARACTER COUNT ============
+    bioInput.addEventListener('input', () => {
+      bioCount.textContent = bioInput.value.length;
+    });
+
+    // ============ ART STYLE PILLS ============
+    stylePills.addEventListener('click', (e) => {
+      const pill = e.target.closest('.pill');
+      if (!pill) return;
+
+      const value = pill.dataset.value;
+
+      if (selectedStyles.has(value)) {
+        selectedStyles.delete(value);
+        pill.classList.remove('selected');
+      } else {
+        selectedStyles.add(value);
+        pill.classList.add('selected');
+      }
+      styleError.textContent = '';
+    });
+
+    // ============ DOB AUTO-TAB & AGE CHECK ============
     function calculateAge(month, day, year) {
       const today = new Date();
       const birthDate = new Date(year, month - 1, day);
@@ -370,18 +725,15 @@
       return age;
     }
 
-    // Check if DOB is complete and valid, then toggle form
     function checkAgeAndToggleForm() {
       const m = parseInt(dobMonth.value, 10);
       const d = parseInt(dobDay.value, 10);
       const y = parseInt(dobYear.value, 10);
 
-      // Need complete DOB
       if (isNaN(m) || isNaN(d) || isNaN(y) || dobYear.value.length < 4) {
         return;
       }
 
-      // Basic validation
       if (m < 1 || m > 12 || d < 1 || d > 31 || y < 1900 || y > new Date().getFullYear()) {
         return;
       }
@@ -392,18 +744,13 @@
         isMinor = true;
         adultFields.classList.add('hidden');
         minorFields.classList.remove('hidden');
-        adultBadge.classList.add('hidden');
-        minorBadge.classList.remove('hidden');
       } else {
         isMinor = false;
         adultFields.classList.remove('hidden');
         minorFields.classList.add('hidden');
-        adultBadge.classList.remove('hidden');
-        minorBadge.classList.add('hidden');
       }
     }
 
-    // Auto-tab for DOB fields
     function autoTab(current, next, maxLength) {
       current.addEventListener('input', (e) => {
         e.target.value = e.target.value.replace(/\D/g, '');
@@ -412,7 +759,6 @@
           next.focus();
         }
 
-        // Check age after year is complete
         if (current === dobYear && e.target.value.length === 4) {
           checkAgeAndToggleForm();
         }
@@ -423,21 +769,42 @@
     autoTab(dobDay, dobYear, 2);
     autoTab(dobYear, null, 4);
 
-    // Also check on blur for each DOB field
     dobMonth.addEventListener('blur', checkAgeAndToggleForm);
     dobDay.addEventListener('blur', checkAgeAndToggleForm);
     dobYear.addEventListener('blur', checkAgeAndToggleForm);
 
-    // Auto-format state and zip
-    zipInput.addEventListener('input', (e) => {
-      e.target.value = e.target.value.replace(/\D/g, '');
+    // ============ LEGAL NAME HELPER (SHOW ON FOCUS) ============
+    const legalNameInputs = [legalFirst, legalMi, legalLast, legalSuffix];
+    
+    legalNameInputs.forEach(input => {
+      input.addEventListener('focus', () => {
+        legalNameHelper.classList.add('visible');
+      });
+      input.addEventListener('blur', (e) => {
+        // Delay to check if focus moved to another legal name field
+        setTimeout(() => {
+          const activeEl = document.activeElement;
+          if (!legalNameInputs.includes(activeEl)) {
+            legalNameHelper.classList.remove('visible');
+          }
+        }, 100);
+      });
+    });
+
+    // ============ FORMAT HELPERS ============
+    legalMi.addEventListener('input', (e) => {
+      e.target.value = e.target.value.toUpperCase().replace(/[^A-Z]/g, '');
     });
 
     stateInput.addEventListener('input', (e) => {
       e.target.value = e.target.value.toUpperCase().replace(/[^A-Z]/g, '');
     });
 
-    // Password validation - live update
+    zipInput.addEventListener('input', (e) => {
+      e.target.value = e.target.value.replace(/\D/g, '');
+    });
+
+    // ============ PASSWORD LIVE VALIDATION ============
     passwordInput.addEventListener('input', () => {
       const val = passwordInput.value;
       
@@ -447,22 +814,24 @@
       ruleNumber.classList.toggle('met', /[0-9]/.test(val));
     });
 
-    // Clear errors on input
+    // ============ CLEAR ERRORS ON INPUT ============
+    displayNameInput.addEventListener('input', () => { displayNameError.textContent = ''; });
     dobMonth.addEventListener('input', () => { dobError.textContent = ''; });
     dobDay.addEventListener('input', () => { dobError.textContent = ''; });
     dobYear.addEventListener('input', () => { dobError.textContent = ''; });
-    legalNameInput.addEventListener('input', () => { legalNameError.textContent = ''; });
-    displayNameInput.addEventListener('input', () => { displayNameError.textContent = ''; });
+    bioInput.addEventListener('input', () => { bioError.textContent = ''; });
+    emailInput.addEventListener('input', () => { emailError.textContent = ''; });
+    passwordInput.addEventListener('input', () => { passwordError.textContent = ''; });
+    legalFirst.addEventListener('input', () => { legalNameError.textContent = ''; });
+    legalLast.addEventListener('input', () => { legalNameError.textContent = ''; });
     streetInput.addEventListener('input', () => { addressError.textContent = ''; });
     cityInput.addEventListener('input', () => { addressError.textContent = ''; });
     stateInput.addEventListener('input', () => { addressError.textContent = ''; });
     zipInput.addEventListener('input', () => { addressError.textContent = ''; });
-    emailInput.addEventListener('input', () => { emailError.textContent = ''; });
-    passwordInput.addEventListener('input', () => { passwordError.textContent = ''; });
-    termsCheckbox.addEventListener('change', () => { termsError.textContent = ''; });
     parentConsentCheckbox.addEventListener('change', () => { parentError.textContent = ''; });
+    termsCheckbox.addEventListener('change', () => { termsError.textContent = ''; });
 
-    // Validation helpers
+    // ============ VALIDATION HELPERS ============
     function isValidEmail(email) {
       return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     }
@@ -486,23 +855,33 @@
       if (d < 1 || d > 31) return { valid: false, reason: 'invalid' };
       if (y < 1900 || y > new Date().getFullYear()) return { valid: false, reason: 'invalid' };
       
-      // Check if date actually exists
       const testDate = new Date(y, m - 1, d);
       if (testDate.getMonth() !== m - 1) return { valid: false, reason: 'invalid' };
       
-      // Check age (minimum 13)
       const age = calculateAge(m, d, y);
       if (age < 13) return { valid: false, reason: 'underage' };
       
       return { valid: true, age: age };
     }
 
-    // Form submission
+    // ============ FORM SUBMISSION ============
     form.addEventListener('submit', (e) => {
       e.preventDefault();
       
       let hasError = false;
+
+      // Validate profile photo
+      if (!profileImage) {
+        profileError.textContent = 'Please upload a profile photo or logo.';
+        hasError = true;
+      }
       
+      // Validate display name
+      if (!displayNameInput.value.trim()) {
+        displayNameError.textContent = 'Please enter your artist name.';
+        hasError = true;
+      }
+
       // Validate DOB
       const dobResult = isValidDOB(dobMonth.value, dobDay.value, dobYear.value);
       if (!dobResult.valid) {
@@ -516,35 +895,9 @@
         hasError = true;
       }
 
-      // Adult-specific validation
-      if (!isMinor) {
-        // Validate legal name
-        if (!legalNameInput.value.trim()) {
-          legalNameError.textContent = 'Please enter your legal name.';
-          hasError = true;
-        }
-
-        // Validate address
-        if (!streetInput.value.trim() || !cityInput.value.trim() || !stateInput.value.trim() || !zipInput.value.trim()) {
-          addressError.textContent = 'Please enter your complete address.';
-          hasError = true;
-        } else if (zipInput.value.length !== 5) {
-          addressError.textContent = 'Please enter a valid 5-digit zip code.';
-          hasError = true;
-        }
-      }
-
-      // Minor-specific validation
-      if (isMinor) {
-        if (!parentConsentCheckbox.checked) {
-          parentError.textContent = 'Please confirm your parent or guardian knows about this account.';
-          hasError = true;
-        }
-      }
-      
-      // Validate display name
-      if (!displayNameInput.value.trim()) {
-        displayNameError.textContent = 'Please enter your artist name.';
+      // Validate at least one style selected
+      if (selectedStyles.size === 0) {
+        styleError.textContent = 'Please select at least one art style.';
         hasError = true;
       }
       
@@ -565,6 +918,35 @@
         passwordError.textContent = 'Password doesn\'t meet all requirements.';
         hasError = true;
       }
+
+      // Minor-specific validation
+      if (isMinor) {
+        if (!parentConsentCheckbox.checked) {
+          parentError.textContent = 'Please confirm your parent or guardian knows about this account.';
+          hasError = true;
+        }
+      }
+
+      // Adult-specific validation
+      if (!isMinor) {
+        // Legal name
+        if (!legalFirst.value.trim() || !legalLast.value.trim()) {
+          legalNameError.textContent = 'Please enter your first and last name.';
+          hasError = true;
+        }
+
+        // Address
+        if (!streetInput.value.trim() || !cityInput.value.trim() || !stateInput.value.trim() || !zipInput.value.trim()) {
+          addressError.textContent = 'Please enter your complete address.';
+          hasError = true;
+        } else if (zipInput.value.length !== 5) {
+          addressError.textContent = 'Please enter a valid 5-digit ZIP code.';
+          hasError = true;
+        } else if (stateInput.value.length !== 2) {
+          addressError.textContent = 'Please enter a valid 2-letter state code.';
+          hasError = true;
+        }
+      }
       
       // Validate terms
       if (!termsCheckbox.checked) {
@@ -574,7 +956,7 @@
       
       if (hasError) return;
       
-      // Save to localStorage (for MVP - will be backend later)
+      // ============ SAVE DATA ============
       const creatorData = {
         type: 'creator',
         isMinor: isMinor,
@@ -584,14 +966,22 @@
           day: dobDay.value,
           year: dobYear.value
         },
+        bio: bioInput.value.trim(),
+        styles: Array.from(selectedStyles),
         email: emailInput.value.trim()
       };
 
       // Add adult-only fields
       if (!isMinor) {
-        creatorData.legalName = legalNameInput.value.trim();
+        creatorData.legalName = {
+          first: legalFirst.value.trim(),
+          mi: legalMi.value.trim().toUpperCase(),
+          last: legalLast.value.trim(),
+          suffix: legalSuffix.value
+        };
         creatorData.address = {
           street: streetInput.value.trim(),
+          apt: aptInput.value.trim(),
           city: cityInput.value.trim(),
           state: stateInput.value.trim().toUpperCase(),
           zip: zipInput.value.trim()
@@ -602,8 +992,8 @@
       localStorage.setItem('stickerbook_user_name', creatorData.displayName);
       localStorage.setItem('stickerbook_is_minor', isMinor.toString());
       
-      // Navigate to creator onboarding
-      window.location.href = 'creatoronboarding.html';
+      // Navigate to creator studio
+      window.location.href = 'creatorstudio.html';
     });
   </script>
 </body>
