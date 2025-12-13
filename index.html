@@ -17,51 +17,57 @@
       min-height: 100dvh;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 20px 24px;
       position: relative;
     }
 
-    /* Header */
-    .index-header {
-      text-align: center;
-    }
-
-    .index-title {
-      font-family: var(--font-display);
-      font-size: 32px;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--color-text-primary);
-      margin-bottom: 8px;
-    }
-
-    /* ========== LANDING SCREEN ========== */
-    .screen--landing {
+    /* ========== SPLASH SCREEN ========== */
+    .splash-header {
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
       text-align: center;
       transition: top 0.8s ease, transform 0.8s ease;
+      z-index: 10;
     }
 
-    .screen--landing.shift-up {
-      top: 12%;
+    .splash-header.shift-up {
+      top: 0;
       transform: translate(-50%, 0);
+      padding-top: 16px;
+    }
+
+    .splash-header .app-header__title {
+      font-size: 28px;
+      letter-spacing: 0.12em;
+      transition: font-size 0.8s ease, letter-spacing 0.8s ease;
+    }
+
+    .splash-header.shift-up .app-header__title {
+      font-size: 14px;
+      letter-spacing: 0.18em;
+    }
+
+    .splash-header .app-header__accent {
+      width: 90px;
+      transition: width 0.8s ease;
+    }
+
+    .splash-header.shift-up .app-header__accent {
+      width: 70px;
     }
 
     /* ========== COPY SCREEN ========== */
     .screen--copy {
       width: 100%;
+      max-width: 340px;
+      margin: 0 auto;
+      padding: 70px 24px 24px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding-top: 80px;
       opacity: 0;
-      transition: opacity 0.6s ease 0.3s;
+      transition: opacity 0.6s ease 0.4s;
     }
 
     .screen--copy.visible {
@@ -69,15 +75,14 @@
     }
 
     .intro-section {
-      max-width: 340px;
-      margin-bottom: 20px;
+      width: 100%;
     }
 
     .intro-text {
       font-size: 14px;
-      line-height: 1.6;
+      line-height: 1.55;
       color: var(--color-text-primary);
-      margin-bottom: 14px;
+      margin-bottom: 12px;
       font-weight: 400;
     }
 
@@ -107,8 +112,7 @@
 
     .btn-get-started {
       width: 100%;
-      max-width: 340px;
-      padding: 16px 32px;
+      padding: 14px 32px;
       margin-top: 20px;
       background: var(--gradient-primary);
       border: none;
@@ -121,7 +125,7 @@
       color: white;
       cursor: pointer;
       box-shadow: var(--shadow-button);
-      transition: all 0.2s ease;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
 
     .btn-get-started:hover {
@@ -136,26 +140,29 @@
 
     /* ========== SELECTOR SCREEN ========== */
     .screen--selector {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
+      position: fixed;
+      inset: 0;
       display: none;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      padding: 40px 24px;
+      padding: 0 24px 40px;
       background: var(--color-canvas);
+      z-index: 100;
     }
 
     .screen--selector.active {
       display: flex;
     }
 
+    .screen--selector .app-header {
+      width: 100%;
+      max-width: 340px;
+    }
+
     .type-selector {
       width: 100%;
       max-width: 340px;
+      margin-top: 20px;
     }
 
     .type-selector__heading {
@@ -274,15 +281,13 @@
 
   <div class="index-container">
     
-    <!-- Landing header - shifts up -->
-    <div class="screen--landing" id="screen-landing">
-      <header class="index-header">
-        <h1 class="index-title">Stickerbook</h1>
-        <div class="accent-bar accent-bar--md"></div>
-      </header>
-    </div>
+    <!-- Splash header - starts centered, shifts up -->
+    <header class="splash-header app-header" id="splash-header">
+      <span class="app-header__title">Stickerbook</span>
+      <div class="app-header__accent"></div>
+    </header>
 
-    <!-- Copy - fades in below -->
+    <!-- Copy - fades in below header -->
     <div class="screen--copy" id="screen-copy">
       <section class="intro-section">
         <p class="intro-text">
@@ -312,9 +317,9 @@
 
     <!-- Selector screen -->
     <div class="screen--selector" id="screen-selector">
-      <header class="index-header" style="margin-bottom: 32px;">
-        <h1 class="index-title">Stickerbook</h1>
-        <div class="accent-bar accent-bar--md"></div>
+      <header class="app-header">
+        <span class="app-header__title">Stickerbook</span>
+        <div class="app-header__accent"></div>
       </header>
 
       <section class="type-selector">
@@ -350,14 +355,14 @@
   </div>
 
   <script>
-    const screenLanding = document.getElementById('screen-landing');
+    const splashHeader = document.getElementById('splash-header');
     const screenCopy = document.getElementById('screen-copy');
     const screenSelector = document.getElementById('screen-selector');
     const btnGetStarted = document.getElementById('btn-get-started');
 
-    // Auto-transition: logo shifts up, copy fades in
+    // Auto-transition: header shifts up, copy fades in
     setTimeout(function() {
-      screenLanding.classList.add('shift-up');
+      splashHeader.classList.add('shift-up');
       screenCopy.classList.add('visible');
     }, 2000);
 
