@@ -68,7 +68,7 @@
       max-width: 340px;
       width: 100%;
       margin: 0 auto;
-      padding: 70px 24px 24px;
+      padding: 65px 24px 0;
       opacity: 0;
       transition: opacity 0.6s ease 0.4s;
     }
@@ -85,10 +85,10 @@
     }
 
     .intro-text {
-      font-size: 14px;
-      line-height: 1.55;
+      font-size: 15px;
+      line-height: 1.5;
       color: var(--color-text-primary);
-      margin-bottom: 14px;
+      margin-bottom: 16px;
       font-weight: 400;
     }
 
@@ -96,30 +96,19 @@
       margin-bottom: 0;
     }
 
-    .tagline {
-      display: block;
-      margin-top: 4px;
+    .tagline-gradient {
       font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.02em;
+      background: linear-gradient(90deg, var(--color-purple) 0%, var(--color-turquoise) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
     }
 
-    .tagline-connections {
-      color: var(--color-turquoise);
-    }
-
-    .tagline-that {
-      color: var(--color-text-primary);
-    }
-
-    .tagline-stick {
-      color: var(--color-purple);
-    }
-
-    /* Footer with button */
+    /* Footer with button - pinned to bottom */
     .copy-footer {
       flex-shrink: 0;
-      padding: 16px 0;
+      padding: 20px 0;
+      padding-bottom: max(20px, env(safe-area-inset-bottom));
     }
 
     .btn-get-started {
@@ -300,24 +289,19 @@
     <div class="screen--copy" id="screen-copy">
       <section class="intro-section">
         <p class="intro-text">
-          They're small, but they say a lot. They tell people what we love, what we notice, what matters to us.
+          They're small, but they say a lot. They show people what we love, what we notice, what we value. They reveal how we spend our time, our energy, our money.
         </p>
         <p class="intro-text">
-          We all leave little signals — the symbols, references, and pieces of ourselves we put into the world. On our shirts. Our bags. Our water bottles. Our laptops. Even the ones we carry on our skin.
+          We share these little signals everywhere—pins on our jackets, charms on our bracelets, magnets on our refrigerators, tattoos on our skin. They're the stickers we add to our laptops, water bottles, cars, notebooks, and skateboards. They're the symbols, references, and pieces of ourselves we choose to put into the world.
         </p>
         <p class="intro-text">
-          Stickerbook gathers those signals into pages you can shape with intention. Each sticker is one truth; together, they make a picture that feels unmistakably you.
+          Stickerbook lets you gather those signals into pages you can shape with intention. Each sticker is one truth; layered together, they make a collection that feels unmistakably you.
         </p>
         <p class="intro-text">
-          And when someone else sees your pages and thinks, "Wait... that looks like my kind of person," you've already skipped the small talk.
+          And when you find yourself staring at someone else's page and thinking it would fit nicely inside your book, it feels like you already know them.
         </p>
         <p class="intro-text">
-          This is where those signals become
-          <span class="tagline">
-            <span class="tagline-connections">CONNECTIONS</span>
-            <span class="tagline-that">THAT</span>
-            <span class="tagline-stick">STICK.</span>
-          </span>
+          That's how Stickerbook helps you discover <span class="tagline-gradient">connections that stick.</span>
         </p>
       </section>
 
