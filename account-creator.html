@@ -52,7 +52,7 @@
 
     /* Tighter form spacing */
     .form-tight {
-      gap: 10px;
+      gap: 8px;
     }
 
     .form-tight .field {
@@ -65,7 +65,7 @@
       align-items: center;
       justify-content: center;
       position: relative;
-      margin-bottom: 16px;
+      margin-bottom: 10px;
     }
 
     .back-btn {
@@ -102,7 +102,7 @@
     /* Title area - tighter */
     .title-area {
       text-align: center;
-      margin-bottom: 14px;
+      margin-bottom: 6px;
     }
 
     .title-area .screen-title {
@@ -118,7 +118,7 @@
       display: flex;
       align-items: center;
       gap: 10px;
-      margin: 16px 0 10px;
+      margin: 10px 0 6px;
     }
 
     .section-divider-label {
@@ -136,13 +136,13 @@
       background: var(--color-border);
     }
 
-    /* Profile photo - compact */
+    /* Profile photo - compact with drag-to-reposition */
     .profile-upload {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 6px;
-      margin-bottom: 10px;
+      gap: 4px;
+      margin-bottom: 6px;
     }
 
     .profile-preview {
@@ -157,16 +157,30 @@
       overflow: hidden;
       cursor: pointer;
       transition: border-color 0.15s ease;
+      position: relative;
     }
 
     .profile-preview:hover {
       border-color: var(--color-purple);
     }
 
+    .profile-preview.has-image {
+      cursor: grab;
+      border-style: solid;
+    }
+
+    .profile-preview.has-image:active {
+      cursor: grabbing;
+    }
+
     .profile-preview img {
-      width: 100%;
-      height: 100%;
+      position: absolute;
+      min-width: 100%;
+      min-height: 100%;
       object-fit: cover;
+      pointer-events: none;
+      user-select: none;
+      -webkit-user-drag: none;
     }
 
     .profile-preview-placeholder {
@@ -189,6 +203,12 @@
       color: var(--color-purple-dark);
     }
 
+    .profile-hint {
+      font-size: 9px;
+      color: var(--color-text-muted);
+      margin-top: 2px;
+    }
+
     #profile-input {
       display: none;
     }
@@ -197,7 +217,7 @@
     .field-helper-focus {
       font-size: 11px;
       color: var(--color-turquoise);
-      margin-top: 6px;
+      margin-top: 4px;
       opacity: 0;
       max-height: 0;
       overflow: hidden;
@@ -215,7 +235,7 @@
       display: flex;
       align-items: flex-start;
       gap: 8px;
-      margin-top: 8px;
+      margin-top: 6px;
       opacity: 0;
       max-height: 0;
       overflow: hidden;
@@ -281,26 +301,27 @@
       text-align: center;
     }
 
-    /* Password rules - compact inline */
+    /* Password rules - horizontal */
     .password-rules {
       display: flex;
       flex-wrap: wrap;
-      gap: 4px 12px;
+      gap: 4px 14px;
       margin-top: 4px;
     }
 
     .password-rule {
       font-size: 9px;
+      white-space: nowrap;
     }
 
     /* Terms row - tighter */
     .terms-row {
-      margin-top: 6px;
+      margin-top: 4px;
     }
 
     /* CTA row - tighter */
     .cta-row {
-      margin-top: 14px;
+      margin-top: 10px;
     }
 
     /* Field error - tighter */
@@ -350,7 +371,8 @@
               <div class="profile-preview" id="profile-preview">
                 <span class="profile-preview-placeholder">📷</span>
               </div>
-              <button type="button" class="profile-upload-btn" id="profile-upload-btn">Upload profile photo</button>
+              <button type="button" class="profile-upload-btn" id="profile-upload-btn">Add Profile Picture</button>
+              <span class="profile-hint" id="profile-hint"></span>
               <input type="file" id="profile-input" accept="image/*" />
             </div>
             <div class="field-error text-center" id="profile-error"></div>
@@ -547,6 +569,7 @@
     const profilePreview = document.getElementById('profile-preview');
     const profileInput = document.getElementById('profile-input');
     const profileUploadBtn = document.getElementById('profile-upload-btn');
+    const profileHint = document.getElementById('profile-hint');
     const profileError = document.getElementById('profile-error');
     
     // Artist identity
@@ -592,12 +615,31 @@
 
     // ============ STATE ============
     let profileImage = null;
+    let profileImageData = null;
     let isMinor = false;
     let userAge = null;
 
-    // ============ PROFILE PHOTO ============
-    profilePreview.addEventListener('click', () => profileInput.click());
+    // Profile drag state
+    let isDragging = false;
+    let dragStartX = 0;
+    let dragStartY = 0;
+    let imgOffsetX = 0;
+    let imgOffsetY = 0;
+    let currentOffsetX = 0;
+    let currentOffsetY = 0;
+    let imgElement = null;
+    let imgNaturalWidth = 0;
+    let imgNaturalHeight = 0;
+
+    // ============ PROFILE PHOTO WITH DRAG-TO-REPOSITION ============
     profileUploadBtn.addEventListener('click', () => profileInput.click());
+
+    // Only trigger file picker if no image yet
+    profilePreview.addEventListener('click', (e) => {
+      if (!profileImage) {
+        profileInput.click();
+      }
+    });
 
     profileInput.addEventListener('change', (e) => {
       const file = e.target.files[0];
@@ -605,13 +647,116 @@
         profileImage = file;
         const reader = new FileReader();
         reader.onload = (e) => {
-          profilePreview.innerHTML = `<img src="${e.target.result}" alt="Profile" />`;
-          profileUploadBtn.textContent = 'Change photo';
+          profileImageData = e.target.result;
+          
+          // Create image to get natural dimensions
+          const tempImg = new Image();
+          tempImg.onload = () => {
+            imgNaturalWidth = tempImg.naturalWidth;
+            imgNaturalHeight = tempImg.naturalHeight;
+            
+            // Reset position
+            currentOffsetX = 0;
+            currentOffsetY = 0;
+            
+            // Render image
+            renderProfileImage();
+            
+            profilePreview.classList.add('has-image');
+            profileUploadBtn.textContent = 'Change Picture';
+            profileHint.textContent = 'Drag to reposition';
+          };
+          tempImg.src = profileImageData;
         };
         reader.readAsDataURL(file);
         profileError.textContent = '';
       }
     });
+
+    function renderProfileImage() {
+      profilePreview.innerHTML = `<img src="${profileImageData}" alt="Profile" id="profile-img" />`;
+      imgElement = document.getElementById('profile-img');
+      
+      // Calculate scale to cover the circle
+      const containerSize = 72;
+      const scaleX = containerSize / imgNaturalWidth;
+      const scaleY = containerSize / imgNaturalHeight;
+      const scale = Math.max(scaleX, scaleY);
+      
+      const displayWidth = imgNaturalWidth * scale;
+      const displayHeight = imgNaturalHeight * scale;
+      
+      imgElement.style.width = displayWidth + 'px';
+      imgElement.style.height = displayHeight + 'px';
+      imgElement.style.left = `calc(50% - ${displayWidth / 2}px + ${currentOffsetX}px)`;
+      imgElement.style.top = `calc(50% - ${displayHeight / 2}px + ${currentOffsetY}px)`;
+    }
+
+    // Drag handlers
+    function getEventPos(e) {
+      if (e.touches && e.touches.length > 0) {
+        return { x: e.touches[0].clientX, y: e.touches[0].clientY };
+      }
+      return { x: e.clientX, y: e.clientY };
+    }
+
+    function startDrag(e) {
+      if (!profileImage) return;
+      e.preventDefault();
+      
+      isDragging = true;
+      const pos = getEventPos(e);
+      dragStartX = pos.x;
+      dragStartY = pos.y;
+      imgOffsetX = currentOffsetX;
+      imgOffsetY = currentOffsetY;
+      
+      profilePreview.style.cursor = 'grabbing';
+    }
+
+    function doDrag(e) {
+      if (!isDragging || !imgElement) return;
+      e.preventDefault();
+      
+      const pos = getEventPos(e);
+      const deltaX = pos.x - dragStartX;
+      const deltaY = pos.y - dragStartY;
+      
+      // Calculate bounds
+      const containerSize = 72;
+      const scaleX = containerSize / imgNaturalWidth;
+      const scaleY = containerSize / imgNaturalHeight;
+      const scale = Math.max(scaleX, scaleY);
+      
+      const displayWidth = imgNaturalWidth * scale;
+      const displayHeight = imgNaturalHeight * scale;
+      
+      const maxOffsetX = (displayWidth - containerSize) / 2;
+      const maxOffsetY = (displayHeight - containerSize) / 2;
+      
+      // Clamp offsets
+      currentOffsetX = Math.max(-maxOffsetX, Math.min(maxOffsetX, imgOffsetX + deltaX));
+      currentOffsetY = Math.max(-maxOffsetY, Math.min(maxOffsetY, imgOffsetY + deltaY));
+      
+      // Apply position
+      imgElement.style.left = `calc(50% - ${displayWidth / 2}px + ${currentOffsetX}px)`;
+      imgElement.style.top = `calc(50% - ${displayHeight / 2}px + ${currentOffsetY}px)`;
+    }
+
+    function endDrag() {
+      isDragging = false;
+      profilePreview.style.cursor = profileImage ? 'grab' : 'pointer';
+    }
+
+    // Mouse events
+    profilePreview.addEventListener('mousedown', startDrag);
+    document.addEventListener('mousemove', doDrag);
+    document.addEventListener('mouseup', endDrag);
+
+    // Touch events
+    profilePreview.addEventListener('touchstart', startDrag, { passive: false });
+    document.addEventListener('touchmove', doDrag, { passive: false });
+    document.addEventListener('touchend', endDrag);
 
     // ============ DOB HELPER (SHOW ON FOCUS) ============
     const dobInputs = [dobMonth, dobDay, dobYear];
@@ -784,7 +929,7 @@
 
       // Validate profile photo
       if (!profileImage) {
-        profileError.textContent = 'Please upload a profile photo or logo.';
+        profileError.textContent = 'Please add a profile picture.';
         hasError = true;
       }
       
@@ -878,12 +1023,21 @@
           state: stateInput.value.trim().toUpperCase(),
           zip: zipInput.value.trim()
         },
-        email: emailInput.value.trim()
+        email: emailInput.value.trim(),
+        profileImageOffset: {
+          x: currentOffsetX,
+          y: currentOffsetY
+        }
       };
       
       localStorage.setItem('stickerbook_creator', JSON.stringify(creatorData));
       localStorage.setItem('stickerbook_user_name', creatorData.displayName);
       localStorage.setItem('stickerbook_is_minor', isMinor.toString());
+      
+      // Store profile image data
+      if (profileImageData) {
+        localStorage.setItem('stickerbook_profile_image', profileImageData);
+      }
       
       // Navigate to creator studio
       window.location.href = 'creatorstudio.html';
