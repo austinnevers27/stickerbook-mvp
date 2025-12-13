@@ -9,6 +9,16 @@
   <style>
     /* ========== PAGE-SPECIFIC STYLES ========== */
     
+    /* Fix browser autofill yellow background */
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover,
+    input:-webkit-autofill:focus,
+    input:-webkit-autofill:active {
+      -webkit-box-shadow: 0 0 0 1000px white inset !important;
+      -webkit-text-fill-color: var(--color-text-primary) !important;
+      transition: background-color 5000s ease-in-out 0s;
+    }
+
     /* Purple accent overrides for creator flow */
     .creator-flow .field-label {
       color: var(--color-purple);
@@ -229,59 +239,37 @@
       color: var(--color-text-secondary);
     }
 
-    /* Legal name layout - compact for mobile */
-    .legal-name-row-top {
+    /* Legal name layout - just First and Last */
+    .legal-name-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 8px;
-      margin-bottom: 8px;
     }
 
-    .legal-name-row-top .field-input {
+    .legal-name-row .field-input {
       min-width: 0;
     }
 
-    .legal-name-row-bottom {
+    /* Address rows - combined street + apt */
+    .address-row-combined {
       display: grid;
-      grid-template-columns: 50px 90px;
+      grid-template-columns: 3fr 1fr;
       gap: 8px;
-    }
-
-    .field-input--mi {
-      text-align: center;
-      text-transform: uppercase;
-    }
-
-    .field-select {
-      border-radius: var(--radius-pill);
-      border: 1px solid var(--color-border);
-      padding: 10px 12px;
-      font-size: 13px;
-      background: var(--color-canvas);
-      color: var(--color-text-primary);
-      outline: none;
-      font-family: var(--font-primary);
-      cursor: pointer;
-      transition: border-color 0.15s ease, box-shadow 0.15s ease;
-      appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2371717a' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 12px center;
-    }
-
-    /* Address rows */
-    .address-row {
       margin-bottom: 8px;
     }
 
-    .address-row:last-of-type {
-      margin-bottom: 0;
+    .address-row-combined .field-input {
+      min-width: 0;
     }
 
     .address-row-split {
       display: grid;
-      grid-template-columns: 1fr 50px 70px;
+      grid-template-columns: 1fr 60px 80px;
       gap: 8px;
+    }
+
+    .address-row-split .field-input {
+      min-width: 0;
     }
 
     .field-input--state {
@@ -413,7 +401,7 @@
                   autocomplete="bday-year"
                 />
               </div>
-              <p class="field-helper-focus" id="dob-helper">Creator program open to ages 13+. Payment features unlock at 18.</p>
+              <p class="field-helper-focus" id="dob-helper">Creator program open to ages 13+. Monetization features unlock at 18+.</p>
               <div class="parent-consent-row" id="parent-consent-row">
                 <input type="checkbox" id="parent-consent" />
                 <label for="parent-consent">My parent or guardian knows I'm creating this account</label>
@@ -430,7 +418,7 @@
             <!-- Legal Name -->
             <div class="field" id="legal-name-field">
               <label class="field-label">Legal Name</label>
-              <div class="legal-name-row-top">
+              <div class="legal-name-row">
                 <input 
                   type="text" 
                   id="legal-first" 
@@ -446,24 +434,6 @@
                   autocomplete="family-name"
                 />
               </div>
-              <div class="legal-name-row-bottom">
-                <input 
-                  type="text" 
-                  id="legal-mi" 
-                  class="field-input field-input--mi" 
-                  placeholder="MI"
-                  maxlength="1"
-                  autocomplete="additional-name"
-                />
-                <select id="legal-suffix" class="field-select">
-                  <option value="">Suffix</option>
-                  <option value="Jr.">Jr.</option>
-                  <option value="Sr.">Sr.</option>
-                  <option value="II">II</option>
-                  <option value="III">III</option>
-                  <option value="IV">IV</option>
-                </select>
-              </div>
               <p class="field-helper-focus" id="legal-name-helper">Used for tax and payout purposes only — never shown publicly</p>
               <div class="field-error" id="legal-name-error"></div>
             </div>
@@ -471,7 +441,7 @@
             <!-- Address -->
             <div class="field">
               <label class="field-label">Address</label>
-              <div class="address-row">
+              <div class="address-row-combined">
                 <input 
                   type="text" 
                   id="street" 
@@ -479,13 +449,11 @@
                   placeholder="Street address"
                   autocomplete="address-line1"
                 />
-              </div>
-              <div class="address-row">
                 <input 
                   type="text" 
                   id="apt" 
                   class="field-input" 
-                  placeholder="Apt, suite, unit (optional)"
+                  placeholder="Apt/Ste"
                   autocomplete="address-line2"
                 />
               </div>
@@ -596,9 +564,7 @@
     
     // Legal
     const legalFirst = document.getElementById('legal-first');
-    const legalMi = document.getElementById('legal-mi');
     const legalLast = document.getElementById('legal-last');
-    const legalSuffix = document.getElementById('legal-suffix');
     const legalNameHelper = document.getElementById('legal-name-helper');
     const streetInput = document.getElementById('street');
     const aptInput = document.getElementById('apt');
@@ -727,7 +693,7 @@
     dobYear.addEventListener('blur', checkAgeAndShowConsent);
 
     // ============ LEGAL NAME HELPER (SHOW ON FOCUS) ============
-    const legalNameInputs = [legalFirst, legalMi, legalLast, legalSuffix];
+    const legalNameInputs = [legalFirst, legalLast];
     
     legalNameInputs.forEach(input => {
       input.addEventListener('focus', () => {
@@ -744,10 +710,6 @@
     });
 
     // ============ FORMAT HELPERS ============
-    legalMi.addEventListener('input', (e) => {
-      e.target.value = e.target.value.toUpperCase().replace(/[^A-Z]/g, '');
-    });
-
     stateInput.addEventListener('input', (e) => {
       e.target.value = e.target.value.toUpperCase().replace(/[^A-Z]/g, '');
     });
@@ -907,9 +869,7 @@
         },
         legalName: {
           first: legalFirst.value.trim(),
-          mi: legalMi.value.trim().toUpperCase(),
-          last: legalLast.value.trim(),
-          suffix: legalSuffix.value
+          last: legalLast.value.trim()
         },
         address: {
           street: streetInput.value.trim(),
