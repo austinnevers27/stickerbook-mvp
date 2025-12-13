@@ -19,7 +19,8 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 32px 24px 24px;
+      padding: 20px 24px;
+      position: relative;
     }
 
     /* Header */
@@ -29,60 +30,54 @@
 
     .index-title {
       font-family: var(--font-display);
-      font-size: 28px;
+      font-size: 32px;
       font-weight: 700;
       letter-spacing: 0.12em;
       text-transform: uppercase;
       color: var(--color-text-primary);
-      margin-bottom: 6px;
-    }
-
-    /* Screen states */
-    .screen {
-      display: none;
-      width: 100%;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .screen.active {
-      display: flex;
-    }
-
-    /* Landing screen - centered */
-    .screen--landing {
-      justify-content: center;
-      min-height: 80vh;
-    }
-
-    .screen--landing .index-title {
-      font-size: 32px;
       margin-bottom: 8px;
     }
 
-    /* Copy screen */
-    .screen--copy {
-      padding-top: 0;
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.5s ease, transform 0.5s ease;
+    /* ========== LANDING SCREEN ========== */
+    .screen--landing {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      transition: top 0.8s ease, transform 0.8s ease;
     }
 
-    .screen--copy.active {
+    .screen--landing.shift-up {
+      top: 12%;
+      transform: translate(-50%, 0);
+    }
+
+    /* ========== COPY SCREEN ========== */
+    .screen--copy {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 80px;
+      opacity: 0;
+      transition: opacity 0.6s ease 0.3s;
+    }
+
+    .screen--copy.visible {
       opacity: 1;
-      transform: translateY(0);
     }
 
     .intro-section {
       max-width: 340px;
-      margin-bottom: 16px;
+      margin-bottom: 20px;
     }
 
     .intro-text {
-      font-size: 13px;
-      line-height: 1.5;
+      font-size: 14px;
+      line-height: 1.6;
       color: var(--color-text-primary);
-      margin-bottom: 12px;
+      margin-bottom: 14px;
       font-weight: 400;
     }
 
@@ -113,7 +108,7 @@
     .btn-get-started {
       width: 100%;
       max-width: 340px;
-      padding: 14px 32px;
+      padding: 16px 32px;
       margin-top: 20px;
       background: var(--gradient-primary);
       border: none;
@@ -139,9 +134,23 @@
       box-shadow: var(--shadow-button-active);
     }
 
-    /* Selector screen */
+    /* ========== SELECTOR SCREEN ========== */
     .screen--selector {
-      padding-top: 60px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 24px;
+      background: var(--color-canvas);
+    }
+
+    .screen--selector.active {
+      display: flex;
     }
 
     .type-selector {
@@ -265,21 +274,16 @@
 
   <div class="index-container">
     
-    <!-- SCREEN 1: Bare bones landing -->
-    <div class="screen screen--landing active" id="screen-landing">
+    <!-- Landing header - shifts up -->
+    <div class="screen--landing" id="screen-landing">
       <header class="index-header">
         <h1 class="index-title">Stickerbook</h1>
         <div class="accent-bar accent-bar--md"></div>
       </header>
     </div>
 
-    <!-- SCREEN 2: Copy + Get Started -->
-    <div class="screen screen--copy" id="screen-copy">
-      <header class="index-header" style="margin-bottom: 16px;">
-        <h1 class="index-title">Stickerbook</h1>
-        <div class="accent-bar accent-bar--md"></div>
-      </header>
-
+    <!-- Copy - fades in below -->
+    <div class="screen--copy" id="screen-copy">
       <section class="intro-section">
         <p class="intro-text">
           They're small, but they say a lot. They tell people what we love, what we notice, what matters to us.
@@ -306,8 +310,8 @@
       <button class="btn-get-started" id="btn-get-started">Get Started</button>
     </div>
 
-    <!-- SCREEN 3: I'm here to... selector -->
-    <div class="screen screen--selector" id="screen-selector">
+    <!-- Selector screen -->
+    <div class="screen--selector" id="screen-selector">
       <header class="index-header" style="margin-bottom: 32px;">
         <h1 class="index-title">Stickerbook</h1>
         <div class="accent-bar accent-bar--md"></div>
@@ -346,21 +350,19 @@
   </div>
 
   <script>
-    // Screen elements
     const screenLanding = document.getElementById('screen-landing');
     const screenCopy = document.getElementById('screen-copy');
     const screenSelector = document.getElementById('screen-selector');
     const btnGetStarted = document.getElementById('btn-get-started');
 
-    // Auto-transition after 2 seconds
+    // Auto-transition: logo shifts up, copy fades in
     setTimeout(function() {
-      screenLanding.classList.remove('active');
-      screenCopy.classList.add('active');
+      screenLanding.classList.add('shift-up');
+      screenCopy.classList.add('visible');
     }, 2000);
 
     // Get Started → Selector screen
     btnGetStarted.addEventListener('click', function() {
-      screenCopy.classList.remove('active');
       screenSelector.classList.add('active');
     });
 
