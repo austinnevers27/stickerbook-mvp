@@ -125,6 +125,53 @@
       margin-top: 4px;
     }
 
+    /* DOB helper text - shows on focus */
+    .field-helper-focus {
+      font-size: 11px;
+      color: var(--color-turquoise);
+      margin-top: 4px;
+      opacity: 0;
+      max-height: 0;
+      overflow: hidden;
+      transition: opacity 0.2s ease, max-height 0.2s ease;
+      line-height: 1.4;
+      text-align: center;
+    }
+
+    .field-helper-focus.visible {
+      opacity: 1;
+      max-height: 50px;
+    }
+
+    /* Parent consent - appears dynamically for 13-17 */
+    .parent-consent-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      margin-top: 6px;
+      opacity: 0;
+      max-height: 0;
+      overflow: hidden;
+      transition: opacity 0.25s ease, max-height 0.25s ease;
+    }
+
+    .parent-consent-row.visible {
+      opacity: 1;
+      max-height: 50px;
+    }
+
+    .parent-consent-row input[type="checkbox"] {
+      margin-top: 2px;
+      flex-shrink: 0;
+      accent-color: var(--color-turquoise);
+    }
+
+    .parent-consent-row label {
+      font-size: 11px;
+      line-height: 1.4;
+      color: var(--color-text-secondary);
+    }
+
     /* Skip button in header */
     .app-header__skip {
       position: absolute;
@@ -224,6 +271,11 @@
                   autocomplete="bday-year"
                   required
                 />
+              </div>
+              <p class="field-helper-focus" id="dob-helper">Stickerbook is open to users age 13+</p>
+              <div class="parent-consent-row" id="parent-consent-row">
+                <input type="checkbox" id="parent-consent" />
+                <label for="parent-consent">My parent or guardian knows I'm creating this account</label>
               </div>
               <div class="field-error" id="dob-error"></div>
             </div>
@@ -327,6 +379,9 @@
     const dobMonth = document.getElementById('dob-month');
     const dobDay = document.getElementById('dob-day');
     const dobYear = document.getElementById('dob-year');
+    const dobHelper = document.getElementById('dob-helper');
+    const parentConsentRow = document.getElementById('parent-consent-row');
+    const parentConsentCheckbox = document.getElementById('parent-consent');
     const cityInput = document.getElementById('city');
     const stateInput = document.getElementById('state');
     const zipInput = document.getElementById('zip');
@@ -346,6 +401,67 @@
     const ruleLower = document.getElementById('rule-lower');
     const ruleNumber = document.getElementById('rule-number');
 
+    // State
+    let isMinor = false;
+
+    // DOB helper - show on focus
+    const dobInputs = [dobMonth, dobDay, dobYear];
+    
+    dobInputs.forEach(input => {
+      input.addEventListener('focus', () => {
+        dobHelper.classList.add('visible');
+      });
+      input.addEventListener('blur', () => {
+        setTimeout(() => {
+          const activeEl = document.activeElement;
+          if (!dobInputs.includes(activeEl)) {
+            dobHelper.classList.remove('visible');
+          }
+        }, 100);
+      });
+    });
+
+    // Calculate age helper
+    function calculateAge(month, day, year) {
+      const today = new Date();
+      const birthDate = new Date(year, month - 1, day);
+      let age = today.getFullYear() - birthDate.getFullYear();
+      const monthDiff = today.getMonth() - birthDate.getMonth();
+      
+      if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+      }
+      
+      return age;
+    }
+
+    // Check age and show parent consent if 13-17
+    function checkAgeAndShowConsent() {
+      const m = parseInt(dobMonth.value, 10);
+      const d = parseInt(dobDay.value, 10);
+      const y = parseInt(dobYear.value, 10);
+
+      if (isNaN(m) || isNaN(d) || isNaN(y) || dobYear.value.length < 4) {
+        parentConsentRow.classList.remove('visible');
+        return;
+      }
+
+      if (m < 1 || m > 12 || d < 1 || d > 31 || y < 1900 || y > new Date().getFullYear()) {
+        parentConsentRow.classList.remove('visible');
+        return;
+      }
+
+      const age = calculateAge(m, d, y);
+      
+      if (age >= 13 && age < 18) {
+        isMinor = true;
+        parentConsentRow.classList.add('visible');
+      } else {
+        isMinor = false;
+        parentConsentRow.classList.remove('visible');
+      }
+    }
+
     // Auto-tab for DOB fields
     function autoTab(current, next, maxLength) {
       current.addEventListener('input', (e) => {
@@ -354,12 +470,21 @@
         if (e.target.value.length >= maxLength && next) {
           next.focus();
         }
+
+        if (current === dobYear && e.target.value.length === 4) {
+          checkAgeAndShowConsent();
+        }
       });
     }
 
     autoTab(dobMonth, dobDay, 2);
     autoTab(dobDay, dobYear, 2);
     autoTab(dobYear, null, 4);
+
+    // Also check on blur
+    dobMonth.addEventListener('blur', checkAgeAndShowConsent);
+    dobDay.addEventListener('blur', checkAgeAndShowConsent);
+    dobYear.addEventListener('blur', checkAgeAndShowConsent);
 
     // Zip field: only numbers
     zipInput.addEventListener('input', (e) => {
@@ -407,19 +532,6 @@
       );
     }
 
-    function calculateAge(month, day, year) {
-      const today = new Date();
-      const birthDate = new Date(year, month - 1, day);
-      let age = today.getFullYear() - birthDate.getFullYear();
-      const monthDiff = today.getMonth() - birthDate.getMonth();
-      
-      if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
-        age--;
-      }
-      
-      return age;
-    }
-
     function isValidDOB(month, day, year) {
       const m = parseInt(month, 10);
       const d = parseInt(day, 10);
@@ -461,6 +573,12 @@
         } else {
           dobError.textContent = 'Please enter a valid date of birth.';
         }
+        hasError = true;
+      }
+
+      // If minor, check parent consent
+      if (isMinor && !parentConsentCheckbox.checked) {
+        dobError.textContent = 'Please confirm your parent or guardian knows about this account.';
         hasError = true;
       }
       
@@ -505,6 +623,7 @@
       // Save to localStorage
       const userData = {
         name: nameInput.value.trim(),
+        isMinor: isMinor,
         dob: {
           month: dobMonth.value,
           day: dobDay.value,
@@ -520,6 +639,7 @@
       
       localStorage.setItem('stickerbook_user', JSON.stringify(userData));
       localStorage.setItem('stickerbook_user_name', userData.name);
+      localStorage.setItem('stickerbook_is_minor', isMinor.toString());
       
       // Navigate to interests picker
       window.location.href = 'interests.html';
