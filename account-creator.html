@@ -19,6 +19,11 @@
       box-shadow: 0 0 0 3px rgba(109, 40, 217, 0.15);
     }
 
+    .creator-flow .field-select:focus {
+      border-color: var(--color-purple);
+      box-shadow: 0 0 0 3px rgba(109, 40, 217, 0.15);
+    }
+
     .creator-flow .terms-row a {
       color: var(--color-purple);
     }
@@ -31,18 +36,85 @@
       color: var(--color-purple);
     }
 
-    /* Section dividers */
+    .creator-flow .terms-row input[type="checkbox"] {
+      accent-color: var(--color-purple);
+    }
+
+    /* Tighter form spacing */
+    .form-tight {
+      gap: 10px;
+    }
+
+    .form-tight .field {
+      margin-bottom: 0;
+    }
+
+    /* Header layout */
+    .header-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      margin-bottom: 16px;
+    }
+
+    .back-btn {
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      font-size: 11px;
+      color: var(--color-text-muted);
+      cursor: pointer;
+      font-family: var(--font-primary);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .back-btn:hover {
+      color: var(--color-text-secondary);
+    }
+
+    .logo-centered {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .logo-centered .logo-mark {
+      font-size: 12px;
+    }
+
+    /* Title area - tighter */
+    .title-area {
+      text-align: center;
+      margin-bottom: 14px;
+    }
+
+    .title-area .screen-title {
+      margin-bottom: 2px;
+    }
+
+    .title-area .screen-subtitle {
+      margin-bottom: 0;
+    }
+
+    /* Section dividers - tighter */
     .section-divider {
       display: flex;
       align-items: center;
-      gap: 12px;
-      margin: 24px 0 16px;
+      gap: 10px;
+      margin: 16px 0 10px;
     }
 
     .section-divider-label {
-      font-size: 10px;
+      font-size: 9px;
       font-weight: 700;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
       color: var(--color-purple);
       white-space: nowrap;
@@ -54,18 +126,18 @@
       background: var(--color-border);
     }
 
-    /* Profile photo upload */
+    /* Profile photo - compact */
     .profile-upload {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 10px;
-      margin-bottom: 16px;
+      gap: 6px;
+      margin-bottom: 10px;
     }
 
     .profile-preview {
-      width: 100px;
-      height: 100px;
+      width: 72px;
+      height: 72px;
       border-radius: 50%;
       background: var(--color-canvas-subtle);
       border: 2px dashed var(--color-border);
@@ -88,18 +160,19 @@
     }
 
     .profile-preview-placeholder {
-      font-size: 32px;
+      font-size: 24px;
       color: var(--color-text-muted);
     }
 
     .profile-upload-btn {
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 600;
       color: var(--color-purple);
       background: none;
       border: none;
       cursor: pointer;
       font-family: var(--font-primary);
+      padding: 0;
     }
 
     .profile-upload-btn:hover {
@@ -110,77 +183,18 @@
       display: none;
     }
 
-    .profile-hint {
-      font-size: 10px;
-      color: var(--color-text-subtle);
-      text-align: center;
-    }
-
-    /* Bio textarea */
-    .field-textarea {
-      border-radius: var(--radius-md);
-      min-height: 80px;
-      resize: vertical;
-      line-height: 1.5;
-    }
-
-    .field-char-count {
-      font-size: 10px;
-      color: var(--color-text-subtle);
-      text-align: right;
-      margin-top: 4px;
-    }
-
-    /* Art style pills */
-    .pills-container {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 6px;
-    }
-
-    .pill {
-      padding: 8px 14px;
-      background: var(--color-canvas);
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius-pill);
-      font-size: 11px;
-      font-weight: 600;
-      color: var(--color-text-secondary);
-      cursor: pointer;
-      transition: all 0.15s ease;
-      font-family: var(--font-primary);
-    }
-
-    .pill:hover {
-      border-color: var(--color-purple);
-      color: var(--color-purple);
-    }
-
-    .pill.selected {
-      background: var(--color-purple);
-      border-color: var(--color-purple);
-      color: white;
-    }
-
-    .pills-hint {
-      font-size: 10px;
-      color: var(--color-text-subtle);
-      margin-top: 8px;
-    }
-
-    /* Legal name row */
-    .legal-name-row {
+    /* Legal name layout - stacked for mobile */
+    .legal-name-row-top {
       display: grid;
-      grid-template-columns: 1fr 50px 1fr;
+      grid-template-columns: 1fr 1fr;
       gap: 8px;
+      margin-bottom: 8px;
     }
 
-    .legal-name-row-suffix {
+    .legal-name-row-bottom {
       display: grid;
-      grid-template-columns: 1fr 90px;
+      grid-template-columns: 60px 100px;
       gap: 8px;
-      margin-top: 8px;
     }
 
     .field-input--mi {
@@ -205,17 +219,12 @@
       background-position: right 12px center;
     }
 
-    .field-select:focus {
-      border-color: var(--color-purple);
-      box-shadow: 0 0 0 3px rgba(109, 40, 217, 0.15);
-    }
-
-    /* Legal name helper (appears on focus) */
+    /* Legal name helper */
     .field-helper-focus {
       font-size: 10px;
       color: var(--color-text-subtle);
       font-style: italic;
-      margin-top: 6px;
+      margin-top: 4px;
       opacity: 0;
       max-height: 0;
       overflow: hidden;
@@ -224,7 +233,7 @@
 
     .field-helper-focus.visible {
       opacity: 1;
-      max-height: 40px;
+      max-height: 30px;
     }
 
     /* Address rows */
@@ -232,9 +241,13 @@
       margin-bottom: 8px;
     }
 
+    .address-row:last-of-type {
+      margin-bottom: 0;
+    }
+
     .address-row-split {
       display: grid;
-      grid-template-columns: 1fr 60px 80px;
+      grid-template-columns: 1fr 50px 70px;
       gap: 8px;
     }
 
@@ -245,6 +258,18 @@
 
     .field-input--zip {
       text-align: center;
+    }
+
+    /* Password rules - compact inline */
+    .password-rules {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px 12px;
+      margin-top: 4px;
+    }
+
+    .password-rule {
+      font-size: 9px;
     }
 
     /* Minor-specific styles */
@@ -263,13 +288,13 @@
     .minor-note {
       background: rgba(109, 40, 217, 0.06);
       border-radius: var(--radius-md);
-      padding: 12px 14px;
-      margin-bottom: 16px;
+      padding: 10px 12px;
+      margin-bottom: 10px;
     }
 
     .minor-note p {
       font-size: 11px;
-      line-height: 1.5;
+      line-height: 1.4;
       color: var(--color-text-secondary);
       margin: 0;
     }
@@ -277,8 +302,8 @@
     .parent-checkbox-row {
       display: flex;
       align-items: flex-start;
-      gap: 10px;
-      margin-bottom: 16px;
+      gap: 8px;
+      margin-bottom: 10px;
     }
 
     .parent-checkbox-row input[type="checkbox"] {
@@ -288,7 +313,7 @@
     }
 
     .parent-checkbox-row label {
-      font-size: 12px;
+      font-size: 11px;
       line-height: 1.4;
       color: var(--color-text-secondary);
     }
@@ -306,9 +331,23 @@
       padding: 0;
     }
 
-    /* Terms checkbox purple accent */
-    .creator-flow .terms-row input[type="checkbox"] {
-      accent-color: var(--color-purple);
+    /* Terms row - tighter */
+    .terms-row {
+      margin-top: 6px;
+    }
+
+    /* CTA row - tighter */
+    .cta-row {
+      margin-top: 14px;
+    }
+
+    /* Field error - tighter */
+    .field-error {
+      min-height: 0;
+    }
+
+    .field-error:not(:empty) {
+      margin-top: 4px;
     }
   </style>
 </head>
@@ -319,20 +358,24 @@
         <div class="shell-inner">
           
           <!-- Header -->
-          <div class="top-row">
-            <div class="logo-group" style="align-items: flex-start;">
+          <div class="header-row">
+            <button class="back-btn" onclick="window.location.href='index.html'">
+              <span>←</span> Back
+            </button>
+            <div class="logo-centered">
               <div class="logo-mark">STICKERBOOK</div>
               <div class="logo-accent"></div>
             </div>
-            <button class="btn-skip" onclick="window.location.href='index.html'">Back</button>
           </div>
 
           <!-- Title -->
-          <h1 class="screen-title text-center">Become a Creator</h1>
-          <p class="screen-subtitle text-center">Share your art in the Sticker Shop</p>
+          <div class="title-area">
+            <h1 class="screen-title">Create with Us</h1>
+            <p class="screen-subtitle">Share your art in the Sticker Shop</p>
+          </div>
 
           <!-- Form -->
-          <form class="form" id="creator-form" novalidate>
+          <form class="form form-tight" id="creator-form" novalidate>
             
             <!-- ========== SECTION 1: ARTIST IDENTITY ========== -->
             <div class="section-divider">
@@ -347,7 +390,6 @@
               </div>
               <button type="button" class="profile-upload-btn" id="profile-upload-btn">Upload profile photo</button>
               <input type="file" id="profile-input" accept="image/*" />
-              <p class="profile-hint">Photo or logo • Required</p>
             </div>
             <div class="field-error text-center" id="profile-error"></div>
 
@@ -361,7 +403,6 @@
                 placeholder="How should we show your name?"
                 maxlength="30"
                 autocomplete="nickname"
-                required
               />
               <div class="field-error" id="display-name-error"></div>
             </div>
@@ -378,7 +419,6 @@
                   maxlength="2"
                   inputmode="numeric"
                   autocomplete="bday-month"
-                  required
                 />
                 <input 
                   type="text" 
@@ -388,7 +428,6 @@
                   maxlength="2"
                   inputmode="numeric"
                   autocomplete="bday-day"
-                  required
                 />
                 <input 
                   type="text" 
@@ -398,80 +437,15 @@
                   maxlength="4"
                   inputmode="numeric"
                   autocomplete="bday-year"
-                  required
                 />
               </div>
               <div class="field-error" id="dob-error"></div>
-            </div>
-
-            <!-- Bio -->
-            <div class="field">
-              <label class="field-label" for="bio">Bio</label>
-              <textarea 
-                id="bio" 
-                class="field-input field-textarea" 
-                placeholder="Tell people about yourself and your art..."
-                maxlength="200"
-              ></textarea>
-              <div class="field-char-count"><span id="bio-count">0</span>/200</div>
-              <div class="field-error" id="bio-error"></div>
-            </div>
-
-            <!-- Art Style -->
-            <div class="field">
-              <label class="field-label">Art Style</label>
-              <div class="pills-container" id="style-pills">
-                <div class="pill" data-value="Cartoon / Illustrated">Cartoon / Illustrated</div>
-                <div class="pill" data-value="Minimalist / Clean">Minimalist / Clean</div>
-                <div class="pill" data-value="Hand-drawn / Sketchy">Hand-drawn / Sketchy</div>
-                <div class="pill" data-value="Kawaii / Cute">Kawaii / Cute</div>
-                <div class="pill" data-value="Retro / Vintage">Retro / Vintage</div>
-                <div class="pill" data-value="Realistic">Realistic</div>
-                <div class="pill" data-value="Abstract / Artistic">Abstract / Artistic</div>
-                <div class="pill" data-value="Bold / Graphic">Bold / Graphic</div>
-              </div>
-              <p class="pills-hint">Select all that apply</p>
-              <div class="field-error" id="style-error"></div>
             </div>
 
             <!-- ========== SECTION 2: ACCOUNT & LEGAL ========== -->
             <div class="section-divider">
               <span class="section-divider-label">Account & Legal</span>
               <span class="section-divider-line"></span>
-            </div>
-
-            <!-- Email -->
-            <div class="field">
-              <label class="field-label" for="email">Email</label>
-              <input 
-                type="email" 
-                id="email" 
-                class="field-input" 
-                placeholder="you@example.com"
-                autocomplete="email"
-                required
-              />
-              <div class="field-error" id="email-error"></div>
-            </div>
-
-            <!-- Password -->
-            <div class="field">
-              <label class="field-label" for="password">Password</label>
-              <input 
-                type="password" 
-                id="password" 
-                class="field-input" 
-                placeholder="Create a password"
-                autocomplete="new-password"
-                required
-              />
-              <div class="password-rules">
-                <div class="password-rule" id="rule-length">At least 8 characters</div>
-                <div class="password-rule" id="rule-upper">One uppercase letter</div>
-                <div class="password-rule" id="rule-lower">One lowercase letter</div>
-                <div class="password-rule" id="rule-number">One number</div>
-              </div>
-              <div class="field-error" id="password-error"></div>
             </div>
 
             <!-- Minor-only fields -->
@@ -492,7 +466,7 @@
               <!-- Legal Name -->
               <div class="field" id="legal-name-field">
                 <label class="field-label">Legal Name</label>
-                <div class="legal-name-row">
+                <div class="legal-name-row-top">
                   <input 
                     type="text" 
                     id="legal-first" 
@@ -502,22 +476,21 @@
                   />
                   <input 
                     type="text" 
-                    id="legal-mi" 
-                    class="field-input field-input--mi" 
-                    placeholder="MI"
-                    maxlength="1"
-                    autocomplete="additional-name"
-                  />
-                  <input 
-                    type="text" 
                     id="legal-last" 
                     class="field-input" 
                     placeholder="Last"
                     autocomplete="family-name"
                   />
                 </div>
-                <div class="legal-name-row-suffix">
-                  <div></div>
+                <div class="legal-name-row-bottom">
+                  <input 
+                    type="text" 
+                    id="legal-mi" 
+                    class="field-input field-input--mi" 
+                    placeholder="MI"
+                    maxlength="1"
+                    autocomplete="additional-name"
+                  />
                   <select id="legal-suffix" class="field-select">
                     <option value="">Suffix</option>
                     <option value="Jr.">Jr.</option>
@@ -582,9 +555,41 @@
               </div>
             </div>
 
+            <!-- Email -->
+            <div class="field">
+              <label class="field-label" for="email">Email</label>
+              <input 
+                type="email" 
+                id="email" 
+                class="field-input" 
+                placeholder="you@example.com"
+                autocomplete="email"
+              />
+              <div class="field-error" id="email-error"></div>
+            </div>
+
+            <!-- Password -->
+            <div class="field">
+              <label class="field-label" for="password">Password</label>
+              <input 
+                type="password" 
+                id="password" 
+                class="field-input" 
+                placeholder="Create a password"
+                autocomplete="new-password"
+              />
+              <div class="password-rules">
+                <div class="password-rule" id="rule-length">8+ chars</div>
+                <div class="password-rule" id="rule-upper">Uppercase</div>
+                <div class="password-rule" id="rule-lower">Lowercase</div>
+                <div class="password-rule" id="rule-number">Number</div>
+              </div>
+              <div class="field-error" id="password-error"></div>
+            </div>
+
             <!-- Terms -->
             <div class="terms-row">
-              <input type="checkbox" id="terms" required />
+              <input type="checkbox" id="terms" />
               <label for="terms">
                 I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
               </label>
@@ -594,7 +599,7 @@
             <!-- Submit -->
             <div class="cta-row">
               <button type="submit" class="btn btn-primary" id="submit-btn">
-                Become a Creator
+                Create with Us
               </button>
             </div>
           </form>
@@ -618,9 +623,6 @@
     const dobMonth = document.getElementById('dob-month');
     const dobDay = document.getElementById('dob-day');
     const dobYear = document.getElementById('dob-year');
-    const bioInput = document.getElementById('bio');
-    const bioCount = document.getElementById('bio-count');
-    const stylePills = document.getElementById('style-pills');
     
     // Account
     const emailInput = document.getElementById('email');
@@ -651,8 +653,6 @@
     // Error elements
     const displayNameError = document.getElementById('display-name-error');
     const dobError = document.getElementById('dob-error');
-    const bioError = document.getElementById('bio-error');
-    const styleError = document.getElementById('style-error');
     const emailError = document.getElementById('email-error');
     const passwordError = document.getElementById('password-error');
     const legalNameError = document.getElementById('legal-name-error');
@@ -668,7 +668,6 @@
 
     // ============ STATE ============
     let profileImage = null;
-    let selectedStyles = new Set();
     let isMinor = false;
 
     // ============ PROFILE PHOTO ============
@@ -687,28 +686,6 @@
         reader.readAsDataURL(file);
         profileError.textContent = '';
       }
-    });
-
-    // ============ BIO CHARACTER COUNT ============
-    bioInput.addEventListener('input', () => {
-      bioCount.textContent = bioInput.value.length;
-    });
-
-    // ============ ART STYLE PILLS ============
-    stylePills.addEventListener('click', (e) => {
-      const pill = e.target.closest('.pill');
-      if (!pill) return;
-
-      const value = pill.dataset.value;
-
-      if (selectedStyles.has(value)) {
-        selectedStyles.delete(value);
-        pill.classList.remove('selected');
-      } else {
-        selectedStyles.add(value);
-        pill.classList.add('selected');
-      }
-      styleError.textContent = '';
     });
 
     // ============ DOB AUTO-TAB & AGE CHECK ============
@@ -780,8 +757,7 @@
       input.addEventListener('focus', () => {
         legalNameHelper.classList.add('visible');
       });
-      input.addEventListener('blur', (e) => {
-        // Delay to check if focus moved to another legal name field
+      input.addEventListener('blur', () => {
         setTimeout(() => {
           const activeEl = document.activeElement;
           if (!legalNameInputs.includes(activeEl)) {
@@ -819,7 +795,6 @@
     dobMonth.addEventListener('input', () => { dobError.textContent = ''; });
     dobDay.addEventListener('input', () => { dobError.textContent = ''; });
     dobYear.addEventListener('input', () => { dobError.textContent = ''; });
-    bioInput.addEventListener('input', () => { bioError.textContent = ''; });
     emailInput.addEventListener('input', () => { emailError.textContent = ''; });
     passwordInput.addEventListener('input', () => { passwordError.textContent = ''; });
     legalFirst.addEventListener('input', () => { legalNameError.textContent = ''; });
@@ -894,12 +869,6 @@
         }
         hasError = true;
       }
-
-      // Validate at least one style selected
-      if (selectedStyles.size === 0) {
-        styleError.textContent = 'Please select at least one art style.';
-        hasError = true;
-      }
       
       // Validate email
       if (!emailInput.value.trim()) {
@@ -966,8 +935,6 @@
           day: dobDay.value,
           year: dobYear.value
         },
-        bio: bioInput.value.trim(),
-        styles: Array.from(selectedStyles),
         email: emailInput.value.trim()
       };
 
